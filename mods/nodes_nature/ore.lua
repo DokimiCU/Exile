@@ -1,0 +1,1 @@
+--most ores are just another rock, and can be done under rocks
