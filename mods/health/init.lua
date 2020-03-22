@@ -311,9 +311,10 @@ if minetest.settings:get_bool("enable_damage") then
 	minetest.register_on_newplayer(function(player)
 		set_default_attibutes(player)
 	end)
-
+	
+	register_tab()
 	minetest.register_on_joinplayer(function(player)
-		register_tab()
+		
 		sfinv.set_player_inventory_formspec(player)
 	end)
 
