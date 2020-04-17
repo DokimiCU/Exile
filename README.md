@@ -1,5 +1,6 @@
 # Exile
-Version 0.1, by Dokimi
+Version 0.1.1
+by Dokimi
 
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
@@ -31,8 +32,25 @@ Starvation and freezing are hard to avoid without preparation.
 
 
 
+### Changelog:
+
+# 0.1.1
+- Initial release
+
+# 0.1.1
+- prevent crash in megamorph from default (placeholder solution)
+- minor fixes: snow carry limit
+- minor balance changes: cheaper bed recipe, less water from Tangkal fruit,
+- minor additions: add more recipes at stations, break falling with snow,  
+
+
 
 ### To Do:
+
+Urgent Fixes needed:
+
+
+
 Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
 
@@ -56,10 +74,11 @@ HEALTH
 --NATURE
 -bamboo like thing (like canes but for sticks)
 -shellfish
--tree seedling?/sapling?/slow growth (no insta-trees!)
+-tree seedling?/sapling?/slow growth (no insta-trees!...maybe have a biotech artifact)
 -unique environ tolerances for each plant species
 -frozen wet ground (cracky)
 -fire tolerance for trees (on_burn to charred tree, regenerates)
+-underground flora: food, wood, light
 
 
 --MOBS
@@ -73,7 +92,7 @@ HEALTH
 -surface ruins
 
 --TECH
--more graffiti in more colors
+-more graffiti in more colors (white: two more spirals.)
 -extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
 -clothing (with effect on temp tolerance)
@@ -91,6 +110,7 @@ HEALTH
 -bell?
 -ash crafts
 -compass
+-screwdriver
 
 --DECO
 -more ambience: rustling leaves,
@@ -104,6 +124,7 @@ Climate:
 -sky twilight transition doesn't work when emerging from underground. Sky is not reset instantly like sound is.
 -weather not saved when all players leave
 -what does "fog" in weather actually do...?
+-weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
@@ -115,10 +136,15 @@ Nature:
 -ocean flora lacks spreading (barely matters at this point)
 -might need something to animal numbers in check... needs to be run over time...
 -some spiders were getting nil energy (from egg spawning?)
+-evaporation is too fast
+-water doesn't freeze?
+
+
 
 Megamorph:
 -megamorph dungeon_loot doesn't work (disabled)
 -megamorph would benefit from some doors and ladders nodes to use (disabled), also appropriate treasure chests
+-something odd going on ...?? (new Minetest activated code that previously wasn't running)
 
 Tech:
 -oil lamp doesn't remove oil from inv
@@ -126,9 +152,16 @@ Tech:
 -torches should save how much burnt when returned to inventory, and should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
+-air temp needs to spread better in open spaces.
+-smelt mix > iron and slag missing heat transfer on change
+
+Crafting (Rubenwardy)
+-get connected players deprecated.
+-crafting when full inventory should drop crafts that don't fit inventory.
+-Highlights no longer work.
+-adds stack to inventory at crafted stack size, rather than node stack size (over stacked)
 
 Misc:
 -might be missing credit for some textures etc
--crafting when full inventory should drop crafts that don't fit inventory (Rubenwardy)
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
