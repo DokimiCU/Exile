@@ -40,8 +40,9 @@ Starvation and freezing are hard to avoid without preparation.
 # 0.1.1
 - prevent crash in megamorph from default (placeholder solution)
 - minor fixes: snow carry limit
-- minor balance changes: cheaper bed recipe, less water from Tangkal fruit,
-- minor additions: add more recipes at stations, break falling with snow,  
+- minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather
+- minor additions: add more recipes at stations, break falling with snow, 
+- updated backgrounds
 
 
 
