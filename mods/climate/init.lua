@@ -78,7 +78,7 @@ local active_weather_interval = 0
 climate.active_temp = math.random(10,30)
 
 --random walk, for temp
-local ran_walk_range = 4
+local ran_walk_range = 8
 local ran_walk = math.random(-ran_walk_range,ran_walk_range)
 
 --------------------------
@@ -331,7 +331,7 @@ minetest.register_globalstep(function(dtime)
 		--get seasonal wave
 		local dc = minetest.get_day_count()
 		--diff +/- from yearly mean (seasonal variation)
-		local dc_amp = 31
+		local dc_amp = 27
 		--~56 day year, 14 day seasons
 		local dc_period = 0.11
 		--yearly average,
@@ -340,7 +340,7 @@ minetest.register_globalstep(function(dtime)
 		--random walk...an incremental fluctuation that resets
 		ran_walk = ran_walk + math.random(-3, 3)
 		if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
-			ran_walk = 0
+			ran_walk = ran_walk/2
 		end
 
 		--sum waves plus some random noise
