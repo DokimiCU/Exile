@@ -338,6 +338,16 @@ crafting.register_recipe({
 })
 
 
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:peeled_anperal_tuber",
+	items = {"nodes_nature:anperla_seed"},
+	level = 1,
+	always_known = true,
+})
+
+
+
 --
 --mortar and pestle
 --
