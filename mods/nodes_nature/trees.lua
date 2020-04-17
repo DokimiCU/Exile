@@ -332,6 +332,6 @@ minetest.override_item("nodes_nature:maraka_nut",{
 minetest.override_item("nodes_nature:tangkal_fruit",{
 	on_use = function(itemstack, user, pointed_thing)
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 10, 10, 10, 0)
+		return HEALTH.use_item(itemstack, user, 0, 5, 10, 10, 0)
 	end,
 })
