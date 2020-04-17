@@ -338,7 +338,7 @@ minetest.register_globalstep(function(dtime)
 		local dc_mean = 15
 		local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
 		--random walk...an incremental fluctuation that resets
-		ran_walk = ran_walk + math.random(-3, 3)
+		ran_walk = ran_walk + math.random(-2, 2)
 		if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
 			ran_walk = ran_walk/2
 		end
