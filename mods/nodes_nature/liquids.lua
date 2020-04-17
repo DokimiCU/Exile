@@ -157,6 +157,7 @@ minetest.override_item("nodes_nature:freshwater_source",{
 minetest.register_node("nodes_nature:snow", {
 	description = "Snow",
 	tiles = {"nodes_nature_snow.png"},
+	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
 	buildable_to = true,
 	floodable = true,
@@ -167,16 +168,17 @@ minetest.register_node("nodes_nature:snow", {
 	},
 	temp_effect = -2,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, fall_damage_add_percent = -25},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 
 minetest.register_node("nodes_nature:snow_block", {
 	description = "Snow Block",
 	tiles = {"nodes_nature_snow.png"},
+	stack_max = minimal.stack_max_bulky,
 	temp_effect = -4,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, fall_damage_add_percent = -50},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 
 })
