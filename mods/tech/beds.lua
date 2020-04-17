@@ -176,11 +176,21 @@ crafting.register_recipe({
 })
 
 
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:primitive_bed",
+	items = {"tech:sleeping_mat 4", "tech:stick 36"},
+	level = 1,
+	always_known = true,
+})
+
+
+
 --Mattress from fine fabric stuffed with fine fibre
 crafting.register_recipe({
 	type = "loom",
 	output = "tech:mattress",
-	items = {"tech:fine_fabric 6", "tech:fine_fibre 24"},
+	items = {"tech:fine_fabric 6", "tech:coarse_fibre 24"},
 	level = 1,
 	always_known = true,
 })
