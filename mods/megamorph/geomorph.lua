@@ -477,7 +477,8 @@ function Geomorph:write_cube(shape, rot, loc)
 		acpos = vector.add(acpos, minp)
 		local ivm = self.area:indexp(acpos)
 		if data[ivm] == n_air then
-			data[ivm] = self.node['default:chest']
+			--!!
+			data[ivm] = self.node['tech:clay_storage_pot'] --self.node['default:chest']
 			table.insert(self.params.share.treasure_chests, acpos)
 		end
 	end
@@ -715,8 +716,8 @@ function Geomorph:write_stair(shape, rot, loc)
 	local s_hi = (shape.height and shape.height > 0) and shape.height or 3
 	--local underground = shape.underground
 	local ystride = self.area.ystride
-
-	local n_stone = self.node['default:stone']
+	--!!!
+	local n_stone = self.node['nodes_nature:limestone'] --self.node['default:stone']
 	local n_depth = depth_fill and self.node[depth_fill] or n_stone
 
 	for z = min.z, max.z do
@@ -833,7 +834,7 @@ end
 function Geomorph:write_puzzle(shape, rot, loc)
 	local chance = shape.chance or 20
 	if self.gpr:next(1, math.max(1, chance)) == 1 then
-		self:write_match_three(shape, rot, loc)
+		--self:write_match_three(shape, rot, loc)
 
 		local l = vector.add(shape.location, vector.floor(vector.divide(shape.size, 2)))
 		l.y = shape.location.y
@@ -846,7 +847,8 @@ function Geomorph:write_chest(location, rot, loc)
 	local s = {
 		action = 'cube',
 		location = location,
-		node = 'default:chest',
+		--!!
+		node = 'tech:clay_storage_pot',
 		size = vector.new(1, 1, 1)
 	}
 	self:write_cube(s, rot, loc)
@@ -895,3 +897,4 @@ function mod.register_geomorph(def)
 
 	mod.registered_geomorphs[def.name] = def
 end
+
