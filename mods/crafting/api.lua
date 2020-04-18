@@ -55,14 +55,12 @@ function crafting.get_unlocked(name)
 
 	local retval = unlocked_cache[name]
 	if not retval then
-		--NEEDS UPDATING BY rubenwardy, I've merely stopped in crashing
-		--[[
-		local pmeta = tostring(player:get_meta("crafting:unlocked"))
-		retval = minetest.parse_json(pmeta
-				or "{}")
-				]]
-		unlocked_cache[name] = {}
+		retval = minetest.parse_json(
+			player:get_meta():get("crafting:unlocked") or "{}")
+		unlocked_cache[name] = retval
 	end
+
+	assert(retval)
 
 	return retval
 end
@@ -71,6 +69,32 @@ if minetest then
 	minetest.register_on_leaveplayer(function(player)
 		unlocked_cache[player:get_player_name()] = nil
 	end)
+end
+
+local function write_json_dictionary(value)
+	if next(value) then
+		return minetest.write_json(value)
+	else
+		return "{}"
+	end
+end
+
+function crafting.lock_all(name)
+	local player = minetest.get_player_by_name(name)
+	if not player then
+		minetest.log("warning", "Crafting doesn't support setting unlocks for offline players")
+		return {}
+	end
+
+	local unlocked = crafting.get_unlocked(name)
+
+	for key, _ in pairs(unlocked) do
+		unlocked[key] = nil
+	end
+
+	unlocked_cache[name] = unlocked
+
+	player:get_meta():set_string("crafting:unlocked", write_json_dictionary(unlocked))
 end
 
 function crafting.unlock(name, output)
@@ -93,7 +117,7 @@ function crafting.unlock(name, output)
 	end
 
 	unlocked_cache[name] = unlocked
-	player:set_meta("crafting:unlocked", minetest.write_json(unlocked))
+	player:get_meta():set_string("crafting:unlocked", write_json_dictionary(unlocked))
 end
 
 function crafting.get_recipe(id)
