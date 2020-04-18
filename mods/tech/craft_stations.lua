@@ -40,6 +40,10 @@ minetest.register_node("tech:crafting_spot", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
 	},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
+	},
 	stack_max = 1,
 	paramtype = "light",
 	walkable = false,
@@ -64,6 +68,10 @@ minetest.register_node("tech:mixing_spot", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
 	},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
+	},
 	stack_max = 1,
 	paramtype = "light",
 	walkable = false,
@@ -87,6 +95,10 @@ minetest.register_node("tech:threshing_spot", {
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
 	},
 	stack_max = 1,
 	paramtype = "light",
