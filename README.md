@@ -31,6 +31,20 @@ After that will come the sub-zero conditions of winter.
 Starvation and freezing are hard to avoid without preparation.
 
 
+Some tips and tricks:
+- Beds are important. If you're exhausted you get hypothermia/heat stroke. Get under shelter in a nice temperature.
+- Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
+- Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
+- Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
+- Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
+- Fires. Blocks are hotter. Charcoal is hotter than wood. 
+- iron smelting. This is hard. Needs charcoal.
+- Charcoal. Make it like you would for real. A wood fire with no air.
+- Food: eat stuff and see if you live! You can catch animals with clubs (right click)
+- Drugs: a couple of things have useful effects.
+- Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
+
+
 
 ### Changelog:
 
@@ -41,8 +55,9 @@ Starvation and freezing are hard to avoid without preparation.
 - prevent crash in megamorph from default (placeholder solution)
 - minor fixes: snow carry limit, slower evaporation
 - minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather
-- minor additions: add more recipes at stations, break falling with snow, crafting selection boxes , iron slag can drain into iron_slag_mix
+- minor additions: add more recipes at stations, break falling with snow, crafting selection boxes, iron slag can drain into iron_slag_mix
 - updated backgrounds
+- updated version of crafting
 
 
 
@@ -112,6 +127,7 @@ HEALTH
 -ash crafts
 -compass
 -screwdriver
+-watering can (make soil wet)
 
 --DECO
 -more ambience: rustling leaves,
@@ -139,8 +155,10 @@ Nature:
 -might need something to animal numbers in check... needs to be run over time...
 -some spiders were getting nil energy (from egg spawning?)
 -water doesn't freeze?
+-Tangkal tree schem has grass in it?
 
-
+Volcano:
+-occassional dark spots
 
 Megamorph:
 -megamorph dungeon_loot doesn't work (disabled)
@@ -166,3 +184,4 @@ Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
+
