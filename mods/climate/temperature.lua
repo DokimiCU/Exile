@@ -68,17 +68,16 @@ climate.can_evaporate = function(pos, l)
 	if not l then
 		l = minetest.get_node_light(posa, 0.5)
 	end
-	--exposed
-	if l >= 14 then
-		--not when raining, i.e high humidity
-		if not climate.get_rain(pos, l) then
-			--higher chance of evap at higher temp.
-			--none below 0, always above 100
-			local c = math.random(0,100)
-			local t = climate.active_temp
-			if t > c then
-				return true
-			end
+
+	--not when raining, i.e high humidity
+	if not climate.get_rain(pos, l) then
+
+		--higher chance of evap at higher temp.
+		--none below 0 C, 10% chance at 100 C
+		local c = math.random(0,1000)
+		local t = climate.get_point_temp(pos)
+		if t > c then
+			return true
 		end
 	end
 
