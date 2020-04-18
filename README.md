@@ -39,9 +39,9 @@ Starvation and freezing are hard to avoid without preparation.
 
 # 0.1.1
 - prevent crash in megamorph from default (placeholder solution)
-- minor fixes: snow carry limit
+- minor fixes: snow carry limit, slower evaporation
 - minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather
-- minor additions: add more recipes at stations, break falling with snow, 
+- minor additions: add more recipes at stations, break falling with snow, crafting selection boxes , iron slag can drain into iron_slag_mix
 - updated backgrounds
 
 
@@ -126,6 +126,7 @@ Climate:
 -weather not saved when all players leave
 -what does "fog" in weather actually do...?
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
+-sound effects cut off underground is too abrupt (should fade)
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
@@ -137,7 +138,6 @@ Nature:
 -ocean flora lacks spreading (barely matters at this point)
 -might need something to animal numbers in check... needs to be run over time...
 -some spiders were getting nil energy (from egg spawning?)
--evaporation is too fast
 -water doesn't freeze?
 
 
