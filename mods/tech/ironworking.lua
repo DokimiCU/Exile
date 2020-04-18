@@ -80,7 +80,8 @@ local function roast(pos, name, length, heat, smelt)
       local cn = 0
       for _, p in pairs(posb) do
         local n = minetest.get_node(p).name
-        if n == 'air' or n == 'climate:air_temp' then
+				--must drain into air or other slag mix
+        if n == 'air' or n == 'climate:air_temp' or n == 'tech:iron_and_slag' then
 					minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 8, gain = 0.1})
           minetest.set_node(p, {name = 'tech:molten_slag_flowing'})
           cn = cn + 1
