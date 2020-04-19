@@ -21,3 +21,5 @@ Kubwakubwa_warn.ogg: TenPlus1, from `mobs_monster` or `mobs_animal` mod (MIT Lic
 Sarkamos model: MIT License, Copyright (c) 2019 TheTermos
 
 animals_hatch_egg.ogg, based on http://soundbible.com/1097-Slime-Splash.html, Attribution 3.0, Mike Koenig.
+
+darkasthaan: adapted from spider2 from Mobs Monster by TenPlus1 (MIT License)
