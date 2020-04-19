@@ -5,6 +5,7 @@
 
 --colours:
 --lime white
+--glow paint (a light)
 --carbon black --!!
 --red ochre --!!
 
@@ -87,6 +88,31 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+
+
+----------------------------------------------------------
+--glow paint (glowing blue)
+
+grafitti.register_grafitti("tech:gp_x", {image = "tech_paint_gp_x.png", light = 2})
+grafitti.register_grafitti("tech:gp_dot", {image = "tech_paint_gp_dot.png", light = 2})
+
+grafitti.palette_build("tech:glow_paint")
+
+grafitti.register_brush("tech:paint_glow_paint", {
+    description = "Painting Kit (glow paint)",
+    inventory_image = "tech_paint_brush_glow.png",
+    wield_image = "tech_paint_brush_glow.png^[transformR270",
+    palette = "tech:glow_paint"
+})
+
+
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:paint_glow_paint",
+	items = {'nodes_nature:merki 48', 'tech:stick', 'group:fibrous_plant 4', 'tech:vegetable_oil 4'},
+	level = 1,
+	always_known = true,
+})
 
 ----------------------------------------------------------
 --carbon black
