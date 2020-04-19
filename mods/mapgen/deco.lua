@@ -835,11 +835,26 @@ minetest.register_decoration({
   sidelen = 80,
 	fill_ratio = 0.0005,
 	y_max = lowland_ymax,
-	y_min = -1000,
+	y_min = -120,
 	decoration = "animals:kubwakubwa_eggs",
   flags = "all_floors",
 })
 
+
+--darkasthaan_eggs
+minetest.register_decoration({
+	name = "animals:darkasthaan_eggs",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:basalt"},
+  sidelen = 80,
+	fill_ratio = 0.0009,
+	y_max = -120,
+	y_min = -1000,
+	decoration = "animals:darkasthaan_eggs",
+  flags = "all_floors",
+})
 
 -----------------------------------
 --Start node timers
@@ -847,8 +862,9 @@ minetest.register_decoration({
 local gundu_eggs = minetest.get_decoration_id("animals:gundu_eggs")
 local sarkamos_eggs = minetest.get_decoration_id("animals:sarkamos_eggs")
 local kubwakubwa_eggs = minetest.get_decoration_id("animals:kubwakubwa_eggs")
+local darkasthaan_eggs = minetest.get_decoration_id("animals:darkasthaan_eggs")
 
-minetest.set_gen_notify({decoration = true}, {gundu_eggs, sarkamos_eggs, kubwakubwa_eggs})
+minetest.set_gen_notify({decoration = true}, {gundu_eggs, sarkamos_eggs, kubwakubwa_eggs, darkasthaan_eggs})
 
 -- start nodetimers
 minetest.register_on_generated(function(minp, maxp, blockseed)
@@ -870,6 +886,11 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
     table.insert(poslist, kubwakubwa_eggs_pos)
   end
 
+  for _, pos in ipairs(gennotify["decoration#"..darkasthaan_eggs] or {}) do
+    local darkasthaan_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, darkasthaan_eggs_pos)
+  end
+
 	if #poslist ~= 0 then
 		for i = 1, #poslist do
 			local pos = poslist[i]
@@ -877,3 +898,4 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 		end
 	end
 end)
+
