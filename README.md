@@ -37,7 +37,7 @@ Some tips and tricks:
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
 - Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
 - Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
-- Fires. Blocks are hotter. Charcoal is hotter than wood. 
+- Fires. Blocks are hotter. Charcoal is hotter than wood.
 - iron smelting. This is hard. Needs charcoal.
 - Charcoal. Make it like you would for real. A wood fire with no air.
 - Food: eat stuff and see if you live! You can catch animals with clubs (right click)
@@ -58,6 +58,7 @@ Some tips and tricks:
 - minor additions: add more recipes at stations, break falling with snow, crafting selection boxes, iron slag can drain into iron_slag_mix
 - updated backgrounds
 - updated version of crafting
+- darkasthaan spider for deep caves
 
 
 
@@ -144,10 +145,14 @@ Climate:
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
 
+
 Bed:
 -bed rest wipes physics effects (almost a feature...)
 
 Health:
+
+Animals:
+-function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value)
 
 
 Nature:
@@ -175,13 +180,11 @@ Tech:
 -smelt mix > iron and slag missing heat transfer on change
 
 Crafting (Rubenwardy)
--get connected players deprecated.
 -crafting when full inventory should drop crafts that don't fit inventory.
--Highlights no longer work.
 -adds stack to inventory at crafted stack size, rather than node stack size (over stacked)
+-Calling get_connected_players() at mod load time is deprecated
 
 Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
-
