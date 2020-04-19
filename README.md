@@ -59,6 +59,7 @@ Some tips and tricks:
 - updated backgrounds
 - updated version of crafting
 - darkasthaan spider for deep caves
+- graffitti: glow paint
 
 
 
