@@ -87,6 +87,7 @@ function g.register_grafitti(name, def)
             drawtype = "nodebox",
             tiles = { image_name },
             sunlight_propagates = true,
+            light_source = def.light or 0,
             floodable = true,
             paramtype = "light",
             paramtype2 = "wallmounted",
