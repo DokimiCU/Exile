@@ -110,7 +110,7 @@ HEALTH
 -surface ruins
 
 --TECH
--more graffiti in more colors (white: two more spirals.)
+-more graffiti in more colors
 -extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
 -clothing (with effect on temp tolerance)

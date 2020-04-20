@@ -55,7 +55,9 @@ grafitti.register_grafitti("tech:lw_avi", {image = "tech_paint_lw_avi.png"})
 grafitti.register_grafitti("tech:lw_scali", {image = "tech_paint_lw_scali.png"})
 
 grafitti.register_grafitti("tech:lw_spiral", {image = "tech_paint_lw_spiral.png"})
+grafitti.register_grafitti("tech:lw_spiral2", {image = "tech_paint_lw_spiral2.png"})
 grafitti.register_grafitti("tech:lw_spirald", {image = "tech_paint_lw_spirald.png"})
+grafitti.register_grafitti("tech:lw_spirald2", {image = "tech_paint_lw_spirald2.png"})
 
 grafitti.register_grafitti("tech:lw_burst1", {image = "tech_paint_lw_burst1.png"})
 grafitti.register_grafitti("tech:lw_burst2", {image = "tech_paint_lw_burst2.png"})
@@ -93,8 +95,14 @@ crafting.register_recipe({
 ----------------------------------------------------------
 --glow paint (glowing blue)
 
-grafitti.register_grafitti("tech:gp_x", {image = "tech_paint_gp_x.png", light = 2})
 grafitti.register_grafitti("tech:gp_dot", {image = "tech_paint_gp_dot.png", light = 2})
+grafitti.register_grafitti("tech:gp_x", {image = "tech_paint_gp_x.png", light = 2})
+grafitti.register_grafitti("tech:gp_arrowl", {image = "tech_paint_gp_arrowl.png", light = 2})
+grafitti.register_grafitti("tech:gp_arrowr", {image = "tech_paint_gp_arrowr.png", light = 2})
+grafitti.register_grafitti("tech:gp_arrowd", {image = "tech_paint_gp_arrowd.png", light = 2})
+grafitti.register_grafitti("tech:gp_arrowu", {image = "tech_paint_gp_arrowu.png", light = 2})
+grafitti.register_grafitti("tech:gp_spsq", {image = "tech_paint_gp_spsq.png", light = 2})
+grafitti.register_grafitti("tech:gp_sq", {image = "tech_paint_gp_sq.png", light = 2})
 
 grafitti.palette_build("tech:glow_paint")
 
