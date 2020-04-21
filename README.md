@@ -48,7 +48,7 @@ Some tips and tricks:
 
 ### Changelog:
 
-# 0.1.1
+# 0.1
 - Initial release
 
 # 0.1.1
@@ -60,6 +60,7 @@ Some tips and tricks:
 - updated version of crafting
 - darkasthaan spider for deep caves
 - graffitti: glow paint
+- better looking bones
 
 
 
