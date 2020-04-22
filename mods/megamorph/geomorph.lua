@@ -847,8 +847,7 @@ function Geomorph:write_chest(location, rot, loc)
 	local s = {
 		action = 'cube',
 		location = location,
-		--!!
-		node = 'tech:clay_storage_pot',
+		node = 'artifacts:antiquorium_chest',
 		size = vector.new(1, 1, 1)
 	}
 	self:write_cube(s, rot, loc)
