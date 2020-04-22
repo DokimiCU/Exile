@@ -61,6 +61,7 @@ Some tips and tricks:
 - darkasthaan spider for deep caves
 - graffitti: glow paint
 - better looking bones
+- fixed dungeon loot, added more artifacts
 
 
 
@@ -192,3 +193,4 @@ Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
+

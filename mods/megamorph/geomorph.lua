@@ -478,7 +478,7 @@ function Geomorph:write_cube(shape, rot, loc)
 		local ivm = self.area:indexp(acpos)
 		if data[ivm] == n_air then
 			--!!
-			data[ivm] = self.node['tech:clay_storage_pot']
+			data[ivm] = self.node['artifacts:antiquorium_chest']
 			table.insert(self.params.share.treasure_chests, acpos)
 		end
 	end

@@ -64,7 +64,7 @@ function mod.save_map(params)
 			local n = minetest.get_node_or_nil(v)
 			if n then
 
-				minetest.registered_nodes['tech:clay_storage_pot'].on_construct(v)
+				minetest.registered_nodes['artifacts:antiquorium_chest'].on_construct(v)
 
 				local meta = minetest.get_meta(v)
 				local inv = meta:get_inventory()

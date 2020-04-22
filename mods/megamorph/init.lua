@@ -346,8 +346,15 @@ minetest.after(0, function()
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
   options['artifacts:mapping_kit'] =  { 1, 5, nil }
+  options['artifacts:moon_glass'] =  { 1, 5, 1 }
+  options['artifacts:antiquorium_ladder'] =  { 1, 5, 1 }
+  options['doors:door_antiquorium'] =  { 1, 5, nil }
+  options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
   options['tech:stick'] =  { 1, 5, 1 }
   options['tech:fine_fabric'] =  { 1, 5, nil }
+  options['tech:coarse_fabric'] =  { 1, 5, nil }
+  options['tech:fine_fibre'] =  { 1, 5, nil }
+  options['tech:coarse_fibre'] =  { 1, 5, nil }
   options['tech:paint_lime_white'] =  { 1, 5, nil }
   options['tech:paint_glow_paint'] =  { 1, 5, nil }
   --options['tech:carpentry_bench'] =  { 1, 5, nil }

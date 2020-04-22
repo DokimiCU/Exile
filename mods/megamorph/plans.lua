@@ -38,9 +38,10 @@ local stone_stairs_3rd = 'stairs:stair_limestone_block'
 local stone_stairs_block_3rd = 'stairs:stair_limestone_brick'
 
 --furniture etc
---local lamp_block = ?
---local door = ?
---local ladder = ?
+local lamp_block = 'artifacts:moon_glass'
+local door_a = 'doors:door_antiquorium_a'
+local door_b = 'doors:door_antiquorium_b'
+local ladder = 'artifacts:antiquorium_ladder'
 
 --natural
 local freshwater = 'nodes_nature:freshwater_source'
@@ -160,11 +161,11 @@ register_geomorph({
 --pillared_room
 
 p = {
-	{act = 'cube', node = 'air', line = stone_block_main, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
-	{act = 'cube', node = stone_block_main, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
+	{act = 'cube', node = 'air', line = stone_block_2nd, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
+	{act = 'cube', node = stone_block_2nd, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
 	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
-	{act = 'stair', node = stone_stairs_block_main, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
-	{act = 'stair', node = stone_stairs_block_main, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
+	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
+	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
 }
 
 for _, item in pairs(default_exits) do
@@ -175,14 +176,12 @@ for z = 7, 78, 9 do
 	for x = 7, 78, 9 do
 		local i = {act = 'cube', node = stone_block_2nd, loc = vn(z, 21, x), size = vn(2, 38, 2)}
 		table.insert(p, i)
-		--[[
-		if not mod.let_there_be_light then
-			for y = 25, 57, 9 do
-				i = {act = 'cube', node = 'default:meselamp', loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
-				table.insert(p, i)
-			end
+
+		for y = 25, 57, 9 do
+			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
+			table.insert(p, i)
 		end
-		]]
+
 	end
 end
 
@@ -243,8 +242,8 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(58, 21, 5), size = vn(2, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(21, 21, 73), size = vn(28, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(16, 21, 56), size = vn(2, 3, 6)},
-	--{act = 'ladder', node = 'default:ladder_steel', param2 = 5, loc = vn(78, 11, 62), size = vn(1, 10, 1)},
-	--{act = 'ladder', node = 'default:ladder_steel', param2 = 4, loc = vn(20, 21, 60), size = vn(1, 20, 1)},
+	{act = 'ladder', node = ladder, param2 = 5, loc = vn(78, 11, 62), size = vn(1, 10, 1)},
+	{act = 'ladder', node = ladder, param2 = 4, loc = vn(20, 21, 60), size = vn(1, 20, 1)},
 
 	{act = 'cube', node = 'air', loc = vn(20, 41, 61), size = vn(51, 5, 9)},
 	{act = 'cube', node = 'air', loc = vn(11, 41, 11), size = vn(9, 5, 59)},
@@ -331,7 +330,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(11, 31, 13), size = vn(25, 4, 11)},
 	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(33, 21, 14), size = vn(10, 10, 1)},
 	{act = 'cube', node = 'air', loc = vn(61, 31, 56), size = vn(14, 4, 19)},
-	--{act = 'ladder', node = 'default:ladder_steel', param2 = 4, loc = vn(63, 21, 74), size = vn(1, 10, 1)},
+	{act = 'ladder', node = ladder, param2 = 4, loc = vn(63, 21, 74), size = vn(1, 10, 1)},
 	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(73, 21, 49), size = vn(2, 10, 10)},
 	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(6, 21, 57), size = vn(10, 10, 2)},
 	{act = 'cube', node = 'air', loc = vn(16, 31, 24), size = vn(2, 4, 35)},
@@ -373,9 +372,9 @@ for x = 9, 69, 15 do
 		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x - 6, 51, z - 2), size = vn(5, 3, 5)})
 		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x + 3, 51, z - 2), size = vn(5, 3, 5)})
 		table.insert(p, {act = 'cube', node = 'air', loc = vn(x - 1, 51, z), size = vn(1, 2, 1)})
-		--table.insert(p, {act = 'cube', node = 'doors:door_wood_b', param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
+		table.insert(p, {act = 'cube', node = door_b, param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
 		table.insert(p, {act = 'cube', node = 'air', loc = vn(x + 2, 51, z), size = vn(1, 2, 1)})
-		--table.insert(p, {act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
+		table.insert(p, {act = 'cube', node = door_a, param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
 	end
 end
 
@@ -429,7 +428,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(8, 21, 44), size = vn(13, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(19, 21, 23), size = vn(2, 3, 21)},
 	{act = 'cube', node = 'air', loc = vn(21, 21, 39), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 17), size = vn(78, 15, 6)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(1, 21, 17), size = vn(78, 15, 6)},
 	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 5)},
 	{act = 'cube', node = 'air', loc = vn(2, 21, 3), size = vn(17, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(2, 21, 5), size = vn(2, 3, 10)},
@@ -442,7 +441,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(59, 21, 23), size = vn(2, 3, 13)},
 	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 17)},
 	{act = 'cube', node = 'air', treasure = 3, loc = vn(59, 21, 36), size = vn(20, 3, 8)},
-	{act = 'cube', node = 'air', treasure = 3, floor = stone_block_2nd, loc = vn(30, 21, 30), size = vn(20, 15, 20)},
+	{act = 'cube', node = 'air', treasure = 3, floor = lamp_block, loc = vn(30, 21, 30), size = vn(20, 15, 20)},
 
 	{act = 'cube', node = 'air', loc = vn(13, 31, 55), size = vn(2, 3, 22)},
 	{act = 'cube', node = 'air', loc = vn(15, 31, 75), size = vn(2, 3, 2)},
@@ -469,7 +468,7 @@ p = {
 	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(50, 21, 9), size = vn(10, 10, 2)},
 	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(65, 21, 59), size = vn(10, 10, 2)},
 	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(32, 21, 61), size = vn(2, 10, 10)},
-	--{act = 'ladder', node = 'default:ladder_steel', param2 = 3, loc = vn(4, 21, 25), size = vn(1, 10, 1)},
+	{act = 'ladder', node = ladder, param2 = 3, loc = vn(4, 21, 25), size = vn(1, 10, 1)},
 	{act = 'cube', node = 'air', loc = vn(59, 21, 9), size = vn(1, 3, 2)},
 
 	{act = 'cube', node = 'air', loc = vn(63, 41, 17), size = vn(2, 3, 31)},
@@ -867,45 +866,45 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(56, 21, 71), size = vn(8, 3, 8)},
 	{act = 'cube', node = 'air', loc = vn(16, 21, 1), size = vn(8, 3, 8)},
 	{act = 'cube', node = 'air', loc = vn(56, 21, 1), size = vn(8, 3, 8)},
---[[
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 3, loc = vn(0, 21, 59), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 3, loc = vn(0, 21, 60), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(79, 21, 59), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(79, 21, 60), size = vn(1, 1, 1)},
 
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 3, loc = vn(0, 21, 19), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 3, loc = vn(0, 21, 20), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(79, 21, 19), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(79, 21, 20), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 3, loc = vn(0, 21, 59), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 3, loc = vn(0, 21, 60), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(79, 21, 59), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(79, 21, 60), size = vn(1, 1, 1)},
 
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 0, loc = vn(39, 21, 79), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 0, loc = vn(40, 21, 79), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 2, loc = vn(39, 21, 0), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 2, loc = vn(40, 21, 0), size = vn(1, 1, 1)},
-]]
+	{act = 'cube', node = door_a, param2 = 3, loc = vn(0, 21, 19), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 3, loc = vn(0, 21, 20), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(79, 21, 19), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(79, 21, 20), size = vn(1, 1, 1)},
+
+	{act = 'cube', node = door_a, param2 = 0, loc = vn(39, 21, 79), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 0, loc = vn(40, 21, 79), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 2, loc = vn(39, 21, 0), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 2, loc = vn(40, 21, 0), size = vn(1, 1, 1)},
+
 	{act = 'cube', node = 'air', loc = vn(37, 21, 71), size = vn(1, 2, 2)},
 	{act = 'cube', node = 'air', loc = vn(42, 21, 71), size = vn(1, 2, 2)},
-	--[[
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(37, 21, 71), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(37, 21, 72), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 3, loc = vn(42, 21, 71), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 3, loc = vn(42, 21, 72), size = vn(1, 1, 1)},
-]]
+
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(37, 21, 71), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(37, 21, 72), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 3, loc = vn(42, 21, 71), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 3, loc = vn(42, 21, 72), size = vn(1, 1, 1)},
+
 	{act = 'cube', node = 'air', loc = vn(37, 21, 7), size = vn(1, 2, 2)},
 	{act = 'cube', node = 'air', loc = vn(42, 21, 7), size = vn(1, 2, 2)},
-	--[[
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(37, 21, 7), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(37, 21, 8), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 3, loc = vn(42, 21, 7), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 3, loc = vn(42, 21, 8), size = vn(1, 1, 1)},
 
-	{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(79, 21, 39), size = vn(1, 1, 1)},
-	{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(79, 21, 40), size = vn(1, 1, 1)},
-]]
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(37, 21, 7), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(37, 21, 8), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 3, loc = vn(42, 21, 7), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 3, loc = vn(42, 21, 8), size = vn(1, 1, 1)},
+
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(79, 21, 39), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(79, 21, 40), size = vn(1, 1, 1)},
+
 	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 2, 2)},
 
-	--{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(9, 21, 39), size = vn(1, 1, 1)},
-	--{act = 'cube', node = 'doors:door_wood_a', param2 = 1, loc = vn(9, 21, 40), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(9, 21, 39), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_a, param2 = 1, loc = vn(9, 21, 40), size = vn(1, 1, 1)},
 
 	{act = 'cube', node = 'air', loc = vn(28, 21, 26), size = vn(1, 2, 1)},--?
 	{act = 'cube', node = 'air', loc = vn(27, 31, 26), size = vn(3, 3, 3)},
@@ -921,7 +920,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(14, 31, 38), size = vn(2, 3, 1)},
 	{act = 'cube', node = 'air', loc = vn(36, 31, 38), size = vn(2, 3, 1)},
 	{act = 'cube', node = 'air', loc = vn(66, 31, 38), size = vn(2, 3, 1)},
-	--{act = 'ladder', node = 'default:ladder_steel', param2 = 2, loc = vn(28, 21, 27), size = vn(1, 10, 1)},
+	{act = 'ladder', node = ladder, param2 = 2, loc = vn(28, 21, 27), size = vn(1, 10, 1)},
 }
 
 for _, o in pairs({0, 43}) do
@@ -929,15 +928,15 @@ for _, o in pairs({0, 43}) do
 		for _, y in pairs({57, 17}) do
 			local i = {act = 'cube', node = 'air', loc = vn(x, 21, y + 5), size = vn(1, 2, 1)}
 			table.insert(p, i)
-			--i = {act = 'cube', node = 'doors:door_wood_a', param2 = 0, loc = vn(x, 21, y + 5), size = vn(1, 1, 1)}
-			--table.insert(p, i)
+			i = {act = 'cube', node = door_a, param2 = 0, loc = vn(x, 21, y + 5), size = vn(1, 1, 1)}
+			table.insert(p, i)
 			i = {act = 'cube', node = 'air', loc = vn(x - 1, 21, y + 6), size = vn(3, 3, 3)}
 			table.insert(p, i)
 
 			i = {act = 'cube', node = 'air', loc = vn(x, 21, y), size = vn(1, 2, 1)}
 			table.insert(p, i)
-			--i = {act = 'cube', node = 'doors:door_wood_a', param2 = 2, loc = vn(x, 21, y), size = vn(1, 1, 1)}
-			--table.insert(p, i)
+			i = {act = 'cube', node = door_a, param2 = 2, loc = vn(x, 21, y), size = vn(1, 1, 1)}
+			table.insert(p, i)
 			i = {act = 'cube', node = 'air', loc = vn(x - 1, 21, y - 3), size = vn(3, 3, 3)}
 			table.insert(p, i)
 		end
@@ -1089,7 +1088,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(73, 21, 19), size = vn(6, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(74, 21, 42), size = vn(5, 4, 13)},
 	{act = 'cube', node = 'air', loc = vn(73, 21, 48), size = vn(1, 2, 1)},
-	--{act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(73, 21, 48), size = vn(1, 1, 1)},
+	{act = 'cube', node = door_b, param2 = 1, loc = vn(73, 21, 48), size = vn(1, 1, 1)},
 
 	{act = 'cube', node = 'air', loc = vn(29, 21, 11), size = vn(10, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(39, 21, 1), size = vn(2, 3, 12)},
@@ -1116,19 +1115,19 @@ end
 for _, y in pairs({1, 7, 13, 22, 28, 34, 40, 46, 52}) do
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(65, 21, y), size = vn(5, 3, 5)})
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(70, 21, y + 2), size = vn(1, 2, 1)})
---	table.insert(p, {act = 'cube', node = 'doors:door_wood_a', param2 = 3, loc = vn(70, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(p, {act = 'cube', node = door_a, param2 = 3, loc = vn(70, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, y in pairs({1, 7, 13, 22, 28}) do
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(74, 21, y), size = vn(5, 3, 5)})
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(73, 21, y + 2), size = vn(1, 2, 1)})
-	--table.insert(p, {act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(73, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(p, {act = 'cube', node = door_b, param2 = 1, loc = vn(73, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, y in pairs({24, 30, 36, 42, 48, 59, 65, 71}) do
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(22, 21, y), size = vn(5, 3, 5)})
 	table.insert(p, {act = 'cube', node = 'air', loc = vn(21, 21, y + 2), size = vn(1, 2, 1)})
---	table.insert(p, {act = 'cube', node = 'doors:door_wood_b', param2 = 1, loc = vn(21, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(p, {act = 'cube', node = door_b, param2 = 1, loc = vn(21, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, item in pairs(default_exits) do
