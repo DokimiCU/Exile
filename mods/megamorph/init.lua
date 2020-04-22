@@ -185,7 +185,7 @@ end
 
 
 --Loot
---[[
+
 function mod.fill_chest(pos)
 	local value = math.random(20)
 	if pos.y < -100 then
@@ -288,90 +288,76 @@ end
 
 minetest.after(0, function()
 	local options = {}
+  --level, rarity, max stack (nil for unstackables)
+  --not sure what, if anything, level does (original seems to have all at 1)
+  --Examples from original:
 	-- 1 wood / stone
 	-- 2 coal
 	-- 3 iron
 	-- 4 gold
 	-- 5 diamond
 	-- 6 mese
-	--options['booty:flaming_sword']       =  {  1,  10,   nil   }
-	--options['booty:philosophers_stone']  =  {  1,  10,  nil   }
-	--options['booty:unobtainium']         =  {  1,  10,  nil   }
-	options['bucket:bucket_empty']       =  {  1,  3,    2     }
-	options['bucket:bucket_lava']      =  {  1,  5,   nil     }
-	options['bucket:bucket_water']      =  {  1,  4,   nil     }
-	options['carts:rail']      =  {  1,  4,   nil     }
-	options['default:acacia_wood']       =  {  1,  1,    10    }
-	options['default:apple']             =  {  1,  1,    10    }
-	options['default:axe_diamond']      =  {  1,  6,   nil     }
-	options['default:book']              =  {  1,  3,    10    }
-	options['default:cactus']      =  {  1,  1,   5     }
-	options['default:coal_lump']         =  {  1,  2,    10    }
-	options['default:desert_cobble']      =  {  1,  1,   20     }
-	options['default:desert_sand']      =  {  1,  1,   20     }
-	options['default:diamond']           =  {  1,  5,   5     }
-	options['default:dirt']      =  {  1,  1,   20     }
-	options['default:flint']      =  {  1,  2,   5     }
-	options['default:glass']             =  {  1,  3,    5     }
-	options['default:gold_ingot']        =  {  1,  4,   5     }
-	options['default:junglewood']        =  {  1,  1,    10    }
-	options['default:mese']      =  {  1,  7,   5     }
-	options['default:mese_crystal']      =  {  1,  6,   nil   }
-	options['default:meselamp']          =  {  1,  7,   nil   }
-	options['default:obsidian']          =  {  1,  6,   nil   }
-	options['default:obsidian_glass']    =  {  1,  6,   5     }
-	options['default:obsidian_shard']    =  {  1,  5,    nil   }
-	options['default:paper']             =  {  1,  2,    10    }
-	options['default:pick_diamond']      =  {  1,  6,   nil   }
-	options['default:pick_mese']         =  {  1,  7,   nil   }
-	options['default:pick_steel']      =  {  1,  4,   nil   }
-	options['default:pick_stone']      =  {  1,  2,   nil   }
-	options['default:pick_wood']      =  {  1,  1,   nil   }
-	options['default:sand']      =  {  1,  1,   20     }
-	options['default:steel_ingot']       =  {  1,  3,    5     }
-	options['default:stick']      =  {  1,  1,   20     }
-	options['default:sword_diamond']     =  {  1,  6,   nil   }
-	options['default:sword_mese']        =  {  1,  7,   nil   }
-	options['default:sword_steel']      =  {  1,  4,   nil   }
-	options['default:sword_stone']      =  {  1,  2,   nil   }
-	options['default:sword_wood']      =  {  1,  1,   nil   }
-	options['default:wood']              =  {  1,  1,    10    }
-	options['dinv:bag_large']             =  { 1, 5, nil }
-	options['dinv:bag_medium']            =  { 1, 4, nil }
-	options['dinv:bag_small']             =  { 1, 3, nil }
-	options['dinv:boots']                 =  { 1, 3, nil }
-	options['dinv:chain_armor']           =  { 1, 6, nil }
-	options['dinv:fur_cloak']             =  { 1, 3, nil }
-	options['dinv:leather_armor']         =  { 1, 4, nil }
-	options['dinv:leather_cap']           =  { 1, 4, nil }
-	options['dinv:plate_armor']           =  { 1, 8, nil }
-	options['dinv:ring_breath']           =  { 1, 6, nil }
-	options['dinv:ring_leap']             =  { 1, 5, nil }
-	options['dinv:ring_protection_9']     =  { 1, 5, nil }
-	options['dinv:steel_shield']          =  { 1, 5, nil }
-	options['dinv:wood_shield']           =  { 1, 3, nil }
-	options['dpies:apple_pie']           =  {  1,  3,   10    }
-	options['dpies:blueberry_pie']        =  {  1,   3,   nil   }
-	options['dpies:meat_pie']            =  {  1,  3,   10    }
-	options['dpies:onion']               =  {  1,  1,    10    }
-	options['farming:cotton']            =  {  1,  1,    10    }
-	options['farming:flour']             =  {  1,  1,    10    }
-	options['farming:seed_cotton']       =  {  1,  1,    10    }
-	options['farming:seed_wheat']        =  {  1,  1,    10    }
-	options['farming:string']      =  {  1,  2,   5     }
-	options['farming:wheat']      =  {  1,  1,   20     }
-	options['fire:permanent_flame']      =  {  1,  4,   nil   }
-	options['fun_tools:flare_gun']        =  { 1, 4, nil }
-	options['fun_tools:molotov_cocktail'] =  { 1, 4, 5 }
-	options['fun_tools:naptha']           =  { 1, 3, 5 }
-	options['mapgen:moon_glass']      =  {  1,  4,   5     }
-	--options['mapgen:moon_juice']      =  {  1,  4,   5     }
-	--options['mapgen:moonstone']       =  {  1,  5,   nil   }
-	options['map:mapping_kit']            =  { 1, 4, nil }
-	options['tnt:gunpowder']              =  { 1, 3, 10 }
-	options['vessels:glass_fragments']      =  {  1,  2,   5     }
-	options['wooden_bucket:bucket_wood_empty']       =  {  1,  3,    nil     }
-	options['wool:white']                =  {  1,  1,    nil     }
+  --[[
+  options['default:desert_cobble']      =  {  1,  1,   20     }
+  options['default:coal_lump']         =  {  1,  2,    10    }
+  options['map:mapping_kit']            =  { 1, 4, nil }
+  options['default:pick_diamond']      =  {  1,  6,   nil   }
+  ]]
+
+  --Only those items whch could survive centuries.
+  --e.g. no food, wood/fabric etc rare
+
+  --raw materials (rarity 1)
+  options['nodes_nature:granite_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:basalt_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:limestone_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:ironstone_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:gravel'] =  { 1, 1, 2 }
+  options['nodes_nature:sand'] =  { 1, 1, 2 }
+  options['nodes_nature:silt'] =  { 1, 1, 2 }
+  options['nodes_nature:clay'] =  { 1, 1, 2 }
+  options['nodes_nature:loam'] =  { 1, 1, 2 }
+
+
+  --cheap processed materials (rarity 2)
+  options['nodes_nature:granite_brick'] =  { 1, 2, 4 }
+  options['nodes_nature:basalt_brick'] =  { 1, 2, 4 }
+  options['nodes_nature:limestone_brick'] =  { 1, 1, 4 }
+  options['nodes_nature:granite_block'] =  { 1, 2, 4 }
+  options['nodes_nature:basalt_block'] =  { 1, 2, 4 }
+  options['nodes_nature:limestone_block'] =  { 1, 2, 4 }
+
+
+  --medium processed materials, cheap tools (rarity 3)
+  options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
+  options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
+  options['tech:iron_ingot'] =  { 1, 3, 4 }
+  options['tech:clay_water_pot'] =  { 1, 3, nil }
+  options['tech:clay_storage_pot'] =  { 1, 3, nil }
+  options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }
+
+  --costly processed materials, expensive tools, (rarity 4)
+  options['tech:anvil'] =  { 1, 4, nil }
+  options['tech:mace_iron'] =  { 1, 4, nil }
+
+
+  --low level artifacts (rarity 5), non-durables
+  options['artifacts:light_meter'] =  { 1, 5, nil }
+  options['artifacts:thermometer'] =  { 1, 5, nil }
+  options['artifacts:temp_probe'] =  { 1, 5, nil }
+  options['artifacts:mapping_kit'] =  { 1, 5, nil }
+  options['tech:stick'] =  { 1, 5, 1 }
+  options['tech:fine_fabric'] =  { 1, 5, nil }
+  options['tech:paint_lime_white'] =  { 1, 5, nil }
+  options['tech:paint_glow_paint'] =  { 1, 5, nil }
+  --options['tech:carpentry_bench'] =  { 1, 5, nil }
+  --options['tech:masonry_bench'] =  { 1, 5, nil }
+  --options['tech:spinning_wheel'] =  { 1, 5, nil }
+  --options['tech:loom'] =  { 1, 5, nil }
+
+  --high level artifacts (rarity 6)
+  --options['artifacts:?'] =  { 1, 6, nil }
+
 
 	for name, d in pairs(options) do
 		if minetest.registered_items[name] then
@@ -403,7 +389,7 @@ minetest.after(0, function()
 	end
 end)
 
-
+--[[
 
 do
 	local orig_loot_reg = dungeon_loot.register

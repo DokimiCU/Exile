@@ -478,7 +478,7 @@ function Geomorph:write_cube(shape, rot, loc)
 		local ivm = self.area:indexp(acpos)
 		if data[ivm] == n_air then
 			--!!
-			data[ivm] = self.node['tech:clay_storage_pot'] --self.node['default:chest']
+			data[ivm] = self.node['tech:clay_storage_pot']
 			table.insert(self.params.share.treasure_chests, acpos)
 		end
 	end
@@ -897,4 +897,3 @@ function mod.register_geomorph(def)
 
 	mod.registered_geomorphs[def.name] = def
 end
-
