@@ -717,7 +717,7 @@ function Geomorph:write_stair(shape, rot, loc)
 	--local underground = shape.underground
 	local ystride = self.area.ystride
 	--!!!
-	local n_stone = self.node['nodes_nature:limestone'] --self.node['default:stone']
+	local n_stone = self.node['nodes_nature:granite'] --self.node['default:stone']
 	local n_depth = depth_fill and self.node[depth_fill] or n_stone
 
 	for z = min.z, max.z do
@@ -830,7 +830,7 @@ function Geomorph:write_ladder(shape, rot, loc)
 	end
 end
 
-
+--!!!
 function Geomorph:write_puzzle(shape, rot, loc)
 	local chance = shape.chance or 20
 	if self.gpr:next(1, math.max(1, chance)) == 1 then
@@ -854,7 +854,7 @@ function Geomorph:write_chest(location, rot, loc)
 	self:write_cube(s, rot, loc)
 end
 
-
+--!!
 function Geomorph:write_match_three(shape, rot, loc)
 	--local width = shape.size.z - 4
 	local p1
