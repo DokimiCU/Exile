@@ -232,12 +232,7 @@ end
 
 
 --For air_temp. Heat based movement. returns if moved or not
-local move_air_nodes = function(pos)
-
-	--get current temperature
-	--remember meta temp is a booster, not the positions actual temp
-	local meta = minetest.get_meta(pos)
-	local temp_m = meta:get_float("temp")
+local move_air_nodes = function(pos, meta, temp_m)
 
 	--heat rises 	-cold sink
 	local pos_new
@@ -248,7 +243,7 @@ local move_air_nodes = function(pos)
 	end
 
 	--movement
-	local timer = 9
+	local timer = 8
 	local name_new = minetest.get_node(pos_new).name
 	if name_new == 'air' then
 		--displace it
@@ -294,31 +289,6 @@ function climate.heat_transfer(pos, nodename, replace)
 	local meta = minetest.get_meta(pos)
 	local temp_m = meta:get_float("temp")
 
-	--heat transfers (exchange heat with other 'heatable')
-	local neighbor = minetest.find_node_near(pos, 1, 'group:heatable')
-	if neighbor then
-		--equalize their temperatures
-		local meta_new = minetest.get_meta(neighbor)
-		local temp_new = meta_new:get_float("temp")
-		temp_m = (temp_m + temp_new)/2
-		meta:set_float("temp", temp_m)
-		meta_new:set_int("temp", temp_m)
-	end
-
-	--dissappation..lose heat to environment
-	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
-	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
-	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water'})
-	local amb = #cn
-	--trapped. Slowly lose the accumulated temp boost
-	if amb < 1 then
-		temp_m = temp_m/1.008
-		meta:set_float("temp", temp_m)
-	else
-		--reduce air temp boost by how much ambient air etc it is exposed to.
-		temp_m = temp_m /(amb + 0.2)
-	end
-
 	--remove node when boost is too small (if set)
 	if replace then
 		if temp_m <= 1 and temp_m >= -1 then
@@ -326,6 +296,43 @@ function climate.heat_transfer(pos, nodename, replace)
 			return false
 		end
 	end
+
+	--heat transfers (exchange heat with other 'heatable')
+	local neighbor = minetest.find_node_near(pos, 1, 'group:heatable')
+	if neighbor then
+		--heat flows down a gradient
+		local meta_new = minetest.get_meta(neighbor)
+		local temp_new = meta_new:get_float("temp")
+		local t_diff = temp_m - temp_new
+		local t_mo = math.abs(t_diff/4)
+		--move quarter the difference to the colder one.
+		--e.g. 8 vs 4. move 1, -> 7, 5
+		--e.g. 20, 2, move 4.5 -> 15.5, 6.5
+
+		--new is colder
+		if t_diff > 0 then
+			temp_m = temp_m - t_mo
+			meta:set_float("temp", temp_m)
+			meta_new:set_int("temp", temp_new + t_mo)
+		else
+			--old is colder
+			temp_m = temp_m + t_mo
+			meta:set_float("temp", temp_m)
+			meta_new:set_int("temp", temp_new - t_mo)
+		end
+
+	end
+
+	--dissappation..lose heat to environment
+	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
+	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
+	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water'})
+	local amb = #air
+	--trapped. Slowly lose the accumulated temp boost
+	-- + exposure takes away heat
+	temp_m = temp_m /((amb*0.1) + 1.02)
+	meta:set_float("temp", temp_m)
+
 
 	if nodename == "climate:air_temp" then
 		local moved = move_air_nodes(pos, meta, temp_m)
@@ -361,7 +368,7 @@ minetest.register_node("climate:air_temp", {
 	on_timer =function(pos, elapsed)
 		return climate.heat_transfer(pos, "climate:air_temp", 'air')
 	end,
-	post_effect_color = {a = 20, r = 254, g = 254, b = 254}
+	post_effect_color = {a = 5, r = 254, g = 254, b = 254}
 })
 
 --Water
