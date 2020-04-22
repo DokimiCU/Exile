@@ -89,6 +89,7 @@ Features ideas:
 
 HEALTH
 -disease and other player effects
+-speed/jump malus from low hp
 
 --NATURE
 -bamboo like thing (like canes but for sticks)
@@ -150,6 +151,7 @@ Climate:
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
+-multiplayer bug caused by breaktaker?
 
 Health:
 
