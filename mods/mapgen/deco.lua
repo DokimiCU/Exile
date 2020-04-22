@@ -849,7 +849,7 @@ minetest.register_decoration({
     "nodes_nature:granite",
     "nodes_nature:basalt"},
   sidelen = 80,
-	fill_ratio = 0.0009,
+	fill_ratio = 0.01,
 	y_max = -120,
 	y_min = -1000,
 	decoration = "animals:darkasthaan_eggs",
@@ -898,4 +898,3 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 		end
 	end
 end)
-
