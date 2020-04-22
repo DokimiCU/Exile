@@ -165,7 +165,7 @@ local lvl_2_use = base_use * 2
 local lvl_2_max_lvl = lvl_1_max_lvl
 
 --damage
-local lvl_2_dmg = lvl_1_dmg * 3
+local lvl_2_dmg = lvl_1_dmg * 2
 --snappy
 local lvl_2_snap3 = lvl_1_snap3 * lvl_2
 local lvl_2_snap2 = lvl_1_snap2 * lvl_2
@@ -236,7 +236,7 @@ minetest.register_tool("tech:stone_club", {
 			snappy = {times={[3]=lvl_1_snap3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 			crumbly = {times= {[3]=lvl_1_crum3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl}
 		},
-		damage_groups = {fleshy=lvl_2_dmg*4},
+		damage_groups = {fleshy=lvl_2_dmg*2},
 	},
 	groups = {club = 1},
 	sound = {breaks = "tech_tool_breaks"},
@@ -256,7 +256,7 @@ local lvl_3_use = base_use * 4
 local lvl_3_max_lvl = lvl_1_max_lvl + 1
 
 --damage
-local lvl_3_dmg = lvl_2_dmg * 3
+local lvl_3_dmg = lvl_2_dmg * 2
 --snappy
 local lvl_3_snap3 = lvl_2_snap3 * lvl_3
 local lvl_3_snap2 = lvl_2_snap2 * lvl_3
@@ -330,7 +330,7 @@ minetest.register_tool("tech:mace_iron", {
 			snappy = {times={[3]=lvl_1_snap3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 			crumbly = {times= {[3]=lvl_1_crum3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 		},
-		damage_groups = {fleshy=lvl_3_dmg*4},
+		damage_groups = {fleshy=lvl_3_dmg*2},
 	},
 	groups = {club = 1},
 	sound = {breaks = "tech_tool_breaks"},
