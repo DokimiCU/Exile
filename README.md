@@ -171,9 +171,7 @@ Volcano:
 -occassional dark spots
 
 Megamorph:
--megamorph dungeon_loot doesn't work (disabled)
--megamorph would benefit from some doors and ladders nodes to use (disabled), also appropriate treasure chests
--something odd going on ...?? (new Minetest activated code that previously wasn't running)
+
 
 Tech:
 -oil lamp doesn't remove oil from inv
