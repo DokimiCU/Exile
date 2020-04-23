@@ -396,29 +396,9 @@ minetest.after(0, function()
 	end
 end)
 
---[[
 
-do
-	local orig_loot_reg = dungeon_loot.register
-	dungeon_loot.register = function(def)
-		if not def or def.chance <= 0 then
-			return
-		end
 
-		mod.register_loot({
-			name = def.name,
-			rarity = math.ceil(1 / 2 / def.chance),
-			level = def.level or 1,
-			number = {
-				min = def.count[1] or 1,
-				max = def.count[2] or 1,
-			},
-		})
 
-		orig_loot_reg(def)
-	end
-end
-]]
 
 
 --------------------------------------

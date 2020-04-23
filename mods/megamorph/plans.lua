@@ -553,6 +553,48 @@ register_geomorph({
 })
 
 
+
+-----------------------------------------------------
+--lake_of_fire_solid
+
+p = {
+	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
+	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
+	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 10), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = stone_2nd, loc = vn(55, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = 'air', loc = vn(70, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 70), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 9), size = vn(2, 3, 1)},
+	{act = 'cube', node = stone_2nd, loc = vn(37, 20, 37), size = vn(6, 2, 6)},
+	{act = 'cube', node = stone_2nd, loc = vn(38, 20, 38), size = vn(4, 2, 4)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'lake_of_fire_solid',
+	areas = 'geomoria',
+	data = p,
+})
+
 -----------------------------------------------------
 --fountain_court
 
@@ -754,7 +796,7 @@ p = {
 	{act = 'cube', node = 'air', loc = vn(20, 34, 20), size = vn(40, 11, 40)},
 	{act = 'cube', node = 'air', loc = vn(21, 33, 21), size = vn(38, 12, 38)},
 	{act = 'cube', node = 'air', loc = vn(22, 32, 22), size = vn(36, 13, 36)},
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(24, 21, 24), size = vn(32, 24, 32)},
+	{act = 'cube', node = 'air', floor = lamp_block, treasure = 1, loc = vn(24, 21, 24), size = vn(32, 24, 32)},
 
 	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 65), size = vn(20, 5, 10)},
 	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 5), size = vn(20, 5, 10)},
@@ -1146,4 +1188,46 @@ register_geomorph({
 	name = 'stair_base',
 	areas = 'geomoria',
 	data = q,
+})
+
+
+
+-----------------------------------------------------
+--chamber_of_light
+
+p = {
+	{act = 'sphere', node = 'air', line = stone_2nd, treasure = 1, loc = vn(1, 1, 1), size = vn(78, 78, 78)},
+	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
+
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(19, 21, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(39, 21, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 21, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(59, 21, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 21, 59), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 21, 19), size = vn(80, 3, 2)},
+
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(19, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(39, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 51, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(59, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 51, 59), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(0, 51, 19), size = vn(80, 3, 2)},
+
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+
+register_geomorph({
+	name = 'chamber_of_light',
+	areas = 'geomoria',
+	data = p,
 })
