@@ -37,10 +37,25 @@ local node = mod.node
 
 ----------------------------------------
 --Realms
+--[[
+150 - 350  --agricultural,
+350- 550  --residential
+550 - 750  --market
+750 - 950  --civic
+950 - 1150 --industrial
+1150 - 1350 -- mines
+]]
+--a little overlap to help blur them into eachother
 ----------------------------------------
+local xzmax = 28000
 
 mod.registered_realms = {
-  {name = 'geomoria', realm_minp = {x = -31000, y = -1000, z = -31000}, realm_maxp = {x = 31000, y = -120, z = 31000}},
+  {name = 'moria_ag', realm_minp = {x = -31000, y = -400, z = -31000}, realm_maxp = {x = xzmax, y = -150, z = xzmax}},
+  {name = 'moria_res', realm_minp = {x = -31000, y = -600, z = -31000}, realm_maxp = {x = xzmax, y = -350, z = xzmax}},
+  {name = 'moria_mar', realm_minp = {x = -31000, y = -800, z = -31000}, realm_maxp = {x = xzmax, y = -550, z = xzmax}},
+  {name = 'moria_civ', realm_minp = {x = -31000, y = -1000, z = -31000}, realm_maxp = {x = xzmax, y = -750, z = xzmax}},
+  {name = 'moria_ind', realm_minp = {x = -31000, y = -1200, z = -31000}, realm_maxp = {x = xzmax, y = -950, z = xzmax}},
+  {name = 'moria_mine', realm_minp = {x = -31000, y = -1400, z = -31000}, realm_maxp = {x = xzmax, y = -1150, z = xzmax}},
 
 }
 
@@ -306,6 +321,7 @@ minetest.after(0, function()
 
   --Only those items whch could survive centuries.
   --e.g. no food, wood/fabric etc rare
+  --no tools, materials etc that allow to skip easily up the tech progression.
 
   --raw materials (rarity 1)
   options['nodes_nature:granite_boulder'] =  { 1, 1, 2 }
@@ -331,14 +347,18 @@ minetest.after(0, function()
   --medium processed materials, cheap tools (rarity 3)
   options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
   options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
-  options['tech:iron_ingot'] =  { 1, 3, 4 }
+  --options['tech:iron_ingot'] =  { 1, 3, 4 }
   options['tech:clay_water_pot'] =  { 1, 3, nil }
   options['tech:clay_storage_pot'] =  { 1, 3, nil }
   options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }
 
   --costly processed materials, expensive tools, (rarity 4)
-  options['tech:anvil'] =  { 1, 4, nil }
-  options['tech:mace_iron'] =  { 1, 4, nil }
+  --options['tech:anvil'] =  { 1, 4, nil }
+  --options['tech:mace_iron'] =  { 1, 4, nil }
+  options['artifacts:moon_glass'] =  { 1, 4, 1 }
+  options['artifacts:antiquorium_ladder'] =  { 1, 4, 1 }
+  options['artifacts:antiquorium'] =  { 1, 4, 1 }
+  options['doors:door_antiquorium'] =  { 1, 4, nil }
 
 
   --low level artifacts (rarity 5), non-durables
@@ -346,13 +366,10 @@ minetest.after(0, function()
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
   options['artifacts:mapping_kit'] =  { 1, 5, nil }
-  options['artifacts:moon_glass'] =  { 1, 5, 1 }
-  options['artifacts:antiquorium_ladder'] =  { 1, 5, 1 }
-  options['doors:door_antiquorium'] =  { 1, 5, nil }
   options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
   options['tech:stick'] =  { 1, 5, 1 }
-  options['tech:fine_fabric'] =  { 1, 5, nil }
-  options['tech:coarse_fabric'] =  { 1, 5, nil }
+  --options['tech:fine_fabric'] =  { 1, 5, nil }
+  --options['tech:coarse_fabric'] =  { 1, 5, nil }
   options['tech:fine_fibre'] =  { 1, 5, nil }
   options['tech:coarse_fibre'] =  { 1, 5, nil }
   options['tech:paint_lime_white'] =  { 1, 5, nil }

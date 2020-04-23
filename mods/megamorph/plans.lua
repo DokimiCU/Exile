@@ -42,6 +42,7 @@ local lamp_block = 'artifacts:moon_glass'
 local door_a = 'doors:door_antiquorium_a'
 local door_b = 'doors:door_antiquorium_b'
 local ladder = 'artifacts:antiquorium_ladder'
+local special_stone = 'artifacts:antiquorium'
 
 --natural
 local freshwater = 'nodes_nature:freshwater_source'
@@ -64,6 +65,8 @@ local seal_box = 	{act = 'cube', node = stone_main, loc = vn(0, 0, 0), size = vn
 -----------------------------------------------------------------------
 
 local p
+
+
 
 
 -----------------------------------------------------------------------
@@ -101,8 +104,18 @@ local upper_cross = {
 	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
 }
+
 local placeholder_y51 = upper_cross
 mod.geo_parts['upper_cross'] = upper_cross
+
+local upper_cross_hash = {
+	{act = 'cube', node = 'air', loc = vn(19, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', loc = vn(59, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', loc = vn(0, 51, 59), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(0, 51, 19), size = vn(80, 3, 2)},
+}
+
+mod.geo_parts['upper_cross_hash'] = upper_cross_hash
 
 
 local lower_cross = {
@@ -115,88 +128,75 @@ local lower_cross = {
 }
 mod.geo_parts['lower_cross'] = lower_cross
 
+local lower_cross_hash = {
+	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 59), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(80, 3, 2)},
+}
+mod.geo_parts['lower_cross_hash'] = lower_cross_hash
+
 
 -----------------------------------------------------
 --GEOMORIA PLANS
 -----------------------------------------------------
+
+
+-----------------------------------------------------
+--Reusable Morphs
+-----------------------------------------------------
+
 -----------------------------------------------------
 --Crossroads
-p = {}
+local crossroads = {
 
-for _, item in pairs(lower_cross) do
-	table.insert(p, table.copy(item))
+	{act = 'cube', node = 'air', loc = vn(27, 0, 47), size = vn(8, 4, 8)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(30, 0, 50), size = vn(20, 20, 2)},
+	{act = 'cube', node = 'air', loc = vn(47, 20, 50), size = vn(8, 4, 8)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 2, loc = vn(50, 20, 30), size = vn(2, 20, 20)},
+	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 0, loc = vn(50, 20, 58), size = vn(2, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(50, 40, 27), size = vn(8, 4, 8)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 3, loc = vn(30, 40, 27), size = vn(20, 20, 2)},
+	{act = 'cube', node = 'air', loc = vn(27, 60, 27), size = vn(8, 4, 8)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(27, 60, 30), size = vn(2, 21, 20)},
+
+}
+
+
+
+
+for _, item in pairs(lower_cross_hash) do
+	table.insert(crossroads, table.copy(item))
 end
 
-for _, item in pairs(upper_cross) do
-	table.insert(p, table.copy(item))
+for _, item in pairs(upper_cross_hash) do
+	table.insert(crossroads, table.copy(item))
 end
 
 for _, item in pairs(default_exits) do
-	table.insert(p, table.copy(item))
+	table.insert(crossroads, table.copy(item))
 end
 
-for _, z in pairs({19, 39, 59}) do
-	for _, x in pairs({19, 39, 59}) do
-		table.insert(p, {
-			act = 'puzzle',
-			chance = 10,
-			loc = vn(x - vault_offset, 21, z - vault_offset),
-			size = vn(vault_width, vault_width, vault_width)
-		})
-	end
-end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(crossroads, 1, table.copy(seal_box))
 end
 
-register_geomorph({
-	name = 'crossroads',
-	areas = 'geomoria',
-	data = p,
-})
+
+
+
 
 
 -----------------------------------------------------
---pillared_room
-
-p = {
-	{act = 'cube', node = 'air', line = stone_block_2nd, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
-	{act = 'cube', node = stone_block_2nd, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
-	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
-	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
-	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for z = 7, 78, 9 do
-	for x = 7, 78, 9 do
-		local i = {act = 'cube', node = stone_block_2nd, loc = vn(z, 21, x), size = vn(2, 38, 2)}
-		table.insert(p, i)
-
-		for y = 25, 57, 9 do
-			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
-			table.insert(p, i)
-		end
-
-	end
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
+--moria_ag
+--farming
+-----------------------------------------------------
 
 register_geomorph({
-	name = 'pillared_room',
-	areas = 'geomoria',
-	data = p,
+	name = 'crossroads_ag',
+	areas = 'moria_ag',
+	data = crossroads,
 })
-
-
 
 -----------------------------------------------------
 --reservoir
@@ -281,447 +281,11 @@ end
 
 register_geomorph({
 	name = 'reservoir',
-	areas = 'geomoria',
+	areas = 'moria_ag',
 	data = p,
 })
 
 
------------------------------------------------------
---market
-
-p = {
-	{act = 'cube', node = 'air', loc = vn(1, 21, 21), size = vn(2, 3, 40)},
-	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(7, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(5, 21, 17), size = vn(70, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(73, 21, 19), size = vn(7, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 1), size = vn(42, 6, 14)},
-	{act = 'cube', node = 'air', loc = vn(73, 21, 46), size = vn(5, 3, 11)},
-	{act = 'cube', node = 'air', loc = vn(73, 21, 23), size = vn(5, 3, 11)},
-	{act = 'cube', node = 'air', loc = vn(75, 21, 39), size = vn(5, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(71, 21, 59), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(69, 21, 23), size = vn(2, 3, 38)},
-	{act = 'cube', node = 'air', loc = vn(21, 21, 21), size = vn(50, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 21), size = vn(2, 3, 59)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 77), size = vn(22, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(44, 21, 75), size = vn(2, 3, 2)},
-	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(30, 25, 25), size = vn(10, 10, 50)},
-	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(40, 25, 25), size = vn(10, 10, 50)},
-	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(50, 25, 25), size = vn(10, 10, 50)},
-	{act = 'cube', node = 'air', loc = vn(30, 21, 25), size = vn(30, 8, 50)},
-
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 64), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 51), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 38), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 25), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 64), size = vn(14, 3, 11)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 51), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 38), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 25), size = vn(5, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(29, 21, 68), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(29, 21, 56), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(29, 21, 43), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(29, 21, 30), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(60, 21, 68), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(60, 21, 56), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(60, 21, 43), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(60, 21, 30), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(73, 21, 34), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(3, 21, 59), size = vn(16, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(11, 31, 13), size = vn(25, 4, 11)},
-	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(33, 21, 14), size = vn(10, 10, 1)},
-	{act = 'cube', node = 'air', loc = vn(61, 31, 56), size = vn(14, 4, 19)},
-	{act = 'ladder', node = ladder, param2 = 4, loc = vn(63, 21, 74), size = vn(1, 10, 1)},
-	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(73, 21, 49), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(6, 21, 57), size = vn(10, 10, 2)},
-	{act = 'cube', node = 'air', loc = vn(16, 31, 24), size = vn(2, 4, 35)},
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(61, 31, 22), size = vn(2, 4, 34)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(36, 31, 22), size = vn(25, 4, 2)},
-	{act = 'cube', node = 'air', loc = vn(3, 21, 57), size = vn(3, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(61, 31, 55), size = vn(2, 4, 1)},--?
-	{act = 'cube', node = 'air', loc = vn(36, 31, 22), size = vn(1, 4, 2)},--?
-	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(67, 31, 46), size = vn(2, 10, 10)},
-
-	{act = 'cube', node = 'air', loc = vn(55, 41, 37), size = vn(10, 4, 10)},
-	{act = 'cube', node = 'air', loc = vn(13, 41, 16), size = vn(53, 6, 15)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(12, 41, 31), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(23, 41, 31), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(34, 41, 31), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(45, 41, 31), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(56, 41, 31), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(12, 41, 11), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(23, 41, 11), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(34, 41, 11), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(45, 41, 11), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', treasure = 8, loc = vn(56, 41, 11), size = vn(9, 4, 5)},
-	{act = 'cube', node = 'air', loc = vn(67, 41, 25), size = vn(2, 3, 21)},
-	{act = 'cube', node = 'air', loc = vn(65, 41, 22), size = vn(4, 3, 3)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(67, 41, 11), size = vn(10, 10, 2)},
-	{act = 'cube', node = 'air', loc = vn(65, 41, 41), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(65, 41, 11), size = vn(2, 3, 2)},
-
-	{act = 'cube', node = 'air', loc = vn(77, 51, 3), size = vn(2, 3, 38)},
-	{act = 'cube', node = 'air', loc = vn(1, 51, 39), size = vn(76, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(1, 51, 1), size = vn(78, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(1, 51, 3), size = vn(2, 3, 36)},
-	{act = 'cube', node = 'air', loc = vn(39, 51, 75), size = vn(2, 3, 4)},
-}
-
-for x = 9, 69, 15 do
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(x, 51, 41), size = vn(2, 3, 34)})
-	for z = 44, 74, 6 do
-		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x - 6, 51, z - 2), size = vn(5, 3, 5)})
-		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x + 3, 51, z - 2), size = vn(5, 3, 5)})
-		table.insert(p, {act = 'cube', node = 'air', loc = vn(x - 1, 51, z), size = vn(1, 2, 1)})
-		table.insert(p, {act = 'cube', node = door_b, param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
-		table.insert(p, {act = 'cube', node = 'air', loc = vn(x + 2, 51, z), size = vn(1, 2, 1)})
-		table.insert(p, {act = 'cube', node = door_a, param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
-	end
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-register_geomorph({
-	name = 'market',
-	areas = 'geomoria',
-	data = p,
-})
-
-
------------------------------------------------------
---silly_straw
-
-p = {
-	{act = 'cube', node = 'air', loc = vn(19, 21, 76), size = vn(2, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(5, 21, 74), size = vn(16, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(3, 21, 70), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(5, 21, 70), size = vn(20, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(23, 21, 72), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(25, 21, 76), size = vn(5, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(28, 21, 60), size = vn(2, 3, 16)},
-	{act = 'cube', node = 'air', loc = vn(28, 21, 58), size = vn(27, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(53, 21, 41), size = vn(2, 3, 17)},
-	{act = 'cube', node = 'air', loc = vn(50, 21, 39), size = vn(5, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 73), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(32, 21, 71), size = vn(20, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(52, 21, 63), size = vn(16, 15, 16)},
-	{act = 'cube', node = 'air', loc = vn(75, 21, 59), size = vn(5, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(1, 21, 52), size = vn(2, 3, 15)},
-	{act = 'cube', node = 'air', loc = vn(3, 21, 52), size = vn(8, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(9, 21, 54), size = vn(2, 3, 9)},
-	{act = 'cube', node = 'air', loc = vn(11, 21, 61), size = vn(14, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(23, 21, 59), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(13, 21, 57), size = vn(12, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(13, 21, 55), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(13, 21, 53), size = vn(37, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(48, 21, 50), size = vn(2, 3, 3)},
-	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(5, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(3, 21, 41), size = vn(2, 3, 9)},
-	{act = 'cube', node = 'air', loc = vn(5, 21, 48), size = vn(25, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 25), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(8, 21, 25), size = vn(2, 3, 19)},
-	{act = 'cube', node = 'air', loc = vn(8, 21, 44), size = vn(13, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 23), size = vn(2, 3, 21)},
-	{act = 'cube', node = 'air', loc = vn(21, 21, 39), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(1, 21, 17), size = vn(78, 15, 6)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 5)},
-	{act = 'cube', node = 'air', loc = vn(2, 21, 3), size = vn(17, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(2, 21, 5), size = vn(2, 3, 10)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 13), size = vn(33, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 9), size = vn(6, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 11), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(35, 21, 11), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(35, 21, 9), size = vn(15, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 17)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 23), size = vn(2, 3, 13)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 17)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(59, 21, 36), size = vn(20, 3, 8)},
-	{act = 'cube', node = 'air', treasure = 3, floor = lamp_block, loc = vn(30, 21, 30), size = vn(20, 15, 20)},
-
-	{act = 'cube', node = 'air', loc = vn(13, 31, 55), size = vn(2, 3, 22)},
-	{act = 'cube', node = 'air', loc = vn(15, 31, 75), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(17, 31, 45), size = vn(2, 3, 32)},
-	{act = 'cube', node = 'air', loc = vn(4, 31, 53), size = vn(11, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(4, 31, 25), size = vn(2, 3, 28)},
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(8, 31, 35), size = vn(11, 3, 10)},
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(8, 31, 24), size = vn(11, 3, 10)},
-	{act = 'cube', node = 'air', loc = vn(20, 31, 11), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(20, 31, 23), size = vn(2, 3, 18)},
-	{act = 'cube', node = 'air', loc = vn(22, 31, 39), size = vn(8, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(32, 31, 52), size = vn(2, 3, 9)},
-	{act = 'cube', node = 'air', loc = vn(34, 31, 52), size = vn(7, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 31, 50), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 31, 23), size = vn(2, 3, 7)},
-	{act = 'cube', node = 'air', loc = vn(39, 31, 5), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(41, 31, 5), size = vn(24, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(58, 31, 11), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(58, 31, 23), size = vn(2, 3, 40)},
-	{act = 'cube', node = 'air', loc = vn(50, 31, 39), size = vn(8, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(63, 31, 58), size = vn(2, 3, 3)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(3, 21, 65), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(12, 21, 9), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(50, 21, 9), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(65, 21, 59), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(32, 21, 61), size = vn(2, 10, 10)},
-	{act = 'ladder', node = ladder, param2 = 3, loc = vn(4, 21, 25), size = vn(1, 10, 1)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 9), size = vn(1, 3, 2)},
-
-	{act = 'cube', node = 'air', loc = vn(63, 41, 17), size = vn(2, 3, 31)},
-	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(63, 31, 48), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(63, 31, 7), size = vn(2, 10, 10)},
-
-	{act = 'cube', node = stone_main, loc = vn(20, 30, 17), size = vn(2, 1, 6)},
-	{act = 'cube', node = stone_main, loc = vn(39, 30, 17), size = vn(2, 1, 6)},
-	{act = 'cube', node = stone_main, loc = vn(58, 30, 17), size = vn(2, 1, 6)},
-	{act = 'cube', node = stone_main, loc = vn(56, 30, 63), size = vn(6, 1, 3)},
-	{act = 'cube', node = stone_main, loc = vn(39, 30, 30), size = vn(2, 1, 20)},
-	{act = 'cube', node = stone_main, loc = vn(30, 30, 39), size = vn(20, 1, 2)},
-
-	{act = 'cube', node = 'air', loc = vn(1, 21, 58), size = vn(2, 3, 1)}, --?v..
-	{act = 'cube', node = 'air', loc = vn(21, 21, 39), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 12), size = vn(2, 3, 1)},
-	{act = 'cube', node = 'air', loc = vn(38, 21, 9), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(41, 21, 9), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 23), size = vn(2, 3, 1)},
-	{act = 'cube', node = 'air', loc = vn(13, 31, 67), size = vn(2, 3, 1)},
-	{act = 'cube', node = 'air', loc = vn(13, 31, 34), size = vn(2, 3, 1)},--?^..
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
-register_geomorph({
-	name = 'silly_straw',
-	areas = 'geomoria',
-	data = p,
-})
-
-
------------------------------------------------------
---lake_of_fire
-
-p = {
-	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
-	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
-	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
-	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
-	{act = 'cube', node = lava, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
-	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
-	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
-	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
-	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 10), size = vn(2, 1, 15)},
-	{act = 'cube', node = stone_2nd, loc = vn(10, 20, 39), size = vn(15, 1, 2)},
-	{act = 'cube', node = stone_2nd, loc = vn(55, 20, 39), size = vn(15, 1, 2)},
-	{act = 'cube', node = 'air', loc = vn(70, 21, 39), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 70), size = vn(2, 3, 1)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 9), size = vn(2, 3, 1)},
-	{act = 'cube', node = stone_2nd, loc = vn(37, 20, 37), size = vn(6, 2, 6)},
-	{act = 'cube', node = lava, loc = vn(38, 20, 38), size = vn(4, 2, 4)},
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
-register_geomorph({
-	name = 'lake_of_fire',
-	areas = 'geomoria',
-	data = p,
-})
-
-
-
------------------------------------------------------
---lake_of_fire_solid
-
-p = {
-	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
-	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
-	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
-	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
-	{act = 'cube', node = stone_2nd, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
-	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
-	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
-	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
-	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 10), size = vn(2, 1, 15)},
-	{act = 'cube', node = stone_2nd, loc = vn(10, 20, 39), size = vn(15, 1, 2)},
-	{act = 'cube', node = stone_2nd, loc = vn(55, 20, 39), size = vn(15, 1, 2)},
-	{act = 'cube', node = 'air', loc = vn(70, 21, 39), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 70), size = vn(2, 3, 1)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 9), size = vn(2, 3, 1)},
-	{act = 'cube', node = stone_2nd, loc = vn(37, 20, 37), size = vn(6, 2, 6)},
-	{act = 'cube', node = stone_2nd, loc = vn(38, 20, 38), size = vn(4, 2, 4)},
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
-register_geomorph({
-	name = 'lake_of_fire_solid',
-	areas = 'geomoria',
-	data = p,
-})
-
------------------------------------------------------
---fountain_court
-
-p = {
-	--{param = 'wet'},
-	{act = 'cube', node = 'air', loc = vn(29, 11, 55), size = vn(2, 3, 16)},
-	{act = 'cube', node = 'air', loc = vn(25, 11, 69), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(25, 11, 9), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(9, 11, 9), size = vn(2, 3, 62)},
-	{act = 'cube', node = 'air', loc = vn(11, 11, 9), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(11, 11, 24), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(11, 11, 39), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(11, 11, 54), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(11, 11, 69), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(49, 11, 59), size = vn(12, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(49, 11, 55), size = vn(2, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(26, 11, 25), size = vn(30, 6, 30)},
-	{act = 'cube', node = 'air', loc = vn(49, 11, 19), size = vn(2, 3, 6)},
-	{act = 'cube', node = 'air', loc = vn(29, 11, 9), size = vn(2, 3, 16)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 5), size = vn(10, 6, 10)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 20), size = vn(10, 6, 10)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 35), size = vn(10, 6, 10)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 50), size = vn(10, 6, 10)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 65), size = vn(10, 6, 10)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 8), size = vn(4, 6, 4)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 23), size = vn(4, 6, 4)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 38), size = vn(4, 6, 4)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 53), size = vn(4, 6, 4)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 68), size = vn(4, 6, 4)},
-	{act = 'cube', node = freshwater, loc = vn(19, 11, 9), size = vn(2, 10, 2)},
-	{act = 'cube', node = freshwater, loc = vn(19, 11, 24), size = vn(2, 10, 2)},
-	{act = 'cube', node = freshwater, loc = vn(19, 11, 39), size = vn(2, 10, 2)},
-	{act = 'cube', node = freshwater, loc = vn(19, 11, 54), size = vn(2, 10, 2)},
-	{act = 'cube', node = freshwater, loc = vn(19, 11, 69), size = vn(2, 10, 2)},
-
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(61, 11, 59), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(39, 11, 1), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(39, 11, 19), size = vn(10, 10, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 11, 11), size = vn(2, 3, 14)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(61, 21, 59), size = vn(1, 6, 2)},
-
-	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(10, 15, 1), size = vn(20, 20, 79)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(10, 15, 1), size = vn(20, 6, 79)},
-	{act = 'cube', node = 'air', floor = stone_block_3rd, loc = vn(10, 21, 1), size = vn(20, 4, 79)},
-	{act = 'cube', node = 'air', loc = vn(1, 21, 56), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(1, 21, 36), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(1, 21, 16), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 64), size = vn(2, 3, 7)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 69), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 44), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 49), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 24), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 29), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 9), size = vn(2, 3, 7)},
-	{act = 'cube', node = 'air', loc = vn(6, 21, 9), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(31, 21, 56), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(31, 21, 36), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(31, 21, 16), size = vn(8, 4, 8)},
-	{act = 'cube', node = 'air', loc = vn(34, 21, 64), size = vn(2, 3, 5)},
-	{act = 'cube', node = 'air', loc = vn(30, 21, 69), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(34, 21, 44), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(30, 21, 49), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(34, 21, 24), size = vn(2, 3, 12)},
-	{act = 'cube', node = 'air', loc = vn(30, 21, 29), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(34, 21, 9), size = vn(2, 3, 7)},
-	{act = 'cube', node = 'air', loc = vn(30, 21, 9), size = vn(4, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(71, 21, 59), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 39), size = vn(41, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(71, 21, 19), size = vn(9, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 1), size = vn(2, 3, 79)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 69), size = vn(2, 3, 11)},
-
-	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 5), size = vn(10, 1, 10)},
-	{act = 'cube', node = freshwater, loc = vn(16, 21, 6), size = vn(8, 1, 8)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 9), size = vn(2, 2, 2)},
-	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 9), size = vn(2, 1, 2)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 20), size = vn(10, 1, 10)},
-	{act = 'cube', node = freshwater, loc = vn(16, 21, 21), size = vn(8, 1, 8)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 24), size = vn(2, 2, 2)},
-	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 24), size = vn(2, 1, 2)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 35), size = vn(10, 1, 10)},
-	{act = 'cube', node = freshwater, loc = vn(16, 21, 36), size = vn(8, 1, 8)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 39), size = vn(2, 2, 2)},
-	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 39), size = vn(2, 1, 2)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 50), size = vn(10, 1, 10)},
-	{act = 'cube', node = freshwater, loc = vn(16, 21, 51), size = vn(8, 1, 8)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 54), size = vn(2, 2, 2)},
-	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 54), size = vn(2, 1, 2)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 65), size = vn(10, 1, 10)},
-	{act = 'cube', node = freshwater, loc = vn(16, 21, 66), size = vn(8, 1, 8)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 69), size = vn(2, 2, 2)},
-	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 69), size = vn(2, 1, 2)},
-
-	{act = 'cube', node = 'air', loc = vn(51, 31, 65), size = vn(20, 5, 10)},
-	{act = 'cube', node = 'air', loc = vn(51, 31, 15), size = vn(10, 5, 10)},
-	{act = 'cube', node = 'air', loc = vn(55, 31, 25), size = vn(2, 3, 27)},
-	{act = 'cube', node = 'air', loc = vn(60, 31, 41), size = vn(2, 3, 24)},
-	{act = 'cube', node = 'air', loc = vn(57, 31, 39), size = vn(8, 3, 2)},
-	{act = 'cube', node = stone_block_3rd, loc = vn(54, 11, 49), size = vn(4, 6, 4)},
-	{act = 'cube', node = 'air', loc = vn(55, 6, 50), size = vn(2, 25, 2)},
-	{act = 'cube', node = 'air', loc = vn(55, 30, 50), size = vn(2, 1, 2)},--?
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(65, 31, 35), size = vn(10, 5, 10)},
-	{act = 'cube', node = 'air', loc = vn(69, 31, 45), size = vn(2, 3, 5)},
-	{act = 'cube', node = 'air', treasure = 1, loc = vn(65, 31, 50), size = vn(10, 5, 10)},
-	{act = 'cube', node = 'air', loc = vn(57, 31, 39), size = vn(1, 3, 2)},--?
-
-	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(61, 21, 19), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(41, 21, 69), size = vn(10, 10, 2)},
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
-
-register_geomorph({
-	name = 'fountain_court',
-	areas = 'geomoria',
-	data = p,
-})
 
 
 -----------------------------------------------------
@@ -729,7 +293,7 @@ register_geomorph({
 
 p = {
 	{act = 'cube', node = soil, loc = vn(5, 19, 5), size = vn(70, 2, 70)},
-	{act = 'cube', node = soil, loc = vn(5, 19, 5), size = vn(70, 1, 70), treasure = 1},
+	{act = 'cube', node = soil, loc = vn(5, 19, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(5, 21, 5), size = vn(70, 7, 70)},
 	{act = 'cube', node = edible_mushroom, random = 30, loc = vn(5, 21, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(19, 21, 75), size = vn(2, 3, 5)},
@@ -758,7 +322,7 @@ p = {
 	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(3, 31, 5), size = vn(2, 10, 10)},
 
 	{act = 'cube', node = soil, loc = vn(5, 39, 5), size = vn(70, 2, 70)},
-	{act = 'cube', node = soil, loc = vn(5, 39, 5), size = vn(70, 1, 70), treasure = 1},
+	{act = 'cube', node = soil, loc = vn(5, 39, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(5, 41, 5), size = vn(70, 7, 70)},
 	{act = 'cube', node = edible_mushroom, random = 30, loc = vn(5, 41, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(75, 41, 60), size = vn(2, 3, 5)},
@@ -779,92 +343,26 @@ end
 
 register_geomorph({
 	name = 'mushroom_garden',
-	areas = 'geomoria',
+	areas = 'moria_ag',
 	data = p,
 })
+
+
+
+
 
 
 -----------------------------------------------------
---arena
-
-p = {
-	{act = 'cube', node = 'air', loc = vn(15, 39, 15), size = vn(50, 6, 50)},
-	{act = 'cube', node = 'air', loc = vn(16, 38, 16), size = vn(48, 7, 48)},
-	{act = 'cube', node = 'air', loc = vn(17, 37, 17), size = vn(46, 8, 46)},
-	{act = 'cube', node = 'air', loc = vn(18, 36, 18), size = vn(44, 9, 44)},
-	{act = 'cube', node = 'air', loc = vn(19, 35, 19), size = vn(42, 10, 42)},
-	{act = 'cube', node = 'air', loc = vn(20, 34, 20), size = vn(40, 11, 40)},
-	{act = 'cube', node = 'air', loc = vn(21, 33, 21), size = vn(38, 12, 38)},
-	{act = 'cube', node = 'air', loc = vn(22, 32, 22), size = vn(36, 13, 36)},
-	{act = 'cube', node = 'air', floor = lamp_block, treasure = 1, loc = vn(24, 21, 24), size = vn(32, 24, 32)},
-
-	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 65), size = vn(20, 5, 10)},
-	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 5), size = vn(20, 5, 10)},
-	{act = 'cube', node = 'air', treasure = 4, loc = vn(65, 21, 30), size = vn(10, 5, 20)},
-	{act = 'cube', node = 'air', treasure = 4, loc = vn(5, 21, 30), size = vn(10, 5, 20)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 56), size = vn(2, 3, 24)},
-	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 24)},
-	{act = 'cube', node = 'air', loc = vn(77, 21, 19), size = vn(3, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(77, 21, 59), size = vn(3, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(0, 21, 59), size = vn(3, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(3, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 77), size = vn(2, 3, 3)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 77), size = vn(2, 3, 3)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 3)},
-	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 3)},
-	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(24, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(56, 21, 39), size = vn(24, 3, 2)},
-
-	{act = 'cube', node = 'air', loc = vn(19, 31, 65), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(59, 31, 65), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(59, 31, 13), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(19, 31, 13), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(65, 31, 19), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(65, 31, 59), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(13, 31, 59), size = vn(2, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(13, 31, 19), size = vn(2, 3, 2)},
-
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 2, loc = vn(59, 21, 67), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 0, loc = vn(59, 21, 3), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 0, loc = vn(19, 21, 3), size = vn(2, 10, 10)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 3, loc = vn(67, 21, 19), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 3, loc = vn(67, 21, 59), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 1, loc = vn(3, 21, 59), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 1, loc = vn(3, 21, 19), size = vn(10, 10, 2)},
-	{act = 'stair', node = stone_stairs_block_2nd, param2 = 2, loc = vn(19, 21, 67), size = vn(2, 10, 10)},
-
-	{act = 'cube', node = 'air', loc = vn(65, 39, 29), size = vn(2, 3, 22)},
-	{act = 'cube', node = 'air', loc = vn(13, 39, 29), size = vn(2, 3, 22)},
-	{act = 'cube', node = 'air', loc = vn(29, 39, 65), size = vn(22, 3, 2)},
-	{act = 'cube', node = 'air', loc = vn(29, 39, 13), size = vn(22, 3, 2)},
-
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 2, loc = vn(65, 31, 51), size = vn(2, 8, 8)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 0, loc = vn(65, 31, 21), size = vn(2, 8, 8)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 2, loc = vn(13, 31, 51), size = vn(2, 8, 8)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 0, loc = vn(13, 31, 21), size = vn(2, 8, 8)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 3, loc = vn(51, 31, 65), size = vn(8, 8, 2)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 1, loc = vn(21, 31, 65), size = vn(8, 8, 2)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 3, loc = vn(51, 31, 13), size = vn(8, 8, 2)},
-	{act = 'stair', node = stone_stairs_block_3rd, param2 = 1, loc = vn(21, 31, 13), size = vn(8, 8, 2)},
-}
-
-for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
-end
-
-if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
-end
+--moria_res
+--housing
+-----------------------------------------------------
 
 register_geomorph({
-	name = 'arena',
-	areas = 'geomoria',
-	data = p,
+	name = 'crossroads_res',
+	areas = 'moria_res',
+	data = crossroads,
 })
+
 
 
 -----------------------------------------------------
@@ -995,21 +493,14 @@ end
 
 register_geomorph({
 	name = 'prison',
-	areas = 'geomoria',
+	areas = 'moria_res',
 	data = p,
 })
 
 
+
 -----------------------------------------------------
 --stair_base
-
---[[
-p = {
-	{act = 'sphere', node = 'air', loc = vn(1, -18, 1), size = vn(78, 78, 78)},
-	{act = 'cube', node = building_stone, loc = vn(1, 0, 1), size = vn(78, 21, 78)},
-	{act = 'cube', node = 'default:stone_block', loc = vn(1, 20, 1), size = vn(78, 1, 78)},
-}
-]]
 
 
 -- used in stair base as well as height
@@ -1030,13 +521,7 @@ p = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 3, param2 = 0, loc = vn(27, 60, 30), size = vn(3, 21, 20)},
 }
 
---[[
-register_geomorph({
-	name = 'stair_height',
-	areas = 'geomoria',
-	data = p,
-})
---]]
+
 
 local q = table.copy(p)
 p = {
@@ -1186,17 +671,600 @@ end
 
 register_geomorph({
 	name = 'stair_base',
-	areas = 'geomoria',
+	areas = 'moria_res',
 	data = q,
 })
 
 
 
 -----------------------------------------------------
---chamber_of_light
+--moria_mar
+--markets
+-----------------------------------------------------
+
+register_geomorph({
+	name = 'crossroads_mar',
+	areas = 'moria_mar',
+	data = crossroads,
+})
+
+
+-----------------------------------------------------
+--market
 
 p = {
-	{act = 'sphere', node = 'air', line = stone_2nd, treasure = 1, loc = vn(1, 1, 1), size = vn(78, 78, 78)},
+	{act = 'cube', node = 'air', loc = vn(1, 21, 21), size = vn(2, 3, 40)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(7, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(5, 21, 17), size = vn(70, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(73, 21, 19), size = vn(7, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 1), size = vn(42, 6, 14)},
+	{act = 'cube', node = 'air', loc = vn(73, 21, 46), size = vn(5, 3, 11)},
+	{act = 'cube', node = 'air', loc = vn(73, 21, 23), size = vn(5, 3, 11)},
+	{act = 'cube', node = 'air', loc = vn(75, 21, 39), size = vn(5, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(71, 21, 59), size = vn(9, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(69, 21, 23), size = vn(2, 3, 38)},
+	{act = 'cube', node = 'air', loc = vn(21, 21, 21), size = vn(50, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 21), size = vn(2, 3, 59)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 77), size = vn(22, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(44, 21, 75), size = vn(2, 3, 2)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(30, 25, 25), size = vn(10, 10, 50)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(40, 25, 25), size = vn(10, 10, 50)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(50, 25, 25), size = vn(10, 10, 50)},
+	{act = 'cube', node = 'air', loc = vn(30, 21, 25), size = vn(30, 8, 50)},
+
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 64), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 51), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 38), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(24, 21, 25), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 64), size = vn(14, 3, 11)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 51), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 38), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(61, 21, 25), size = vn(5, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(29, 21, 68), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(29, 21, 56), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(29, 21, 43), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(29, 21, 30), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(60, 21, 68), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(60, 21, 56), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(60, 21, 43), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(60, 21, 30), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(73, 21, 34), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(3, 21, 59), size = vn(16, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(11, 31, 13), size = vn(25, 4, 11)},
+	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(33, 21, 14), size = vn(10, 10, 1)},
+	{act = 'cube', node = 'air', loc = vn(61, 31, 56), size = vn(14, 4, 19)},
+	{act = 'ladder', node = ladder, param2 = 4, loc = vn(63, 21, 74), size = vn(1, 10, 1)},
+	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(73, 21, 49), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(6, 21, 57), size = vn(10, 10, 2)},
+	{act = 'cube', node = 'air', loc = vn(16, 31, 24), size = vn(2, 4, 35)},
+	{act = 'cube', node = 'air', treasure = 1, loc = vn(61, 31, 22), size = vn(2, 4, 34)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(36, 31, 22), size = vn(25, 4, 2)},
+	{act = 'cube', node = 'air', loc = vn(3, 21, 57), size = vn(3, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(61, 31, 55), size = vn(2, 4, 1)},--?
+	{act = 'cube', node = 'air', loc = vn(36, 31, 22), size = vn(1, 4, 2)},--?
+	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(67, 31, 46), size = vn(2, 10, 10)},
+
+	{act = 'cube', node = 'air', loc = vn(55, 41, 37), size = vn(10, 4, 10)},
+	{act = 'cube', node = 'air', loc = vn(13, 41, 16), size = vn(53, 6, 15)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(12, 41, 31), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(23, 41, 31), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(34, 41, 31), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(45, 41, 31), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(56, 41, 31), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(12, 41, 11), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(23, 41, 11), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(34, 41, 11), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(45, 41, 11), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', treasure = 8, loc = vn(56, 41, 11), size = vn(9, 4, 5)},
+	{act = 'cube', node = 'air', loc = vn(67, 41, 25), size = vn(2, 3, 21)},
+	{act = 'cube', node = 'air', loc = vn(65, 41, 22), size = vn(4, 3, 3)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(67, 41, 11), size = vn(10, 10, 2)},
+	{act = 'cube', node = 'air', loc = vn(65, 41, 41), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(65, 41, 11), size = vn(2, 3, 2)},
+
+	{act = 'cube', node = 'air', loc = vn(77, 51, 3), size = vn(2, 3, 38)},
+	{act = 'cube', node = 'air', loc = vn(1, 51, 39), size = vn(76, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(1, 51, 1), size = vn(78, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(1, 51, 3), size = vn(2, 3, 36)},
+	{act = 'cube', node = 'air', loc = vn(39, 51, 75), size = vn(2, 3, 4)},
+}
+
+for x = 9, 69, 15 do
+	table.insert(p, {act = 'cube', node = 'air', loc = vn(x, 51, 41), size = vn(2, 3, 34)})
+	for z = 44, 74, 6 do
+		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x - 6, 51, z - 2), size = vn(5, 3, 5)})
+		table.insert(p, {act = 'cube', node = 'air', treasure = 20, loc = vn(x + 3, 51, z - 2), size = vn(5, 3, 5)})
+		table.insert(p, {act = 'cube', node = 'air', loc = vn(x - 1, 51, z), size = vn(1, 2, 1)})
+		table.insert(p, {act = 'cube', node = door_b, param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
+		table.insert(p, {act = 'cube', node = 'air', loc = vn(x + 2, 51, z), size = vn(1, 2, 1)})
+		table.insert(p, {act = 'cube', node = door_a, param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
+	end
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+register_geomorph({
+	name = 'market',
+	areas = 'moria_mar',
+	data = p,
+})
+
+
+-----------------------------------------------------
+--silly_straw
+
+p = {
+	{act = 'cube', node = 'air', loc = vn(19, 21, 76), size = vn(2, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(5, 21, 74), size = vn(16, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(3, 21, 70), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(5, 21, 70), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(23, 21, 72), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(25, 21, 76), size = vn(5, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(28, 21, 60), size = vn(2, 3, 16)},
+	{act = 'cube', node = 'air', loc = vn(28, 21, 58), size = vn(27, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(53, 21, 41), size = vn(2, 3, 17)},
+	{act = 'cube', node = 'air', loc = vn(50, 21, 39), size = vn(5, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 73), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(32, 21, 71), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(52, 21, 63), size = vn(16, 15, 16)},
+	{act = 'cube', node = 'air', loc = vn(75, 21, 59), size = vn(5, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(1, 21, 52), size = vn(2, 3, 15)},
+	{act = 'cube', node = 'air', loc = vn(3, 21, 52), size = vn(8, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(9, 21, 54), size = vn(2, 3, 9)},
+	{act = 'cube', node = 'air', loc = vn(11, 21, 61), size = vn(14, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(23, 21, 59), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(13, 21, 57), size = vn(12, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(13, 21, 55), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(13, 21, 53), size = vn(37, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(48, 21, 50), size = vn(2, 3, 3)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(5, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(3, 21, 41), size = vn(2, 3, 9)},
+	{act = 'cube', node = 'air', loc = vn(5, 21, 48), size = vn(25, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 25), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(8, 21, 25), size = vn(2, 3, 19)},
+	{act = 'cube', node = 'air', loc = vn(8, 21, 44), size = vn(13, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 23), size = vn(2, 3, 21)},
+	{act = 'cube', node = 'air', loc = vn(21, 21, 39), size = vn(9, 3, 2)},
+	{act = 'cube', node = 'air', floor = lamp_block, loc = vn(1, 21, 17), size = vn(78, 15, 6)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 5)},
+	{act = 'cube', node = 'air', loc = vn(2, 21, 3), size = vn(17, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(2, 21, 5), size = vn(2, 3, 10)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 13), size = vn(33, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 9), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 11), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(35, 21, 11), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(35, 21, 9), size = vn(15, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 17)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 23), size = vn(2, 3, 13)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 17)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(59, 21, 36), size = vn(20, 3, 8)},
+	{act = 'cube', node = 'air', treasure = 3, floor = lamp_block, loc = vn(30, 21, 30), size = vn(20, 15, 20)},
+
+	{act = 'cube', node = 'air', loc = vn(13, 31, 55), size = vn(2, 3, 22)},
+	{act = 'cube', node = 'air', loc = vn(15, 31, 75), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(17, 31, 45), size = vn(2, 3, 32)},
+	{act = 'cube', node = 'air', loc = vn(4, 31, 53), size = vn(11, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(4, 31, 25), size = vn(2, 3, 28)},
+	{act = 'cube', node = 'air', treasure = 1, loc = vn(8, 31, 35), size = vn(11, 3, 10)},
+	{act = 'cube', node = 'air', treasure = 1, loc = vn(8, 31, 24), size = vn(11, 3, 10)},
+	{act = 'cube', node = 'air', loc = vn(20, 31, 11), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(20, 31, 23), size = vn(2, 3, 18)},
+	{act = 'cube', node = 'air', loc = vn(22, 31, 39), size = vn(8, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(32, 31, 52), size = vn(2, 3, 9)},
+	{act = 'cube', node = 'air', loc = vn(34, 31, 52), size = vn(7, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 31, 50), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 31, 23), size = vn(2, 3, 7)},
+	{act = 'cube', node = 'air', loc = vn(39, 31, 5), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(41, 31, 5), size = vn(24, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(58, 31, 11), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(58, 31, 23), size = vn(2, 3, 40)},
+	{act = 'cube', node = 'air', loc = vn(50, 31, 39), size = vn(8, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(63, 31, 58), size = vn(2, 3, 3)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(3, 21, 65), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(12, 21, 9), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(50, 21, 9), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(65, 21, 59), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(32, 21, 61), size = vn(2, 10, 10)},
+	{act = 'ladder', node = ladder, param2 = 3, loc = vn(4, 21, 25), size = vn(1, 10, 1)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 9), size = vn(1, 3, 2)},
+
+	{act = 'cube', node = 'air', loc = vn(63, 41, 17), size = vn(2, 3, 31)},
+	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(63, 31, 48), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(63, 31, 7), size = vn(2, 10, 10)},
+
+	{act = 'cube', node = stone_main, loc = vn(20, 30, 17), size = vn(2, 1, 6)},
+	{act = 'cube', node = stone_main, loc = vn(39, 30, 17), size = vn(2, 1, 6)},
+	{act = 'cube', node = stone_main, loc = vn(58, 30, 17), size = vn(2, 1, 6)},
+	{act = 'cube', node = stone_main, loc = vn(56, 30, 63), size = vn(6, 1, 3)},
+	{act = 'cube', node = stone_main, loc = vn(39, 30, 30), size = vn(2, 1, 20)},
+	{act = 'cube', node = stone_main, loc = vn(30, 30, 39), size = vn(20, 1, 2)},
+
+	{act = 'cube', node = 'air', loc = vn(1, 21, 58), size = vn(2, 3, 1)}, --?v..
+	{act = 'cube', node = 'air', loc = vn(21, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 12), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 21, 9), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(41, 21, 9), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 23), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(13, 31, 67), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(13, 31, 34), size = vn(2, 3, 1)},--?^..
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'silly_straw',
+	areas = 'moria_mar',
+	data = p,
+})
+
+
+
+
+
+-----------------------------------------------------
+--moria_civ
+--civic
+-----------------------------------------------------
+
+register_geomorph({
+	name = 'crossroads_civ',
+	areas = 'moria_civ',
+	data = crossroads,
+})
+
+
+
+
+
+-----------------------------------------------------
+--pillared_room
+
+p = {
+	{act = 'cube', node = 'air', line = stone_block_2nd, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
+	{act = 'cube', node = stone_block_2nd, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
+	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
+	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
+	{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for z = 7, 78, 9 do
+	for x = 7, 78, 9 do
+		local i = {act = 'cube', node = stone_block_2nd, loc = vn(z, 21, x), size = vn(2, 38, 2)}
+		table.insert(p, i)
+
+		for y = 25, 57, 9 do
+			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
+			table.insert(p, i)
+		end
+
+	end
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+
+register_geomorph({
+	name = 'pillared_room',
+	areas = 'moria_civ',
+	data = p,
+})
+
+
+-----------------------------------------------------
+--pillared_room_antiq
+
+p = {
+	{act = 'cube', node = 'air', line = special_stone, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
+	{act = 'cube', node = special_stone, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
+	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
+	--{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
+	--{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for z = 7, 78, 9 do
+	for x = 7, 78, 9 do
+		local i = {act = 'cube', node = special_stone, loc = vn(z, 21, x), size = vn(2, 38, 2)}
+		table.insert(p, i)
+
+		for y = 25, 57, 9 do
+			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
+			table.insert(p, i)
+		end
+
+	end
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+
+register_geomorph({
+	name = 'pillared_room_antiq',
+	areas = 'moria_civ',
+	data = p,
+})
+
+-----------------------------------------------------
+--pillared_room_moon
+
+p = {
+	{act = 'cube', node = 'air', line = special_stone, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
+	{act = 'cube', node = special_stone, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
+	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
+	--{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 2, loc = vn(1, 21, 25), size = vn(2, 30, 30)},
+	--{act = 'stair', node = stone_stairs_block_2nd, depth = 3, height = 4, param2 = 0, loc = vn(77, 21, 25), size = vn(2, 30, 30)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for z = 7, 78, 9 do
+	for x = 7, 78, 9 do
+		local i = {act = 'cube', node = lamp_block, loc = vn(z, 21, x), size = vn(2, 38, 2)}
+		table.insert(p, i)
+
+	end
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+
+register_geomorph({
+	name = 'pillared_room_moon',
+	areas = 'moria_civ',
+	data = p,
+})
+
+
+-----------------------------------------------------
+--fountain_court
+
+p = {
+	--{param = 'wet'},
+	{act = 'cube', node = 'air', loc = vn(29, 11, 55), size = vn(2, 3, 16)},
+	{act = 'cube', node = 'air', loc = vn(25, 11, 69), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(25, 11, 9), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(9, 11, 9), size = vn(2, 3, 62)},
+	{act = 'cube', node = 'air', loc = vn(11, 11, 9), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(11, 11, 24), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(11, 11, 39), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(11, 11, 54), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(11, 11, 69), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(49, 11, 59), size = vn(12, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(49, 11, 55), size = vn(2, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(26, 11, 25), size = vn(30, 6, 30)},
+	{act = 'cube', node = 'air', loc = vn(49, 11, 19), size = vn(2, 3, 6)},
+	{act = 'cube', node = 'air', loc = vn(29, 11, 9), size = vn(2, 3, 16)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 5), size = vn(10, 6, 10)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 20), size = vn(10, 6, 10)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 35), size = vn(10, 6, 10)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 50), size = vn(10, 6, 10)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 11, 65), size = vn(10, 6, 10)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 8), size = vn(4, 6, 4)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 23), size = vn(4, 6, 4)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 38), size = vn(4, 6, 4)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 53), size = vn(4, 6, 4)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(18, 11, 68), size = vn(4, 6, 4)},
+	{act = 'cube', node = freshwater, loc = vn(19, 11, 9), size = vn(2, 10, 2)},
+	{act = 'cube', node = freshwater, loc = vn(19, 11, 24), size = vn(2, 10, 2)},
+	{act = 'cube', node = freshwater, loc = vn(19, 11, 39), size = vn(2, 10, 2)},
+	{act = 'cube', node = freshwater, loc = vn(19, 11, 54), size = vn(2, 10, 2)},
+	{act = 'cube', node = freshwater, loc = vn(19, 11, 69), size = vn(2, 10, 2)},
+
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(61, 11, 59), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(39, 11, 1), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(39, 11, 19), size = vn(10, 10, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 11, 11), size = vn(2, 3, 14)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(61, 21, 59), size = vn(1, 6, 2)},
+
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(10, 15, 1), size = vn(20, 20, 79)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(10, 15, 1), size = vn(20, 6, 79)},
+	{act = 'cube', node = 'air', floor = stone_block_3rd, loc = vn(10, 21, 1), size = vn(20, 4, 79)},
+	{act = 'cube', node = 'air', loc = vn(1, 21, 56), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(1, 21, 36), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(1, 21, 16), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 64), size = vn(2, 3, 7)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 69), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 44), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 49), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 24), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 29), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 9), size = vn(2, 3, 7)},
+	{act = 'cube', node = 'air', loc = vn(6, 21, 9), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(31, 21, 56), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(31, 21, 36), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(31, 21, 16), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(34, 21, 64), size = vn(2, 3, 5)},
+	{act = 'cube', node = 'air', loc = vn(30, 21, 69), size = vn(9, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(34, 21, 44), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(30, 21, 49), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(34, 21, 24), size = vn(2, 3, 12)},
+	{act = 'cube', node = 'air', loc = vn(30, 21, 29), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(34, 21, 9), size = vn(2, 3, 7)},
+	{act = 'cube', node = 'air', loc = vn(30, 21, 9), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(71, 21, 59), size = vn(9, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 39), size = vn(41, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(71, 21, 19), size = vn(9, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 1), size = vn(2, 3, 79)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 69), size = vn(2, 3, 11)},
+
+	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 5), size = vn(10, 1, 10)},
+	{act = 'cube', node = freshwater, loc = vn(16, 21, 6), size = vn(8, 1, 8)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 9), size = vn(2, 2, 2)},
+	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 9), size = vn(2, 1, 2)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 20), size = vn(10, 1, 10)},
+	{act = 'cube', node = freshwater, loc = vn(16, 21, 21), size = vn(8, 1, 8)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 24), size = vn(2, 2, 2)},
+	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 24), size = vn(2, 1, 2)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 35), size = vn(10, 1, 10)},
+	{act = 'cube', node = freshwater, loc = vn(16, 21, 36), size = vn(8, 1, 8)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 39), size = vn(2, 2, 2)},
+	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 39), size = vn(2, 1, 2)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 50), size = vn(10, 1, 10)},
+	{act = 'cube', node = freshwater, loc = vn(16, 21, 51), size = vn(8, 1, 8)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 54), size = vn(2, 2, 2)},
+	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 54), size = vn(2, 1, 2)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(15, 21, 65), size = vn(10, 1, 10)},
+	{act = 'cube', node = freshwater, loc = vn(16, 21, 66), size = vn(8, 1, 8)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(19, 21, 69), size = vn(2, 2, 2)},
+	--{act = 'cube', node = mod_name..':water_source_tame', loc = vn(19, 23, 69), size = vn(2, 1, 2)},
+
+	{act = 'cube', node = 'air', loc = vn(51, 31, 65), size = vn(20, 5, 10)},
+	{act = 'cube', node = 'air', loc = vn(51, 31, 15), size = vn(10, 5, 10)},
+	{act = 'cube', node = 'air', loc = vn(55, 31, 25), size = vn(2, 3, 27)},
+	{act = 'cube', node = 'air', loc = vn(60, 31, 41), size = vn(2, 3, 24)},
+	{act = 'cube', node = 'air', loc = vn(57, 31, 39), size = vn(8, 3, 2)},
+	{act = 'cube', node = stone_block_3rd, loc = vn(54, 11, 49), size = vn(4, 6, 4)},
+	{act = 'cube', node = 'air', loc = vn(55, 6, 50), size = vn(2, 25, 2)},
+	{act = 'cube', node = 'air', loc = vn(55, 30, 50), size = vn(2, 1, 2)},--?
+	{act = 'cube', node = 'air', treasure = 1, loc = vn(65, 31, 35), size = vn(10, 5, 10)},
+	{act = 'cube', node = 'air', loc = vn(69, 31, 45), size = vn(2, 3, 5)},
+	{act = 'cube', node = 'air', treasure = 1, loc = vn(65, 31, 50), size = vn(10, 5, 10)},
+	{act = 'cube', node = 'air', loc = vn(57, 31, 39), size = vn(1, 3, 2)},--?
+
+	{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(61, 21, 19), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_main, param2 = 1, loc = vn(41, 21, 69), size = vn(10, 10, 2)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'fountain_court',
+	areas = 'moria_civ',
+	data = p,
+})
+
+
+
+-----------------------------------------------------
+--arena
+
+p = {
+	{act = 'cube', node = 'air', loc = vn(15, 39, 15), size = vn(50, 6, 50)},
+	{act = 'cube', node = 'air', loc = vn(16, 38, 16), size = vn(48, 7, 48)},
+	{act = 'cube', node = 'air', loc = vn(17, 37, 17), size = vn(46, 8, 46)},
+	{act = 'cube', node = 'air', loc = vn(18, 36, 18), size = vn(44, 9, 44)},
+	{act = 'cube', node = 'air', loc = vn(19, 35, 19), size = vn(42, 10, 42)},
+	{act = 'cube', node = 'air', loc = vn(20, 34, 20), size = vn(40, 11, 40)},
+	{act = 'cube', node = 'air', loc = vn(21, 33, 21), size = vn(38, 12, 38)},
+	{act = 'cube', node = 'air', loc = vn(22, 32, 22), size = vn(36, 13, 36)},
+	{act = 'cube', node = 'air', floor = lamp_block, treasure = 1, loc = vn(24, 21, 24), size = vn(32, 24, 32)},
+
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 65), size = vn(20, 5, 10)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(30, 21, 5), size = vn(20, 5, 10)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(65, 21, 30), size = vn(10, 5, 20)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(5, 21, 30), size = vn(10, 5, 20)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 56), size = vn(2, 3, 24)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 24)},
+	{act = 'cube', node = 'air', loc = vn(77, 21, 19), size = vn(3, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(77, 21, 59), size = vn(3, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 59), size = vn(3, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(3, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 77), size = vn(2, 3, 3)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 77), size = vn(2, 3, 3)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 0), size = vn(2, 3, 3)},
+	{act = 'cube', node = 'air', loc = vn(19, 21, 0), size = vn(2, 3, 3)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(24, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(56, 21, 39), size = vn(24, 3, 2)},
+
+	{act = 'cube', node = 'air', loc = vn(19, 31, 65), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(59, 31, 65), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(59, 31, 13), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(19, 31, 13), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(65, 31, 19), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(65, 31, 59), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(13, 31, 59), size = vn(2, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(13, 31, 19), size = vn(2, 3, 2)},
+
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 2, loc = vn(59, 21, 67), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 0, loc = vn(59, 21, 3), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 0, loc = vn(19, 21, 3), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 3, loc = vn(67, 21, 19), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 3, loc = vn(67, 21, 59), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 1, loc = vn(3, 21, 59), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 1, loc = vn(3, 21, 19), size = vn(10, 10, 2)},
+	{act = 'stair', node = stone_stairs_block_2nd, param2 = 2, loc = vn(19, 21, 67), size = vn(2, 10, 10)},
+
+	{act = 'cube', node = 'air', loc = vn(65, 39, 29), size = vn(2, 3, 22)},
+	{act = 'cube', node = 'air', loc = vn(13, 39, 29), size = vn(2, 3, 22)},
+	{act = 'cube', node = 'air', loc = vn(29, 39, 65), size = vn(22, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(29, 39, 13), size = vn(22, 3, 2)},
+
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 2, loc = vn(65, 31, 51), size = vn(2, 8, 8)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 0, loc = vn(65, 31, 21), size = vn(2, 8, 8)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 2, loc = vn(13, 31, 51), size = vn(2, 8, 8)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 0, loc = vn(13, 31, 21), size = vn(2, 8, 8)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 3, loc = vn(51, 31, 65), size = vn(8, 8, 2)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 1, loc = vn(21, 31, 65), size = vn(8, 8, 2)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 3, loc = vn(51, 31, 13), size = vn(8, 8, 2)},
+	{act = 'stair', node = stone_stairs_block_3rd, param2 = 1, loc = vn(21, 31, 13), size = vn(8, 8, 2)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'arena',
+	areas = 'moria_civ',
+	data = p,
+})
+
+
+
+-----------------------------------------------------
+--sphere_of_light
+
+p = {
+	{act = 'sphere', node = 'air', line = special_stone, treasure = 1, loc = vn(1, 1, 1), size = vn(78, 78, 78)},
 	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
 
@@ -1227,7 +1295,120 @@ end
 
 
 register_geomorph({
-	name = 'chamber_of_light',
-	areas = 'geomoria',
+	name = 'sphere_of_light',
+	areas = 'moria_civ',
 	data = p,
+})
+
+
+
+-----------------------------------------------------
+--moria_ind
+--industrial
+-----------------------------------------------------
+
+register_geomorph({
+	name = 'crossroads_ind',
+	areas = 'moria_ind',
+	data = crossroads,
+})
+
+
+
+
+-----------------------------------------------------
+--lake_of_fire
+
+p = {
+	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
+	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
+	{act = 'cube', node = lava, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
+	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 10), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = stone_2nd, loc = vn(55, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = 'air', loc = vn(70, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 70), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 9), size = vn(2, 3, 1)},
+	{act = 'cube', node = stone_2nd, loc = vn(37, 20, 37), size = vn(6, 2, 6)},
+	{act = 'cube', node = lava, loc = vn(38, 20, 38), size = vn(4, 2, 4)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'lake_of_fire',
+	areas = 'moria_ind',
+	data = p,
+})
+
+
+
+-----------------------------------------------------
+--lake_of_fire_solid
+
+p = {
+	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
+	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
+	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
+	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 10), size = vn(2, 1, 15)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = stone_2nd, loc = vn(55, 20, 39), size = vn(15, 1, 2)},
+	{act = 'cube', node = 'air', loc = vn(70, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(9, 21, 39), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 70), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 9), size = vn(2, 3, 1)},
+	{act = 'cube', node = stone_2nd, loc = vn(37, 20, 37), size = vn(6, 2, 6)},
+	{act = 'cube', node = stone_2nd, loc = vn(38, 20, 38), size = vn(4, 2, 4)},
+}
+
+for _, item in pairs(default_exits) do
+	table.insert(p, 2, table.copy(item))
+end
+
+for _, item in pairs(placeholder_y51) do
+	table.insert(p, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(p, 1, table.copy(seal_box))
+end
+
+register_geomorph({
+	name = 'lake_of_fire_solid',
+	areas = 'moria_ind',
+	data = p,
+})
+
+
+
+-----------------------------------------------------
+--moria_mine
+--mines
+-----------------------------------------------------
+
+register_geomorph({
+	name = 'crossroads_mine',
+	areas = 'moria_mine',
+	data = crossroads,
 })

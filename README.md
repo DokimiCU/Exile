@@ -60,7 +60,7 @@ Some tips and tricks:
 - darkasthaan spider for deep caves
 - graffitti: glow paint
 - better looking bones
-- fixed dungeon loot, added more artifacts
+- fixed dungeon loot, added more artifacts, split into realms
 
 
 
@@ -106,9 +106,8 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): a way to get map, teleporter, etc
+-artifacts (loot): teleporter? bright light?
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
--divide geomoria depths
 -surface ruins
 
 --TECH
@@ -190,3 +189,4 @@ Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
+
