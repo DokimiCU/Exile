@@ -310,7 +310,7 @@ minetest.register_entity("animals:sarkamos",{
 	max_speed = 4.5,					-- m/s (prey needs a slight speed advantage, but not too much)
 	jump_height = 3,				-- nodes/meters
 	view_range = 7,					-- nodes/meters
-	attack={range=0.4, damage_groups={fleshy=5}},
+	attack={range=0.6, damage_groups={fleshy=10}},
 	armor_groups = {fleshy=100},
 	--on actions
 	drops = {
@@ -334,7 +334,7 @@ minetest.register_entity("animals:sarkamos",{
 		if not clicker or not clicker:is_player() then
 			return
 		end
-		animals.stun_catch_mob(self, clicker, 0.95)
+		animals.stun_catch_mob(self, clicker, 0.99)
 	end,
 })
 

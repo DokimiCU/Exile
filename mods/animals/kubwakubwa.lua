@@ -322,7 +322,7 @@ minetest.register_entity("animals:kubwakubwa",{
 		if not clicker or not clicker:is_player() then
 			return
 		end
-		animals.stun_catch_mob(self, clicker, 0.5)
+		animals.stun_catch_mob(self, clicker, 0.75)
 	end,
 })
 

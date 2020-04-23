@@ -299,7 +299,7 @@ minetest.register_entity("animals:darkasthaan",{
 	max_speed = 1,					-- m/s
 	jump_height = 2,				-- nodes/meters
 	view_range = 4,					-- nodes/meters
-	attack={range=0.5, damage_groups={fleshy=6}},
+	attack={range=0.6, damage_groups={fleshy=10}},
 	armor_groups = {fleshy=100},
 	--on actions
 	drops = {
@@ -324,7 +324,7 @@ minetest.register_entity("animals:darkasthaan",{
 		if not clicker or not clicker:is_player() then
 			return
 		end
-		animals.stun_catch_mob(self, clicker, 0.85)
+		animals.stun_catch_mob(self, clicker, 0.99)
 	end,
 })
 
