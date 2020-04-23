@@ -84,7 +84,7 @@ local function spider_brain(self)
 
 		if plyr then--or pred then
 			--rare aggression
-			if random()> 0.35 and plyr:get_attach() == nil then
+			if random()> 0.25 and plyr:get_attach() == nil then
 				mobkit.hq_warn(self,50,plyr)
 			else
 				mobkit.animate(self,'run')
@@ -278,7 +278,7 @@ minetest.register_entity("animals:darkasthaan",{
 	--physics = [function user defined] 		-- optional, overrides built in physics
 	animation = {
 		walk={range={x=1,y=21},speed=15,loop=true},
-		run={range={x=1,y=21},speed=45,loop=true},
+		run={range={x=1,y=21},speed=35,loop=true},
 		idle={range={x=25,y=45},speed=5,loop=true},
 	},
 	sounds = {
@@ -295,11 +295,11 @@ minetest.register_entity("animals:darkasthaan",{
 			pitch={0.7, 1.3},
 		},
 	},
-	springiness=0.2,
-	max_speed = 1,					-- m/s
+	springiness=0.3,
+	max_speed = 1.2,					-- m/s
 	jump_height = 2,				-- nodes/meters
-	view_range = 4,					-- nodes/meters
-	attack={range=0.6, damage_groups={fleshy=10}},
+	view_range = 8,					-- nodes/meters
+	attack={range=0.6, damage_groups={fleshy=15}},
 	armor_groups = {fleshy=100},
 	--on actions
 	drops = {

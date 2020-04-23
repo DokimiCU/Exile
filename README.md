@@ -52,9 +52,8 @@ Some tips and tricks:
 - Initial release
 
 # 0.1.1
-- prevent crash in megamorph from default (placeholder solution)
 - minor fixes: snow carry limit, slower evaporation
-- minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather
+- minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather, etc
 - minor additions: add more recipes at stations, break falling with snow, crafting selection boxes, iron slag can drain into iron_slag_mix
 - updated backgrounds
 - updated version of crafting
@@ -158,7 +157,7 @@ Health:
 
 Animals:
 -function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value)
-
+-animals speed slide around a lot when attacking, looks strange.
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
@@ -191,4 +190,3 @@ Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
-
