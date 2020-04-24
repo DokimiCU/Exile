@@ -235,7 +235,7 @@ for i in ipairs(treelist) do
 		drawtype =  "plantlike",
 		visual_scale = 1,
 		tiles ={"nodes_nature_"..treename.."_leaves.png" },
-		stack_max = minimal.stack_max_medium,
+		stack_max = minimal.stack_max_bulky * 3,
 		paramtype = "light",
 		paramtype2 = "meshoptions",
 		place_param2 = 4,
