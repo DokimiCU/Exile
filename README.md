@@ -35,6 +35,7 @@ Some tips and tricks:
 - Beds are important. If you're exhausted you get hypothermia/heat stroke. Get under shelter in a nice temperature.
 - Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
+- Go deep enough underground and you might find something....
 - Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
 - Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
 - Fires. Blocks are hotter. Charcoal is hotter than wood.
@@ -109,6 +110,7 @@ HEALTH
 -artifacts (loot): teleporter? bright light?
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
+-geomoria decorations
 
 --TECH
 -more graffiti in more colors

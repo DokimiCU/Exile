@@ -362,6 +362,7 @@ minetest.after(0, function()
 
 
   --low level artifacts (rarity 5), non-durables
+  options['artifacts:sun_stone'] =  { 1, 5, nil }
   options['artifacts:light_meter'] =  { 1, 5, nil }
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }

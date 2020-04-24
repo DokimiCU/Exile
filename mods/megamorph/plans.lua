@@ -148,17 +148,53 @@ mod.geo_parts['lower_cross_hash'] = lower_cross_hash
 
 -----------------------------------------------------
 --Crossroads
+--links up down and all sides
 local crossroads = {
-
-	{act = 'cube', node = 'air', loc = vn(27, 0, 47), size = vn(8, 4, 8)},
+	--stairs and landing rooms
+	{act = 'cube', node = 'air', loc = vn(22, 0, 50), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(30, 0, 50), size = vn(20, 20, 2)},
-	{act = 'cube', node = 'air', loc = vn(47, 20, 50), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', loc = vn(50, 20, 50), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 2, loc = vn(50, 20, 30), size = vn(2, 20, 20)},
-	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 0, loc = vn(50, 20, 58), size = vn(2, 1, 1)},
+	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 0, loc = vn(50, 20, 58), size = vn(2, 1, 1)},--link stair
 	{act = 'cube', node = 'air', loc = vn(50, 40, 27), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 3, loc = vn(30, 40, 27), size = vn(20, 20, 2)},
-	{act = 'cube', node = 'air', loc = vn(27, 60, 27), size = vn(8, 4, 8)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 3, loc = vn(30, 51, 22), size = vn(9, 9, 1)},--link stair
+	{act = 'cube', node = 'air', loc = vn(39, 51, 21), size = vn(2, 4, 2)},--link box
+	{act = 'cube', node = 'air', loc = vn(22, 60, 22), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(27, 60, 30), size = vn(2, 21, 20)},
+
+	--linkers (from middle def exits)
+	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 20)},
+	{act = 'cube', node = 'air', loc = vn(59, 51, 39), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 51, 59), size = vn(2, 3, 20)},
+
+	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 20)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 39), size = vn(20, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 59), size = vn(2, 3, 20)},
+
+	--	exit alcoves
+	{act = 'cube', node = 'air', loc = vn(19, 51, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(59, 51, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(4, 51, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(4, 51, 19), size = vn(4, 3, 4)},
+
+	{act = 'cube', node = 'air', loc = vn(19, 51, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(59, 51, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(76, 51, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(76, 51, 19), size = vn(4, 3, 4)},
+
+	{act = 'cube', node = 'air', loc = vn(19, 21, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(4, 21, 19), size = vn(4, 3, 4)},
+
+	{act = 'cube', node = 'air', loc = vn(19, 21, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(59, 21, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(76, 21, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', loc = vn(76, 21, 19), size = vn(4, 3, 4)},
+
 
 }
 
@@ -348,9 +384,25 @@ register_geomorph({
 })
 
 
+-----------------------------------------------------
+--granary
+--[[
+
+p = {
 
 
+}
 
+for _, item in pairs(crossroads) do
+	table.insert(p, 2, table.copy(item))
+end
+
+register_geomorph({
+	name = 'granary',
+	areas = 'moria_ag',
+	data = p,
+})
+]]
 
 -----------------------------------------------------
 --moria_res
