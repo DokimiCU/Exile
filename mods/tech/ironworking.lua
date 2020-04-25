@@ -85,8 +85,21 @@ local function roast(pos, name, length, heat, smelt)
 					minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 8, gain = 0.1})
 					if n ~= 'tech:iron_and_slag' then
 						minetest.set_node(p, {name = 'tech:molten_slag_flowing'})
+						--only drain to one place (i.e. so they all drain the same amount)
+						cn = cn + 1
+						break
+					else
+						--undo progress of the one it is draining into.
+						local meta_under = minetest.get_meta(p)
+						local roast_under = meta_under:get_int("roast")
+						--only if still has room (i.e. can't infinitely fill it)
+						if roast_under < 100 then
+							meta_under:set_int("roast", roast_under + 1)
+							--only drain to one place (i.e. so they all drain the same amount)
+							cn = cn + 1
+							break
+						end
 					end
-          cn = cn + 1
         end
       end
       --only makes smelt progress if able to drain
@@ -95,11 +108,12 @@ local function roast(pos, name, length, heat, smelt)
         meta:set_int("roast", roast - 1)
         return true
       else
+				--try again later
         return true
       end
 
     else
-      --do firing
+      --do non-smelting firing
       meta:set_int("roast", roast - 1)
       return true
     end

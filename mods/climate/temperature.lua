@@ -329,8 +329,8 @@ function climate.heat_transfer(pos, nodename, replace)
 	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water'})
 	local amb = #air
 	--trapped. Slowly lose the accumulated temp boost
-	-- + exposure takes away heat
-	temp_m = temp_m /((amb*0.1) + 1.02)
+	-- + exposure takes away heat (can't remove too much or makes smelting too hard)
+	temp_m = temp_m /((amb*0.05) + 1.02)
 	meta:set_float("temp", temp_m)
 
 
