@@ -215,6 +215,151 @@ minetest.register_craftitem("artifacts:smelter_probe", {
 
 
 
+------------------------------------
+--POTTERS PROBE
+--get  progress
+------------------------------------
+
+local potters_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "node" then
+    return
+  end
+
+  local under = minetest.get_node(pointed_thing.under)
+
+  local node_name = under.name
+  local nodedef = minetest.registered_nodes[node_name]
+  if not nodedef then
+    return
+  end
+
+
+  local name =user:get_player_name()
+  local pos = user:getpos()
+
+
+  local meta = minetest.get_meta(pointed_thing.under)
+  local measure = meta:get_int("firing")
+
+  if measure <= 0 then
+    minetest.chat_send_player(name, minetest.colorize("#cc6600","NOT MEASURABLE!"))
+  else
+    minetest.chat_send_player(name, minetest.colorize("#00ff00", "FIRING UNITS REMAINING:"))
+    minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
+  end
+
+end
+
+
+minetest.register_craftitem("artifacts:potters_probe", {
+	description = "Potter's Probe",
+	inventory_image = "artifacts_potters_probe.png",
+  wield_image = "artifacts_potters_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		potters_probe(user, pointed_thing)
+	end,
+})
+
+
+------------------------------------
+--CHEFS PROBE
+--get cooking progress
+------------------------------------
+
+local chefs_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "node" then
+    return
+  end
+
+  local under = minetest.get_node(pointed_thing.under)
+
+  local node_name = under.name
+  local nodedef = minetest.registered_nodes[node_name]
+  if not nodedef then
+    return
+  end
+
+
+  local name =user:get_player_name()
+  local pos = user:getpos()
+
+
+  local meta = minetest.get_meta(pointed_thing.under)
+  local measure = meta:get_int("baking")
+
+  if measure <= 0 then
+    minetest.chat_send_player(name, minetest.colorize("#cc6600","NOT MEASURABLE!"))
+  else
+    minetest.chat_send_player(name, minetest.colorize("#00ff00", "COOKING UNITS REMAINING:"))
+    minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
+  end
+
+end
+
+
+minetest.register_craftitem("artifacts:chefs_probe", {
+	description = "Chef's Probe",
+	inventory_image = "artifacts_chefs_probe.png",
+  wield_image = "artifacts_chefs_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		chefs_probe(user, pointed_thing)
+	end,
+})
+
+
+------------------------------------
+--FARMERS PROBE
+--get growth progress
+------------------------------------
+
+local farmers_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "node" then
+    return
+  end
+
+  local under = minetest.get_node(pointed_thing.under)
+
+  local node_name = under.name
+  local nodedef = minetest.registered_nodes[node_name]
+  if not nodedef then
+    return
+  end
+
+
+  local name =user:get_player_name()
+  local pos = user:getpos()
+
+
+  local meta = minetest.get_meta(pointed_thing.under)
+  local measure = meta:get_int("growth")
+
+  if measure <= 0 then
+    minetest.chat_send_player(name, minetest.colorize("#cc6600","NOT MEASURABLE!"))
+  else
+    minetest.chat_send_player(name, minetest.colorize("#00ff00", "GROWTH UNITS REMAINING:"))
+    minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
+  end
+
+end
+
+
+minetest.register_craftitem("artifacts:farmers_probe", {
+	description = "Farmer's Probe",
+	inventory_image = "artifacts_farmers_probe.png",
+  wield_image = "artifacts_farmers_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		farmers_probe(user, pointed_thing)
+	end,
+})
 
 
 

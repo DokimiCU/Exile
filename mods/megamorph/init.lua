@@ -368,6 +368,9 @@ minetest.after(0, function()
   options['artifacts:temp_probe'] =  { 1, 5, nil }
   options['artifacts:fuel_probe'] =  { 1, 5, nil }
   options['artifacts:smelter_probe'] =  { 1, 5, nil }
+  options['artifacts:potters_probe'] =  { 1, 5, nil }
+  options['artifacts:chefs_probe'] =  { 1, 5, nil }
+  options['artifacts:farmers_probe'] =  { 1, 5, nil }
   options['artifacts:mapping_kit'] =  { 1, 5, nil }
   options['artifacts:spyglass'] =  { 1, 5, nil }
   options['artifacts:bell'] =  { 1, 5, nil }
