@@ -174,13 +174,13 @@ Megamorph:
 
 
 Tech:
-
 -doors ought to toggle temp_pass group on open and close
 -torches/oil lamp should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
 -air temp needs to spread better in open spaces.
 -smelt mix > iron and slag missing heat transfer on change
+-partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
 
 Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.
@@ -191,4 +191,3 @@ Misc:
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
-
