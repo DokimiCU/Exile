@@ -461,7 +461,7 @@ minetest.register_node('tech:large_charcoal_fire', {
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
-		meta:set_int("fuel", base_fuel *0.75)
+		meta:set_int("fuel", base_fuel *2*0.75)
 
 		--fire effects
 		minetest.get_node_timer(pos):start(base_burn_rate)
@@ -650,3 +650,4 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+

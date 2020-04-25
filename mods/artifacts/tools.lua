@@ -116,6 +116,61 @@ minetest.register_craftitem("artifacts:temp_probe", {
 
 
 
+
+------------------------------------
+--FUEL PROBE
+--get burn progress
+------------------------------------
+
+local fuel_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "node" then
+    return
+  end
+
+  local under = minetest.get_node(pointed_thing.under)
+
+  local node_name = under.name
+  local nodedef = minetest.registered_nodes[node_name]
+  if not nodedef then
+    return
+  end
+
+
+  local name =user:get_player_name()
+  local pos = user:getpos()
+
+
+  local meta = minetest.get_meta(pointed_thing.under)
+  local measure = meta:get_int("fuel")
+
+  if measure <= 0 then
+    minetest.chat_send_player(name, minetest.colorize("#cc6600","NOT MEASURABLE!"))
+  else
+    minetest.chat_send_player(name, minetest.colorize("#00ff00", "BURN UNITS REMAINING:"))
+    minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
+  end
+
+end
+
+
+minetest.register_craftitem("artifacts:fuel_probe", {
+	description = "Fuel Probe",
+	inventory_image = "artifacts_fuel_probe.png",
+  wield_image = "artifacts_fuel_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		fuel_probe(user, pointed_thing)
+	end,
+})
+
+
+
+
+
+
+
 ------------------------------------
 --ANTIQUORIUM CHISEL
 --able to dig granite etc, no good for anything else.

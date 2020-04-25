@@ -366,6 +366,7 @@ minetest.after(0, function()
   options['artifacts:light_meter'] =  { 1, 5, nil }
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
+  options['artifacts:fuel_probe'] =  { 1, 5, nil }
   options['artifacts:mapping_kit'] =  { 1, 5, nil }
   options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
   options['tech:stick'] =  { 1, 5, 1 }

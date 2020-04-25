@@ -75,7 +75,6 @@ minetest.register_node("artifacts:antiquorium", {
   stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
 	is_ground_content = false,
-	sunlight_propagates = true,
   use_texture_alpha = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
