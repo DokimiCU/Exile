@@ -20,7 +20,7 @@ minetest.register_node("artifacts:moon_glass", {
 	paramtype = "light",
 	paramtype2 = "glasslikeliquidlevel",
 	is_ground_content = false,
-	sunlight_propagates = true,
+	--sunlight_propagates = true,
   use_texture_alpha = true,
   --temp_effect = -3,
   --temp_effect_max = 5,

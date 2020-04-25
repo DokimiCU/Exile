@@ -53,9 +53,9 @@ Some tips and tricks:
 - Initial release
 
 # 0.1.1
-- minor fixes: snow carry limit, slower evaporation
-- minor balance changes: cheaper bed recipe, less water from Tangkal fruit, more random weather, etc
-- minor additions: add more recipes at stations, break falling with snow, crafting selection boxes, iron slag can drain into iron_slag_mix
+- various minor fixes
+- various minor balance changes
+- various minor additions
 - updated backgrounds
 - updated version of crafting
 - darkasthaan spider for deep caves
@@ -158,7 +158,7 @@ Health:
 
 Animals:
 -function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value)
--animals speed slide around a lot when attacking, looks strange.
+-darkasthaan speed slide around a lot when attacking, looks strange.
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
@@ -174,9 +174,9 @@ Megamorph:
 
 
 Tech:
--oil lamp doesn't remove oil from inv
+
 -doors ought to toggle temp_pass group on open and close
--torches should save how much burnt when returned to inventory, and should burn when held (i.e. no infinite burn exploit)
+-torches/oil lamp should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
 -air temp needs to spread better in open spaces.

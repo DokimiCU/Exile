@@ -165,6 +165,54 @@ minetest.register_craftitem("artifacts:fuel_probe", {
 	end,
 })
 
+------------------------------------
+--SMELTER PROBE
+--get smelting progress
+------------------------------------
+
+local smelter_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "node" then
+    return
+  end
+
+  local under = minetest.get_node(pointed_thing.under)
+
+  local node_name = under.name
+  local nodedef = minetest.registered_nodes[node_name]
+  if not nodedef then
+    return
+  end
+
+
+  local name =user:get_player_name()
+  local pos = user:getpos()
+
+
+  local meta = minetest.get_meta(pointed_thing.under)
+  local measure = meta:get_int("roast")
+
+  if measure <= 0 or node_name ~= 'tech:iron_and_slag' then
+    minetest.chat_send_player(name, minetest.colorize("#cc6600","NOT MEASURABLE!"))
+  else
+    minetest.chat_send_player(name, minetest.colorize("#00ff00", "SMELTING UNITS REMAINING:"))
+    minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
+  end
+
+end
+
+
+minetest.register_craftitem("artifacts:smelter_probe", {
+	description = "Smelter Probe",
+	inventory_image = "artifacts_smelter_probe.png",
+  wield_image = "artifacts_smelter_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		smelter_probe(user, pointed_thing)
+	end,
+})
+
 
 
 
