@@ -9,6 +9,46 @@ local light_power = 9
 local temp = 2
 local heat = 450
 
+
+
+
+-------------------------------------------
+--save usage into inventory, to prevent infinite torch supply
+local on_dig = function(pos, node, digger)
+	if minetest.is_protected(pos, digger:get_player_name()) then
+		return false
+	end
+
+	local meta = minetest.get_meta(pos)
+	local fuel = meta:get_int("fuel")
+
+	local new_stack = ItemStack("tech:torch")
+	local stack_meta = new_stack:get_meta()
+	stack_meta:set_int("fuel", fuel)
+
+
+	minetest.remove_node(pos)
+	local player_inv = digger:get_inventory()
+	if player_inv:room_for_item("main", new_stack) then
+		player_inv:add_item("main", new_stack)
+	else
+		minetest.add_item(pos, new_stack)
+	end
+end
+
+
+-------------------------------------------
+--set saved fuel
+local after_place_node = function(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local stack_meta = itemstack:get_meta()
+	local fuel = stack_meta:get_int("fuel")
+	if fuel >0 then
+		meta:set_int("fuel", fuel)
+	end
+end
+
+
 -------------------------------------------
 --converts flaming torch into ash
 local function can_burn_air(pos, meta, ash_name)
@@ -104,6 +144,9 @@ minetest.register_node("tech:torch", {
 		wall_bottom = {-1/8, -1/2, -1/8, 1/8, 2/16, 1/8},
 	},
 	sounds = nodes_nature.node_sound_wood_defaults(),
+	on_dig = function(pos, node, digger)
+		on_dig(pos, node, digger)
+	end,
 	on_place = function(itemstack, placer, pointed_thing)
 		local under = pointed_thing.under
 		local node = minetest.get_node(under)
@@ -139,6 +182,9 @@ minetest.register_node("tech:torch", {
 		meta:set_int("fuel", base_fuel)
 		--fire effects..
 		minetest.get_node_timer(pos):start(math.random(base_burn_rate-1,base_burn_rate+1))
+	end,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		after_place_node(pos, placer, itemstack, pointed_thing)
 	end,
 	on_timer =function(pos, elapsed)
 		local meta = minetest.get_meta(pos)
@@ -179,12 +225,18 @@ minetest.register_node("tech:torch_wall", {
 	sounds = nodes_nature.node_sound_wood_defaults(),
 	floodable = true,
 	on_flood = on_flood,
+	on_dig = function(pos, node, digger)
+		on_dig(pos, node, digger)
+	end,
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
 		meta:set_int("fuel", base_fuel)
 		--fire effects..
 		minetest.get_node_timer(pos):start(math.random(base_burn_rate-1,base_burn_rate+1))
+	end,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		after_place_node(pos, placer, itemstack, pointed_thing)
 	end,
 	on_timer =function(pos, elapsed)
 		local meta = minetest.get_meta(pos)
@@ -225,12 +277,18 @@ minetest.register_node("tech:torch_ceiling", {
 	sounds = nodes_nature.node_sound_wood_defaults(),
 	floodable = true,
 	on_flood = on_flood,
+	on_dig = function(pos, node, digger)
+		on_dig(pos, node, digger)
+	end,
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
 		meta:set_int("fuel", base_fuel)
 		--fire effects..
 		minetest.get_node_timer(pos):start(math.random(base_burn_rate-1,base_burn_rate+1))
+	end,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		after_place_node(pos, placer, itemstack, pointed_thing)
 	end,
 	on_timer =function(pos, elapsed)
 		local meta = minetest.get_meta(pos)
@@ -263,3 +321,4 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
