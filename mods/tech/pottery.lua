@@ -367,10 +367,8 @@ minetest.register_node("tech:clay_oil_lamp_empty", {
 
 		if ist_name == "tech:vegetable_oil" then
 			minetest.set_node(pos, {name = 'tech:clay_oil_lamp'})
-			--local inv = clicker:get_inventory()
-			--inv:remove_item("main", ist_name.." 1")
 			itemstack:take_item()
-			clicker:set_wielded_item(itemstack)
+			return itemstack
 		end
 	end,
 
