@@ -175,25 +175,25 @@ local crossroads = {
 	{act = 'cube', node = 'air', loc = vn(39, 21, 59), size = vn(2, 3, 20)},
 
 	--	exit alcoves
-	{act = 'cube', node = 'air', loc = vn(19, 51, 4), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(59, 51, 4), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(4, 51, 59), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(4, 51, 19), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(19, 51, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(59, 51, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(4, 51, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(4, 51, 19), size = vn(4, 3, 4)},
 
-	{act = 'cube', node = 'air', loc = vn(19, 51, 76), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(59, 51, 76), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(76, 51, 59), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(76, 51, 19), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(19, 51, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(59, 51, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(76, 51, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(76, 51, 19), size = vn(4, 3, 4)},
 
-	{act = 'cube', node = 'air', loc = vn(19, 21, 4), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 4), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 59), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(4, 21, 19), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(19, 21, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(59, 21, 4), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(4, 21, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(4, 21, 19), size = vn(4, 3, 4)},
 
-	{act = 'cube', node = 'air', loc = vn(19, 21, 76), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(59, 21, 76), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(76, 21, 59), size = vn(4, 3, 4)},
-	{act = 'cube', node = 'air', loc = vn(76, 21, 19), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(19, 21, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(59, 21, 76), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 4, loc = vn(76, 21, 59), size = vn(4, 3, 4)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(76, 21, 19), size = vn(4, 3, 4)},
 
 
 }
@@ -565,7 +565,7 @@ p = {
 	{act = 'stair', node = stone_stairs_main, param2 = 2, loc = vn(75, 31, 65), size = vn(2, 10, 10)},
 	{act = 'stair', node = stone_stairs_main, param2 = 0, loc = vn(3, 31, 5), size = vn(2, 10, 10)},
 
-	{act = 'cube', node = 'air', loc = vn(15, 39, 15), size = vn(50, 2, 50)},
+	{act = 'cube', node = 'air', treasure = 5, loc = vn(15, 39, 15), size = vn(50, 2, 50)},
 	{act = 'cube', node = 'air', loc = vn(5, 41, 5), size = vn(70, 7, 70)},
 	{act = 'cube', node = 'air', loc = vn(75, 41, 60), size = vn(2, 3, 5)},
 	{act = 'cube', node = 'air', loc = vn(3, 41, 15), size = vn(2, 3, 5)},
@@ -594,10 +594,14 @@ register_geomorph({
 
 -----------------------------------------------------
 --granary
---[[
 
 p = {
-
+{act = 'cube', node = 'air', treasure = 3, loc = vn(15, 20, 15), size = vn(20, 30, 20)},
+{act = 'cube', node = 'air', loc = vn(19, 21, 21), size = vn(2, 3, 10)},
+{act = 'cube', node = 'air', loc = vn(59, 21, 21), size = vn(2, 3, 10)},
+{act = 'cube', node = 'air', floor = stone_main, treasure = 2, loc = vn(21, 46, 15), size = vn(14, 3, 10)},
+{act = 'stair', node = stone_stairs_main, param2 = 3, loc = vn(21, 46, 13), size = vn(5, 5, 2)},
+{act = 'cube', node = 'air', loc = vn(26, 46, 13), size = vn(2, 3, 2)},
 
 }
 
@@ -610,7 +614,7 @@ register_geomorph({
 	areas = 'moria_ag',
 	data = p,
 })
-]]
+
 
 -----------------------------------------------------
 --moria_res
