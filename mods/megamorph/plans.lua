@@ -151,7 +151,7 @@ mod.geo_parts['lower_cross_hash'] = lower_cross_hash
 --links up down and all sides
 local crossroads = {
 	--stairs and landing rooms
-	{act = 'cube', node = 'air', loc = vn(22, 0, 50), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', treasure = 3, loc = vn(22, 0, 50), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(30, 0, 50), size = vn(20, 20, 2)},
 	{act = 'cube', node = 'air', loc = vn(50, 20, 50), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 2, loc = vn(50, 20, 30), size = vn(2, 20, 20)},
