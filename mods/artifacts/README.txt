@@ -13,6 +13,8 @@ Map adapted from Minetest Game mod map: paramat (MIT)
 
 Bell adapted from Bell by Sokomine (GPLv3)
 
+Wayfinder adapted from ccompass (Echo's compass WFTPL, enhanced by bell07 MIT)
+
 
 
 Authors of media (sounds)
@@ -20,7 +22,7 @@ Authors of media (sounds)
 original bell sound  licensed under cc0 by dsp9000 from http://www.freesound.org/people/dsp9000/sounds/76405/
 modified by mootpoint licensed under cc0
 
-
+Wayfinder CC BY-SA by tacotexmex
 
 
 Authors of media (textures)

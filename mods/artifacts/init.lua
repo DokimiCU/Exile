@@ -10,4 +10,5 @@ dofile(modpath..'/tools.lua')
 dofile(modpath..'/materials.lua')
 dofile(modpath..'/map.lua')
 dofile(modpath..'/bell.lua')
+dofile(modpath..'/wayfinder.lua')
 -------------------------------

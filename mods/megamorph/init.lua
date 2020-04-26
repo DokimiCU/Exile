@@ -374,6 +374,8 @@ minetest.after(0, function()
   options['artifacts:mapping_kit'] =  { 1, 5, nil }
   options['artifacts:spyglass'] =  { 1, 5, nil }
   options['artifacts:bell'] =  { 1, 5, nil }
+  options['artifacts:waystone'] =  { 1, 5, nil }
+  options['artifacts:wayfinder'] =  { 1, 5, nil }
   options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
   options['tech:stick'] =  { 1, 5, 1 }
   --options['tech:fine_fabric'] =  { 1, 5, nil }

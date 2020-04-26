@@ -65,6 +65,8 @@ minetest.register_node("artifacts:sun_stone", {
 })
 
 
+
+
 ------------------------------------
 --ANTIQUORIUM
 --the super material of the ancients
@@ -73,9 +75,6 @@ minetest.register_node("artifacts:antiquorium", {
 	description = "Antiquorium",
 	tiles = {"artifacts_antiquorium.png"},
   stack_max = minimal.stack_max_bulky *4,
-	paramtype = "light",
-	is_ground_content = false,
-  use_texture_alpha = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
 })
