@@ -173,7 +173,7 @@ minetest.register_node("artifacts:mg_sculpture_bonsai", {
 --STAR STONE
 --small glowing glass, that pulses and synchronises firefly style
 ------------------------------------
-local star_timer = 2
+local star_timer = 3
 
 minetest.register_node("artifacts:star_stone", {
 	description = "Star Stone",
@@ -192,15 +192,14 @@ minetest.register_node("artifacts:star_stone", {
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
 
 	on_construct = function(pos)
-		local timer = 2
-		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.2, max_hear_distance = 15})
+		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = math.random(0.2,0.4), max_hear_distance = 15})
 		minetest.get_node_timer(pos):start(star_timer)
 	end,
 
 	on_timer =function(pos, elapsed)
 
 		--look nearby for a friend
-		local r = 4
+		local r = 1
 		local rpos = {x = pos.x + math.random(-r,r), y = pos.y + math.random(-r,r), z = pos.z + math.random(-r,r)}
 		local lnode = minetest.get_node(rpos)
 
@@ -231,7 +230,7 @@ minetest.register_node("artifacts:star_stone_b", {
 		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
 	},
 	drop = "artifacts:star_stone",
-  light_source = 4,
+  light_source = 3,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -239,8 +238,8 @@ minetest.register_node("artifacts:star_stone_b", {
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
 
 	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(1)
-		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 17})
+		minetest.get_node_timer(pos):start(2)
+		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 15})
 	end,
 
 	on_timer =function(pos, elapsed)
