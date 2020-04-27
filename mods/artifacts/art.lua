@@ -165,3 +165,86 @@ minetest.register_node("artifacts:mg_sculpture_bonsai", {
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 3, temp_pass = 1},
 })
+
+
+
+
+------------------------------------
+--STAR STONE
+--small glowing glass, that pulses and synchronises firefly style
+------------------------------------
+local star_timer = 2
+
+minetest.register_node("artifacts:star_stone", {
+	description = "Star Stone",
+	tiles = {"artifacts_moon_glass.png"},
+  stack_max = minimal.stack_max_medium * 2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
+	},
+  light_source = 2,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
+
+	on_construct = function(pos)
+		local timer = 2
+		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.2, max_hear_distance = 15})
+		minetest.get_node_timer(pos):start(star_timer)
+	end,
+
+	on_timer =function(pos, elapsed)
+
+		--look nearby for a friend
+		local r = 4
+		local rpos = {x = pos.x + math.random(-r,r), y = pos.y + math.random(-r,r), z = pos.z + math.random(-r,r)}
+		local lnode = minetest.get_node(rpos)
+
+		if lnode == "artifacts:star_stone" then
+			--bring into sync with other
+			local lelap = minetest.get_node_timer(rpos):get_elapsed()
+			local newelap = (lelap + elapsed) /2
+			minetest.get_node_timer(pos):set(star_timer,newelap)
+
+			return true
+		end
+
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:star_stone_b", param2 = p2})
+
+	end,
+})
+
+
+
+minetest.register_node("artifacts:star_stone_b", {
+	description = "Star Stone",
+	tiles = {"artifacts_moon_glass.png"},
+  stack_max = minimal.stack_max_medium * 2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
+	},
+	drop = "artifacts:star_stone",
+  light_source = 4,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(1)
+		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 17})
+	end,
+
+	on_timer =function(pos, elapsed)
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:star_stone", param2 = p2})
+	end,
+})

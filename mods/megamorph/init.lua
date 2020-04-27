@@ -391,6 +391,7 @@ minetest.after(0, function()
   options['artifacts:mg_sculpture_axeman'] =  { 1, 5, nil }
   options['artifacts:mg_sculpture_dancers'] =  { 1, 5, nil }
   options['artifacts:mg_sculpture_bonsai'] =  { 1, 5, nil }
+  options['artifacts:star_stone'] =  { 1, 5, 12 }
 
   --high level artifacts (rarity 6)
   --options['artifacts:?'] =  { 1, 6, nil }
