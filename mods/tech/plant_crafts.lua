@@ -14,7 +14,7 @@ minetest.register_node("tech:stick", {
  drawtype = "nodebox",
  node_box = {
 	 type ="fixed",
-	 fixed = {{-0.0625, -0.5, -0.0625, 0.125, 0.5, 0.125}},
+	 fixed = {{-0.0625, -0.5, -0.0625, 0.0625, 0.5, 0.0625}},
  },
  --inventory_image = "tech_stick_inv.png",
  --wield_image = "tech_stick_inv.png",

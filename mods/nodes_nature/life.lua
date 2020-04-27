@@ -751,7 +751,7 @@ minetest.register_node("nodes_nature:gemedi", {
 	--floodable = true,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.1, -0.5, -0.1, 0.1, 0.5, 0.1},
+		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
 	},
 	groups = {snappy = 3, fibrous_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
@@ -776,7 +776,7 @@ minetest.register_node("nodes_nature:cana", {
 	--floodable = true,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.1, -0.5, -0.1, 0.1, 0.5, 0.1},
+		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
 	},
 	groups = {snappy = 3, fibrous_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
