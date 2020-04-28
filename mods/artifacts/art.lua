@@ -170,21 +170,136 @@ minetest.register_node("artifacts:mg_sculpture_bonsai", {
 
 
 ------------------------------------
---STAR STONE
---small glowing glass, that pulses and synchronises firefly style
+--SINGING STONE
+-- singing cellular automata
 ------------------------------------
-local star_timer = 3
+minetest.register_node("artifacts:singing_stone", {
+	description = "Singing Stone",
+	tiles = {"artifacts_antiquorium.png^artifacts_moon_glass.png"},
+  stack_max = minimal.stack_max_medium * 2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5,  0.5, -0.4375, 0.5},
+	},
+  --light_source = 1,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
 
-minetest.register_node("artifacts:star_stone", {
-	description = "Star Stone",
+	on_punch = function(pos, node, player)
+		--hit to start "life"
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
+	end,
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(1)
+	end,
+
+	on_timer =function(pos, elapsed)
+		--look on node nearby, turn on if neighbor is on
+		local lnode = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {"artifacts:singing_stone_b"})
+		--local lnode = minetest.find_node_near(pos, 1, "artifacts:singing_stone_b")
+		if #lnode > 1 then
+			local p2 = minetest.get_node(pos).param2
+			minetest.set_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
+		else
+			--no life, remains off
+			return true
+		end
+	end,
+})
+
+
+
+minetest.register_node("artifacts:singing_stone_b", {
+	description = "singing Stone",
+	tiles = {"artifacts_sun_stone.png"},
+  stack_max = minimal.stack_max_medium * 2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5,  0.5, -0.4375, 0.5},
+	},
+	drop = "artifacts:singing_stone",
+  --light_source = 3,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1, not_in_creative_inventory = 1},
+
+	on_punch = function(pos, node, player)
+		--turn off
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:singing_stone", param2 = p2})
+	end,
+
+	on_construct = function(pos)
+		--sing, and start timer to turn off
+		minetest.get_node_timer(pos):start(1)
+		minetest.sound_play({name="artifacts_singing_stone"}, {pos = pos, gain = math.random(0.1,0.3), max_hear_distance = 8})
+	end,
+
+	on_timer =function(pos, elapsed)
+
+		--go to resting state
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:singing_stone_c", param2 = p2})
+	end,
+})
+
+
+minetest.register_node("artifacts:singing_stone_c", {
+	description = "singing Stone",
 	tiles = {"artifacts_moon_glass.png"},
   stack_max = minimal.stack_max_medium * 2,
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
-		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
+		fixed = {-0.5, -0.5, -0.5,  0.5, -0.4375, 0.5},
 	},
-  light_source = 2,
+	drop = "artifacts:singing_stone",
+  --light_source = 3,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1, not_in_creative_inventory = 1},
+
+	on_construct = function(pos)
+		--start timer to turn off
+		minetest.get_node_timer(pos):start(0.5)
+	end,
+
+	on_timer =function(pos, elapsed)
+		--return to off
+		local p2 = minetest.get_node(pos).param2
+		minetest.set_node(pos, {name = "artifacts:singing_stone", param2 = p2})
+	end,
+})
+
+
+------------------------------------
+--DRUMMING STONE
+-- pulses and semi-synchronises
+--can't do proper sync bc minetest auto syncs them on reload, defeating the purpose.
+------------------------------------
+
+
+minetest.register_node("artifacts:drumming_stone", {
+	description = "Drumming Stone",
+	tiles = {"artifacts_antiquorium.png"},
+  stack_max = minimal.stack_max_medium * 2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5,  0.5, -0.4375, 0.5},
+	},
+  --light_source = 1,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -192,8 +307,8 @@ minetest.register_node("artifacts:star_stone", {
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
 
 	on_construct = function(pos)
-		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = math.random(0.2,0.4), max_hear_distance = 15})
-		minetest.get_node_timer(pos):start(star_timer)
+		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.2, max_hear_distance = 14})
+		minetest.get_node_timer(pos):start(math.floor(math.random(1,2)))
 	end,
 
 	on_timer =function(pos, elapsed)
@@ -203,47 +318,55 @@ minetest.register_node("artifacts:star_stone", {
 		local rpos = {x = pos.x + math.random(-r,r), y = pos.y + math.random(-r,r), z = pos.z + math.random(-r,r)}
 		local lnode = minetest.get_node(rpos)
 
-		if lnode == "artifacts:star_stone" then
-			--bring into sync with other
-			local lelap = minetest.get_node_timer(rpos):get_elapsed()
-			local newelap = (lelap + elapsed) /2
-			minetest.get_node_timer(pos):set(star_timer,newelap)
-
+		if lnode == "artifacts:drumming_stone" then
+			minetest.get_node_timer(pos):start(1)
 			return true
 		end
 
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:star_stone_b", param2 = p2})
+		minetest.set_node(pos, {name = "artifacts:drumming_stone_b", param2 = p2})
 
 	end,
 })
 
 
 
-minetest.register_node("artifacts:star_stone_b", {
-	description = "Star Stone",
-	tiles = {"artifacts_moon_glass.png"},
+minetest.register_node("artifacts:drumming_stone_b", {
+	description = "Drumming Stone",
+	tiles = {"artifacts_antiquorium.png^artifacts_moon_glass.png"},
   stack_max = minimal.stack_max_medium * 2,
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
-		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
+		fixed = {-0.5, -0.5, -0.5,  0.5, -0.4375, 0.5},
 	},
-	drop = "artifacts:star_stone",
-  light_source = 3,
+	drop = "artifacts:drumming_stone",
+  --light_source = 3,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
+	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1, not_in_creative_inventory = 1},
 
 	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(2)
-		minetest.sound_play({name="artifacts_star_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 15})
+		--minetest.get_node_timer(pos):start(math.random(1.4,1.6))
+		minetest.get_node_timer(pos):start(0.5)
+		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 17})
 	end,
 
 	on_timer =function(pos, elapsed)
+
+		--look nearby for a friend
+		local r = 1
+		local rpos = {x = pos.x + math.random(-r,r), y = pos.y + math.random(-r,r), z = pos.z + math.random(-r,r)}
+		local lnode = minetest.get_node(rpos)
+
+		if lnode == "artifacts:drumming_stone_b" then
+			minetest.get_node_timer(pos):start(1)
+			return true
+		end
+
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:star_stone", param2 = p2})
+		minetest.set_node(pos, {name = "artifacts:drumming_stone", param2 = p2})
 	end,
 })
