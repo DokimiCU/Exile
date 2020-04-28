@@ -391,9 +391,17 @@ minetest.after(0, function()
   options['artifacts:mg_sculpture_axeman'] =  { 1, 5, nil }
   options['artifacts:mg_sculpture_dancers'] =  { 1, 5, nil }
   options['artifacts:mg_sculpture_bonsai'] =  { 1, 5, nil }
+  options['artifacts:mg_sculpture_beasthead'] =  { 1, 5, nil }
   options['artifacts:star_stone'] =  { 1, 5, 12 }
   options['artifacts:singing_stone'] =  { 1, 5, 12 }
   options['artifacts:drumming_stone'] =  { 1, 5, 12 }
+
+  options['artifacts:gamepiece_a_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_a_white'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_b_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_b_white'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_c_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_c_white'] =  { 1, 5, 12 }
 
   --high level artifacts (rarity 6)
   --options['artifacts:?'] =  { 1, 6, nil }

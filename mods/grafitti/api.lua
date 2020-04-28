@@ -211,7 +211,7 @@ function g.register_brush(brush_name, def)
             local meta = itemstack:get_meta()
 
             if pointed_thing.type == "nothing" or meta:get_string("grafitti") == "" then
-                show_palette(user, def.palette)
+                --show_palette(user, def.palette)
                 return nil
             end
 

@@ -2,7 +2,7 @@
 --ART & TOYS & WHATEVER...
 --statues etc
 --this is for things that are purely fun but don't add much to survival/power
---spreads out higher value finds
+--spreads out higher value finds, adds to the tomb-robbing treasure feel
 ------------------------------------
 
 
@@ -167,6 +167,205 @@ minetest.register_node("artifacts:mg_sculpture_bonsai", {
 })
 
 
+--beast head
+minetest.register_node("artifacts:mg_sculpture_beasthead", {
+	description = "Moon Glass Sculpture",
+	tiles = {"artifacts_moon_glass.png"},
+	--tiles = {"artifacts_antiquorium.png"},
+  stack_max = minimal.stack_max_bulky *2,
+  light_source = 5,
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125, 0.25, -0.4375, 0.125, 0.375, -0.1875}, -- NodeBox1
+			{-0.125, 0.1875, -0.5, 0.125, 0.25, -0.25}, -- NodeBox2
+			{0.125, 0.25, -0.5, 0.1875, 0.3125, -0.4375}, -- NodeBox3
+			{-0.1875, 0.25, -0.5, -0.125, 0.3125, -0.4375}, -- NodeBox4
+			{-0.125, 0.25, -0.1875, 0.125, 0.5, 0.125}, -- NodeBox5
+			{-0.1875, 0.125, 0, 0.1875, 0.25, 0.375}, -- NodeBox6
+			{-0.125, 0.25, 0.125, 0.125, 0.375, 0.3125}, -- NodeBox7
+			{-0.1875, 0, -0.0625, 0.1875, 0.125, 0.4375}, -- NodeBox8
+			{-0.1875, -0.125, -0.25, 0.1875, 0, 0.375}, -- NodeBox9
+			{-0.125, -0.25, -0.3125, 0.125, -0.125, 0.3125}, -- NodeBox10
+			{-0.3125, -0.375, -0.4375, 0.3125, -0.25, 0.4375}, -- NodeBox11
+			{-0.375, -0.5, -0.5, 0.375, -0.375, 0.5}, -- NodeBox13
+			{0.125, 0.375, -0.125, 0.1875, 0.4375, 0.1875}, -- NodeBox14
+			{-0.1875, 0.375, -0.125, -0.125, 0.4375, 0.1875}, -- NodeBox15
+			{-0.0625, 0.375, -0.375, 0.0625, 0.4375, -0.1875}, -- NodeBox16
+		}
+	},
+	sunlight_propagates = true,
+  --use_texture_alpha = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {cracky = 3, temp_pass = 1},
+})
+
+
+
+------------------------------------
+--GAME PIECES
+--enough for some paper-scissors-rock style chess-like game in the arena
+--e.g. horse>pawn>castle>horse>
+------------------------------------
+
+--pawn like
+minetest.register_node("artifacts:gamepiece_a_black", {
+	description = "Gamepiece (black)",
+	tiles = {"nodes_nature_basalt.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.1875, -0.375, -0.1875, 0.1875, -0.0625, 0.1875}, -- body
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.0625001}, -- neck
+			{-0.125, 0.25, -0.125, 0.125, 0.375, 0.125}, -- cap
+			{-0.125, -0.0625, -0.125, 0.125, 0.125, 0.125}, -- shoulder
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- foot
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+
+minetest.register_node("artifacts:gamepiece_a_white", {
+	description = "Gamepiece (white)",
+	tiles = {"nodes_nature_limestone.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.1875, -0.375, -0.1875, 0.1875, -0.0625, 0.1875}, -- body
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.0625001}, -- neck
+			{-0.125, 0.25, -0.125, 0.125, 0.375, 0.125}, -- cap
+			{-0.125, -0.0625, -0.125, 0.125, 0.125, 0.125}, -- shoulder
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- foot
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+
+--castle like
+minetest.register_node("artifacts:gamepiece_b_black", {
+	description = "Gamepiece (black)",
+	tiles = {"nodes_nature_basalt.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25, -0.125, -0.25, 0.25, -4.47035e-008, 0.25}, -- NodeBox1
+			{-0.3125, -0.5, -0.3125, 0.3125, -0.3125, 0.3125}, -- NodeBox2
+			{-0.1875, -0.3125, -0.1875, 0.1875, -0.125, 0.1875}, -- NodeBox3
+			{-0.1875, -0.5, 0.3125, 0.1875, -0.375, 0.375}, -- NodeBox5
+			{-0.1875, -0.5, -0.375, 0.1875, -0.375, -0.3125}, -- NodeBox6
+			{0.3125, -0.5, -0.1875, 0.375, -0.375, 0.1875}, -- NodeBox7
+			{-0.375, -0.5, -0.1875, -0.3125, -0.375, 0.1875}, -- NodeBox8
+			{-0.25, 0, 0.125, -0.125, 0.125, 0.25}, -- NodeBox9
+			{0.125, 0, -0.25, 0.25, 0.125, -0.125}, -- NodeBox12
+			{-0.25, 0, -0.25, -0.125, 0.125, -0.125}, -- NodeBox13
+			{0.125, 0, 0.125, 0.25, 0.125, 0.25}, -- NodeBox14
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+
+minetest.register_node("artifacts:gamepiece_b_white", {
+	description = "Gamepiece (white)",
+	tiles = {"nodes_nature_limestone.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25, -0.125, -0.25, 0.25, -4.47035e-008, 0.25}, -- NodeBox1
+			{-0.3125, -0.5, -0.3125, 0.3125, -0.3125, 0.3125}, -- NodeBox2
+			{-0.1875, -0.3125, -0.1875, 0.1875, -0.125, 0.1875}, -- NodeBox3
+			{-0.1875, -0.5, 0.3125, 0.1875, -0.375, 0.375}, -- NodeBox5
+			{-0.1875, -0.5, -0.375, 0.1875, -0.375, -0.3125}, -- NodeBox6
+			{0.3125, -0.5, -0.1875, 0.375, -0.375, 0.1875}, -- NodeBox7
+			{-0.375, -0.5, -0.1875, -0.3125, -0.375, 0.1875}, -- NodeBox8
+			{-0.25, 0, 0.125, -0.125, 0.125, 0.25}, -- NodeBox9
+			{0.125, 0, -0.25, 0.25, 0.125, -0.125}, -- NodeBox12
+			{-0.25, 0, -0.25, -0.125, 0.125, -0.125}, -- NodeBox13
+			{0.125, 0, 0.125, 0.25, 0.125, 0.25}, -- NodeBox14
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+
+--horse/wing like
+minetest.register_node("artifacts:gamepiece_c_black", {
+	description = "Gamepiece (black)",
+	tiles = {"nodes_nature_basalt.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.3125, -0.5, -0.3125, 0.3125, -0.375, 0.3125}, -- FOOT
+			{-0.25, -0.375, -0.25, 0.25, -0.125, 0.25}, -- body
+			{-0.0625, 0.125, -0.375, 0.0625, 0.3125, -0.125}, -- NodeBox4
+			{-0.125, -0.0625, -0.125, 0.125, 0.25, 0.125}, -- neck
+			{-0.0625, 0.3125, -0.4375, 0.0625, 0.4375, -0.25}, -- NodeBox7
+			{-0.0625, 0.125, 0.125, 0.0625, 0.3125, 0.375}, -- NodeBox8
+			{-0.0625, 0.3125, 0.25, 0.0625, 0.4375, 0.4375}, -- NodeBox9
+			{0.125, 0.125, -0.0625, 0.375, 0.3125, 0.0625}, -- NodeBox10
+			{-0.375, 0.125, -0.0625, -0.125, 0.3125, 0.0625}, -- NodeBox11
+			{-0.4375, 0.3125, -0.0625, -0.25, 0.4375, 0.0625}, -- NodeBox12
+			{0.25, 0.3125, -0.0625, 0.4375, 0.4375, 0.0625}, -- NodeBox13
+			{-0.1875, -0.125, -0.1875, 0.1875, -0.0625, 0.1875}, -- NodeBox14
+			{-0.0625, 0.25, -0.0625, 0.0625, 0.3125, 0.0625}, -- NodeBox15
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+
+minetest.register_node("artifacts:gamepiece_c_white", {
+	description = "Gamepiece (white)",
+	tiles = {"nodes_nature_limestone.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.3125, -0.5, -0.3125, 0.3125, -0.375, 0.3125}, -- FOOT
+			{-0.25, -0.375, -0.25, 0.25, -0.125, 0.25}, -- body
+			{-0.0625, 0.125, -0.375, 0.0625, 0.3125, -0.125}, -- NodeBox4
+			{-0.125, -0.0625, -0.125, 0.125, 0.25, 0.125}, -- neck
+			{-0.0625, 0.3125, -0.4375, 0.0625, 0.4375, -0.25}, -- NodeBox7
+			{-0.0625, 0.125, 0.125, 0.0625, 0.3125, 0.375}, -- NodeBox8
+			{-0.0625, 0.3125, 0.25, 0.0625, 0.4375, 0.4375}, -- NodeBox9
+			{0.125, 0.125, -0.0625, 0.375, 0.3125, 0.0625}, -- NodeBox10
+			{-0.375, 0.125, -0.0625, -0.125, 0.3125, 0.0625}, -- NodeBox11
+			{-0.4375, 0.3125, -0.0625, -0.25, 0.4375, 0.0625}, -- NodeBox12
+			{0.25, 0.3125, -0.0625, 0.4375, 0.4375, 0.0625}, -- NodeBox13
+			{-0.1875, -0.125, -0.1875, 0.1875, -0.0625, 0.1875}, -- NodeBox14
+			{-0.0625, 0.25, -0.0625, 0.0625, 0.3125, 0.0625}, -- NodeBox15
+		}
+	},
+	stack_max = minimal.stack_max_medium/2,
+	groups = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
 
 
 ------------------------------------
