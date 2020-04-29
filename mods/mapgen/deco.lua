@@ -792,6 +792,29 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+minetest.register_decoration({
+	name = "nodes_nature:gneiss_boulder",
+	deco_type = "simple",
+	place_on = "nodes_nature:gneiss",
+  sidelen = 80,
+	fill_ratio = 0.05,
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:gneiss_boulder",
+  flags = "all_floors",
+})
+
+minetest.register_decoration({
+	name = "nodes_nature:jade_boulder",
+	deco_type = "simple",
+	place_on = "nodes_nature:jade",
+  sidelen = 80,
+	fill_ratio = 0.4,
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:jade_boulder",
+  flags = "all_floors",
+})
 
 -----------------------------------------------------
 --Animal eggs

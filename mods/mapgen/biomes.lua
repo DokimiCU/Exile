@@ -320,18 +320,18 @@ minetest.register_biome({
 	node_dungeon = "nodes_nature:basalt_brick",
 	node_dungeon_stair = "stairs:stair_basalt_block",
 	y_max = deep_ocean_min,
-	y_min = -1000,
+	y_min = -1500,
 	heat_point = middle,
 	humidity_point = middle,
 })
 
---underground
+--deep underground
 minetest.register_biome({
 	name = "deep_underground",
-	node_stone = "nodes_nature:granite",
-	vertical_blend = 20,
-	node_cave_liquid = {"nodes_nature:freshwater_source", "nodes_nature:lava_source"},
-	y_max = -1000,
+	node_stone = "nodes_nature:gneiss",
+	vertical_blend = 100,
+	node_cave_liquid = {"nodes_nature:lava_source"},
+	y_max = -1500,
 	y_min = lower_limit,
 	heat_point = middle,
 	humidity_point = middle,

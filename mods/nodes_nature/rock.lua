@@ -12,6 +12,8 @@ local list = {
 	{"ironstone", "Ironstone", 3},
   {"granite", "Granite", 1},
 	{"basalt", "Basalt", 2},
+	{"gneiss", "Gneiss", 1},
+	{"jade", "Jade", 1},
 
 }
 

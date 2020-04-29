@@ -4,6 +4,9 @@
 ----------------------------------------------------------
 
 
+----------------------------------------------------------
+--SURFACE STRATA
+
 --stratum layer
 --LIME 140
 --sand
@@ -164,7 +167,7 @@ minetest.register_ore({
 
 
 ----------------------------------------------------
---Ores
+--ORES AND INTRUSIONS
 
 --ironstone
 --iron rich sedimentary rock
@@ -179,6 +182,46 @@ minetest.register_ore({
 		noise_params = {
 			offset = 0, scale = 8, spread = {x = 150, y = 150, z = 150},
 			seed = 8621, octaves = 2, persist = 0.60
+		},
+    column_height_min = 1,
+    column_height_max = 4,
+    column_midpoint_factor = 0.5
+})
+
+
+--Gneiss
+--intrusions into granite, to blur the deep boudanry
+minetest.register_ore({
+		ore_type = "sheet",
+		ore = "nodes_nature:gneiss",
+		wherein = {"nodes_nature:granite"},
+		clust_size = 4,
+		y_min = -1500,
+		y_max = -790,
+		noise_threshold = 0.5,
+		noise_params = {
+			offset = 0, scale = 8, spread = {x = 150, y = 150, z = 150},
+			seed = 9771, octaves = 2, persist = 0.60
+		},
+    column_height_min = 1,
+    column_height_max = 4,
+    column_midpoint_factor = 0.5
+})
+
+
+--Jade
+--intrusions into gneiss
+minetest.register_ore({
+		ore_type = "sheet",
+		ore = "nodes_nature:jade",
+		wherein = {"nodes_nature:gneiss"},
+		clust_size = 4,
+		y_min = -31000,
+		y_max = -790,
+		noise_threshold = 0.5,
+		noise_params = {
+			offset = 0, scale = 8, spread = {x = 150, y = 150, z = 150},
+			seed = 9041, octaves = 2, persist = 0.60
 		},
     column_height_min = 1,
     column_height_max = 4,

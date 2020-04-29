@@ -62,6 +62,7 @@ Some tips and tricks:
 - graffitti: glow paint
 - better looking bones
 - fixed dungeon loot, added more artifacts, split into realms
+- gneiss and jade for deep underground biome
 
 
 
@@ -107,7 +108,7 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): teleporter? bright light?
+-artifacts (loot): teleporter? Add waste: charcoal, ash, bones
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
@@ -171,7 +172,8 @@ Volcano:
 -occassional dark spots
 
 Megamorph:
-
+-market lower stairs need +1 stair to get up floor
+-a silly string stair doesn't line up (from overpass)
 
 Tech:
 -doors ought to toggle temp_pass group on open and close
