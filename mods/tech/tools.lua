@@ -222,6 +222,24 @@ minetest.register_tool("tech:adze_basalt", {
 })
 
 
+--many more uses than granite.
+minetest.register_tool("tech:adze_jade", {
+	description = "Jade Adze",
+	inventory_image = "tech_tool_adze_jade.png",
+	tool_capabilities = {
+		full_punch_interval = base_punch_int * 1.1,
+		max_drop_level = lvl_2_max_lvl,
+		groupcaps={
+			choppy = {times={[2]=lvl_2_chop2, [3]=lvl_2_chop3}, uses=lvl_2_use * 1.5, maxlevel=lvl_2_max_lvl},
+			snappy={times={[1]=lvl_2_snap1, [2]=lvl_2_snap2, [3]=lvl_2_snap3}, uses=lvl_2_use, maxlevel=lvl_2_max_lvl},
+			crumbly = {times={[3]=lvl_1_crum3}, uses=base_use, maxlevel=lvl_1_max_lvl},
+		},
+		damage_groups = {fleshy = lvl_2_dmg},
+	},
+	groups = {axe = 1},
+	sound = {breaks = "tech_tool_breaks"},
+})
+
 
 --stone club. A weapon. Not very good for anything else
 --can stun catch animals
@@ -401,6 +419,14 @@ crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:adze_granite",
 	items = {'nodes_nature:granite_boulder', 'tech:stick', 'group:fibrous_plant 4'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "grinding_stone",
+	output = "tech:adze_jade",
+	items = {'nodes_nature:jade_boulder', 'tech:stick', 'group:fibrous_plant 4'},
 	level = 1,
 	always_known = true,
 })
