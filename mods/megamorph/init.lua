@@ -333,6 +333,8 @@ minetest.after(0, function()
   options['nodes_nature:silt'] =  { 1, 1, 2 }
   options['nodes_nature:clay'] =  { 1, 1, 2 }
   options['nodes_nature:loam'] =  { 1, 1, 2 }
+  options['tech:wood_ash'] =  { 1, 1, 2 }
+  options['tech:broken_pottery'] =  { 1, 1, 2 }
 
 
   --cheap processed materials (rarity 2)
@@ -343,18 +345,24 @@ minetest.after(0, function()
   options['nodes_nature:basalt_block'] =  { 1, 2, 4 }
   options['nodes_nature:limestone_block'] =  { 1, 2, 4 }
 
+  options['nodes_nature:gneiss_boulder'] =  { 1, 2, 2 }
+  options['nodes_nature:jade_boulder'] =  { 1, 2, 2 }
+
 
   --medium processed materials, cheap tools (rarity 3)
   options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
   options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
-  --options['tech:iron_ingot'] =  { 1, 3, 4 }
   options['tech:clay_water_pot'] =  { 1, 3, nil }
   options['tech:clay_storage_pot'] =  { 1, 3, nil }
   options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }
+  options['tech:charcoal'] =  { 1, 3, 2 }
+
+  options['nodes_nature:gneiss_brick'] =  { 1, 3, 2 }
+  options['nodes_nature:jade_brick'] =  { 1, 3, 2 }
+  options['nodes_nature:gneiss_block'] =  { 1, 3, 2 }
+  options['nodes_nature:jade_block'] =  { 1, 3, 2 }
 
   --costly processed materials, expensive tools, (rarity 4)
-  --options['tech:anvil'] =  { 1, 4, nil }
-  --options['tech:mace_iron'] =  { 1, 4, nil }
   options['artifacts:moon_glass'] =  { 1, 4, 1 }
   options['artifacts:antiquorium_ladder'] =  { 1, 4, 1 }
   options['artifacts:antiquorium'] =  { 1, 4, 1 }
@@ -362,7 +370,6 @@ minetest.after(0, function()
 
 
   --low level artifacts (rarity 5), non-durables
-  options['artifacts:sun_stone'] =  { 1, 5, nil }
   options['artifacts:light_meter'] =  { 1, 5, nil }
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
@@ -377,21 +384,23 @@ minetest.after(0, function()
   options['artifacts:waystone'] =  { 1, 5, nil }
   options['artifacts:wayfinder'] =  { 1, 5, nil }
   options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
+
   options['tech:stick'] =  { 1, 5, 1 }
-  --options['tech:fine_fabric'] =  { 1, 5, nil }
-  --options['tech:coarse_fabric'] =  { 1, 5, nil }
+
   options['tech:fine_fibre'] =  { 1, 5, nil }
   options['tech:coarse_fibre'] =  { 1, 5, nil }
   options['tech:paint_lime_white'] =  { 1, 5, nil }
   options['tech:paint_glow_paint'] =  { 1, 5, nil }
-  --options['tech:carpentry_bench'] =  { 1, 5, nil }
-  --options['tech:masonry_bench'] =  { 1, 5, nil }
-  --options['tech:spinning_wheel'] =  { 1, 5, nil }
-  --options['tech:loom'] =  { 1, 5, nil }
-  options['artifacts:mg_sculpture_axeman'] =  { 1, 5, nil }
-  options['artifacts:mg_sculpture_dancers'] =  { 1, 5, nil }
-  options['artifacts:mg_sculpture_bonsai'] =  { 1, 5, nil }
-  options['artifacts:mg_sculpture_beasthead'] =  { 1, 5, nil }
+
+  options['artifacts:sculpture_mg_dancers'] =  { 1, 5, nil }
+  options['artifacts:sculpture_mg_bonsai'] =  { 1, 5, nil }
+  options['artifacts:sculpture_mg_bloom'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_axeman'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_dragon_head'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_skull_head'] =  { 1, 5, nil }
+
+  options['artifacts:moon_stone'] =  { 1, 5, nil }
+  options['artifacts:sun_stone'] =  { 1, 5, nil }
   options['artifacts:star_stone'] =  { 1, 5, 12 }
   options['artifacts:singing_stone'] =  { 1, 5, 12 }
   options['artifacts:drumming_stone'] =  { 1, 5, 12 }
