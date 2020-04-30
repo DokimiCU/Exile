@@ -96,10 +96,12 @@ local function fish_brain(self)
 		end
 
 		--swim out of unsuitable water
+		--[[
 		local liq = self.isinliquid
 		if liq and liq == "nodes_nature:freshwater_source" then
 			water_life.hq_swimto(self,30,2,"nodes_nature:salt_water_source")
 		end
+		]]
 
 		--low priority actions
 		local prty = mobkit.get_queue_priority(self)
