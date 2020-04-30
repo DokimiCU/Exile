@@ -56,9 +56,19 @@ local function roast(pos, name, length, heat, smelt)
 
 	if roast <= 0 then
 		--finished firing
-		minetest.set_node(pos, {name = name})
-    minetest.check_for_falling(pos)
-		return false
+		--need to transfer heat to smelt
+		--for others doesn't matter
+		if name == "tech:iron_and_slag" then
+			local temp = meta:get_float("temp")
+			minetest.set_node(pos, {name = name})
+			meta:set_float("temp", temp)
+			minetest.check_for_falling(pos)
+			return false
+		else
+			minetest.set_node(pos, {name = name})
+			minetest.check_for_falling(pos)
+			return false
+		end
   elseif temp < fire_temp then
     --not lit yet
     return true

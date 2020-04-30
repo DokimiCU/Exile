@@ -330,7 +330,7 @@ function climate.heat_transfer(pos, nodename, replace)
 	local amb = #air
 	--trapped. Slowly lose the accumulated temp boost
 	-- + exposure takes away heat (can't remove too much or makes smelting too hard)
-	temp_m = temp_m /((amb*0.05) + 1.02)
+	temp_m = temp_m /((amb*0.03) + 1.02)
 	meta:set_float("temp", temp_m)
 
 
