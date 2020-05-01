@@ -627,7 +627,9 @@ p = {
 	{act = 'cube', node = stone_main, loc = vn(41, 19, 46), size = vn(24, 2, 10)},
 	{act = 'cube', node = stone_main, loc = vn(43, 19, 48), size = vn(7, 9, 6)},
 	{act = 'cube', node = "air", loc = vn(44, 19, 50), size = vn(5, 5, 2)},
-	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(48, 19, 50), size = vn(2, 2, 2)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(49, 19, 50), size = vn(2, 2, 2)},
+	{act = 'cube', node = stone_main, loc = vn(50, 21, 52), size = vn(1, 1, 1)},
+	{act = 'cube', node = stone_main, loc = vn(50, 21, 49), size = vn(1, 1, 1)},
 
 }
 
