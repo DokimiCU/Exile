@@ -173,7 +173,7 @@ minetest.register_node("artifacts:antiquorium_ladder", {
 		--wall_side = = <default>
 	},
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	groups = {cracky = 1},
+	groups = {cracky = 2},
 })
 
 
@@ -184,6 +184,17 @@ doors.register("door_antiquorium", {
 		tiles = {{ name = "artifacts_antiquorium_door.png", backface_culling = true }},
 		description = "Antiquorium Door",
 		inventory_image = "artifacts_antiquorium_door_item.png",
-		groups = {cracky = 1},
+		groups = {cracky = 2},
 		sounds = nodes_nature.node_sound_glass_defaults(),
+})
+
+
+doors.register_trapdoor("artifacts:trapdoor_antiquorium", {
+	description = "Antiquorium Trapdoor",
+	inventory_image = "artifacts_antiquorium_chest_top.png",
+	wield_image = "artifacts_antiquorium_chest_top.png",
+	tile_front = "artifacts_antiquorium_chest_top.png",
+	tile_side = "artifacts_antiquorium_chest_top.png",
+	groups = {cracky = 2},
+	sounds = nodes_nature.node_sound_wood_defaults(),
 })

@@ -110,7 +110,8 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): teleporter? airboat, short distance teleport,
+-artifacts (loot): teleporter? airboat, short distance teleport
+-dangerous "pandora's box" loot
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
@@ -124,7 +125,7 @@ HEALTH
 -bricks and mortar (higher carry limit than mudbrick to justify cost)
 -crushed lime> quicklime > mortar
 -clay roof tiles
--wood shingle roof
+-wood shingle roof, wood walls, beams etc
 -cooking: e.g  juice (fermented)? soup? Stim drug
 -tool repair and modifiers
 -climbing pick?
@@ -140,7 +141,7 @@ HEALTH
 -screwdriver
 -watering can (make soil wet)
 -pottery wheel and more sophisticated glazed pottery
-
+-iron doors (e.g. for furnaces, nonflammable)
 
 
 --DECO
@@ -176,12 +177,14 @@ Nature:
 -might need something to animal numbers in check... needs to be run over time...
 -water doesn't freeze?
 -Tangkal tree schem has grass in it?
+-freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
 
 Volcano:
 -occassional dark spots
 
 Megamorph:
 -a silly string stair doesn't line up (from overpass)
+
 
 Tech:
 -doors ought to toggle temp_pass group on open and close

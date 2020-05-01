@@ -367,6 +367,7 @@ minetest.after(0, function()
   options['artifacts:antiquorium_ladder'] =  { 1, 4, 1 }
   options['artifacts:antiquorium'] =  { 1, 4, 1 }
   options['doors:door_antiquorium'] =  { 1, 4, nil }
+  options['artifacts:trapdoor_antiquorium'] =  { 1, 4, 1 }
 
 
   --low level artifacts (rarity 5), non-durables
