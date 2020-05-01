@@ -412,7 +412,13 @@ minetest.after(0, function()
   options['artifacts:gamepiece_c_black'] =  { 1, 5, 12 }
   options['artifacts:gamepiece_c_white'] =  { 1, 5, 12 }
 
-  --high level artifacts (rarity 6)
+  --high level artifacts, and intact non-durables (rarity 6)
+  options['tech:fine_fabric'] =  { 1, 6, nil }
+  options['tech:torch'] =  { 1, 6, nil }
+  options['tech:vegetable_oil'] =  { 1, 6, nil }
+  options['tech:coarse_fabric'] =  { 1, 6, nil }
+  options['tech:mattress'] =  { 1, 6, 1 }
+  options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
   --options['artifacts:?'] =  { 1, 6, nil }
 
 

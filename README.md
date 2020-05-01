@@ -68,6 +68,7 @@ Some tips and tricks:
 
 ### To Do:
 
+
 Urgent Fixes needed:
 
 
@@ -92,6 +93,7 @@ Features ideas:
 HEALTH
 -disease and other player effects
 -speed/jump malus from low hp
+-more sophisticated health: energy drawn from Hunger.
 
 --NATURE
 -bamboo like thing (like canes but for sticks)
@@ -108,17 +110,21 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): teleporter? Add waste: charcoal, ash, bones
+-artifacts (loot): teleporter? airboat, short distance teleport,
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
 
 --TECH
+-more sophisticated fires: heat and output controlled by airflow
 -more graffiti in more colors
 -extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
 -clothing (with effect on temp tolerance)
 -bricks and mortar (higher carry limit than mudbrick to justify cost)
+-crushed lime> quicklime > mortar
+-clay roof tiles
+-wood shingle roof
 -cooking: e.g  juice (fermented)? soup? Stim drug
 -tool repair and modifiers
 -climbing pick?
@@ -129,16 +135,18 @@ HEALTH
 -bellows that displaces air_temp nodes
 -Scyth
 -a use for broken pottery,
--bell?
--ash crafts
+-ash crafts (glass)
 -compass
 -screwdriver
 -watering can (make soil wet)
+-pottery wheel and more sophisticated glazed pottery
+
+
 
 --DECO
--more ambience: rustling leaves,
+-more ambience: rustling leaves, lava
 -stalactites in limestone
--coastal sea rocks
+
 
 
 
@@ -158,13 +166,14 @@ Bed:
 Health:
 
 Animals:
--function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value)
+-occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider
 -darkasthaan speed slide around a lot when attacking, looks strange.
+-some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
+
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
 -might need something to animal numbers in check... needs to be run over time...
--some spiders were getting nil energy (from egg spawning?)
 -water doesn't freeze?
 -Tangkal tree schem has grass in it?
 
@@ -172,7 +181,6 @@ Volcano:
 -occassional dark spots
 
 Megamorph:
--market lower stairs need +1 stair to get up floor
 -a silly string stair doesn't line up (from overpass)
 
 Tech:
@@ -181,7 +189,6 @@ Tech:
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
 -air temp needs to spread better in open spaces.
--smelt mix > iron and slag missing heat transfer on change
 -partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
 
 Crafting (Rubenwardy)
