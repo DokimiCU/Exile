@@ -25,6 +25,10 @@ modified by mootpoint licensed under cc0
 
 Wayfinder CC BY-SA by tacotexmex
 
+airboat gear sounds: Attribution 3.0, Mike Koenig
+http://soundbible.com/932-Gear-Shift-Into-Drive.html, http://soundbible.com/830-Door-Unlock.html
+
+
 
 Authors of media (textures)
 ------------------------

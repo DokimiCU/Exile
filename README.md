@@ -110,7 +110,7 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): teleporter? airboat, short distance teleport
+-artifacts (loot): teleporter? short distance teleport
 -dangerous "pandora's box" loot
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
@@ -193,6 +193,9 @@ Tech:
 -ropes don't go through air temp
 -air temp needs to spread better in open spaces.
 -partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
+
+Artifacts:
+-airboat collision allows going into things, dig pointer is out of line with crosshairs 
 
 Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.

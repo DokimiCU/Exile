@@ -1,3 +1,5 @@
+local random = math.random
+
 -- Functions
 
 local function get_sign(i)
@@ -61,6 +63,7 @@ function airboat.on_rightclick(self, clicker)
 			player_api.set_animation(clicker, "stand" , 30)
 			clicker:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
 		end)
+		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 		local pos = clicker:getpos()
 		minetest.after(0.1, function()
 			clicker:setpos(pos)
@@ -83,6 +86,7 @@ function airboat.on_rightclick(self, clicker)
 			player_api.set_animation(clicker, "sit" , 30)
 			clicker:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})
 		end)
+		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 		clicker:set_look_horizontal(self.object:getyaw())
 	end
 end
@@ -123,6 +127,7 @@ function airboat.on_punch(self, puncher)
 		end
 		minetest.after(0.1, function()
 			self.object:remove()
+			minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 		end)
 	end
 end
@@ -134,12 +139,14 @@ function airboat.on_step(self, dtime)
 
 	-- Controls
 	if self.driver then
+
 		local driver_objref = minetest.get_player_by_name(self.driver)
 		if driver_objref then
 			local ctrl = driver_objref:get_player_control()
 			if ctrl.up and ctrl.down then
 				if not self.auto then
 					self.auto = true
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 					minetest.chat_send_player(self.driver,
 						"[airboat] Cruise on")
 				end
@@ -147,6 +154,7 @@ function airboat.on_step(self, dtime)
 				self.v = self.v - 0.1
 				if self.auto then
 					self.auto = false
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 					minetest.chat_send_player(self.driver,
 						"[airboat] Cruise off")
 				end
@@ -155,13 +163,25 @@ function airboat.on_step(self, dtime)
 			end
 			if ctrl.left then
 				self.rot = self.rot + 0.001
+				if random()>0.98 then
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
+				end
 			elseif ctrl.right then
 				self.rot = self.rot - 0.001
+				if random()>0.98 then
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
+				end
 			end
 			if ctrl.jump then
 				self.vy = self.vy + 0.06
+				if random()>0.98 then
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
+				end
 			elseif ctrl.sneak then
 				self.vy = self.vy - 0.06
+				if random()>0.98 then
+					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
+				end
 			end
 		else
 			-- Player left server while driving
@@ -258,6 +278,7 @@ minetest.register_craftitem("artifacts:airboat", {
 		pointed_thing.under.y = pointed_thing.under.y + 2
 		local airboat = minetest.add_entity(pointed_thing.under,
 			"artifacts:airboat")
+			minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 		if airboat then
 			if placer then
 				airboat:setyaw(placer:get_look_horizontal())
