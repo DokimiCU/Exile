@@ -10,7 +10,7 @@ local base_fuel = 300
 
 --temperatures
 --blocks are x 1.5 temp max, 2x temp effect,
---smouldering is 1/3
+--smouldering is 1/3 temp effect, but same temp max
 local wood_temp_effect = 15
 local wood_temp_max = 600
 local wood_air_c = 0.65
@@ -328,7 +328,7 @@ minetest.register_node('tech:small_wood_fire_smoldering', {
 	light_source= 3,
 	paramtype = "light",
 	temp_effect = wood_temp_effect/3,
-	temp_effect_max = wood_temp_max/3,
+	temp_effect_max = wood_temp_max,
 	--walkable = false,
 	drop = "tech:wood_ash",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
@@ -364,7 +364,7 @@ minetest.register_node('tech:large_wood_fire_smoldering', {
 	light_source= 3,
 	paramtype = "light",
 	temp_effect = (wood_temp_effect*2)/3,
-	temp_effect_max = (wood_temp_max*1.5)/3,
+	temp_effect_max = (wood_temp_max*1.5),
 	--walkable = false,
 	drop = "tech:wood_ash_block",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
@@ -498,7 +498,7 @@ minetest.register_node('tech:small_charcoal_fire_smoldering', {
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	temp_effect = char_temp_effect/3,
-	temp_effect_max = char_temp_max/3,
+	temp_effect_max = char_temp_max,
 	paramtype = "light",
 	--walkable = false,
 	drop = "tech:wood_ash",
@@ -534,7 +534,7 @@ minetest.register_node('tech:large_charcoal_fire_smoldering', {
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	temp_effect = (char_temp_effect*2)/3,
-	temp_effect_max = (char_temp_max*1.5)/3,
+	temp_effect_max = (char_temp_max*1.5),
 	paramtype = "light",
 	--walkable = false,
 	drop = "tech:wood_ash_block",
@@ -650,4 +650,3 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
-
