@@ -379,7 +379,6 @@ minetest.after(0, function()
   options['artifacts:potters_probe'] =  { 1, 5, nil }
   options['artifacts:chefs_probe'] =  { 1, 5, nil }
   options['artifacts:farmers_probe'] =  { 1, 5, nil }
-  options['artifacts:mapping_kit'] =  { 1, 5, nil }
   options['artifacts:spyglass'] =  { 1, 5, nil }
   options['artifacts:bell'] =  { 1, 5, nil }
   options['artifacts:waystone'] =  { 1, 5, nil }
@@ -422,6 +421,7 @@ minetest.after(0, function()
   options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
 
   options['artifacts:airboat'] =  { 1, 6, nil }
+  options['artifacts:mapping_kit'] =  { 1, 6, nil }
 
 
 	for name, d in pairs(options) do
