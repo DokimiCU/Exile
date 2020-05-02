@@ -15,6 +15,7 @@ Bell adapted from Bell by Sokomine (GPLv3)
 
 Wayfinder adapted from ccompass (Echo's compass WFTPL, enhanced by bell07 MIT)
 
+Airboat adapted from Airboat by paramat (MIT)
 
 
 Authors of media (sounds)

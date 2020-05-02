@@ -420,7 +420,8 @@ minetest.after(0, function()
   options['tech:coarse_fabric'] =  { 1, 6, nil }
   options['tech:mattress'] =  { 1, 6, 1 }
   options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
-  --options['artifacts:?'] =  { 1, 6, nil }
+
+  options['artifacts:airboat'] =  { 1, 6, nil }
 
 
 	for name, d in pairs(options) do
