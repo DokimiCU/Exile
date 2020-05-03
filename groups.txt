@@ -53,7 +53,9 @@ Temperature:
     See climate. Might want to use `climate.air_temp_source`. temp_effect_max is it's own internal temperature. e.g. if a fire wasn't 600C it wouldn't be a fire)
 `temp_pass`: 1 = temperature effects can be transmitted through this node (e.g. a toothpick can't shield you against fire.)
 `heatable`: Can accumulate heat/cooling from temp_effect sources that use `climate.air_temp_source`.
-    Must call `climate.heat_transfer` as part of node timer. Intended for pottery, smelting etc for direct heat transfers from fires etc.
+  Must call `climate.heat_transfer` as part of node timer. Intended for pottery, smelting etc for direct heat transfers from fires etc.
+  Value = % of dissipation speed. i.e. 100 means it dissipates at 100% of base speed (like air, which holds heat poorly),
+  10 means 10% of base speed (e.g. like metal which holds heat well). Allows different materials to lose heat and different rates.
 
 Plant groups
 -------------

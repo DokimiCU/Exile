@@ -281,7 +281,6 @@ end
 
 --replace is optional node to turn it into when its heat effect is gone
 --e.g. air_temp -> air (has to makes sense with both cooling and heating)
---only air_temp currently needs nodename (for adding extra effects e.g. movement)
 function climate.heat_transfer(pos, nodename, replace)
 
 	--get current accumulated temperature
@@ -326,11 +325,16 @@ function climate.heat_transfer(pos, nodename, replace)
 	--dissappation..lose heat to environment
 	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
 	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
-	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water'})
+	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water', 'group:temp_pass'})
 	local amb = #air
-	--trapped. Slowly lose the accumulated temp boost
-	-- + exposure takes away heat (can't remove too much or makes smelting too hard)
-	temp_m = temp_m /((amb*0.03) + 1.02)
+
+	--factors:  base rate + ambient exposure X strength. * dis_speed = %reduction
+	--dis_speed: 100 % means disspates fast. 0% means disspates slow
+
+	local dis_speed =  minetest.get_item_group(nodename, "heatable") /100
+	local dis_rate = ( 0.02 + (amb*0.035) ) * dis_speed
+
+	temp_m = temp_m *(1 - dis_rate)
 	meta:set_float("temp", temp_m)
 
 
@@ -364,7 +368,7 @@ minetest.register_node("climate:air_temp", {
 	diggable = false,
 	buildable_to = true,
 	floodable = true,
-	groups = {temp_pass = 1, heatable = 1},
+	groups = {temp_pass = 1, heatable = 100},
 	on_timer =function(pos, elapsed)
 		return climate.heat_transfer(pos, "climate:air_temp", 'air')
 	end,

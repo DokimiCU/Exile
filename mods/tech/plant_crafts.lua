@@ -122,7 +122,7 @@ end
 
 
 
-local function bake_bread(pos, name, length, heat)
+local function bake_bread(pos, selfname, name, length, heat)
 	local meta = minetest.get_meta(pos)
 	local baking = meta:get_int("baking")
 
@@ -132,7 +132,7 @@ local function bake_bread(pos, name, length, heat)
 	end
 
   --exchange accumulated heat
-  climate.heat_transfer(pos)
+  climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -190,7 +190,7 @@ minetest.register_node("tech:maraka_cake_unbaked", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, -0.3, 0.3},
 	},
-	groups = {crumbly = 3, dig_immediate = 3, temp_pass = 1, heatable = 1},
+	groups = {crumbly = 3, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
@@ -198,7 +198,7 @@ minetest.register_node("tech:maraka_cake_unbaked", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat
-    return bake_bread(pos, "tech:maraka_cake", 10, 160)
+    return bake_bread(pos, "tech:maraka_cake_unbaked", "tech:maraka_cake", 10, 160)
   end,
 })
 
@@ -240,15 +240,15 @@ minetest.register_node("tech:peeled_anperal_tuber", {
     type = "fixed",
     fixed = {-0.15, -0.5, -0.15,  0.15, -0.35, 0.15},
   },
-	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 1},
+	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 70},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
     set_bake_bread(pos, 5, 6)
   end,
   on_timer = function(pos, elapsed)
-    --finished product, length, heat
-    return bake_bread(pos, "tech:cooked_anperal_tuber", 7, 100)
+    --self, finished product, length, heat
+    return bake_bread(pos, "tech:peeled_anperal_tuber", "tech:cooked_anperal_tuber", 7, 100)
   end,
 })
 

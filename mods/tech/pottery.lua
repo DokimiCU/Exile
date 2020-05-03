@@ -39,7 +39,7 @@ end
 
 
 
-local function fire_pottery(pos, name, length)
+local function fire_pottery(pos, selfname, name, length)
 	local meta = minetest.get_meta(pos)
 	local firing = meta:get_int("firing")
 
@@ -50,7 +50,7 @@ local function fire_pottery(pos, name, length)
 	end
 
 	--exchange accumulated heat
-	climate.heat_transfer(pos)
+	climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -195,7 +195,7 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
 		}
 	},
-	groups = {dig_immediate=3, temp_pass = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -203,7 +203,7 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_water_pot", base_firing)
+		return fire_pottery(pos, "tech:clay_water_pot_unfired", "tech:clay_water_pot", base_firing)
 	end,
 })
 
@@ -233,7 +233,7 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 				{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5},
 			}
 		},
-	groups = {dig_immediate=3, temp_pass = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -241,7 +241,7 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_storage_pot", base_firing+5)
+		return fire_pottery(pos, "tech:clay_storage_pot_unfired", "tech:clay_storage_pot", base_firing+5)
 	end,
 })
 
@@ -312,7 +312,7 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 			{-0.0625, -0.3125, -0.25, 0.0625, -0.125, -0.1875}, -- handle
 		}
 	},
-	groups = {dig_immediate=3, temp_pass = 1, falling_node = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -320,7 +320,7 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_oil_lamp_empty", base_firing)
+		return fire_pottery(pos, "tech:clay_oil_lamp_unfired", "tech:clay_oil_lamp_empty", base_firing)
 	end,
 })
 
@@ -593,4 +593,3 @@ minetest.override_item("tech:clay_water_pot_freshwater",{
 		end
 	end
 })
-

@@ -38,7 +38,7 @@ end
 
 
 
-local function roast(pos, name, length, heat, smelt)
+local function roast(pos, selfname, name, length, heat, smelt)
 	local meta = minetest.get_meta(pos)
 	local roast = meta:get_int("roast")
 
@@ -48,7 +48,7 @@ local function roast(pos, name, length, heat, smelt)
 	end
 
 	--exchange accumulated heat
-	climate.heat_transfer(pos)
+	climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -145,15 +145,15 @@ minetest.register_node("tech:crushed_iron_ore", {
 	tiles = {"tech_crushed_iron_ore.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
-	groups = {crumbly = 3, falling_node = 1, heatable =1},
+	groups = {crumbly = 3, falling_node = 1, heatable =10},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_roast(pos, 10, 10)
 	end,
 	on_timer = function(pos, elapsed)
-    --finished product, length, heat, smelt
-    return roast(pos, "tech:roasted_iron_ore", 10, 300, false)
+    --selfname, finished product, length, heat, smelt
+    return roast(pos, "tech:crushed_iron_ore", "tech:roasted_iron_ore", 10, 300, false)
 	end,
 })
 
@@ -206,7 +206,7 @@ minetest.register_node("tech:iron_smelting_mix", {
 	tiles = {"tech_iron_smelting_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
-	groups = {crumbly = 3, falling_node = 1, heatable =1},
+	groups = {crumbly = 3, falling_node = 1, heatable =20},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
@@ -214,7 +214,7 @@ minetest.register_node("tech:iron_smelting_mix", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat, smelt
-    return roast(pos, "tech:iron_and_slag", 2, 1350, false)
+    return roast(pos, "tech:iron_smelting_mix", "tech:iron_and_slag", 2, 1350, false)
   end,
 })
 
@@ -235,7 +235,7 @@ minetest.register_node("tech:iron_and_slag", {
 	tiles = {"tech_iron_and_slag.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
-	groups = {cracky = 3, crumbly = 1, falling_node = 1, temp_pass = 1, heatable =1},
+	groups = {cracky = 3, crumbly = 1, falling_node = 1, temp_pass = 1, heatable =10},
 	sounds = nodes_nature.node_sound_stone_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
@@ -243,7 +243,7 @@ minetest.register_node("tech:iron_and_slag", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat, smelt
-    return roast(pos, "tech:iron_bloom", 50, 1350, true)
+    return roast(pos, "tech:iron_and_slag", "tech:iron_bloom", 50, 1350, true)
   end,
 })
 
