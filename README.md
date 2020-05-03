@@ -68,7 +68,6 @@ Some tips and tricks:
 
 ### To Do:
 
-
 Urgent Fixes needed:
 
 
@@ -195,7 +194,7 @@ Tech:
 -partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
 
 Artifacts:
--airboat collision allows going into things, dig pointer is out of line with crosshairs 
+-airboat collision allows going into things, dig pointer is out of line with crosshairs
 
 Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.
@@ -203,6 +202,7 @@ Crafting (Rubenwardy)
 -Calling get_connected_players() at mod load time is deprecated
 
 Misc:
+-various bits of code could be tidied up (e.g. duplicated code pulled into functions)
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)

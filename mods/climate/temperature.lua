@@ -422,7 +422,30 @@ function climate.air_temp_source(pos, temp_effect, temp_max, chance, timer)
 				local temp = meta:get_float("temp")
 
 				temp_effect = temp_effect*(1-(temp/temp_max))
-				temp = temp + temp_effect
+
+				--apply temp caps
+				local temp_new =  temp + temp_effect
+				--heaters
+				if temp_effect > 0 then
+					if temp_new < temp_max then
+						--still below cap... apply full heat.
+						temp = temp_new
+					elseif temp < temp_max then
+						--can't add full heat, but not yet at cap
+						--so raise it to the cap
+						temp = temp_max
+					end
+				--coolers
+				elseif temp_effect < 0 then
+					if temp_new > temp_max then
+						--still above cap... apply cooling.
+						temp = temp_new
+					elseif temp > temp_max then
+						--can't add full cooling, but not yet at cap
+						--so lower it to the cap
+						temp = temp_max
+					end
+				end
 
 				--update temp
 				meta:set_float("temp", temp)
