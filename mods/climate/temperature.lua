@@ -325,7 +325,11 @@ function climate.heat_transfer(pos, nodename, replace)
 	--dissappation..lose heat to environment
 	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
 	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
-	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water', 'group:temp_pass'})
+	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water', 'climate:air_temp'})
+	--including group:temp_pass causes problems for doing pottery etc in groups (cools down bc of neighbors).
+	--taking them out of temp_pass would allow exploits (e.g. furnaces built from pots)
+	-- it seems good to let air_temp self cool. Any other temp_pass nodes that ought to be here
+	--will need to be added individually
 	local amb = #air
 
 	--factors:  base rate + ambient exposure X strength. * dis_speed = %reduction
