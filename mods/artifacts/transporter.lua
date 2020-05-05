@@ -44,6 +44,7 @@ local recent_teleports = {}
 
 --actually move
 local function teleport_effects(target_pos, pos, player, player_name, regulator, power)
+	local origin = player:get_pos()
 	target_pos.y = target_pos.y + 0.5
 
 	--effects at source
@@ -100,6 +101,18 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 			local meta = minetest.get_meta(target_pos)
 			meta:set_float("temp", 3000)
 		end
+	end
+
+	--failsafe. (if emerge area failed, and end up in rock)
+	local dest_node = minetest.get_node(target_pos).name
+	local def = minetest.registered_nodes[dest_node]
+	if dest_node == 'ignore' or (def and def.walkable) then
+		--potentially went into a solid
+		--return to origin
+		player:set_pos(origin)
+		--you temporarirly merged with a solid...ouch
+		local hp = player:get_hp()
+		player:set_hp(hp-10)
 	end
 
 	-- prevent teleport spamming

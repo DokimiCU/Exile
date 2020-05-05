@@ -195,7 +195,6 @@ Tech:
 
 Artifacts:
 -airboat collision allows going into things, dig pointer is out of line with crosshairs
--transporter (when random) can sometimes spawn player into solid rock
 
 Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.
