@@ -383,7 +383,6 @@ minetest.after(0, function()
   options['artifacts:bell'] =  { 1, 5, nil }
   options['artifacts:waystone'] =  { 1, 5, nil }
   options['artifacts:wayfinder'] =  { 1, 5, nil }
-  options['artifacts:antiquorium_chisel'] =  { 1, 5, nil }
 
   options['tech:stick'] =  { 1, 5, 1 }
 
@@ -422,6 +421,15 @@ minetest.after(0, function()
 
   options['artifacts:airboat'] =  { 1, 6, nil }
   options['artifacts:mapping_kit'] =  { 1, 6, nil }
+  options['artifacts:antiquorium_chisel'] =  { 1, 6, nil }
+
+  options['artifacts:transporter_key'] =  { 1, 6, nil }
+  options['artifacts:transporter_regulator'] =  { 1, 6, nil }
+  options['artifacts:transporter_stabilizer'] =  { 1, 6, nil }
+  options['artifacts:transporter_focalizer'] =  { 1, 6, nil }
+  options['artifacts:transporter_power_dep'] =  { 1, 6, nil }
+  options['artifacts:transporter_power'] =  { 1, 6, nil }
+  options['artifacts:transporter_pad'] =  { 1, 6, nil }
 
 
 	for name, d in pairs(options) do
