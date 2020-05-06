@@ -155,13 +155,10 @@ local upper_stair = {
 }
 
 
------------------------------------------------------
---GEOMORIA PLANS
------------------------------------------------------
 
 
 -----------------------------------------------------
---Reusable Morphs
+--REUSABLE MORPHS
 -----------------------------------------------------
 
 -----------------------------------------------------
@@ -239,23 +236,166 @@ end
 
 
 
+-----------------------------------------------------
+--Highway
+--Massive transport duct for airboat travel
+--basic version
+local highway = {
+
+	--cross horizontal
+	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 32, 32), size = vn(80, 16, 16)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(32, 32, 0), size = vn(16, 16, 80)},
+	--shaft
+	{act = 'cylinder', node = 'air', axis = 'y', loc = vn(32, 0, 32), size = vn(16, 80, 16)},
+	--central sphere
+	{act = 'sphere', node = 'air', loc = vn(27, 27, 27), size = vn(26, 26, 26)},
+
+}
+
+for _, item in pairs(lower_stair_room) do
+	table.insert(highway, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(highway, 1, table.copy(seal_box))
+end
 
 
 -----------------------------------------------------
---moria_ag
---farming
------------------------------------------------------
+--highway 2
+--Massive transport duct for airboat travel
+-- horizontal only
+local highway_no_shaft = {
+	--cross horizontal
+	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 32, 32), size = vn(80, 16, 16)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(32, 32, 0), size = vn(16, 16, 80)},
 
-register_geomorph({
-	name = 'crossroads_ag',
-	areas = 'moria_ag',
-	data = crossroads,
-})
+}
+
+for _, item in pairs(lower_stair_room) do
+	table.insert(highway_no_shaft, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(highway_no_shaft, 1, table.copy(seal_box))
+end
+
+-----------------------------------------------------
+--Highway 3
+--Massive transport duct for airboat travel
+-- with foot corridors, and room
+local highway_linked = {
+
+	--cross horizontal
+	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 32, 32), size = vn(80, 16, 16)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(32, 32, 0), size = vn(16, 16, 80)},
+	--shaft
+	{act = 'cylinder', node = 'air', axis = 'y', loc = vn(32, 0, 32), size = vn(16, 80, 16)},
+	--central sphere
+	{act = 'sphere', node = 'air', loc = vn(27, 27, 27), size = vn(26, 26, 26)},
+
+	--bridges
+	{act = 'cube', node = 'air', floor = stone_main, loc = vn(0, 51, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = stone_main, loc = vn(39, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', floor = stone_main, loc = vn(0, 21, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = stone_main, loc = vn(39, 21, 0), size = vn(2, 3, 80)},
+
+	--exit rooms
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(0, 51, 37), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 51, 0), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(0, 21, 37), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 21, 0), size = vn(6, 3, 6)},
+
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(74, 51, 37), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 51, 74), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(74, 21, 37), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 21, 74), size = vn(6, 3, 6)},
+
+}
+
+--rooms
+for _, y in pairs({7, 13,  19, 54, 60, 66}) do
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(y, 51, 33), size = vn(5, 3, 5)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(y+1, 51, 38), size = vn(3, 2, 1)})
+
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(y, 51, 42), size = vn(5, 3, 5)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(y+1, 51, 41), size = vn(3, 2, 1)})
+end
+
+for _, y in pairs({7, 13,  19, 54, 60, 66}) do
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(y, 21, 33), size = vn(5, 3, 5)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(y+1, 21, 38), size = vn(3, 2, 1)})
+
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(y, 21, 42), size = vn(5, 3, 5)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(y+1, 21, 41), size = vn(3, 2, 1)})
+end
+
+for _, item in pairs(lower_stair_room) do
+	table.insert(highway_linked, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(highway_linked, 1, table.copy(seal_box))
+end
+
+-----------------------------------------------------
+--Highway 4
+--Massive transport duct for airboat travel
+-- with foot corridors, horizontal only, but with stairs
+local highway_no_shaft_linked = {
+
+	--cross horizontal
+	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 32, 32), size = vn(80, 16, 16)},
+	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(32, 32, 0), size = vn(16, 16, 80)},
+
+	--corridors
+	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 80)},
+
+	--ladder access
+	{act = 'ladder', node = ladder, param2 = 3, loc = vn(39, 21, 41), size = vn(1, 12, 1)},
+
+	--exit rooms
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(0, 51, 37), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 51, 0), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(0, 21, 37), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 21, 0), size = vn(6, 3, 6)},
+
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(74, 51, 37), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 51, 74), size = vn(6, 3, 6)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(74, 21, 37), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(37, 21, 74), size = vn(6, 3, 6)},
+
+	--lower stair linker
+	{act = 'cube', node = 'air', loc = vn(41, 21, 46), size = vn(8, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(50, 20, 46), size = vn(4, 3, 6)},
+	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 3, loc = vn(49, 20, 46), size = vn(1, 1, 2)},
+
+
+}
+
+for _, item in pairs(upper_stair) do
+	table.insert(highway_no_shaft_linked, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_stair) do
+	table.insert(highway_no_shaft_linked, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(highway_no_shaft_linked, 1, table.copy(seal_box))
+end
+
+
+
+
 
 -----------------------------------------------------
 --reservoir
 
-p = {
+local reservoir = {
 	{act = 'cube', node = 'air', loc = vn(20, 12, 11), size = vn(51, 36, 50)},
 	{act = 'cube', node = freshwater, treasure = 5, loc = vn(20, 11, 11), size = vn(51, 10, 50)},
 	{act = 'cube', node = stone_main, loc = vn(38, 11, 30), size = vn(17, 10, 16)},
@@ -326,32 +466,27 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(reservoir, 1, table.copy(seal_box))
 end
 
-register_geomorph({
-	name = 'reservoir',
-	areas = 'moria_ag',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --empty reservoir
 
-p = {
+local reservoir_empty = {
 	{act = 'cube', node = 'air', loc = vn(20, 12, 11), size = vn(51, 36, 50)},
 	{act = 'cube', node = 'air', treasure = 5, loc = vn(20, 11, 11), size = vn(51, 10, 50)},
 	{act = 'cube', node = stone_main, loc = vn(38, 11, 30), size = vn(17, 10, 16)},
@@ -422,33 +557,27 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir_empty, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir_empty, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(reservoir_empty, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(reservoir_empty, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'empty_reservoir',
-	areas = 'moria_ag',
-	data = p,
-})
 
 
 
 -----------------------------------------------------
 --mushroom_garden
 
-p = {
+local mushroom_garden = {
 	{act = 'cube', node = soil, loc = vn(5, 19, 5), size = vn(70, 2, 70)},
 	{act = 'cube', node = soil, loc = vn(5, 19, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(5, 21, 5), size = vn(70, 7, 70)},
@@ -488,37 +617,30 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(mushroom_garden, 2, table.copy(item))
 end
-
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(mushroom_garden, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'mushroom_garden',
-	areas = 'moria_ag',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --barren_mushroom_garden
 
-p = {
+local barren_mushroom_garden = {
 	{act = 'cube', node = 'air', loc = vn(5, 19, 5), size = vn(70, 2, 70)},
 	{act = 'cube', node = 'nodes_nature:sand', random = 10, loc = vn(5, 19, 5), size = vn(70, 2, 70)},
 	{act = 'cube', node = 'nodes_nature:sand', loc = vn(5, 19, 5), size = vn(70, 1, 70)},
@@ -560,36 +682,31 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(barren_mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(barren_mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(barren_mushroom_garden, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(barren_mushroom_garden, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(barren_mushroom_garden, 1, table.copy(seal_box))
 end
 
-register_geomorph({
-	name = 'barren_mushroom_garden',
-	areas = 'moria_ag',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --stockyards
 
-p = {
+local stockyards = {
 	{act = 'cube', node = 'air', loc = vn(15, 19, 15), size = vn(50, 2, 50)},
 	{act = 'cube', node = 'air', loc = vn(5, 21, 5), size = vn(70, 7, 70)},
 	{act = 'cube', node = 'air', loc = vn(19, 21, 75), size = vn(2, 3, 5)},
@@ -634,37 +751,30 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(stockyards, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(stockyards, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(stockyards, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(stockyards, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(stockyards, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'stockyards',
-	areas = 'moria_ag',
-	data = p,
-})
-
 
 
 -----------------------------------------------------
 --granary
 
-p = {
+local granary = {
 {act = 'cube', node = 'air', treasure = 3, loc = vn(15, 20, 15), size = vn(20, 30, 20)},
 {act = 'cube', node = 'air', loc = vn(19, 21, 21), size = vn(2, 3, 10)},
 {act = 'cube', node = 'air', loc = vn(59, 21, 21), size = vn(2, 3, 10)},
@@ -675,33 +785,14 @@ p = {
 }
 
 for _, item in pairs(crossroads) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(granary, 2, table.copy(item))
 end
-
-register_geomorph({
-	name = 'granary',
-	areas = 'moria_ag',
-	data = p,
-})
-
-
------------------------------------------------------
---moria_res
---housing
------------------------------------------------------
-
-register_geomorph({
-	name = 'crossroads_res',
-	areas = 'moria_res',
-	data = crossroads,
-})
-
 
 
 -----------------------------------------------------
 --prison
 
-p = {
+local prison = {
 	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(1, 2, 2)},
 	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(1, 2, 2)},
 	{act = 'cube', node = 'air', loc = vn(0, 21, 59), size = vn(1, 2, 2)},
@@ -800,49 +891,40 @@ for _, o in pairs({0, 43}) do
 	for x = 4 + o, 32 + o, 4 do
 		for _, y in pairs({57, 17}) do
 			local i = {act = 'cube', node = 'air', loc = vn(x, 21, y + 5), size = vn(1, 2, 1)}
-			table.insert(p, i)
+			table.insert(prison, i)
 			i = {act = 'cube', node = door_a, param2 = 0, loc = vn(x, 21, y + 5), size = vn(1, 1, 1)}
-			table.insert(p, i)
+			table.insert(prison, i)
 			i = {act = 'cube', node = 'air', loc = vn(x - 1, 21, y + 6), size = vn(3, 3, 3)}
-			table.insert(p, i)
+			table.insert(prison, i)
 
 			i = {act = 'cube', node = 'air', loc = vn(x, 21, y), size = vn(1, 2, 1)}
-			table.insert(p, i)
+			table.insert(prison, i)
 			i = {act = 'cube', node = door_a, param2 = 2, loc = vn(x, 21, y), size = vn(1, 1, 1)}
-			table.insert(p, i)
+			table.insert(prison, i)
 			i = {act = 'cube', node = 'air', loc = vn(x - 1, 21, y - 3), size = vn(3, 3, 3)}
-			table.insert(p, i)
+			table.insert(prison, i)
 		end
 	end
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(prison, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(prison, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(prison, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'prison',
-	areas = 'moria_res',
-	data = p,
-})
-
 
 
 -----------------------------------------------------
 --stair_base
 
-
--- used in stair base as well as height
-
-p = {
+local stair_base = {
+	--stairs
 	{act = 'cube', node = stone_main, loc = vn(26, 0, 23), size = vn(5, 5, 31)},
 	{act = 'cube', node = stone_main, loc = vn(26, 0, 49), size = vn(28, 26, 5)},
 	{act = 'cube', node = stone_main, loc = vn(49, 19, 29), size = vn(5, 27, 28)},
@@ -856,12 +938,8 @@ p = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 3, param2 = 3, loc = vn(30, 40, 27), size = vn(20, 20, 3)},
 	{act = 'cube', node = 'air', loc = vn(27, 60, 27), size = vn(6, 4, 3)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 3, param2 = 0, loc = vn(27, 60, 30), size = vn(3, 21, 20)},
-}
 
-
-
-local q = table.copy(p)
-p = {
+	--rest of it
 	{act = 'sphere', node = 'air', loc = vn(35, 31, 35), size = vn(40, 40, 40)},
 	{act = 'cube', node = stone_main, loc = vn(35, 31, 35), size = vn(40, 20, 40)},
 	{act = 'cube', node = stone_block_main, loc = vn(35, 50, 35), size = vn(40, 1, 40)},
@@ -972,64 +1050,41 @@ p = {
 
 for y = 2, 78, 3 do
 	for x = 56, 63, 7 do
-		table.insert(p, {act = 'cube', node = 'air', loc = vn(x, 21, y), size = vn(1, 3, 1)})
+		table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(x, 21, y), size = vn(1, 3, 1)})
 	end
 end
 
 for _, y in pairs({1, 7, 13, 22, 28, 34, 40, 46, 52}) do
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(65, 21, y), size = vn(5, 3, 5)})
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(70, 21, y + 2), size = vn(1, 2, 1)})
-	table.insert(p, {act = 'cube', node = door_a, param2 = 3, loc = vn(70, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(65, 21, y), size = vn(5, 3, 5)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(70, 21, y + 2), size = vn(1, 2, 1)})
+	table.insert(stair_base, {act = 'cube', node = door_a, param2 = 3, loc = vn(70, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, y in pairs({1, 7, 13, 22, 28}) do
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(74, 21, y), size = vn(5, 3, 5)})
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(73, 21, y + 2), size = vn(1, 2, 1)})
-	table.insert(p, {act = 'cube', node = door_b, param2 = 1, loc = vn(73, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(74, 21, y), size = vn(5, 3, 5)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(73, 21, y + 2), size = vn(1, 2, 1)})
+	table.insert(stair_base, {act = 'cube', node = door_b, param2 = 1, loc = vn(73, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, y in pairs({24, 30, 36, 42, 48, 59, 65, 71}) do
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(22, 21, y), size = vn(5, 3, 5)})
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(21, 21, y + 2), size = vn(1, 2, 1)})
-	table.insert(p, {act = 'cube', node = door_b, param2 = 1, loc = vn(21, 21, y + 2), size = vn(1, 1, 1)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(22, 21, y), size = vn(5, 3, 5)})
+	table.insert(stair_base, {act = 'cube', node = 'air', loc = vn(21, 21, y + 2), size = vn(1, 2, 1)})
+	table.insert(stair_base, {act = 'cube', node = door_b, param2 = 1, loc = vn(21, 21, y + 2), size = vn(1, 1, 1)})
 end
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
-end
-
-for i = #p, 1, -1 do
-	table.insert(q, 6, p[i])
+	table.insert(stair_base, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(q, table.copy(seal_box))
+	table.insert(stair_base, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'stair_base',
-	areas = 'moria_res',
-	data = q,
-})
-
-
-
------------------------------------------------------
---moria_mar
---markets
------------------------------------------------------
-
-register_geomorph({
-	name = 'crossroads_mar',
-	areas = 'moria_mar',
-	data = crossroads,
-})
 
 
 -----------------------------------------------------
 --market
 
-p = {
+local market = {
 	{act = 'cube', node = 'air', loc = vn(1, 21, 21), size = vn(2, 3, 40)},
 	{act = 'cube', node = 'air', loc = vn(0, 21, 19), size = vn(7, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(5, 21, 17), size = vn(70, 3, 2)},
@@ -1111,43 +1166,34 @@ p = {
 }
 
 for x = 9, 69, 15 do
-	table.insert(p, {act = 'cube', node = 'air', loc = vn(x, 51, 41), size = vn(2, 3, 34)})
+	table.insert(market, {act = 'cube', node = 'air', loc = vn(x, 51, 41), size = vn(2, 3, 34)})
 	for z = 44, 74, 6 do
-		table.insert(p, {act = 'cube', node = 'air', floor = stone_block_3rd, treasure = 20, loc = vn(x - 6, 51, z - 2), size = vn(5, 3, 5)})
-		table.insert(p, {act = 'cube', node = 'air', floor = stone_block_3rd, treasure = 20, loc = vn(x + 3, 51, z - 2), size = vn(5, 3, 5)})
-		table.insert(p, {act = 'cube', node = 'air', loc = vn(x - 1, 51, z), size = vn(1, 2, 1)})
-		table.insert(p, {act = 'cube', node = door_b, param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
-		table.insert(p, {act = 'cube', node = 'air', loc = vn(x + 2, 51, z), size = vn(1, 2, 1)})
-		table.insert(p, {act = 'cube', node = door_a, param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
+		table.insert(market, {act = 'cube', node = 'air', floor = stone_block_3rd, treasure = 20, loc = vn(x - 6, 51, z - 2), size = vn(5, 3, 5)})
+		table.insert(market, {act = 'cube', node = 'air', floor = stone_block_3rd, treasure = 20, loc = vn(x + 3, 51, z - 2), size = vn(5, 3, 5)})
+		table.insert(market, {act = 'cube', node = 'air', loc = vn(x - 1, 51, z), size = vn(1, 2, 1)})
+		table.insert(market, {act = 'cube', node = door_b, param2 = 3, loc = vn(x - 1, 51, z), size = vn(1, 1, 1)})
+		table.insert(market, {act = 'cube', node = 'air', loc = vn(x + 2, 51, z), size = vn(1, 2, 1)})
+		table.insert(market, {act = 'cube', node = door_a, param2 = 1, loc = vn(x + 2, 51, z), size = vn(1, 1, 1)})
 	end
 end
 
-
 for _, item in pairs(lower_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(market, 2, table.copy(item))
 end
 
-
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(market, 1, table.copy(seal_box))
 end
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(market, 2, table.copy(item))
 end
-
-register_geomorph({
-	name = 'market',
-	areas = 'moria_mar',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --silly_straw
 
-
-p = {
+local silly_straw = {
 	{act = 'cube', node = 'air', loc = vn(19, 21, 76), size = vn(2, 3, 4)},
 	{act = 'cube', node = 'air', loc = vn(5, 21, 74), size = vn(16, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(3, 21, 70), size = vn(2, 3, 6)},
@@ -1244,54 +1290,31 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(silly_straw, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(silly_straw, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(silly_straw, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(silly_straw, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(silly_straw, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'silly_straw',
-	areas = 'moria_mar',
-	data = p,
-})
-
-
-
-
-
------------------------------------------------------
---moria_civ
---civic
------------------------------------------------------
-
-register_geomorph({
-	name = 'crossroads_civ',
-	areas = 'moria_civ',
-	data = crossroads,
-})
-
-
 
 
 
 -----------------------------------------------------
 --pillared_room
 
-p = {
+local pillared_room = {
 	{act = 'cube', node = 'air', line = stone_block_2nd, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
 	{act = 'cube', node = stone_block_2nd, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
 	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
@@ -1300,17 +1323,17 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room, 2, table.copy(item))
 end
 
 for z = 7, 78, 9 do
 	for x = 7, 78, 9 do
 		local i = {act = 'cube', node = stone_block_2nd, loc = vn(z, 21, x), size = vn(2, 38, 2)}
-		table.insert(p, i)
+		table.insert(pillared_room, i)
 
 		for y = 25, 57, 9 do
 			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
-			table.insert(p, i)
+			table.insert(pillared_room, i)
 		end
 
 	end
@@ -1318,25 +1341,17 @@ end
 
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(pillared_room, 1, table.copy(seal_box))
 end
-
-
-register_geomorph({
-	name = 'pillared_room',
-	areas = 'moria_civ',
-	data = p,
-})
-
 
 -----------------------------------------------------
 --pillared_room_antiq
 
-p = {
+local pillared_room_antiq = {
 	{act = 'cube', node = 'air', line = special_stone, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
 	{act = 'cube', node = special_stone, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
 	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
@@ -1345,41 +1360,34 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room_antiq, 2, table.copy(item))
 end
 
 for z = 7, 78, 9 do
 	for x = 7, 78, 9 do
 		local i = {act = 'cube', node = special_stone, loc = vn(z, 21, x), size = vn(2, 38, 2)}
-		table.insert(p, i)
+		table.insert(pillared_room_antiq, i)
 
 		for y = 25, 57, 9 do
 			i = {act = 'cube', node = lamp_block, loc = vn(z, y, x), size = vn(2, 1, 2), cheap_lighting = true}
-			table.insert(p, i)
+			table.insert(pillared_room_antiq, i)
 		end
 
 	end
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room_antiq, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(pillared_room_antiq, 1, table.copy(seal_box))
 end
-
-
-register_geomorph({
-	name = 'pillared_room_antiq',
-	areas = 'moria_civ',
-	data = p,
-})
 
 -----------------------------------------------------
 --pillared_room_moon
 
-p = {
+local pillared_room_moon = {
 	{act = 'cube', node = 'air', line = special_stone, treasure = 1, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
 	{act = 'cube', node = special_stone, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
 	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
@@ -1388,37 +1396,29 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room_moon, 2, table.copy(item))
 end
 
 for z = 7, 78, 9 do
 	for x = 7, 78, 9 do
 		local i = {act = 'cube', node = lamp_block, loc = vn(z, 21, x), size = vn(2, 38, 2)}
-		table.insert(p, i)
+		table.insert(pillared_room_moon, i)
 
 	end
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(pillared_room_moon, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(pillared_room_moon, 1, table.copy(seal_box))
 end
-
-
-register_geomorph({
-	name = 'pillared_room_moon',
-	areas = 'moria_civ',
-	data = p,
-})
-
 
 -----------------------------------------------------
 --jade_temple
 
-p = {
+local jade_temple = {
 	{act = 'cube', node = 'air', line = special_stone, loc = vn(1, 21, 1), size = vn(78, 38, 78)},
 	{act = 'cube', node = lamp_block, loc = vn(1, 50, 1), size = vn(78, 1, 78)},
 	{act = 'cube', node = 'air', loc = vn(5, 50, 5), size = vn(70, 1, 70)},
@@ -1454,29 +1454,23 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(jade_temple, 2, table.copy(item))
 end
 
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(jade_temple, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(jade_temple, 1, table.copy(seal_box))
 end
 
-
-register_geomorph({
-	name = 'jade_temple',
-	areas = 'moria_civ',
-	data = p,
-})
 
 -----------------------------------------------------
 --fountain_court
 
-p = {
+local fountain_court = {
 	--{param = 'wet'},
 	{act = 'cube', node = 'air', line = stone_block_3rd, loc = vn(26, 11, 25), size = vn(30, 4, 30)},
 	{act = 'cube', node = 'air', loc = vn(29, 11, 55), size = vn(2, 3, 16)},
@@ -1584,36 +1578,30 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(fountain_court, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(fountain_court, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(fountain_court, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(fountain_court, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(fountain_court, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'fountain_court',
-	areas = 'moria_civ',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --arena
 
-p = {
+local arena = {
 	{act = 'cube', node = 'air', loc = vn(15, 39, 15), size = vn(50, 6, 50)},
 	{act = 'cube', node = 'air', loc = vn(16, 38, 16), size = vn(48, 7, 48)},
 	{act = 'cube', node = 'air', loc = vn(17, 37, 17), size = vn(46, 8, 46)},
@@ -1675,37 +1663,30 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(arena, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(arena, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(arena, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(arena, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(arena, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'arena',
-	areas = 'moria_civ',
-	data = p,
-})
-
 
 
 -----------------------------------------------------
 --sphere_of_light
 
-p = {
+local sphere_of_light = {
 	{act = 'sphere', node = 'air', line = lamp_block, loc = vn(5, 8, 5), size = vn(70, 70, 70)},
 	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
@@ -1730,29 +1711,22 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(sphere_of_light, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(sphere_of_light, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(sphere_of_light, 1, table.copy(seal_box))
 end
-
-
-register_geomorph({
-	name = 'sphere_of_light',
-	areas = 'moria_civ',
-	data = p,
-})
 
 
 -----------------------------------------------------
 --sphere_of_darkness
 
-p = {
+local sphere_of_darkness = {
 	{act = 'sphere', node = 'air', line = special_stone, loc = vn(5, 8, 5), size = vn(70, 70, 70)},
 	{act = 'cube', node = 'air', loc = vn(0, 51, 39), size = vn(80, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(39, 51, 0), size = vn(2, 3, 80)},
@@ -1777,43 +1751,21 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(sphere_of_darkness, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(sphere_of_darkness, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(sphere_of_darkness, 1, table.copy(seal_box))
 end
-
-
-register_geomorph({
-	name = 'sphere_of_darkness',
-	areas = 'moria_civ',
-	data = p,
-})
-
-
-
------------------------------------------------------
---moria_ind
---industrial
------------------------------------------------------
-
-register_geomorph({
-	name = 'crossroads_ind',
-	areas = 'moria_ind',
-	data = crossroads,
-})
-
-
 
 -----------------------------------------------------
 --lake_of_fire
 
-p = {
+local lake_of_fire = {
 	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
 	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
 	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
@@ -1834,42 +1786,35 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(lake_of_fire, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'lake_of_fire',
-	areas = 'moria_ind',
-	data = p,
-})
-
 
 
 -----------------------------------------------------
 --lake_of_fire_solid
 
-p = {
+local lake_of_fire_solid = {
 	{act = 'cube', node = 'air', floor = stone_block_2nd, loc = vn(1, 21, 1), size = vn(78, 5, 78)},
 	{act = 'cube', node = stone_2nd, loc = vn(9, 21, 9), size = vn(62, 1, 62)},
 	{act = 'cube', node = stone_2nd, loc = vn(9, 23, 9), size = vn(62, 5, 62)},
 	{act = 'cube', node = 'air', loc = vn(10, 11, 10), size = vn(60, 25, 60)},
-	{act = 'cube', node = stone_2nd, loc = vn(10, 11, 10), size = vn(60, 5, 60)},
+	{act = 'cube', node = stone_2nd, loc = vn(10, 11, 10), size = vn(60, 8, 60)},
 	{act = 'cube', node = stone_2nd, loc = vn(25, 11, 25), size = vn(30, 9, 30)},
 	{act = 'cube', node = stone_block_2nd, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
 	{act = 'cube', node = stone_2nd, loc = vn(39, 20, 55), size = vn(2, 1, 15)},
@@ -1885,49 +1830,30 @@ p = {
 }
 
 for _, item in pairs(default_exits) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire_solid, 2, table.copy(item))
 end
 
 for _, item in pairs(placeholder_y51) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire_solid, 2, table.copy(item))
 end
 
 for _, item in pairs(upper_stair) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire_solid, 2, table.copy(item))
 end
 
 for _, item in pairs(lower_stair_room) do
-	table.insert(p, 2, table.copy(item))
+	table.insert(lake_of_fire_solid, 2, table.copy(item))
 end
 
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(lake_of_fire_solid, 1, table.copy(seal_box))
 end
-
-register_geomorph({
-	name = 'lake_of_fire_solid',
-	areas = 'moria_ind',
-	data = p,
-})
-
-
-
------------------------------------------------------
---moria_mine
---mines
------------------------------------------------------
-
-register_geomorph({
-	name = 'crossroads_mine',
-	areas = 'moria_mine',
-	data = crossroads,
-})
 
 
 -----------------------------------------------------
 --deep_stair
 
-p = {
+local deep_stair = {
 	--stairs and landing rooms
 	{act = 'cube', node = 'air', treasure = 3, loc = vn(22, 0, 50), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(30, 0, 50), size = vn(20, 20, 1)},
@@ -1940,14 +1866,273 @@ p = {
 
 }
 
-
-
 if seal_underground then
-	table.insert(p, 1, table.copy(seal_box))
+	table.insert(deep_stair, 1, table.copy(seal_box))
 end
 
-register_geomorph({
-	name = 'deep_stair',
-	areas = 'moria_mine',
-	data = p,
-})
+
+-----------------------------------------------------
+--CITY SECTORS
+-----------------------------------------------------
+
+
+-----------------------------------------------------
+--highways
+--provide rapid transport routes, the city's main arteries
+--this how you get down without getting lost in the maze,
+--but it limits you to these locations
+-----------------------------------------------------
+
+for _, n in pairs({"ns", "ew"}) do
+
+--[[
+--unlinked result in a lot of dead end corridors
+	register_geomorph({
+		name = n..'_highway',
+		areas = n..'_highway',
+		data = highway,
+	})
+
+	register_geomorph({
+		name = n..'_highway_no_shaft',
+		areas = n..'_highway',
+		data = highway_no_shaft,
+	})
+
+	]]
+
+	register_geomorph({
+		name = n..'_highway_linked',
+		areas = n..'_highway',
+		data = highway_linked,
+	})
+
+	register_geomorph({
+		name = n..'_highway_no_shaft_linked',
+		areas = n..'_highway',
+		data = highway_no_shaft_linked,
+	})
+
+end
+
+-----------------------------------------------------
+--moria_ag
+--farming
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_ag',
+		areas = n..'_moria_ag',
+		data = crossroads,
+	})
+
+	register_geomorph({
+		name = n..'_reservoir',
+		areas = n..'_moria_ag',
+		data = reservoir,
+	})
+
+	register_geomorph({
+		name = n..'_reservoir_empty',
+		areas = n..'_moria_ag',
+		data = reservoir_empty,
+	})
+
+	register_geomorph({
+		name = n..'_mushroom_garden',
+		areas = n..'_moria_ag',
+		data = mushroom_garden,
+	})
+
+	register_geomorph({
+		name = n..'_barren_mushroom_garden',
+		areas = n..'_moria_ag',
+		data = barren_mushroom_garden,
+	})
+
+	register_geomorph({
+		name = n..'_stockyards',
+		areas = n..'_moria_ag',
+		data = stockyards,
+	})
+
+	register_geomorph({
+		name = n..'_granary',
+		areas = n..'_moria_ag',
+		data = granary,
+	})
+
+
+
+
+end
+
+
+-----------------------------------------------------
+--moria_res
+--housing
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_res',
+		areas = n..'_moria_res',
+		data = crossroads,
+	})
+
+	register_geomorph({
+		name = n..'_prison',
+		areas = n..'_moria_res',
+		data = prison,
+	})
+
+	register_geomorph({
+		name = n..'_stair_base',
+		areas = n..'_moria_res',
+		data = stair_base,
+	})
+
+end
+
+
+-----------------------------------------------------
+--moria_mar
+--markets
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_mar',
+		areas = n..'_moria_mar',
+		data = crossroads,
+	})
+
+	register_geomorph({
+		name = n..'_market',
+		areas = n..'_moria_mar',
+		data = market,
+	})
+
+	register_geomorph({
+		name = n..'_silly_straw',
+		areas = n..'_moria_mar',
+		data = silly_straw,
+	})
+
+end
+
+
+
+-----------------------------------------------------
+--moria_civ
+--civic
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_civ',
+		areas = n..'_moria_civ',
+		data = crossroads,
+	})
+
+	register_geomorph({
+		name = n..'_pillared_room',
+		areas = n..'_moria_civ',
+		data = pillared_room,
+	})
+
+	register_geomorph({
+		name = n..'_pillared_room_antiq',
+		areas = n..'_moria_civ',
+		data = pillared_room_antiq,
+	})
+
+	register_geomorph({
+		name = n..'_pillared_room_moon',
+		areas = n..'_moria_civ',
+		data = pillared_room_moon,
+	})
+
+	register_geomorph({
+		name = n..'_jade_temple',
+		areas = n..'_moria_civ',
+		data = jade_temple,
+	})
+
+	register_geomorph({
+		name = n..'_fountain_court',
+		areas = n..'_moria_civ',
+		data = fountain_court,
+	})
+
+	register_geomorph({
+		name = n..'_arena',
+		areas = n..'_moria_civ',
+		data = arena,
+	})
+
+	register_geomorph({
+		name = n..'_sphere_of_light',
+		areas = n..'_moria_civ',
+		data = sphere_of_light,
+	})
+
+	register_geomorph({
+		name = n..'_sphere_of_darkness',
+		areas = n..'_moria_civ',
+		data = sphere_of_darkness,
+	})
+
+end
+
+
+
+
+-----------------------------------------------------
+--moria_ind
+--industrial
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_ind',
+		areas = n..'_moria_ind',
+		data = crossroads,
+	})
+
+	register_geomorph({
+		name = n..'_lake_of_fire',
+		areas = n..'_moria_ind',
+		data = lake_of_fire,
+	})
+
+	register_geomorph({
+		name = n..'_lake_of_fire_solid',
+		areas = n..'_moria_ind',
+		data = lake_of_fire_solid,
+	})
+
+end
+
+
+-----------------------------------------------------
+--moria_mine
+--mines
+-----------------------------------------------------
+for _, n in pairs({"nw", "ne", "sw", "se"}) do
+
+	register_geomorph({
+		name = n..'_crossroads_mine',
+		areas = n..'_moria_mine',
+		data = crossroads,
+	})
+
+
+	register_geomorph({
+		name = n..'_deep_stair',
+		areas = n..'_moria_mine',
+		data = deep_stair,
+	})
+
+end

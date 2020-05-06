@@ -61,7 +61,7 @@ Some tips and tricks:
 - darkasthaan spider for deep caves
 - graffitti: glow paint
 - better looking bones
-- fixed dungeon loot, added more artifacts, split into realms
+- fixed dungeon loot, added more artifacts, split into realms (highways, and city structure)
 - gneiss and jade for deep underground biome
 
 
@@ -109,11 +109,12 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): teleporter? short distance teleport
+-artifacts (loot): scuba,
 -dangerous "pandora's box" loot
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
+-more morphs: waste dumps, public baths, transporter room, laboratory, parliament, storage dumps, factories
 
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
@@ -183,6 +184,7 @@ Volcano:
 
 Megamorph:
 -a silly string stair doesn't line up (from overpass)
+-self.params.share.surface crash with some layouts (that cross over edges? No current morphs do this)
 
 
 Tech:

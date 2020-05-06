@@ -38,24 +38,68 @@ local node = mod.node
 ----------------------------------------
 --Realms
 --[[
+By depth
 150 - 350  --agricultural,
 350- 550  --residential
 550 - 750  --market
 750 - 950  --civic
 950 - 1150 --industrial
 1150 - 1350 -- mines
-]]
---a little overlap to help blur them into eachother
-----------------------------------------
-local xzmax = 28000
 
+--plus a little overlap to help blur them into eachother
+
+--then divided into four quaters to with highways between them
+]]
+
+
+----------------------------------------
+--city limits
+local ymax = -150
+local xzmax = 25000
+local hwy_w = 60
+
+
+--city sections
 mod.registered_realms = {
-  {name = 'moria_ag', realm_minp = {x = -31000, y = -400, z = -31000}, realm_maxp = {x = xzmax, y = -150, z = xzmax}},
-  {name = 'moria_res', realm_minp = {x = -31000, y = -600, z = -31000}, realm_maxp = {x = xzmax, y = -350, z = xzmax}},
-  {name = 'moria_mar', realm_minp = {x = -31000, y = -800, z = -31000}, realm_maxp = {x = xzmax, y = -550, z = xzmax}},
-  {name = 'moria_civ', realm_minp = {x = -31000, y = -1000, z = -31000}, realm_maxp = {x = xzmax, y = -750, z = xzmax}},
-  {name = 'moria_ind', realm_minp = {x = -31000, y = -1200, z = -31000}, realm_maxp = {x = xzmax, y = -950, z = xzmax}},
-  {name = 'moria_mine', realm_minp = {x = -31000, y = -1400, z = -31000}, realm_maxp = {x = xzmax, y = -1150, z = xzmax}},
+
+  {name = 'ns_highway', realm_minp = {x = -hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = hwy_w, y = ymax, z = xzmax}},
+  {name = 'ew_highway', realm_minp = {x = -xzmax, y = -1200, z = -hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = hwy_w}},
+
+  --Ag
+  {name = 'nw_moria_ag', realm_minp = {x = -xzmax, y = -400, z = hwy_w}, realm_maxp = {x = -hwy_w, y = ymax, z = xzmax}},
+  {name = 'ne_moria_ag', realm_minp = {x = hwy_w, y = -400, z = hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = xzmax}},
+  {name = 'sw_moria_ag', realm_minp = {x = -xzmax, y = -400, z = -xzmax}, realm_maxp = {x = -hwy_w, y = ymax, z = -hwy_w}},
+  {name = 'se_moria_ag', realm_minp = {x = hwy_w, y = -400, z = -xzmax}, realm_maxp = {x = xzmax, y = ymax, z = -hwy_w}},
+
+  --Res
+  {name = 'nw_moria_res', realm_minp = {x = -xzmax, y = -600, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -350, z = xzmax}},
+  {name = 'ne_moria_res', realm_minp = {x = hwy_w, y = -600, z = hwy_w}, realm_maxp = {x = xzmax, y = -350, z = xzmax}},
+  {name = 'sw_moria_res', realm_minp = {x = -xzmax, y = -600, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -350, z = -hwy_w}},
+  {name = 'se_moria_res', realm_minp = {x = hwy_w, y = -600, z = -xzmax}, realm_maxp = {x = xzmax, y = -350, z = -hwy_w}},
+
+  --mar
+  {name = 'nw_moria_mar', realm_minp = {x = -xzmax, y = -800, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -550, z = xzmax}},
+  {name = 'ne_moria_mar', realm_minp = {x = hwy_w, y = -800, z = hwy_w}, realm_maxp = {x = xzmax, y = -550, z = xzmax}},
+  {name = 'sw_moria_mar', realm_minp = {x = -xzmax, y = -800, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -550, z = -hwy_w}},
+  {name = 'se_moria_mar', realm_minp = {x = hwy_w, y = -800, z = -xzmax}, realm_maxp = {x = xzmax, y = -550, z = -hwy_w}},
+
+  --civ
+  {name = 'nw_moria_civ', realm_minp = {x = -xzmax, y = -1000, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -750, z = xzmax}},
+  {name = 'ne_moria_civ', realm_minp = {x = hwy_w, y = -1000, z = hwy_w}, realm_maxp = {x = xzmax, y = -750, z = xzmax}},
+  {name = 'sw_moria_civ', realm_minp = {x = -xzmax, y = -1000, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -750, z = -hwy_w}},
+  {name = 'se_moria_civ', realm_minp = {x = hwy_w, y = -1000, z = -xzmax}, realm_maxp = {x = xzmax, y = -750, z = -hwy_w}},
+
+  --ind
+  {name = 'nw_moria_ind', realm_minp = {x = -xzmax, y = -1200, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -950, z = xzmax}},
+  {name = 'ne_moria_ind', realm_minp = {x = hwy_w, y = -1200, z = hwy_w}, realm_maxp = {x = xzmax, y = -950, z = xzmax}},
+  {name = 'sw_moria_ind', realm_minp = {x = -xzmax, y = -1200, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -950, z = -hwy_w}},
+  {name = 'se_moria_ind', realm_minp = {x = hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = xzmax, y = -950, z = -hwy_w}},
+
+  --mine
+  {name = 'nw_moria_mine', realm_minp = {x = -xzmax, y = -1400, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -1150, z = xzmax}},
+  {name = 'ne_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = hwy_w}, realm_maxp = {x = xzmax, y = -1150, z = xzmax}},
+  {name = 'sw_moria_mine', realm_minp = {x = -xzmax, y = -1400, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -1150, z = -hwy_w}},
+  {name = 'se_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = -xzmax}, realm_maxp = {x = xzmax, y = -1150, z = -hwy_w}},
 
 }
 
