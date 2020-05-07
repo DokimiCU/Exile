@@ -330,6 +330,16 @@ for _, y in pairs({7, 13,  19, 54, 60, 66}) do
 	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(y+1, 21, 41), size = vn(3, 2, 1)})
 end
 
+for _, y in pairs({7, 13,  19, 54, 60, 66}) do
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(33, 21, y), size = vn(5, 3, 3)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(38, 21, y+1), size = vn(3, 2, 1)})
+
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', treasure = 30, loc = vn(42, 21, y), size = vn(7, 6, 5)})
+	table.insert(highway_linked, 	{act = 'cube', node = 'air', loc = vn(41, 21, y), size = vn(1, 3, 5)})
+end
+
+
+
 for _, item in pairs(lower_stair_room) do
 	table.insert(highway_linked, 2, table.copy(item))
 end
@@ -372,6 +382,12 @@ local highway_no_shaft_linked = {
 	{act = 'cube', node = 'air', loc = vn(41, 21, 46), size = vn(8, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(50, 20, 46), size = vn(4, 3, 6)},
 	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 3, loc = vn(49, 20, 46), size = vn(1, 1, 2)},
+
+	--corridor link stair
+	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 3, loc = vn(45, 21, 51), size = vn(30, 30, 2)},
+	-- link corridor
+	{act = 'cube', node = 'air', loc = vn(41, 51, 51), size = vn(4, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(75, 21, 41), size = vn(2, 3, 12)},
 
 
 }
