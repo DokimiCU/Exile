@@ -295,7 +295,7 @@ minetest.register_entity("animals:darkasthaan",{
 			pitch={0.7, 1.3},
 		},
 	},
-	springiness=0.3,
+	springiness=0,
 	max_speed = 1.2,					-- m/s
 	jump_height = 2,				-- nodes/meters
 	view_range = 8,					-- nodes/meters
