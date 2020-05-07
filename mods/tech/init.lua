@@ -8,6 +8,7 @@ local modpath = minetest.get_modpath('tech')
 
 dofile(modpath..'/craft_stations.lua')
 dofile(modpath..'/tools.lua')
+dofile(modpath..'/lever.lua')
 dofile(modpath..'/backpacks.lua')
 dofile(modpath..'/plant_crafts.lua')
 dofile(modpath..'/fires.lua')

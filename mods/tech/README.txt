@@ -12,6 +12,8 @@ Dokimi (GPLv3)
 The torch code was derived by sofar from the 'torches' mod by
 BlockMen (LGPLv2.1+)
 
+Lever adapted from minetest game mod Screwdriver by RealBadAngel, Maciej Kasatkin, various Minetest developers and contributors (LGPLv2.1+)
+
 
 Authors of media (sounds)
 ------------------------
@@ -45,4 +47,4 @@ VanessaE (CC BY-SA 3.0):
   default_torch_on_floor.png
 
 AspireMint (CC by SA 3.0):
-  tech_paint_brush_white.png 
+  tech_paint_brush_white.png

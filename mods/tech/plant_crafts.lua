@@ -16,8 +16,18 @@ minetest.register_node("tech:stick", {
 	 type ="fixed",
 	 fixed = {{-0.0625, -0.5, -0.0625, 0.0625, 0.5, 0.0625}},
  },
- --inventory_image = "tech_stick_inv.png",
- --wield_image = "tech_stick_inv.png",
+ --[[ --this might be resuable as a fence, but fails here
+ node_box = {
+   type = "connected",
+   fixed = {{-0.0625, -0.5, -0.0625, 0.0625, 0.5, 0.0625}},
+   connect_front = {{-0.0625, -0.0625, -0.5, 0.0625, 0.0625, -0.0625}},
+   connect_left = {{-0.5, -0.0625, -0.0625, -0.0625, 0.0625, 0.0625}},
+   connect_back = {{-0.0625, -0.0625, 0.0625, 0.0625, 0.0625, 0.5}},
+   connect_right = {{0.0625, -0.0625, -0.0625, 0.5, 0.0625, 0.0625}},
+ },
+ connects_to = {'tech:stick'},
+ ]]
+
  tiles = {"tech_stick.png"},
  stack_max = minimal.stack_max_medium,
  paramtype = "light",
@@ -29,6 +39,8 @@ minetest.register_node("tech:stick", {
  sounds = nodes_nature.node_sound_wood_defaults(),
 
 })
+
+
 
 
 
