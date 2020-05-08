@@ -66,8 +66,11 @@ local function wash_maraka(pos, name, length)
 	local meta = minetest.get_meta(pos)
 	local washing = meta:get_int("washing")
 
+  local node_a = minetest.get_node({x=pos.x, y=pos.y + 1, z=pos.z})
+
 	--check if wet,
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+	if climate.get_rain(pos) or  minetest.get_item_group(node_a.name, "water") > 0 then
+  -- or minetest.find_node_near(pos, 1, {"group:water"}) then
 
     if washing <= 0 then
       --finished
@@ -100,11 +103,11 @@ minetest.register_node('tech:maraka_flour_bitter', {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    set_maraka_wash(pos, 20, 10)
+    set_maraka_wash(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length
-    return wash_maraka(pos, "tech:maraka_flour", 15)
+    return wash_maraka(pos, "tech:maraka_flour", 60)
   end,
 })
 
