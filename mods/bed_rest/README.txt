@@ -45,3 +45,8 @@ Authors of source code
 Adapted for Exile from Minetest Game mod beds:
 Originally by BlockMen (MIT)
 Various Minetest developers and contributors (MIT)
+
+
+Authors of media (sounds)
+-------------------------
+bed_rest_breakbell adapted from "Japanese temple bell" Mike Koenig (Attribution 3.0) http://soundbible.com/1496-Japanese-Temple-Bell-Small.html
