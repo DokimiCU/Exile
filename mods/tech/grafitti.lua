@@ -53,11 +53,13 @@ grafitti.register_grafitti("tech:lw_tecti", {image = "tech_paint_lw_tecti.png"})
 grafitti.register_grafitti("tech:lw_4pole", {image = "tech_paint_lw_4pole.png"})
 grafitti.register_grafitti("tech:lw_avi", {image = "tech_paint_lw_avi.png"})
 grafitti.register_grafitti("tech:lw_scali", {image = "tech_paint_lw_scali.png"})
+grafitti.register_grafitti("tech:lw_bridge", {image = "tech_paint_lw_bridge.png"})
 
 grafitti.register_grafitti("tech:lw_spiral", {image = "tech_paint_lw_spiral.png"})
 grafitti.register_grafitti("tech:lw_spiral2", {image = "tech_paint_lw_spiral2.png"})
 grafitti.register_grafitti("tech:lw_spirald", {image = "tech_paint_lw_spirald.png"})
 grafitti.register_grafitti("tech:lw_spirald2", {image = "tech_paint_lw_spirald2.png"})
+grafitti.register_grafitti("tech:lw_antiq", {image = "tech_paint_lw_antiq.png"})
 
 grafitti.register_grafitti("tech:lw_burst1", {image = "tech_paint_lw_burst1.png"})
 grafitti.register_grafitti("tech:lw_burst2", {image = "tech_paint_lw_burst2.png"})
@@ -71,6 +73,7 @@ grafitti.register_grafitti("tech:lw_foot", {image = "tech_paint_lw_foot.png"})
 grafitti.register_grafitti("tech:lw_fig1", {image = "tech_paint_lw_fig1.png"})
 grafitti.register_grafitti("tech:lw_fig2", {image = "tech_paint_lw_fig2.png"})
 grafitti.register_grafitti("tech:lw_fig3", {image = "tech_paint_lw_fig3.png"})
+grafitti.register_grafitti("tech:lw_chrysalis", {image = "tech_paint_lw_chrysalis.png"})
 
 grafitti.palette_build("tech:lime_white")
 
