@@ -65,6 +65,11 @@ mod.registered_realms = {
   {name = 'ns_highway', realm_minp = {x = -hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = hwy_w, y = ymax, z = xzmax}},
   {name = 'ew_highway', realm_minp = {x = -xzmax, y = -1200, z = -hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = hwy_w}},
 
+  {name = 'n_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = xzmax + hwy_w}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = xzmax}},
+  {name = 's_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = -xzmax - hwy_w}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = -xzmax}},
+  {name = 'e_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = -xzmax}, realm_maxp = {x = -xzmax, y = ymax, z = xzmax}},
+  {name = 'w_highway', realm_minp = {x = xzmax , y = -1200, z = -xzmax}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = xzmax}},
+
   --Ag
   {name = 'nw_moria_ag', realm_minp = {x = -xzmax, y = -400, z = hwy_w}, realm_maxp = {x = -hwy_w, y = ymax, z = xzmax}},
   {name = 'ne_moria_ag', realm_minp = {x = hwy_w, y = -400, z = hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = xzmax}},
