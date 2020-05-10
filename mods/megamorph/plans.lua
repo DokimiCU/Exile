@@ -21,21 +21,27 @@ local stone_main = 'nodes_nature:granite'
 local stone_block_main = 'nodes_nature:granite_block'
 local stone_brick_main = 'nodes_nature:granite_brick'
 local stone_stairs_main = 'stairs:stair_granite_block'
-local stone_stairs_block_main = 'stairs:stair_granite_brick'
+local stone_stairs_block_main = 'stairs:stair_granite_block'
 
 --secondary
 local stone_2nd = 'nodes_nature:basalt'
 local stone_block_2nd = 'nodes_nature:basalt_block'
 local stone_brick_2nd = 'nodes_nature:basalt_brick'
 local stone_stairs_2nd = 'stairs:stair_basalt_block'
-local stone_stairs_block_2nd = 'stairs:stair_basalt_brick'
+local stone_stairs_block_2nd = 'stairs:stair_basalt_block'
 
 --tertiary
 local stone_3rd = 'nodes_nature:limestone'
 local stone_block_3rd = 'nodes_nature:limestone_block'
 local stone_brick_3rd = 'nodes_nature:limestone_brick'
 local stone_stairs_3rd = 'stairs:stair_limestone_block'
-local stone_stairs_block_3rd = 'stairs:stair_limestone_brick'
+local stone_stairs_block_3rd = 'stairs:stair_limestone_block'
+
+--4th
+local stone_4th = 'nodes_nature:gneiss'
+local stone_block_4th = 'nodes_nature:gneiss_block'
+local stone_brick_4th = 'nodes_nature:gneiss_brick'
+local stone_stairs_block_4th = 'stairs:stair_gneiss_block'
 
 --furniture etc
 local lamp_block = 'artifacts:moon_glass'
@@ -154,7 +160,14 @@ local upper_stair = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(27, 60, 30), size = vn(2, 21, 20)},
 }
 
-
+--central stairwell (links upper and lower cross)
+local central_stairwell = {
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(32, 21, 41), size = vn(2, 10, 10)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(32, 31, 51), size = vn(2, 3, 2)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 1, loc = vn(34, 31, 51), size = vn(10, 10, 2)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(44, 41, 51), size = vn(2, 3, 2)},
+	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 2, loc = vn(44, 41, 41), size = vn(2, 10, 10)},
+}
 
 
 -----------------------------------------------------
@@ -1270,6 +1283,103 @@ if seal_underground then
 end
 
 
+-----------------------------------------------------
+--apartments
+
+local apartments = {
+	--lower stair linker
+	{act = 'cube', node = 'air', loc = vn(50, 20, 50), size = vn(2, 3, 9)},
+	{act = 'stair', node = stone_stairs_main, height = 3, depth = 2, param2 = 0, loc = vn(50, 20, 58), size = vn(2, 1, 1)},
+
+	--corridors middle
+	--{act = 'cube', node = 'air', loc = vn(20, 31, 39), size = vn(40, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 31, 20), size = vn(2, 3, 40)},
+	{act = 'cube', node = 'air', loc = vn(32, 31, 53), size = vn(7, 3, 2)},
+
+	-- big room middle
+	{act = 'cube', node = 'air', treasure = 30, loc = vn(22, 31, 22), size = vn(16, 5, 16)},
+	{act = 'cube', node = 'air', loc = vn(38, 31, 28), size = vn(1, 3, 4)},
+
+}
+
+-- apartments
+for _, z in pairs({32, 52}) do
+	for _, y in pairs({21, 51}) do
+
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, loc = vn(37, y, z), size = vn(2, 2, 2)})
+		table.insert(apartments, {act = 'cube', node = door_b, param2 = 1, loc = vn(38, y, z), size = vn(1, 1, 1)})
+		table.insert(apartments, {act = 'cube', node = door_a, param2 = 1, loc = vn(38, y, z+1), size = vn(1, 1, 1)})
+		table.insert(apartments, {act = 'cube', node = 'air', treasure = 6, floor = stone_block_4th, loc = vn(31, y, z-2), size = vn(6, 3, 6)})
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, loc = vn(25, y, z), size = vn(6, 3, 2)})
+		table.insert(apartments, {act = 'cube', node = 'air', treasure = 4, floor = stone_block_4th, loc = vn(24, y, z-8), size = vn(6, 3, 6)})
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, loc = vn(26, y, z-2), size = vn(1, 2, 2)})
+		table.insert(apartments, {act = 'cube', node = door_a, param2 = 0, loc = vn(26, y, z-2), size = vn(1, 1, 1)})
+
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, loc = vn(29, y, z+2), size = vn(1, 2, 1)})
+		table.insert(apartments, {act = 'cube', node = door_a, param2 = 2, loc = vn(29, y, z+2), size = vn(1, 1, 1)})
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, treasure = 10, loc = vn(27, y, z+3), size = vn(3, 3, 3)})
+
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, loc = vn(25, y, z+2), size = vn(1, 2, 1)})
+		table.insert(apartments, {act = 'cube', node = door_a, param2 = 2, loc = vn(25, y, z+2), size = vn(1, 1, 1)})
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_4th, treasure = 10, loc = vn(23, y, z+3), size = vn(3, 3, 3)})
+	end
+end
+
+for _, y in pairs({21, 51}) do
+	-- big room
+	table.insert(apartments, {act = 'cube', node = 'air', treasure = 30, loc = vn(42, y, 22), size = vn(16, 5, 16)})
+	table.insert(apartments, {act = 'cube', node = 'air', loc = vn(41, y, 28), size = vn(1, 3, 4)})
+	table.insert(apartments, {act = 'cube', node = 'air', loc = vn(58, y, 28), size = vn(1, 3, 4)})
+end
+
+
+-- middle rooms
+for _, z in pairs({21, 31, 44, 54}) do
+
+		table.insert(apartments, {act = 'cube', node = 'air', floor = stone_block_main, loc = vn(41, 31, z), size = vn(1, 2, 1)})
+		table.insert(apartments, {act = 'cube', node = door_a, param2 = 1, loc = vn(41, 31, z), size = vn(1, 1, 1)})
+		table.insert(apartments, {act = 'cube', node = 'air', treasure = 7, floor = stone_block_main, loc = vn(42, 31, z-2), size = vn(6, 3, 8)})
+		table.insert(apartments, {act = 'cube', node = 'air', treasure = 20, floor = stone_main, loc = vn(48, 32, z-2), size = vn(1, 1, 3)})
+		table.insert(apartments, {act = 'cube', node = 'air', treasure = 20, floor = stone_block_main, loc = vn(48, 31, z+2), size = vn(3, 3, 3)})
+
+end
+
+
+
+for _, item in pairs(lower_cross_hash) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+for _, item in pairs(upper_cross_hash) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_cross) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+for _, item in pairs(upper_cross) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+for _, item in pairs(central_stairwell) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+
+for _, item in pairs(upper_stair) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_stair) do
+	table.insert(apartments, 2, table.copy(item))
+end
+
+
+if seal_underground then
+	table.insert(great_hall, 1, table.copy(seal_box))
+end
+
 
 
 
@@ -2200,6 +2310,12 @@ for _, n in pairs({"nw", "ne", "sw", "se"}) do
 		name = n..'_kitchen_res',
 		areas = n..'_moria_res',
 		data = kitchen,
+	})
+
+	register_geomorph({
+		name = n..'_apartments',
+		areas = n..'_moria_res',
+		data = apartments,
 	})
 
 end
