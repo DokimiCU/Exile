@@ -1379,6 +1379,156 @@ if seal_underground then
 end
 
 
+-----------------------------------------------------
+--grand_apartments
+
+local grand_apartments = {
+	--central space
+	{act = 'cube', node = 'air', loc = vn(25, 11, 25), size = vn(30, 59, 30)},
+
+	--walkways
+	{act = 'cube', node = stone_block_main, loc = vn(25, 60, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_block_main, loc = vn(25, 50, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_block_main, loc = vn(25, 40, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_block_main, loc = vn(25, 30, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = stone_block_main, loc = vn(25, 20, 25), size = vn(30, 1, 30)},
+	{act = 'cube', node = 'air', loc = vn(28, 11, 28), size = vn(24, 54, 24)},
+
+	--central pillar
+	{act = 'cube', node = stone_main, loc = vn(35, 11, 35), size = vn(10, 59, 10)},
+
+	--access walkways
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(0, 21, 38), size = vn(80, 3, 4)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(0, 51, 38), size = vn(80, 3, 4)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 21, 0), size = vn(4, 3, 80)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 51, 0), size = vn(4, 3, 80)},
+
+	{act = 'cube', node = 'air', loc = vn(0, 24, 39), size = vn(80, 1, 2)},
+	{act = 'cube', node = 'air', loc = vn(0, 54, 39), size = vn(80, 1, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 24, 0), size = vn(2, 1, 80)},
+	{act = 'cube', node = 'air', loc = vn(39, 54, 0), size = vn(2, 1, 80)},
+
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(25, 31, 38), size = vn(30, 3, 4)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 31, 25), size = vn(4, 3, 30)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(25, 41, 38), size = vn(30, 3, 4)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 41, 25), size = vn(4, 3, 30)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(25, 61, 38), size = vn(30, 3, 4)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 61, 25), size = vn(4, 3, 30)},
+
+	--stairs
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 2, loc = vn(33, 11, 42), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 0, loc = vn(33, 21, 28), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 2, loc = vn(33, 31, 42), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 0, loc = vn(33, 41, 28), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 2, loc = vn(33, 51, 42), size = vn(2, 10, 10)},
+
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 0, loc = vn(45, 11, 42), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 2, loc = vn(45, 21, 28), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 0, loc = vn(45, 31, 42), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 2, loc = vn(45, 41, 28), size = vn(2, 10, 10)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 1, param2 = 0, loc = vn(45, 51, 42), size = vn(2, 10, 10)},
+
+
+
+	--lower stair
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(24, 0, 50), size = vn(6, 4, 6)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 2, param2 = 1, loc = vn(30, 0, 50), size = vn(11, 11, 2)},
+
+}
+
+--apartments
+for _, x in pairs({26, 33, 45, 52}) do
+	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
+		--back room
+		table.insert(grand_apartments, {act = 'sphere', node = 'air', loc = vn(x-2, y+2, 10), size = vn(6, 6, 6)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 10, node = 'air', loc = vn(x-2, y, 10), size = vn(6, 4, 6)})
+		table.insert(grand_apartments, {act = 'cube', treasure = 6, node = 'air', loc = vn(x, y+1, 9), size = vn(2, 2, 1)})
+
+		--side alcoves
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(x+2, y, 17), size = vn(2, 3, 4)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(x-2, y, 17), size = vn(2, 3, 4)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(x+2, y, 22), size = vn(2, 3, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(x-2, y, 22), size = vn(2, 3, 2)})
+
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(x+2, y, 17), size = vn(1, 1, 2)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(x-1, y, 17), size = vn(1, 1, 2)})
+
+		--hallway and doors
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, y, 16), size = vn(2, 4, 8)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, y, 24), size = vn(2, 2, 1)})
+		table.insert(grand_apartments, {act = 'cube', node = door_a, param2 = 2, loc = vn(x+1, y, 24), size = vn(1, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', node = door_b, param2 = 2, loc = vn(x, y, 24), size = vn(1, 1, 1)})
+	end
+end
+
+for _, x in pairs({30, 48}) do
+	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
+		--large room
+		table.insert(grand_apartments, {act = 'sphere', node = 'air', loc = vn(x-5, y+2, 56), size = vn(10, 5, 10)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(x-5, y, 56), size = vn(10, 4, 10)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(x-3, y, 58), size = vn(1, 1, 6)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(x+3, y, 58), size = vn(1, 1, 6)})
+		--back room
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 10, node = 'air', loc = vn(x-5, y, 67), size = vn(10, 3, 5)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x-2, y, 66), size = vn(4, 2, 1)})
+
+		--door
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, y, 55), size = vn(2, 2, 1)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = door_b, param2 = 0, loc = vn(x+1, y, 55), size = vn(1, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = door_a, param2 = 0, loc = vn(x, y, 55), size = vn(1, 1, 1)})
+
+	end
+end
+
+for _, z in pairs({30, 48}) do
+	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
+		--large room
+		table.insert(grand_apartments, {act = 'sphere', node = 'air', loc = vn(56, y+2, z-5), size = vn(10, 5, 10)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(56, y, z-5), size = vn(10, 4, 10)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(58, y, z-3), size = vn(6, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(58, y, z+3), size = vn(6, 1, 1)})
+		--back room
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 10, node = 'air', loc = vn(67, y, z-5), size = vn(5, 3, 10)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(66, y, z-2), size = vn(1, 2, 4)})
+
+		--door
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(55, y, z), size = vn(1, 2, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = door_a, param2 = 1, loc = vn(55, y, z+1), size = vn(1, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = door_b, param2 = 1, loc = vn(55, y, z), size = vn(1, 1, 1)})
+
+	end
+end
+
+
+for _, z in pairs({26, 33, 45, 52}) do
+	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
+		--back room
+		table.insert(grand_apartments, {act = 'sphere', node = 'air', loc = vn(10, y+2, z-2), size = vn(6, 6, 6)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 10, node = 'air', loc = vn(10, y, z-2), size = vn(6, 4, 6)})
+		table.insert(grand_apartments, {act = 'cube', treasure = 6, node = 'air', loc = vn(9, y+1, z), size = vn(1, 2, 2)})
+
+		--side alcoves
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(17, y, z+2), size = vn(4, 3, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(17, y, z-2), size = vn(4, 3, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(22, y, z+2), size = vn(2, 3, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, treasure = 15, node = 'air', loc = vn(22, y, z-2), size = vn(2, 3, 2)})
+
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(17, y, z+2), size = vn(2, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', node = stone_block_main, loc = vn(17, y, z-1), size = vn(2, 1, 1)})
+
+		--hallway and doors
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(16, y, z), size = vn(8, 4, 2)})
+		table.insert(grand_apartments, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(24, y, z), size = vn(1, 2, 2)})
+		table.insert(grand_apartments, {act = 'cube', node = door_b, param2 = 3, loc = vn(24, y, z+1), size = vn(1, 1, 1)})
+		table.insert(grand_apartments, {act = 'cube', node = door_a, param2 = 3, loc = vn(24, y, z), size = vn(1, 1, 1)})
+	end
+end
+
+
+if seal_underground then
+	table.insert(grand_bazaar, 1, table.copy(seal_box))
+end
+
 
 
 -----------------------------------------------------
@@ -1852,8 +2002,35 @@ end
 
 
 
+-----------------------------------------------------
+--Plaza
+local plaza = {
+	{act = 'sphere', node = 'air', loc = vn(25, 22, 25), size = vn(30, 20, 30)},
+	{act = 'cylinder', node = 'air', floor = stone_block_4th, axis = 'y', loc = vn(24, 21, 24), size = vn(32, 11, 32)},
 
+	{act = 'sphere', node = 'air', loc = vn(25, 52, 25), size = vn(30, 20, 30)},
+	{act = 'cylinder', node = 'air', floor = lamp_block, axis = 'y', loc = vn(24, 51, 24), size = vn(32, 11, 32)},
+}
 
+for _, item in pairs(lower_stair_room) do
+	table.insert(plaza, 2, table.copy(item))
+end
+
+for _, item in pairs(upper_cross) do
+	table.insert(plaza, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_cross) do
+	table.insert(plaza, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_cross_hash) do
+	table.insert(plaza, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(plaza, 1, table.copy(seal_box))
+end
 
 -----------------------------------------------------
 -----------------------------------------------------
@@ -2560,6 +2737,12 @@ for _, n in pairs({"nw", "ne", "sw", "se"}) do
 		data = apartments,
 	})
 
+	register_geomorph({
+		name = n..'_grand_apartments',
+		areas = n..'_moria_res',
+		data = grand_apartments,
+	})
+
 end
 
 
@@ -2597,6 +2780,12 @@ for _, n in pairs({"nw", "ne", "sw", "se"}) do
 		name = n..'_grand_bazaar',
 		areas = n..'_moria_mar',
 		data = grand_bazaar,
+	})
+
+	register_geomorph({
+		name = n..'_plaza',
+		areas = n..'_moria_mar',
+		data = plaza,
 	})
 
 end
