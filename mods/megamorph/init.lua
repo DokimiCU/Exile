@@ -395,7 +395,6 @@ minetest.after(0, function()
   options['nodes_nature:limestone_block'] =  { 1, 2, 4 }
 
   options['nodes_nature:gneiss_boulder'] =  { 1, 2, 2 }
-  options['nodes_nature:jade_boulder'] =  { 1, 2, 2 }
 
 
   --medium processed materials, cheap tools (rarity 3)
@@ -407,19 +406,24 @@ minetest.after(0, function()
   options['tech:charcoal'] =  { 1, 3, 2 }
 
   options['nodes_nature:gneiss_brick'] =  { 1, 3, 2 }
-  options['nodes_nature:jade_brick'] =  { 1, 3, 2 }
   options['nodes_nature:gneiss_block'] =  { 1, 3, 2 }
-  options['nodes_nature:jade_block'] =  { 1, 3, 2 }
+  options['nodes_nature:jade_boulder'] =  { 1, 3, 2 }
 
-  --costly processed materials, expensive tools, (rarity 4)
+  --costly processed materials, expensive tools, crap artifacts (rarity 4)
   options['artifacts:moon_glass'] =  { 1, 4, 1 }
   options['artifacts:antiquorium_ladder'] =  { 1, 4, 1 }
   options['artifacts:antiquorium'] =  { 1, 4, 1 }
   options['doors:door_antiquorium'] =  { 1, 4, nil }
   options['artifacts:trapdoor_antiquorium'] =  { 1, 4, 1 }
+  options['nodes_nature:jade_block'] =  { 1, 4, 2 }
+  options['nodes_nature:jade_brick'] =  { 1, 4, 2 }
+
+  options['nodes_nature:zufani_seed'] =  { 1, 4, 4 }
 
 
   --low level artifacts (rarity 5), non-durables
+  options['nodes_nature:merki_seed'] =  { 1, 5, 4 }
+
   options['artifacts:light_meter'] =  { 1, 5, nil }
   options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
@@ -466,7 +470,7 @@ minetest.after(0, function()
   options['tech:vegetable_oil'] =  { 1, 6, nil }
   options['tech:coarse_fabric'] =  { 1, 6, nil }
   options['tech:mattress'] =  { 1, 6, 1 }
-  options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
+  --options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
 
   options['artifacts:airboat'] =  { 1, 6, nil }
   options['artifacts:mapping_kit'] =  { 1, 6, nil }
