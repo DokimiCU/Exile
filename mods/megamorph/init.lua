@@ -488,6 +488,11 @@ minetest.after(0, function()
   options['nodes_nature:reshedaar_seed'] =  { 1, 6, 4 }
   options['nodes_nature:mahal_seed'] =  { 1, 6, 4 }
 
+  options['artifacts:sculpture_g_arch_judge'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_beast'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_trickster'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_mother'] =  { 1, 6, nil }
+
 
 	for name, d in pairs(options) do
 		if minetest.registered_items[name] then

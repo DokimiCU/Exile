@@ -25,7 +25,7 @@ local function update_hud_flags(player)
 
 	player:hud_set_flags({
 		minimap = minimap_enabled,
-		minimap_radar = radar_enabled
+		minimap_radar = minimap_enabled
 	})
 end
 
