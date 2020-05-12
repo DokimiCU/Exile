@@ -1,5 +1,5 @@
 # Exile
-Version 0.1.1
+Version 0.2
 by Dokimi
 
 ### Gameplay
@@ -52,17 +52,20 @@ Some tips and tricks:
 # 0.1
 - Initial release
 
-# 0.1.1
+# 0.2
+- darkasthaan spider for deep caves
+- graffitti: glow paint
+- fixed dungeon loot,
+- added more artifacts
+- split into realms (highways, and city structure)
+- added more geomorphs
+- gneiss and jade for deep underground biome
+- better looking bones
+- updated backgrounds
+- updated version of crafting
 - various minor fixes
 - various minor balance changes
 - various minor additions
-- updated backgrounds
-- updated version of crafting
-- darkasthaan spider for deep caves
-- graffitti: glow paint
-- better looking bones
-- fixed dungeon loot, added more artifacts, split into realms (highways, and city structure)
-- gneiss and jade for deep underground biome
 
 
 
@@ -74,6 +77,7 @@ Urgent Fixes needed:
 
 Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
+-clothing
 
 
 
@@ -97,11 +101,10 @@ HEALTH
 --NATURE
 -bamboo like thing (like canes but for sticks)
 -shellfish
--tree seedling?/sapling?/slow growth (no insta-trees!...maybe have a biotech artifact)
 -unique environ tolerances for each plant species
 -frozen wet ground (cracky)
 -fire tolerance for trees (on_burn to charred tree, regenerates)
--underground flora: food, wood, light
+
 
 
 --MOBS
@@ -109,19 +112,18 @@ HEALTH
 -better looking dead animals, cooking
 
 --LORE/LOOT/DUNGEONS
--artifacts (loot): scuba,
+-artifacts (loot): scuba, tree grower
 -dangerous "pandora's box" loot
 -lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
--more morphs: waste dumps, public baths, transporter room, laboratory, parliament, storage dumps, factories
+-more morphs: gardens, waste dumps, public baths, transporter room, laboratory, storage dumps, factories
 
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
 -more graffiti in more colors
 -extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
--clothing (with effect on temp tolerance)
 -bricks and mortar (higher carry limit than mudbrick to justify cost)
 -crushed lime> quicklime > mortar
 -clay roof tiles
@@ -137,8 +139,6 @@ HEALTH
 -Scyth
 -a use for broken pottery,
 -ash crafts (glass)
--compass
--screwdriver
 -watering can (make soil wet)
 -pottery wheel and more sophisticated glazed pottery
 -iron doors (e.g. for furnaces, nonflammable)
@@ -167,8 +167,7 @@ Bed:
 Health:
 
 Animals:
--occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider
--darkasthaan speed slide around a lot when attacking, looks strange.
+-occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider (placeholder solution in place, seems to work okay)
 -some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
 
 
@@ -184,7 +183,7 @@ Volcano:
 
 Megamorph:
 -a silly string stair doesn't line up (from overpass)
--self.params.share.surface crash with some layouts (that cross over edges? No current morphs do this)
+-self.params.share.surface crash with some layouts (that cross over edges. No current morphs do this)
 
 
 Tech:
@@ -202,9 +201,10 @@ Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.
 -adds stack to inventory at crafted stack size, rather than node stack size (over stacked)
 -Calling get_connected_players() at mod load time is deprecated
+-some items need inv images with space around edges (e.g. wattle)
 
 Misc:
 -various bits of code could be tidied up (e.g. duplicated code pulled into functions)
 -might be missing credit for some textures etc
 -a lot of cluttering nodes could be removed from creative inventory
--performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
+-performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much, also large numbers of mobs)

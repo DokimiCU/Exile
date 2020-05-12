@@ -484,6 +484,10 @@ minetest.after(0, function()
   options['artifacts:transporter_power'] =  { 1, 6, nil }
   options['artifacts:transporter_pad'] =  { 1, 6, nil }
 
+  options['nodes_nature:lambakap_seed'] =  { 1, 6, 4 }
+  options['nodes_nature:reshedaar_seed'] =  { 1, 6, 4 }
+  options['nodes_nature:mahal_seed'] =  { 1, 6, 4 }
+
 
 	for name, d in pairs(options) do
 		if minetest.registered_items[name] then

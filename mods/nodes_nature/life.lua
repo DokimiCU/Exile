@@ -177,6 +177,10 @@ local plantlist = {
 	{"damo", "Damo", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth},
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, base_growth * 1.2},
 	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 1.5},
+	--artifact
+	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *4},
+	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *4},
+
 
 }
 
@@ -443,10 +447,11 @@ end
 
 --Consummables
 --Use: hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
---all raw food items have some malus and are mostly realitively ineffective
+--most raw food items have some malus and are mostly realitively ineffective
 local plantlist2 = {
-  --drugs and evil
+  --drugs
 	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,20,1, nil, nil, nil, base_growth},
+	--evil
 	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, -5,-5,-500,-5,-5, nil, nil, nil, base_growth},
 	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 20,-95,-995,-995,0, nil, nil, nil, base_growth*2},
   --medicine
@@ -456,6 +461,8 @@ local plantlist2 = {
 	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,4,0,-8,0, nil, nil, nil, base_growth * 2 },
 	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,-8,0, nil, nil, nil, base_growth * 2},
 	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,2,2,-8,0, nil, nil, nil, base_growth *0.8},
+	--artifact
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *5},
 
 }
 
@@ -992,6 +999,61 @@ minetest.override_item("nodes_nature:vansano_seed",{
 minetest.override_item("nodes_nature:tikusati_seed",{
 	on_use = function(itemstack, user, pointed_thing)
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 1, math.random(50, 300), math.random(1, 3))
+		return HEALTH.use_item(itemstack, user, 0, 0, -10, math.random(50, 300), math.random(1, 3))
 	end,
+})
+
+--lambakap. Glows, is also a mushroom.
+--slow growing food and water source, main crop for longterm underground living.
+minetest.override_item("nodes_nature:lambakap",{
+	light_source = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125, -0.5, -0.125, 0.125, -0.375, 0.125},
+			{-0.1875, -0.375, -0.1875, 0.1875, -0.1875, 0.1875},
+			{-0.1875, -0.1875, -0.1875, -0.0625, 0, 0.1875},
+			{0.0625, -0.1875, -0.1875, 0.1875, 0, 0.1875},
+			{-0.0625, -0.1875, -0.1875, 0.0625, 0, -0.0625},
+			{-0.0625, -0.1875, 0.0625, 0.0625, 0, 0.1875},
+		}
+	},
+	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+})
+
+--reshedaar. Glows, is also a mushroom.
+--slow growing fibre mushroom, main fibre crop for longterm underground living.
+minetest.override_item("nodes_nature:reshedaar",{
+	light_source = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125, -0.5, -0.125, 0.125, -0.25, 0.125}, -- NodeBox1
+			{-0.0625, -0.5, -0.1875, 0.0625, -0.0625, -0.125}, -- NodeBox2
+			{-0.0625, -0.5, 0.125, 0.0625, -0.0625, 0.1875}, -- NodeBox3
+			{-0.1875, -0.5, -0.0625, -0.125, -0.0625, 0.0625}, -- NodeBox4
+			{0.125, -0.5, -0.0625, 0.1875, -0.0625, 0.0625}, -- NodeBox5
+			{-0.125, -0.25, -0.125, -0.0625, 0.4375, -0.0625}, -- NodeBox9
+			{-0.125, -0.25, 0.0625, -0.0625, 0.3125, 0.125}, -- NodeBox10
+			{0.0625, -0.25, -0.125, 0.125, 0.3125, -0.0625}, -- NodeBox11
+			{0.0625, -0.25, 0.0625, 0.125, 0.4375, 0.125}, -- NodeBox12
+		}
+	},
+	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+})
+
+--Mahal. Glows, is also a mushroom.
+--slow growing woody mushroom, main stick crop for longterm underground living.
+minetest.override_item("nodes_nature:mahal",{
+	light_source = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125, -0.5, -0.125, 0.125, -0.3125, 0.125}, -- NodeBox1
+			{-0.0625, -0.3125, -0.0625, 0.0625, 0.3125, 0.0625}, -- NodeBox2
+			{-0.125, 0.375, -0.125, 0.125, 0.5, 0.125}, -- NodeBox3
+			{-0.1875, 0.3125, -0.1875, 0.1875, 0.375, 0.1875}, -- NodeBox4
+		}
+	},
+	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 })
