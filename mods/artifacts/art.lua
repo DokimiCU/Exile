@@ -666,7 +666,7 @@ minetest.register_node("artifacts:drumming_stone", {
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
 
 	on_construct = function(pos)
-		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.2, max_hear_distance = 14})
+		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.2, max_hear_distance = 60})
 		minetest.get_node_timer(pos):start(math.floor(math.random(1,2)))
 	end,
 
@@ -710,7 +710,7 @@ minetest.register_node("artifacts:drumming_stone_b", {
 	on_construct = function(pos)
 		--minetest.get_node_timer(pos):start(math.random(1.4,1.6))
 		minetest.get_node_timer(pos):start(0.5)
-		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 17})
+		minetest.sound_play({name="artifacts_drumming_stone"}, {pos = pos, gain = 0.4, max_hear_distance = 60})
 	end,
 
 	on_timer =function(pos, elapsed)
