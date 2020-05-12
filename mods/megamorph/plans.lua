@@ -865,6 +865,12 @@ local kitchen = {
 	{act = 'cylinder', node = 'air', axis = 'y', floor = stone_block_3rd, loc = vn(21, 38, 13), size = vn(18, 10, 18)},
 	{act = 'cube', node = 'air', treasure = 3, loc = vn(25, 38, 18), size = vn(6, 1, 6)},
 
+	--short lower cross corridors
+	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 19)},
+	{act = 'cube', node = 'air', loc = vn(0, 21, 39), size = vn(19, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(61, 21, 39), size = vn(19, 3, 2)},
+	{act = 'cube', node = 'air', loc = vn(39, 21, 61), size = vn(2, 3, 19)},
+
 
 
 
