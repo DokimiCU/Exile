@@ -1934,7 +1934,7 @@ local grand_bazaar = {
 --wall shops
 for _, x in pairs({28, 34, 42, 48}) do
 	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
-		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, treasure = 2, node = 'air', loc = vn(x, y, 7), size = vn(4, 3, 7)})
+		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, treasure = 4, node = 'air', loc = vn(x, y, 7), size = vn(4, 3, 7)})
 		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, y, 14), size = vn(2, 3, 1)})
 		table.insert(grand_bazaar, {act = 'cube', node = 'air', loc = vn(x+1, y+1, 14), size = vn(3, 2, 1)})
 	end
@@ -1942,7 +1942,7 @@ end
 
 for _, x in pairs({28, 34, 42, 48}) do
 	for _, y in pairs({11, 21, 31, 41, 51, 61}) do
-		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, treasure = 2, node = 'air', loc = vn(x, y, 66), size = vn(4, 3, 7)})
+		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, treasure = 3, node = 'air', loc = vn(x, y, 66), size = vn(4, 3, 7)})
 		table.insert(grand_bazaar, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, y, 65), size = vn(2, 3, 1)})
 		table.insert(grand_bazaar, {act = 'cube', node = 'air', loc = vn(x+1, y+1, 65), size = vn(3, 2, 1)})
 	end

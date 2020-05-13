@@ -28,6 +28,8 @@ Wayfinder CC BY-SA by tacotexmex
 airboat gear sounds: Attribution 3.0, Mike Koenig
 http://soundbible.com/932-Gear-Shift-Into-Drive.html, http://soundbible.com/830-Door-Unlock.html
 
+artifacts_bouncy.ogg - by Blender Foundation - CC BY 3.0 opengameart.org/content/funny-comic-cartoon-bounce-sound
+
 
 
 Authors of media (textures)

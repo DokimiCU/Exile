@@ -422,6 +422,9 @@ minetest.after(0, function()
 
 
   --low level artifacts (rarity 5), non-durables
+  options['artifacts:conveyor'] =  { 1, 5, 24 }
+  options['artifacts:trampoline'] =  { 1, 5, nil }
+
   options['nodes_nature:merki_seed'] =  { 1, 5, 4 }
 
   options['artifacts:light_meter'] =  { 1, 5, nil }
@@ -432,10 +435,11 @@ minetest.after(0, function()
   options['artifacts:potters_probe'] =  { 1, 5, nil }
   options['artifacts:chefs_probe'] =  { 1, 5, nil }
   options['artifacts:farmers_probe'] =  { 1, 5, nil }
+
   options['artifacts:spyglass'] =  { 1, 5, nil }
   options['artifacts:bell'] =  { 1, 5, nil }
   options['artifacts:waystone'] =  { 1, 5, nil }
-  options['artifacts:wayfinder'] =  { 1, 5, nil }
+  options['artifacts:wayfinder_0'] =  { 1, 5, nil }
 
   options['tech:stick'] =  { 1, 5, 1 }
 
@@ -451,8 +455,6 @@ minetest.after(0, function()
   options['artifacts:sculpture_j_dragon_head'] =  { 1, 5, nil }
   options['artifacts:sculpture_j_skull_head'] =  { 1, 5, nil }
 
-  options['artifacts:moon_stone'] =  { 1, 5, nil }
-  options['artifacts:sun_stone'] =  { 1, 5, nil }
   options['artifacts:star_stone'] =  { 1, 5, 12 }
   options['artifacts:singing_stone'] =  { 1, 5, 12 }
   options['artifacts:drumming_stone'] =  { 1, 5, 12 }
@@ -465,6 +467,9 @@ minetest.after(0, function()
   options['artifacts:gamepiece_c_white'] =  { 1, 5, 12 }
 
   --high level artifacts, and intact non-durables (rarity 6)
+  options['artifacts:moon_stone'] =  { 1, 6, nil }
+  options['artifacts:sun_stone'] =  { 1, 6, nil }
+
   options['tech:fine_fabric'] =  { 1, 6, nil }
   options['tech:torch'] =  { 1, 6, nil }
   options['tech:vegetable_oil'] =  { 1, 6, nil }

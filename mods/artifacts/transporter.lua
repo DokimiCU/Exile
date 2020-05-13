@@ -746,6 +746,7 @@ minetest.register_node('artifacts:transporter_pad_charging', {
 	stack_max = minimal.stack_max_bulky,
 	drawtype = "nodebox",
 	paramtype = "light",
+	light_source = 3,
 	drop = 'artifacts:transporter_pad',
 	node_box = {
 		type = "fixed",
@@ -808,6 +809,7 @@ minetest.register_node('artifacts:transporter_pad_active', {
 	description = 'Transporter Pad (active)',
 	tiles = {'artifacts_antiquorium.png^artifacts_sun_stone.png'},
 	stack_max = minimal.stack_max_bulky,
+	light_source = 6,
 	drawtype = "nodebox",
 	paramtype = "light",
 	drop = 'artifacts:transporter_pad',

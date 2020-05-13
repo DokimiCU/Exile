@@ -14,4 +14,5 @@ dofile(modpath..'/wayfinder.lua')
 dofile(modpath..'/art.lua')
 dofile(modpath..'/airboat.lua')
 dofile(modpath..'/transporter.lua')
+dofile(modpath..'/pandora.lua')
 -------------------------------
