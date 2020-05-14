@@ -53,10 +53,12 @@ Some tips and tricks:
 - Initial release
 
 # 0.2
+- clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - darkasthaan spider for deep caves
 - graffitti: glow paint
-- fixed dungeon loot,
-- added more artifacts
+- fixed dungeon loot
+- added more artifacts (airboat, art, transporter, wayfinder...)
+- mushrooms for fibre, food/water, sticks (artifact species)
 - split into realms (highways, and city structure)
 - added more geomorphs
 - gneiss and jade for deep underground biome
@@ -77,7 +79,6 @@ Urgent Fixes needed:
 
 Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
--clothing
 
 
 

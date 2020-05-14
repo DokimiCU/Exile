@@ -3,7 +3,7 @@
 
 ----Rope ladder
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "ropes:ropeladder_top",
 	items = {"group:fibrous_plant 24", "tech:stick 12"},
 	level = 1,

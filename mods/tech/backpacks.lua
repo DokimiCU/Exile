@@ -25,7 +25,7 @@ backpacks.register_bacpack("fabric_bag", "Fabric Bag", "tech_coarse_fabric.png",
 
 ----woven from fibrous_plant
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "backpacks:backpack_woven_bag 1",
 	items = {"group:fibrous_plant 48"},
 	level = 1,

@@ -44,6 +44,10 @@ local recovery_rate = 5
 local move = 0
 local jump = 0
 
+--no clothing temperature comfort zone
+local temp_min = 20
+local temp_max = 30
+
 --e.g. for new players
 local function set_default_attibutes(player)
 	local meta = player:get_meta()
@@ -57,6 +61,8 @@ local function set_default_attibutes(player)
 	meta:set_int("recovery_rate", recovery_rate)
 	meta:set_int("move", move)
 	meta:set_int("jump", jump)
+	meta:set_int("clothing_temp_min", temp_min)
+	meta:set_int("clothing_temp_max", temp_max )
 
 end
 
@@ -306,25 +312,26 @@ end
 -----------------------------
 --Main
 --
+minetest.register_on_newplayer(function(player)
+	set_default_attibutes(player)
+end)
+
+minetest.register_on_joinplayer(function(player)
+	register_tab()
+	sfinv.set_player_inventory_formspec(player)
+end)
+
+minetest.register_on_respawnplayer(function(player)
+	set_default_attibutes(player)
+	--sfinv.set_player_inventory_formspec(player)
+
+	--redo physics (to clear what killed them)
+	player_monoids.speed:del_change(player, "health:physics")
+	player_monoids.jump:del_change(player, "health:physics")
+end)
+
+
 if minetest.settings:get_bool("enable_damage") then
-
-	minetest.register_on_newplayer(function(player)
-		set_default_attibutes(player)
-	end)
-
-	minetest.register_on_joinplayer(function(player)
-		register_tab()
-		sfinv.set_player_inventory_formspec(player)
-	end)
-
-	minetest.register_on_respawnplayer(function(player)
-		set_default_attibutes(player)
-		--sfinv.set_player_inventory_formspec(player)
-
-		--redo physics (to clear what killed them)
-		player_monoids.speed:del_change(player, "health:physics")
-		player_monoids.jump:del_change(player, "health:physics")
-	end)
 
 
 	--Main update values

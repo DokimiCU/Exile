@@ -11,6 +11,7 @@
 crafting.register_type("crafting_spot")
 --crafting.register_type("mixing_spot")...has to be done in nodes_nature
 --crafting.register_type("threshing_spot")...has to be done in nodes_nature
+crafting.register_type("weaving_frame")
 crafting.register_type("grinding_stone")
 crafting.register_type("mortar_and_pestle")
 --crafting.register_type("chopping_block")...has to be done in nodes_nature
@@ -122,12 +123,44 @@ minetest.register_node("tech:threshing_spot", {
 --Boulders, rough hewn timber
 
 
+--weaving_frame
+--fa primitive loom, for simple woven crafts
+minetest.register_node("tech:weaving_frame",{
+	description = "Weaving Frame",
+	drawtype = "nodebox",
+	tiles = {"tech_stick.png"},
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {falling_node = 1, dig_immediate=3},
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.375, -0.375, -0.375, 0.375, -0.25, -0.25}, -- NodeBox1
+			{-0.5, -0.5, -0.375, -0.375, -0.125, -0.25}, -- NodeBox2
+			{0.375, -0.5, -0.375, 0.5, -0.125, -0.25}, -- NodeBox3
+			{0.375, -0.5, 0.375, 0.5, 0.0625, 0.5}, -- NodeBox4
+			{-0.5, -0.5, 0.375, -0.375, 0.0625, 0.5}, -- NodeBox5
+			{-0.375, -0.0625, 0.375, 0.375, 0.0625, 0.5}, -- NodeBox6
+			{-0.3125, -0.5, 0.375, -0.25, -0.0625, 0.4375}, -- NodeBox7
+			{0.25, -0.5, 0.375, 0.3125, -0.0625, 0.4375}, -- NodeBox8
+			{0.125, -0.5, 0.375, 0.1875, -0.0625, 0.4375}, -- NodeBox9
+			{-0.1875, -0.5, 0.375, -0.125, -0.0625, 0.4375}, -- NodeBox10
+			{-0.0625, -0.5, 0.375, 0.0625, -0.0625, 0.5}, -- NodeBox11
+			{-0.5, -0.0625, 0.3125, 0.5, 0, 0.375}, -- NodeBox12
+			{-0.5, -0.4375, 0.3125, 0.5, -0.375, 0.375}, -- NodeBox13
+		}
+	},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+	on_rightclick = crafting.make_on_rightclick("weaving_frame", 2, { x = 8, y = 3 }),
+})
+
+
 --grinding stone
 --for grinding stone tools
 minetest.register_node("tech:grinding_stone",{
 	description = "Grinding stone",
 	drawtype = "nodebox",
-	mesh = "tech_grinding_stone.obj",
 	tiles = {"nodes_nature_granite.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
@@ -154,7 +187,6 @@ minetest.register_node("tech:grinding_stone",{
 minetest.register_node("tech:mortar_pestle_basalt",{
 	description = "Basalt Mortar and Pestle",
 	drawtype = "nodebox",
-	mesh = "tech_mortar_pestle.obj",
 	tiles = {"nodes_nature_basalt.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
@@ -179,7 +211,6 @@ minetest.register_node("tech:mortar_pestle_basalt",{
 minetest.register_node("tech:mortar_pestle_granite",{
 	description = "Granite Mortar and Pestle",
 	drawtype = "nodebox",
-	mesh = "tech_mortar_pestle.obj",
 	tiles = {"nodes_nature_granite.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
@@ -469,6 +500,16 @@ crafting.register_recipe({
 --
 --Wood
 --
+
+--weaving_frame
+crafting.register_recipe({
+	type = "crafting_spot",
+	output = "tech:weaving_frame",
+	items = {'tech:stick 12', 'group:fibrous_plant 8'},
+	level = 1,
+	always_known = true,
+})
+
 
 --chopping_block
 crafting.register_recipe({
