@@ -1,8 +1,4 @@
 ------------------------------------
---HAS issues because of unemerged areas...
---needs some way to ensure areas are emerged before checks, before teleporting into solid rock
-
-
 --TRANSPORTER
 --Teleporter
 --[[
@@ -43,7 +39,7 @@ local recent_teleports = {}
 --TRANSPORTER PAD
 
 --actually move
-local function teleport_effects(target_pos, pos, player, player_name, regulator, power)
+local function teleport_effects(target_pos, pos, player, player_name, regulator, power, random)
 	local origin = player:get_pos()
 	target_pos.y = target_pos.y + 0.5
 
@@ -104,15 +100,23 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 	end
 
 	--failsafe. (if emerge area failed, and end up in rock)
-	local dest_node = minetest.get_node(target_pos).name
-	local def = minetest.registered_nodes[dest_node]
-	if dest_node == 'ignore' or (def and def.walkable) then
-		--potentially went into a solid
-		--return to origin
-		player:set_pos(origin)
-		--you temporarirly merged with a solid...ouch
-		local hp = player:get_hp()
-		player:set_hp(hp-10)
+	--hopefully only an issue for random teleports, unless someone's screwed with
+	--your teleporter pad
+	--means you get zapped instead of thrown to a random place,
+	-- which serves the purpose of a fail either way
+	if random ~= 'locked' then
+
+		local dest_node = minetest.get_node(target_pos).name
+		local def = minetest.registered_nodes[dest_node]
+		if dest_node == 'ignore' or (def and def.walkable) then
+			--potentially went into a solid
+			--return to origin
+			player:set_pos(origin)
+			--you temporarirly merged with a solid...ouch
+			local hp = player:get_hp()
+			player:set_hp(hp-10)
+		end
+
 	end
 
 	-- prevent teleport spamming
@@ -159,7 +163,10 @@ local function check_teleport_dest(dest, pos, range, random)
 	local dest_top = minetest.get_node({ x = dest.x, y = dest.y+2, z = dest.z })
 
 	if random == "locked" then
-		if dest_bot.name ~= 'ignore' and dest_bot.name ~= 'artifacts:transporter_pad' then
+		if dest_bot.name ~= 'ignore'
+		and dest_bot.name ~= 'artifacts:transporter_pad'
+		and dest_bot.name ~= 'artifacts:transporter_pad_charging'
+		and dest_bot.name ~= 'artifacts:transporter_pad_active' then
 			dest_ok = false
 			return dest_ok
 		end
@@ -248,7 +255,7 @@ local function do_teleport(pos, target_pos, random, player, range, regulator, po
 
 	else
 
-		teleport_effects(target_pos, pos, player, player_name, regulator, power)
+		teleport_effects(target_pos, pos, player, player_name, regulator, power, random)
 
 	end
 end
@@ -352,7 +359,7 @@ local function transporter_rightclick(pos, node, player, itemstack, pointed_thin
 		local infotext = meta_tran:get_string("infotext")
 
 		minetest.set_node(pos, {name = "artifacts:transporter_pad_charging"})
-		minetest.sound_play("artifacts_transport_charge", {pos = pos, gain = 1, max_hear_distance = 20})
+		minetest.sound_play("artifacts_transport_charge", {pos = pos, gain = 2, max_hear_distance = 20})
 
 		meta_tran:set_string("target_name", target_name)
 		meta_tran:set_string("target_pos", target_pos)
@@ -776,7 +783,7 @@ minetest.register_node('artifacts:transporter_pad_charging', {
 		local tmp_random = meta_tran:get_string("tmp_random")
 
 		minetest.set_node(pos, {name = 'artifacts:transporter_pad_active'})
-		minetest.sound_play("artifacts_transport_charged", {pos = pos, gain = 1, max_hear_distance = 6})
+		minetest.sound_play("artifacts_transport_charged", {pos = pos, gain = 2, max_hear_distance = 20})
 		minetest.add_particlespawner({
 			amount = 15,
 			time = 0.75,
