@@ -129,10 +129,10 @@ if minetest.settings:get_bool("enable_damage") then
 				or controls.right
 				or controls.RMB
 				then
-					energy = energy - 1
+					energy = energy - 3
 				elseif controls.LMB
 				or controls.jump then
-					energy = energy - 6
+					energy = energy - 8
 				end
 
 				----------------
@@ -152,14 +152,14 @@ if minetest.settings:get_bool("enable_damage") then
         local danger_low = stress_low - 40
         local danger_high = stress_high +40
         --energy costs (extreme, danger, stress)
-        local costex = 10
-        local costd = 5
-        local costs = 1
+        local costex = 12
+        local costd = 6
+        local costs = 2
         --water conducts heat better
         if water then
-          costex = 20
-          costd = 10
-          costs = 2
+          costex = 24
+          costd = 12
+          costs = 4
         end
 
 
@@ -241,7 +241,7 @@ if minetest.settings:get_bool("enable_damage") then
 							energy = 0
 						end
 					elseif rain or snow then
-						energy = energy - 1
+						energy = energy - 2
 						if energy < 0 then
 							energy = 0
 						end
