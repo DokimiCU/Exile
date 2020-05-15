@@ -168,3 +168,78 @@ function player_api.init_on_joinplayer(player)
 	orig_init_on_joinplayer(player)
 	clothing:set_player_clothing(player)
 end
+
+
+---------------------------------------------------------
+--Player death
+local drop_clothes = function(pos, stack)
+	local node = minetest.get_node_or_nil(pos)
+	if node then
+		local obj = minetest.add_item(pos, stack)
+		if obj then
+			obj:setvelocity({x=math.random(-1, 1), y=5, z=math.random(-1, 1)})
+		end
+	end
+end
+
+
+
+minetest.register_on_dieplayer(function(player)
+
+	local drop = {}
+
+	local meta = player:get_meta()
+	local clothing_meta = meta:get_string("clothing:inventory")
+	local clothes = clothing_meta and minetest.deserialize(clothing_meta) or {}
+
+	local name = player:get_player_name()
+	local clothing_inv = minetest.get_inventory({type="detached", name = name.."_clothing"})
+
+	for i=1, 6 do
+		local stack = ItemStack(clothes[i])
+		--queue to drop, remove effects, remove item
+		if stack:get_count() > 0 then
+			table.insert(drop, stack)
+			clothing:run_callbacks("on_unequip", player, i, stack)
+			clothing_inv:set_stack("clothing", i, nil)
+		end
+	end
+
+	--wipe meta, reset appearance
+	meta:set_string("clothing:inventory", "")
+	clothing:set_player_clothing(player)
+
+
+
+
+	local pos = player:get_pos()
+	local name = player:get_player_name()
+	minetest.after(1, function()
+		local meta = nil
+		local maxp = vector.add(pos, 8)
+		local minp = vector.subtract(pos, 8)
+		local bones = minetest.find_nodes_in_area(minp, maxp, {"bones:bones"})
+		for _, p in pairs(bones) do
+			local m = minetest.get_meta(p)
+			if m:get_string("owner") == name then
+				meta = m
+				break
+			end
+		end
+		if meta then
+			local inv = meta:get_inventory()
+			for _,stack in ipairs(drop) do
+				if inv:room_for_item("main", stack) then
+					inv:add_item("main", stack)
+				else
+					drop_clothes(pos, stack)
+				end
+			end
+		else
+			for _,stack in ipairs(drop) do
+				drop_clothes(pos, stack)
+			end
+		end
+	end)
+
+end)
