@@ -17,12 +17,14 @@ lightning.interval_high = 503
 lightning.range_h = 100
 lightning.range_v = 50
 lightning.size = 100
+lightning.effect_range = 400
 
 
 local rng = PcgRandom(32321123312123)
 
 local ps = {}
 local ttl = 1
+
 
 local revertsky = function()
 	if ttl == 0 then
@@ -33,13 +35,18 @@ local revertsky = function()
 		return
 	end
 
-	for key, entry in pairs(ps) do
-		local sky = entry.sky
-		entry.p:set_sky(sky.bgcolor, sky.type, sky.textures)
+	for playername, sky in pairs(ps) do
+		local player = minetest.get_player_by_name(playername)
+		-- check if the player is still online
+		if player then
+			player:set_sky({type = "regular", sky_color = {sky.sky_color}})
+		end
 	end
 
 	ps = {}
 end
+
+
 
 minetest.register_globalstep(revertsky)
 
@@ -130,19 +137,24 @@ lightning.strike = function(pos)
 		obj:punch(obj, 1.0, {full_punch_interval = 1.0, damage_groups = {fleshy=8}}, nil)
 	end
 
+
 	local playerlist = minetest.get_connected_players()
 	for i = 1, #playerlist do
 		local player = playerlist[i]
-		local sky = {}
+		local distance = vector.distance(player:get_pos(), pos)
+		-- only affect players inside effect_range
+		if distance < lightning.effect_range then
+			local sky = {}
+			sky.sky_color = player:get_sky_color()
 
-		sky.bgcolor, sky.type, sky.textures = player:get_sky()
-
-		local name = player:get_player_name()
-		if ps[name] == nil then
-			ps[name] = {p = player, sky = sky}
-			player:set_sky(0xffffff, "plain", {})
+			local name = player:get_player_name()
+			if ps[name] == nil then
+				ps[name] = sky
+				player:set_sky({type = "plain", base_color = "#CCFFFFFF"})
+			end
 		end
 	end
+
 
 	-- trigger revert of skybox
 	ttl = 5

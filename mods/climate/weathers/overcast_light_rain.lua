@@ -6,18 +6,61 @@
 
 local overcast_light_rain = {}
 
-
 overcast_light_rain.name = 'overcast_light_rain'
 
-overcast_light_rain.sky_color_day = 90
-overcast_light_rain.sky_color_night = 15
-overcast_light_rain.fog = 175
 
-overcast_light_rain.clouds_color = "#808080"
-overcast_light_rain.clouds_density = 0.6
-overcast_light_rain.clouds_height = 500
-overcast_light_rain.clouds_thickness = 128
-overcast_light_rain.clouds_speed = {x=2, z=0}
+overcast_light_rain.sky_data = {
+	type = "regular",
+	clouds = true,
+	sky_color = {
+		day_sky = "#979AA1",
+		day_horizon = "#a1a4aa",
+		dawn_sky = "#CBC0D6",
+		dawn_horizon ="#d5ccde",
+		night_sky = "#4B3C5A",
+		night_horizon = "#6e627a",
+		indoors = "#2B2B2B",
+		--fog_sun_tint = "#FB7F55",
+		--fog_moon_tint = "#C5C9C9",
+		--fog_tint_type = "custom"
+	}
+}
+
+
+overcast_light_rain.cloud_data = {
+	color = "#5D5F69",
+	density = 0.6,
+	height = 300,
+	thickness = 128,
+	speed = {x=2, z=0}
+}
+
+
+
+overcast_light_rain.moon_data = {
+	visible = false,
+	texture = "moon.png",
+	tonemap = "moon_tonemap.png",
+	scale = 0.5
+}
+
+
+overcast_light_rain.sun_data = {
+	visible = false,
+	texture = "sun.png",
+	tonemap = "sun_tonemap.png",
+	sunrise = "sunrisebg.png",
+	sunrise_visible = false,
+	scale = 0.4
+}
+
+overcast_light_rain.star_data = {
+	visible = false,
+	count = 1000,
+	color = "#80FCFEFF"
+}
+
+
 
 overcast_light_rain.sound_loop = 'light_rain_loop'
 

@@ -23,7 +23,7 @@ climate.get_rain = function(pos, l)
 	local w = climate.active_weather.name
 
 	if l == 15
-	and (w == 'heavy_rain'
+	and (w == 'overcast_heavy_rain'
 	or w == 'overcast_rain'
 	or w == 'thunderstorm'
 	or w == 'superstorm') then
@@ -47,7 +47,7 @@ climate.get_snow = function(pos, l)
 	local w = climate.active_weather.name
 
 	if l == 15
-	and (w == 'heavy_snow'
+	and (w == 'overcast_heavy_snow'
 	or w == 'overcast_snow'
 	or w == 'snowstorm') then
 		return true

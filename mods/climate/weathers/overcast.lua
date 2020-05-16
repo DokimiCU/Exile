@@ -9,17 +9,60 @@ local overcast = {}
 
 overcast.name = 'overcast'
 
-overcast.sky_color_day = 90
-overcast.sky_color_night = 15
-overcast.fog = 200
 
-overcast.clouds_color = "#808080"
-overcast.clouds_density = 0.6
-overcast.clouds_height = 500
-overcast.clouds_thickness = 128
-overcast.clouds_speed = {x=2, z=0}
 
---overcast.sound_loop = 'light_rain_loop'
+overcast.sky_data = {
+	type = "regular",
+	clouds = true,
+	sky_color = {
+		day_sky = "#B5B6B6",
+		day_horizon = "#bcbdbd",
+		dawn_sky = "#CBC0D6",
+		dawn_horizon ="#d5ccde",
+		night_sky = "#4B3C5A",
+		night_horizon = "#6e627a",
+		indoors = "#2B2B2B",
+		--fog_sun_tint = "#FB7F55",
+		--fog_moon_tint = "#C5C9C9",
+		--fog_tint_type = "custom"
+	}
+}
+
+
+overcast.cloud_data = {
+	color = "#777985",
+	density = 0.6,
+	height = 300,
+	thickness = 128,
+	speed = {x=2, z=0}
+}
+
+
+
+overcast.moon_data = {
+	visible = false,
+	texture = "moon.png",
+	tonemap = "moon_tonemap.png",
+	scale = 0.5
+}
+
+
+overcast.sun_data = {
+	visible = false,
+	texture = "sun.png",
+	tonemap = "sun_tonemap.png",
+	sunrise = "sunrisebg.png",
+	sunrise_visible = false,
+	scale = 0.4
+}
+
+overcast.star_data = {
+	visible = false,
+	count = 1000,
+	color = "#80FCFEFF"
+}
+
+
 
 --probabilities in each temp class
 overcast.chain = {

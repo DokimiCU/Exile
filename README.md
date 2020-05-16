@@ -63,6 +63,7 @@ Some tips and tricks:
 - added more geomorphs
 - gneiss and jade for deep underground biome
 - better looking bones
+- newly formatted colored skies
 - updated backgrounds
 - updated version of crafting
 - various minor fixes
@@ -120,6 +121,9 @@ HEALTH
 -geomoria decorations
 -more morphs: gardens, waste dumps, public baths, transporter room, laboratory, storage dumps, factories
 
+--CLOTHING:
+-speed effects (likely to cause issues with bed physics)
+
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
 -more graffiti in more colors
@@ -156,7 +160,6 @@ HEALTH
 Climate:
 -sky twilight transition doesn't work when emerging from underground. Sky is not reset instantly like sound is.
 -weather not saved when all players leave
--what does "fog" in weather actually do...?
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
 

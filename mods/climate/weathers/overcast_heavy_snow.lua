@@ -1,8 +1,10 @@
 ------------------------------
--- overcast_light_snow weather
--- grey sky snow
+-- overcast_heavy_snow weather
+-- grey sky snow, heavy intensity
 
 ------------------------------
+
+-- Random texture getter
 local random_texture = function()
 	local base_name = "snowflake_"
 	local number = math.random(1, 3)
@@ -11,19 +13,18 @@ local random_texture = function()
 end
 
 
-
-local overcast_light_snow = {}
-
-
-overcast_light_snow.name = 'overcast_light_snow'
+local overcast_heavy_snow = {}
 
 
-overcast_light_snow.sky_data = {
+overcast_heavy_snow.name = 'overcast_heavy_snow'
+
+
+overcast_heavy_snow.sky_data = {
 	type = "regular",
 	clouds = true,
 	sky_color = {
-		day_sky = "#BCC7D4",
-		day_horizon = "#c9d2dc",
+		day_sky = "#8596AB",
+		day_horizon = "#9dabbb",
 		dawn_sky = "#CBC0D6",
 		dawn_horizon ="#d5ccde",
 		night_sky = "#4B3C5A",
@@ -36,16 +37,16 @@ overcast_light_snow.sky_data = {
 }
 
 
-overcast_light_snow.cloud_data = {
-	color = "#A7ADC9",
+overcast_heavy_snow.cloud_data = {
+	color = "#6F7694",
 	density = 0.6,
-	height = 300,
+	height = 260,
 	thickness = 128,
-	speed = {x=0, z=-2}
+	speed = {x=0, z=-3}
 }
 
 
-overcast_light_snow.moon_data = {
+overcast_heavy_snow.moon_data = {
 	visible = false,
 	texture = "moon.png",
 	tonemap = "moon_tonemap.png",
@@ -53,7 +54,7 @@ overcast_light_snow.moon_data = {
 }
 
 
-overcast_light_snow.sun_data = {
+overcast_heavy_snow.sun_data = {
 	visible = false,
 	texture = "sun.png",
 	tonemap = "sun_tonemap.png",
@@ -62,7 +63,7 @@ overcast_light_snow.sun_data = {
 	scale = 0.4
 }
 
-overcast_light_snow.star_data = {
+overcast_heavy_snow.star_data = {
 	visible = false,
 	count = 1000,
 	color = "#80FCFEFF"
@@ -70,26 +71,32 @@ overcast_light_snow.star_data = {
 
 
 
+
+overcast_heavy_snow.sound_loop = 'snowstorm_loop_light'
+
+
 --probabilities in each temp class
-overcast_light_snow.chain = {
+overcast_heavy_snow.chain = {
 	--name, p_cold, p_mid , p_hot
-	{'overcast', 0.15, 1, 1, 1},
-	{'overcast_snow', 0.25, 0, 0, 0},
-	{'overcast_light_rain', 0, 1, 1, 1},
-	{'light_snow', 0.1, 0, 0, 0}
+	{'overcast_rain', 0, 1, 1, 1},
+	{'overcast_heavy_rain', 0, 1, 1, 1},
+	{'thunderstorm', 0, 0, 0, 1},
+	{'overcast_snow', 0.15, 0, 0, 0},
+	{'snowstorm', 0.15, 0, 0, 0}
 
 }
 
-overcast_light_snow.particle_interval = 0.1
 
-overcast_light_snow.particle_function = function()
+overcast_heavy_snow.particle_interval = 0.0009
+
+overcast_heavy_snow.particle_function = function()
 
 	local velxz = math.random(-1,-0.1)
 	local vely = math.random(-2,-0.5)
 	local accxz = math.random(-1,-0.1)
 	local accy = -0.5
 	local ext = 7
-	local size = 2
+	local size = 3
 	local tex = random_texture()
 	local sound = ""
 
@@ -99,9 +106,8 @@ end
 
 
 
-
 --add this weather to register
-climate.register_weather(overcast_light_snow)
+climate.register_weather(overcast_heavy_snow)
 
 
 ------

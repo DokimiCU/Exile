@@ -47,8 +47,9 @@ dofile(modpath .. "/weathers/light_rain.lua")
 dofile(modpath .. "/weathers/overcast_light_rain.lua")
 dofile(modpath .. "/weathers/overcast.lua")
 dofile(modpath .. "/weathers/overcast_rain.lua")
-dofile(modpath .. "/weathers/heavy_rain.lua")
+dofile(modpath .. "/weathers/overcast_heavy_rain.lua")
 dofile(modpath .. "/weathers/thunderstorm.lua")
+dofile(modpath .. "/weathers/superstorm.lua")
 dofile(modpath .. "/weathers/light_haze.lua")
 dofile(modpath .. "/weathers/haze.lua")
 dofile(modpath .. "/weathers/duststorm.lua")
@@ -56,9 +57,10 @@ dofile(modpath .. "/weathers/snow_flurry.lua")
 dofile(modpath .. "/weathers/light_snow.lua")
 dofile(modpath .. "/weathers/overcast_light_snow.lua")
 dofile(modpath .. "/weathers/overcast_snow.lua")
-dofile(modpath .. "/weathers/heavy_snow.lua")
+dofile(modpath .. "/weathers/overcast_heavy_snow.lua")
 dofile(modpath .. "/weathers/snowstorm.lua")
-dofile(modpath .. "/weathers/superstorm.lua")
+
+
 
 
 --setting...for random intervals
@@ -98,49 +100,11 @@ end
 local function set_sky_clouds(player, time)
 	local active_weather = climate.active_weather
 
-  if active_weather.sky_color_day then
-    --day night transitions
-    local sval
-
-    if not time then
-      time = minetest.get_timeofday()
-      if time >= 0.5 then
-        time = 1 - time
-      end
-    end
-
-    -- Sky brightness transitions:
-    -- First transition (24000 -) 4500, (1 -) 0.1875
-    -- Last transition (24000 -) 5750, (1 -) 0.2396
-
-    if time <= 0.1875 then
-      sval = active_weather.sky_color_night
-
-    elseif time >= 0.2396 then
-      sval = active_weather.sky_color_day
-
-    else
-
-      local difsval = active_weather.sky_color_day - active_weather.sky_color_night
-
-      sval = math.floor(active_weather.sky_color_night + ((time - 0.1875) / 0.0521) * difsval)
-
-    end
-
-    player:set_sky({r = sval, g = sval, b = sval, a = active_weather.fog},	"plain", nil, true)
-
-	else
-		--no sky so remove any previous effect (i.e. it's a blue sky)
-			player:set_sky(nil, "regular", nil)
-  end
-
-  player:set_clouds({
-    color = active_weather.clouds_color,
-    density = active_weather.clouds_density,
-    height = active_weather.clouds_height,
-    thickness = active_weather.thickness,
-    speed = active_weather.clouds_speed
-  })
+	player:set_sky(active_weather.sky_data)
+	player:set_clouds(active_weather.cloud_data)
+	player:set_moon(active_weather.moon_data)
+	player:set_sun(active_weather.sun_data)
+	player:set_stars(active_weather.star_data)
 
 
 end
