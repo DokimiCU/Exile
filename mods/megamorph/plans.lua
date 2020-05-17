@@ -2741,6 +2741,134 @@ if seal_underground then
 end
 
 
+
+-----------------------------------------------------
+--warehouse
+--large stockpiles, big prize for making it down deep
+
+local warehouse = {
+	--lower foyer
+	{act = 'sphere', node = 'air', loc = vn(35, 23, 29), size = vn(20, 5, 20)},
+	{act = 'cube', node = 'air', treasure = 2, floor = stone_block_main, loc = vn(35, 21, 29), size = vn(20, 5, 20)},
+
+	--lower stair linkers
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(29, 21, 39), size = vn(6, 3, 2)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(50, 20, 50), size = vn(2, 4, 2)},
+	{act = 'stair', node = stone_stairs_block_main, height = 4, depth = 2, param2 = 2, loc = vn(50, 20, 49), size = vn(2, 1, 1)},
+
+	--upper foyer
+	{act = 'sphere', node = 'air', loc = vn(39, 53, 21), size = vn(20, 5, 20)},
+	{act = 'cube', node = 'air', treasure = 2, floor = stone_block_main, loc = vn(39, 51, 21), size = vn(20, 5, 20)},
+
+
+	-- promenade
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(15, 21, 1), size = vn(50, 5, 5)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(15, 51, 1), size = vn(50, 5, 5)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(1, 21, 15), size = vn(5, 5, 50)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(1, 51, 15), size = vn(5, 5, 50)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(15, 21, 74), size = vn(50, 5, 5)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(15, 51, 74), size = vn(50, 5, 5)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(74, 21, 15), size = vn(5, 5, 50)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(74, 51, 15), size = vn(5, 5, 50)},
+
+	--corner rooms
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(1, 21, 1), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(1, 51, 1), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(1, 21, 64), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(1, 51, 64), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(64, 21, 1), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air',floor = stone_block_main, treasure = 3, loc = vn(64, 51, 1), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(64, 21, 64), size = vn(15, 6, 15)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(64, 51, 64), size = vn(15, 6, 15)},
+
+	{act = 'sphere', node = 'air', loc = vn(1, 23, 1), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(1, 53, 1), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(1, 23, 64), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(1, 53, 64), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(64, 23, 1), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(64, 53, 1), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(64, 23, 64), size = vn(15, 5, 15)},
+	{act = 'sphere', node = 'air', loc = vn(64, 53, 64), size = vn(15, 5, 15)},
+
+	--lower store linkers
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(6, 21, 29), size = vn(68, 5, 2)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(6, 21, 47), size = vn(68, 5, 2)},
+
+	--lower workshop
+	{act = 'cube', node = 'air', treasure = 3, floor = stone_block_main, loc = vn(15, 21, 32), size = vn(14, 5, 14)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(19, 21, 46), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(19, 21, 31), size = vn(2, 3, 1)},
+
+	--upper cross
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(0, 51, 39), size = vn(80, 3, 2)},
+	{act = 'cube', node = 'air', floor = stone_block_main,  loc = vn(39, 51, 0), size = vn(2, 3, 80)},
+
+	--upper workshop
+	{act = 'cube', node = 'air', treasure = 3, floor = stone_block_main, loc = vn(15, 51, 42), size = vn(23, 5, 14)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(24, 51, 41), size = vn(2, 3, 1)},
+	{act = 'cube', node = 'air', floor = stone_block_main, loc = vn(38, 51, 51), size = vn(1, 3, 2)},
+	{act = 'cube', node = 'air', treasure = 2, floor = stone_block_main, loc = vn(15, 52, 42), size = vn(1, 1, 14)},
+
+}
+
+
+--store corridors
+for _, x in pairs({19, 29, 39, 49, 59}) do
+	--corrdors
+	table.insert(warehouse, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, 21, 6), size = vn(2, 5, 23)})
+	--stores
+	for _, z in pairs({7,9,11,13,15,17,19,21, 23, 25, 27}) do
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x-1, 22, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x+2, 22, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x-1, 24, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x+2, 24, z), size = vn(1, 1, 1)})
+	end
+end
+
+--store corridors
+for _, x in pairs({19, 29, 39, 59}) do
+	--corrdors
+	table.insert(warehouse, {act = 'cube', floor = stone_block_main, node = 'air', loc = vn(x, 21, 49), size = vn(2, 5, 25)})
+	--stores
+	for _, z in pairs({72,70,68,66,64,62,60,58, 56, 54, 52, 50}) do
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x-1, 22, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x+2, 22, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x-1, 24, z), size = vn(1, 1, 1)})
+		table.insert(warehouse, {act = 'cube', treasure = 2, floor = stone_block_main, node = 'air', loc = vn(x+2, 24, z), size = vn(1, 1, 1)})
+	end
+end
+
+--upper workshop stores
+for _, x in pairs({16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36}) do
+	--stores
+	for _, y in pairs({52, 54}) do
+		table.insert(warehouse, {act = 'cube', node = 'air', treasure = 2, floor = stone_block_main, loc = vn(x, y, 56), size = vn(1, 1, 1)})
+	end
+end
+
+for _, item in pairs(default_exits) do
+	table.insert(warehouse, 2, table.copy(item))
+end
+
+
+for _, item in pairs(upper_stair) do
+	table.insert(warehouse, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_stair) do
+	table.insert(warehouse, 2, table.copy(item))
+end
+
+for _, item in pairs(central_stairwell) do
+	table.insert(warehouse, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(warehouse, 1, table.copy(seal_box))
+end
+
+
+-----------------------------------------------------
 -----------------------------------------------------
 --deep_stair
 
@@ -3060,6 +3188,12 @@ for _, n in pairs({"nw", "ne", "sw", "se"}) do
 		name = n..'_lake_of_fire_solid',
 		areas = n..'_moria_ind',
 		data = lake_of_fire_solid,
+	})
+
+	register_geomorph({
+		name = n..'_warehouse',
+		areas = n..'_moria_ind',
+		data = warehouse,
 	})
 
 end

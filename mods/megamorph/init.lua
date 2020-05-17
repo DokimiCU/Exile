@@ -373,6 +373,7 @@ minetest.after(0, function()
   --no tools, materials etc that allow to skip easily up the tech progression.
 
   --raw materials (rarity 1)
+
   options['nodes_nature:granite_boulder'] =  { 1, 1, 2 }
   options['nodes_nature:basalt_boulder'] =  { 1, 1, 2 }
   options['nodes_nature:limestone_boulder'] =  { 1, 1, 2 }
