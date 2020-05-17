@@ -192,12 +192,20 @@ end
 
 local function moisture_spread(pos, node)
 
+
 	local nodename = node.name
 
 	--dry version
 	local nodedef = minetest.registered_nodes[nodename]
 	local dry_name = nodedef._dry_name
 	if not nodedef or not dry_name then
+		return
+	end
+
+	--evaporation
+	if climate.can_evaporate then
+		--lose it's own water to the atmosphere
+		minetest.set_node(pos, {name = dry_name})
 		return
 	end
 
@@ -269,12 +277,7 @@ local function moisture_spread(pos, node)
 		return
 	end
 
-	--evaporation
-	if climate.can_evaporate then
-		--lose it's own water to the atmosphere
-		minetest.set_node(pos, {name = dry_name})
-		return
-	end
+
 
 
 end
@@ -285,8 +288,8 @@ minetest.register_abm({
 	label = "Moisture Spread",
 	nodenames = {"group:wet_sediment"},
 	--neighbors = {"group:sediment"},
-	interval = 221,
-	chance = 30,
+	interval = 121,
+	chance = 10,
 	action = function(...)
 		moisture_spread(...)
 	end
@@ -439,8 +442,8 @@ minetest.register_abm({
 	label = "Water Erode",
 	nodenames = {"nodes_nature:freshwater_flowing", "nodes_nature:salt_water_flowing"},
 	neighbors = {"group:sediment"},
-	interval = 220,
-	chance = 60,
+	interval = 120,
+	chance = 30,
 	action = function(...)
 		water_erode(...)
 	end
@@ -482,9 +485,11 @@ end
 --
 minetest.register_abm({
 	label = "Rain Soak",
-	nodenames = {"group:sediment", "group:stone", "group:soft_stone"},
+	--calling for stone is for puddles only, but means calling all stone
+	--nodenames = {"group:sediment", "group:stone", "group:soft_stone"},
+	nodenames = {"group:sediment"},
 	interval = 72,
-	chance = 70,
+	chance = 140,
 	action = function(...)
 		rain_soak(...)
 	end
@@ -515,8 +520,8 @@ end
 minetest.register_abm({
 	label = "Water Fall",
 	nodenames = {"nodes_nature:freshwater_source", "nodes_nature:salt_water_source"},
-	interval = 90,
-	chance = 105,
+	interval = 190,
+	chance = 10,
 	action = function(...)
 		fall_water(...)
 	end

@@ -210,7 +210,7 @@ minetest.register_abm({
 	nodenames = {"group:spreading_surface"},
 	neighbors = {"air", "group:sediment"},
 	interval = 291,
-	chance = 15,
+	chance = 10,
 	catch_up = false,
 	action = function(pos, node)
 		--get drop so we know what it grows on
