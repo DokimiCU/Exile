@@ -41,7 +41,7 @@ Sediment
 ---------
 `sediment`: 1 = loam, 2 = clay, 3 = silt, 4 = sand, 5 = gravel. Things plants might grow on, absorbs water.
 `wet_sediment`: same as above, but soaked with water. 1=fresh, 2= salt.
-`spreading_surface`: Living surface e.g. clay with grass, spreads to exposed clay.
+`spreading`: Living surface e.g. clay with grass, spreads to exposed clay.
 `fertilizer`: restores depleted agricultural soil on punch
 `agricultural_soil`: Gives a boost to plant growth.
 `depleted_agricultural_soil`: gives a small boost to plant growth.
