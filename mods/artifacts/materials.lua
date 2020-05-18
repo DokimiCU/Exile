@@ -46,7 +46,7 @@ minetest.register_node("artifacts:sun_stone", {
 			{-0.3125, -0.5, -0.3125, -0.25, -0.4375, -0.25}, -- NodeBox11
 		}
 	},
-  light_source = 14,
+  light_source = 13,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	is_ground_content = false,

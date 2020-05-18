@@ -158,7 +158,6 @@ HEALTH
 
 #Bugs/fix
 Climate:
--sky twilight transition doesn't work when emerging from underground. Sky is not reset instantly like sound is.
 -weather not saved when all players leave
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
@@ -206,6 +205,7 @@ Crafting (Rubenwardy)
 -adds stack to inventory at crafted stack size, rather than node stack size (over stacked)
 -Calling get_connected_players() at mod load time is deprecated
 -some items need inv images with space around edges (e.g. wattle)
+-sound effects would be nice
 
 Misc:
 -various bits of code could be tidied up (e.g. duplicated code pulled into functions)
