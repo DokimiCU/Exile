@@ -153,8 +153,7 @@ minetest.register_on_joinplayer(function(player)
 	if #num_p <=1 then
 
 		local w_name = store:get_string("weather")
-		minetest.chat_send_all("lll: "..w_name)
-
+		
 		if w_name ~= "" then
 			--check valid
 			local weather = get_weather_table(w_name, registered_weathers)
