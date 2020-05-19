@@ -64,6 +64,7 @@ Some tips and tricks:
 - gneiss and jade for deep underground biome
 - better looking bones
 - newly formatted colored skies
+- climate chat commands
 - updated backgrounds
 - updated version of crafting
 - various minor fixes
@@ -161,6 +162,7 @@ Climate:
 -weather not saved when all players leave
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
+-values on inventory page don't update instantly (e.g. when using chat commands)
 
 
 Bed:

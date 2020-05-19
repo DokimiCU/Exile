@@ -1,7 +1,7 @@
 --CLIMATE
 
 --[[
-Uses a markov change to switch between weather states.
+Uses a markov chain to switch between weather states.
 Has seasonal and diurnal fluctations in temperature, which adjust
 the probability for which switch will occur (e.g rain more likely in cold)
 
@@ -97,7 +97,7 @@ end
 
 -----------------
 --set the sky, for on join and when new weather set
-local function set_sky_clouds(player, time)
+local function set_sky_clouds(player)
 	local active_weather = climate.active_weather
 
 	player:set_sky(active_weather.sky_data)
@@ -195,17 +195,6 @@ minetest.register_globalstep(function(dtime)
 					sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
 				end
 			end
-
-			if climate.active_weather.sky_color_day then
-				local time = minetest.get_timeofday()
-        if time >= 0.5 then
-          time = 1 - time
-        end
-				--update during transition so a smooth change
-        if time >= 0.1875 and time <= 0.2396 then
-          set_sky_clouds(player, time)
-        end
-      end
 
     end
 
@@ -312,3 +301,80 @@ minetest.register_globalstep(function(dtime)
 
 	end
 end)
+
+
+--------------------------------------------------------------------
+--CHAT COMMANDS
+
+
+minetest.register_privilege("set_temp", {
+	description = "Set the Climate active temperature",
+	give_to_singleplayer = false
+})
+
+
+minetest.register_chatcommand("set_temp", {
+    params = "<temp>",
+    description = "Set the Climate active temperature",
+		privs = {privs=true},
+    func = function(name, param)
+		if minetest.check_player_privs(name, {set_temp = true}) then
+			climate.active_temp = tonumber(param)
+
+			return true, "Climate active temperature set to: "..param
+
+		else
+			return false, "You need the set_temp privilege to use this command."
+		end
+	end,
+})
+
+
+
+-------------
+
+minetest.register_privilege("set_weather", {
+	description = "Set the Climate active weather",
+	give_to_singleplayer = false
+})
+
+
+minetest.register_chatcommand("set_weather", {
+    params = "<weather>",
+    description = "Set the Climate active weather",
+		privs = {privs=true},
+    func = function(name, param)
+		if minetest.check_player_privs(name, {set_weather = true}) then
+			--check valid
+			local weather = get_weather_table(param, registered_weathers)
+			if weather then
+				climate.active_weather = weather
+				--do for each player
+				for _,player in ipairs(minetest.get_connected_players()) do
+					--set sky and clouds for new state using the new active_weather
+
+					set_sky_clouds(player)
+
+					--remove old sounds
+					local p_name = player:get_player_name()
+					local sound = sound_handlers[p_name]
+					if sound ~= nil then
+						minetest.sound_stop(sound)
+						sound_handlers[p_name] = nil
+					end
+					--add new loop
+					if climate.active_weather.sound_loop then
+						sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+					end
+
+				end
+				return true, "Climate active weather set to: "..param
+			else
+				return false, "Invalid weather name"
+			end
+
+		else
+			return false, "You need the set_temp privilege to use this command."
+		end
+	end,
+})
