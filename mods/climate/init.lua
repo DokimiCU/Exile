@@ -59,7 +59,7 @@ dofile(modpath .. "/weathers/overcast_light_snow.lua")
 dofile(modpath .. "/weathers/overcast_snow.lua")
 dofile(modpath .. "/weathers/overcast_heavy_snow.lua")
 dofile(modpath .. "/weathers/snowstorm.lua")
-
+dofile(modpath .. "/weathers/fog.lua")
 
 
 
@@ -77,7 +77,7 @@ local plvl_mid = 25
 --random values that should get overriden by mod storage
 climate.active_weather = registered_weathers[math.random(#registered_weathers)]
 climate.active_temp = math.random(15,25)
-local active_weather_interval = 0
+local active_weather_interval = 1
 
 
 --random walk, for temp
@@ -153,6 +153,7 @@ minetest.register_on_joinplayer(function(player)
 	if #num_p <=1 then
 
 		local w_name = store:get_string("weather")
+		minetest.chat_send_all("lll: "..w_name)
 
 		if w_name ~= "" then
 			--check valid

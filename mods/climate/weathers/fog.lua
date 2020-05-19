@@ -1,17 +1,15 @@
 ------------------------------
--- overcast weather
--- grey sky but no rain
-
+-- Fog
+-- ground level cloud.
 ------------------------------
 
-local overcast = {}
+local fog = {}
 
 
-overcast.name = 'overcast'
+fog.name = 'fog'
 
 
-
-overcast.sky_data = {
+fog.sky_data = {
 	type = "regular",
 	clouds = true,
 	sky_color = {
@@ -29,17 +27,16 @@ overcast.sky_data = {
 }
 
 
-overcast.cloud_data = {
-	color = "#777985",
-	density = 0.6,
-	height = 300,
-	thickness = 128,
-	speed = {x=2, z=0}
+fog.cloud_data = {
+	color = "#FFFFFF",
+	density = 1,
+	height = 2,
+	thickness = 428,
+	speed = {x=0, z=0}
 }
 
 
-
-overcast.moon_data = {
+fog.moon_data = {
 	visible = false,
 	texture = "moon.png",
 	tonemap = "moon_tonemap.png",
@@ -47,7 +44,7 @@ overcast.moon_data = {
 }
 
 
-overcast.sun_data = {
+fog.sun_data = {
 	visible = false,
 	texture = "sun.png",
 	tonemap = "sun_tonemap.png",
@@ -56,7 +53,7 @@ overcast.sun_data = {
 	scale = 0.4
 }
 
-overcast.star_data = {
+fog.star_data = {
 	visible = false,
 	count = 1000,
 	color = "#80FCFEFF"
@@ -64,22 +61,23 @@ overcast.star_data = {
 
 
 
+
+
 --probabilities in each temp class
-overcast.chain = {
-	--name, p_cold, p_mid , p_hot
-	{'overcast_light_rain',0.01, 0.75, 0.5, 0.25},
-	{'light_rain', 0.01, 0.05, 0.15, 0.25},
-	{'overcast_light_snow', 0.25, 0, 0, 0},
-	{'light_snow', 0.1, 0, 0, 0},
-	{'fog', 0.1, 0.1, 0.01, 0.01}
+fog.chain = {
+	--name, p_froz, p_cold, p_mid , p_hot
+	{'overcast_light_rain', 0, 0.01, 0.01, 0.05},
+	{'overcast_light_snow', 0.05, 0, 0, 0},
+	{'overcast', 0.02, 0.02, 0.02, 0.02},
+
 
 }
 
 
 
-
 --add this weather to register
-climate.register_weather(overcast)
+climate.register_weather(fog)
+
 
 
 ------
