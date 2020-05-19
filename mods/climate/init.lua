@@ -22,7 +22,7 @@ climate = {
 }
 
 local modpath = minetest.get_modpath("climate")
-local mod_storage = minetest.get_mod_storage()
+local store = minetest.get_mod_storage()
 
 
 -- Adds weather to register_weathers table
@@ -74,10 +74,11 @@ local plvl_mid = 25
 
 
 --what weather is on, and how long it will last, and temp
+--random values that should get overriden by mod storage
 climate.active_weather = registered_weathers[math.random(#registered_weathers)]
+climate.active_temp = math.random(15,25)
 local active_weather_interval = 0
---temperature...accessible by health etc
-climate.active_temp = math.random(10,30)
+
 
 --random walk, for temp
 local ran_walk_range = 8
@@ -130,16 +131,52 @@ local function get_weather_table(name, registered_weathers)
 end
 
 -------------------------
+--SAVE AND LOAD
 
+--[[
+--on_leave seems incapable of saving stuff :-(
+minetest.register_on_leaveplayer(function(player)
+	--save climate info it your the last one out
+	local num_p = minetest.get_connected_players()
+	if #num_p <=1 then
+		local name = climate.active_weather.name
+		local t = climate.active_temp
+		store:set_string("weather", name)
+		store:set_float("temp", t)
+	end
+end)
+]]
 
 minetest.register_on_joinplayer(function(player)
+	--get weather from storage, override random start values
+	local num_p = minetest.get_connected_players()
+	if #num_p <=1 then
+
+		local w_name = store:get_string("weather")
+
+		if w_name ~= "" then
+			--check valid
+			local weather = get_weather_table(w_name, registered_weathers)
+			if weather then
+				climate.active_weather = weather
+			end
+		end
+
+		--same again, but for temperature
+		local temp = store:get_float("temp")
+		if temp then
+			climate.active_temp = temp
+		end
+	end
+
+	--set weather effects for this player
   set_sky_clouds(player)
   if climate.active_weather.sound_loop then
     local p_name = player:get_player_name()
     sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
   end
-end
-)
+
+end)
 
 
 --------------------------
@@ -150,6 +187,7 @@ local timer = 0
 local timer_p = 0
 
 minetest.register_globalstep(function(dtime)
+
 	--check if anyone is above ground to bother doing this for
 	local ag_c = 0
 	for _,player in ipairs(minetest.get_connected_players()) do
@@ -169,7 +207,10 @@ minetest.register_globalstep(function(dtime)
 	if ag_c == 0 then
 		--no one will experience any weather!
 		--temperature doesn't get changed by seasons etc
-		return
+		--occassionally run updates so the weather is different when come back
+		if math.random()< 0.95 then
+			return
+		end
 	end
 
 
@@ -299,8 +340,17 @@ minetest.register_globalstep(function(dtime)
 		--sum waves plus some random noise
 		climate.active_temp = dc_wav + dn_wav + ran_walk
 
+
+
+		--save state so can be reloaded.
+		--only actually needed on log out,... but that doesn't work
+		store:set_string("weather", climate.active_weather.name)
+		store:set_float("temp", climate.active_temp)
+
 	end
 end)
+
+
 
 
 --------------------------------------------------------------------
@@ -320,6 +370,9 @@ minetest.register_chatcommand("set_temp", {
     func = function(name, param)
 		if minetest.check_player_privs(name, {set_temp = true}) then
 			climate.active_temp = tonumber(param)
+
+			--only actually needed on log out,... but that doesn't work
+			store:set_float("temp", climate.active_temp)
 
 			return true, "Climate active temperature set to: "..param
 
@@ -368,6 +421,9 @@ minetest.register_chatcommand("set_weather", {
 					end
 
 				end
+				--only actually needed on log out,... but that doesn't work
+				store:set_string("weather", climate.active_weather.name)
+
 				return true, "Climate active weather set to: "..param
 			else
 				return false, "Invalid weather name"

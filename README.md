@@ -159,7 +159,7 @@ HEALTH
 
 #Bugs/fix
 Climate:
--weather not saved when all players leave
+-weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
 -values on inventory page don't update instantly (e.g. when using chat commands)
