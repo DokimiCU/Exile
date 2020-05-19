@@ -36,7 +36,7 @@ minetest.register_craftitem("tech:woven_cape", {
 	uv_image = "tech_uv_woven_cape.png",
 	groups = {cape = 1, clothing_cape=1},
 	temp_min = 2,
-	temp_max = 2,
+	temp_max = 1,
 	on_equip = clothing.default_equip,
 	on_unequip = clothing.default_unequip
 })
@@ -48,6 +48,29 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+
+--Poncho
+minetest.register_craftitem("tech:woven_poncho", {
+	description = "Woven Poncho",
+	inventory_image = "tech_inv_woven_poncho.png",
+	uv_image = "tech_uv_woven_poncho.png",
+	stack_max = 1,
+	groups = {clothing = 1, clothing_shirt = 1,},
+	temp_min = 2,
+	temp_max = 1,
+	on_equip = clothing.default_equip,
+	on_unequip = clothing.default_unequip
+})
+
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:woven_poncho",
+	items = {'group:fibrous_plant 48'},
+	level = 1,
+	always_known = true,
+})
+
 
 
 --Leggings
