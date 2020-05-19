@@ -59,10 +59,11 @@ end
 
 --evaporatable
 climate.can_evaporate = function(pos, l)
+
 	--must have air to be taken up by
 	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
-	if minetest.get_node(posa) ~= "air" then
-		return
+	if minetest.get_node(posa).name ~= "air" then
+		return false
 	end
 
 	if not l then
@@ -73,10 +74,12 @@ climate.can_evaporate = function(pos, l)
 	if not climate.get_rain(pos, l) then
 
 		--higher chance of evap at higher temp.
-		--none below 0 C, 10% chance at 100 C
-		local c = math.random(0,1000)
 		local t = climate.get_point_temp(pos)
-		if t > c then
+		if t > 500 then
+			--so hot things would get steamy fast
+			return true
+		elseif t > math.random(0,1000) then
+			--none below 0 C, 10% chance at 100 C
 			return true
 		end
 	end

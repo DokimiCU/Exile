@@ -6,25 +6,28 @@
 
 ----------------------------------------------------------------
 local function water_freeze_evap(pos, node)
+	--only those below ice or air count
+	local posa = {x = pos.x, y = pos.y + 1, z = pos.z}
+	local a_name = minetest.get_node(posa).name
+
+	if a_name ~= "air"
+	and a_name ~= "nodes_nature:ice"
+	and a_name ~= "nodes_nature:sea_ice" then
+		return
+	end
+
+
 	--evaporation
-	if climate.can_evaporate then
+	if climate.can_evaporate(pos) then
 		--lose it's own water to the atmosphere
 		minetest.remove_node(pos)
 		return
 	end
 
 	--freezing
-	--below 0
-	local posa = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if climate.get_point_temp(posa) <= 0 then
-		--get air above so water freezes top down.
-		local a_name = minetest.get_node(posa).name
 
-		if a_name ~= "air"
-		and a_name ~= "nodes_nature:ice"
-		and a_name ~= "nodes_nature:sea_ice" then
-			return
-		end
+	--ice can't use temp above because it is always zero!
+	if (a_name ~= "air" and climate.active_temp <= 0) or (a_name == "air" and climate.get_point_temp(posa) <= 0  ) then
 
 		local water_type = minetest.get_item_group(node.name, "water")
 		if water_type == 1 then
@@ -39,7 +42,6 @@ end
 minetest.register_abm({
 	label = "Water Freeze Evaporate",
 	nodenames = {"group:water"},
-	--neighbors = {"group:air"},
 	interval = 129,
 	chance = 20,
 	action = function(...)
@@ -54,8 +56,10 @@ local function thaw_per_node(pos, node)
 	local name = node.name
 	if name == "nodes_nature:ice" or name == "nodes_nature:snow_block" then
 		minetest.set_node(pos, {name = "nodes_nature:freshwater_flowing"})
+		minetest.check_for_falling(pos)
 	elseif name == "nodes_nature:snow" then
 		minetest.remove_node(pos)
+		minetest.check_for_falling(pos)
 	elseif name == "nodes_nature:sea_ice" then
 		minetest.set_node(pos, {name = "nodes_nature:salt_water_source"})
 	end
@@ -69,11 +73,16 @@ local function thaw_frozen(pos, node)
 	--rain washes it away
 	if climate.get_rain(posa) then
 		thaw_per_node(pos, node)
+		return
 	end
 
-	--above freezing temperatures
-	if climate.get_point_temp(posa) > 0 then
+	local posb = {x = pos.x, y = pos.y - 1, z = pos.z}
+	local c = math.random(0,10)
+
+	--warm above or below
+	if climate.get_point_temp(posa) > c or climate.get_point_temp(posb) > c then
 		thaw_per_node(pos, node)
+		return
 	end
 
 end
@@ -82,7 +91,6 @@ end
 minetest.register_abm({
 	label = "Thaw Ice and snow",
 	nodenames = {"nodes_nature:ice", "nodes_nature:snow_block", "nodes_nature:snow", "nodes_nature:sea_ice"},
-	--neighbors = {"group:air"},
 	interval = 123,
 	chance = 15,
 	action = function(...)
@@ -203,7 +211,7 @@ local function moisture_spread(pos, node)
 	end
 
 	--evaporation
-	if climate.can_evaporate then
+	if climate.can_evaporate(pos) then
 		--lose it's own water to the atmosphere
 		minetest.set_node(pos, {name = dry_name})
 		return
