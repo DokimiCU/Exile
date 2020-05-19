@@ -153,7 +153,7 @@ minetest.register_on_joinplayer(function(player)
 	if #num_p <=1 then
 
 		local w_name = store:get_string("weather")
-		
+
 		if w_name ~= "" then
 			--check valid
 			local weather = get_weather_table(w_name, registered_weathers)
@@ -207,10 +207,7 @@ minetest.register_globalstep(function(dtime)
 	if ag_c == 0 then
 		--no one will experience any weather!
 		--temperature doesn't get changed by seasons etc
-		--occassionally run updates so the weather is different when come back
-		if math.random()< 0.95 then
-			return
-		end
+		return
 	end
 
 
