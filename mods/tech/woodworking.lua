@@ -55,7 +55,43 @@ crafting.register_recipe({
 })
 
 -----------------------------------------------------------
---Bed
+--Floor boards
+--good flooring for large multi-story buildings
+
+minetest.register_node("tech:wooden_floor_boards", {
+ description = "Wooden Floor Boards",
+ drawtype = "nodebox",
+ node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, 0.25, -0.5, 0.5, 0.5, 0.5}, -- NodeBox1
+			{-0.375, 0, -0.5, -0.125, 0.25, 0.5}, -- NodeBox2
+			{0.125, 0, -0.5, 0.375, 0.25, 0.5}, -- NodeBox5
+		}
+	},
+	tiles = {
+		"tech_wooden_floor_boards_top.png",
+		"tech_wooden_floor_boards_bottom.png",
+		"tech_wooden_floor_boards_side.png",
+		"tech_wooden_floor_boards_side.png",
+		"tech_wooden_floor_boards_front.png",
+		"tech_wooden_floor_boards_front.png"
+	},
+ stack_max = minimal.stack_max_medium,
+ paramtype = "light",
+ paramtype2 = "facedir",
+ sunlight_propagates = true,
+ groups = {choppy=2, flammable=1},
+ sounds = nodes_nature.node_sound_wood_defaults(),
+
+})
 
 
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:wooden_floor_boards 4",
+	items = {'group:log', 'tech:vegetable_oil'},
+	level = 1,
+	always_known = true,
+})
 -----------------------------------------------------------
