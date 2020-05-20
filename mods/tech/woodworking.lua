@@ -94,4 +94,42 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
 -----------------------------------------------------------
+--Wooden Stairs
+
+
+minetest.register_node("tech:wooden_stairs", {
+ description = "Wooden Stairs",
+ tiles = {"tech_oiled_wood.png"},
+ drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.375, -0.5, 0.5, -0.25, -0.25},
+			{-0.5, 0.375, 0.25, 0.5, 0.5, 0.5},
+			{-0.5, -0.125, -0.25, 0.5, 0, 0},
+			{-0.5, 0.125, 0, 0.5, 0.25, 0.25},
+			{-0.5, -0.5, -0.4375, 0.5, -0.375, -0.25},
+			{-0.5, -0.25, -0.1875, 0.5, -0.125, 0},
+			{-0.5, 0, 0.0625, 0.5, 0.125, 0.25},
+			{-0.5, 0.25, 0.3125, 0.5, 0.375, 0.5},
+		}
+	},
+ stack_max = minimal.stack_max_medium,
+ paramtype = "light",
+ paramtype2 = "facedir",
+ sunlight_propagates = true,
+ groups = {choppy=2, flammable=1},
+ sounds = nodes_nature.node_sound_wood_defaults(),
+
+})
+
+
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:wooden_stairs 4",
+	items = {'group:log', 'tech:vegetable_oil'},
+	level = 1,
+	always_known = true,
+})
