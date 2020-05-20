@@ -57,6 +57,44 @@ stairs.register_stair_and_slab(
 	nodes_nature.node_sound_dirt_defaults()
 )
 
+------------------------------------------
+--RAMMED EARTH
+
+minetest.register_node('tech:rammed_earth', {
+	description = 'Rammed Earth',
+	tiles = {
+		"tech_rammed_earth.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png"
+	},
+	stack_max = minimal.stack_max_bulky *1.5,
+	groups = {crumbly = 1, cracky = 3, falling_node = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+})
+
+stairs.register_stair_and_slab(
+	"rammed_earth",
+	"tech:rammed_earth",
+	"mixing_spot",
+	"true",
+	{crumbly = 1, cracky = 3, falling_node = 1},
+	{
+		"tech_rammed_earth.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png",
+		"tech_rammed_earth_side.png"
+	},
+	"Rammed Earth Stair",
+	"Rammed Earth Slab",
+	minimal.stack_max_bulky *3,
+	nodes_nature.node_sound_dirt_defaults()
+)
+
 
 	-----------------------------------------------------------
 	--WATTLE
@@ -154,13 +192,34 @@ crafting.register_recipe({
 ----mudbrick from clay + sand and fibre
 --(other recipes could be done also, but limit it for simplicity)
 crafting.register_recipe({
-	type = "crafting_spot",
+	--type = "crafting_spot",
+	type = "brick_makers_bench",
 	output = "tech:mudbrick 2",
 	--items = {"nodes_nature:clay_wet", "nodes_nature:sand_wet", "group:fibrous_plant"},
 	items = {"nodes_nature:clay", "nodes_nature:sand_wet", "group:fibrous_plant"},
 	level = 1,
 	always_known = true,
 })
+
+----Rammed earth by compacting clay
+crafting.register_recipe({
+	--type = "crafting_spot",
+	type = "brick_makers_bench",
+	output = "tech:rammed_earth",
+	items = {"nodes_nature:clay 2"},
+	level = 1,
+	always_known = true,
+})
+
+--recycle rammed_earth with some loss
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:clay",
+	items = {"tech:rammed_earth"},
+	level = 1,
+	always_known = true,
+})
+
 
 
 ----Wattle from sticks

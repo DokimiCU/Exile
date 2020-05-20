@@ -88,7 +88,7 @@ grafitti.register_brush("tech:paint_lime_white", {
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:paint_lime_white",
-	items = {'nodes_nature:limestone_boulder', 'tech:stick', 'group:fibrous_plant 4', 'tech:vegetable_oil 4'},
+	items = {'tech:crushed_lime', 'tech:stick', 'group:fibrous_plant 4', 'tech:vegetable_oil 4'},
 	level = 1,
 	always_known = true,
 })

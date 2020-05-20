@@ -19,6 +19,7 @@ crafting.register_type("mortar_and_pestle")
 crafting.register_type("anvil")
 crafting.register_type("carpentry_bench")
 --crafting.register_type("masonry_bench")...has to be done in nodes_nature
+crafting.register_type("brick_makers_bench")
 crafting.register_type("spinning_wheel")
 crafting.register_type("loom")
 
@@ -367,6 +368,40 @@ minetest.register_node("tech:masonry_bench", {
 })
 
 
+--brick_makers_bench
+--for fired bricks and associated crafts
+minetest.register_node("tech:brick_makers_bench", {
+	description = "Brick Maker's Bench",
+	tiles = {"nodes_nature_maraka_log.png"},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, 0, -0.375, 0.4375, 0.125, 0.375}, -- NodeBox1
+			{-0.375, -0.5, -0.3125, -0.25, 0, -0.1875}, -- NodeBox2
+			{0.25, -0.5, -0.3125, 0.375, 0, -0.1875}, -- NodeBox3
+			{0.25, -0.5, 0.1875, 0.375, 0, 0.3125}, -- NodeBox4
+			{-0.375, -0.5, 0.1875, -0.25, 0, 0.3125}, -- NodeBox5
+			{-0.375, -0.125, -0.1875, -0.25, 2.42144e-008, 0.1875}, -- NodeBox6
+			{0.25, -0.125, -0.1875, 0.375, -3.72529e-009, 0.1875}, -- NodeBox7
+			{-0.25, -0.125, -0.3125, 0.25, 5.7742e-008, -0.1875}, -- NodeBox8
+			{-0.25, -0.125, 0.1875, 0.25, -2.23517e-008, 0.3125}, -- NodeBox9
+			{-0.25, 0.125, 0.1875, 0.25, 0.25, 0.25}, -- NodeBox10
+			{-0.25, 0.125, -0.0625, 0.25, 0.25, 1.86265e-009}, -- NodeBox11
+			{-0.3125, 0.125, -0.0625, -0.25, 0.25, 0.25}, -- NodeBox12
+			{0.25, 0.125, -0.0625, 0.3125, 0.25, 0.25}, -- NodeBox13
+			{0.1875, 0.125, -0.3125, 0.25, 0.1875, -0.125}, -- NodeBox14
+		}
+	},
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {dig_immediate=3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+	on_rightclick = crafting.make_on_rightclick("brick_makers_bench", 2, { x = 8, y = 3 }),
+})
+
+
 --spinning_wheel
 --turn raw fibres into spun fibre
 --including steps here that in reality would require their own equipment
@@ -581,6 +616,24 @@ crafting.register_recipe({
 	type = "carpentry_bench",
 	output = "tech:masonry_bench",
 	items = {'tech:iron_ingot 4', 'nodes_nature:maraka_log 2'},
+	level = 1,
+	always_known = true,
+})
+
+--brick_makers_bench from logs for bench, simple tools so no iron
+--allow early access because includes primitive construction methods
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:brick_makers_bench",
+	items = {'tech:stick 8', 'group:log 2'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:brick_makers_bench",
+	items = {'tech:stick 8', 'group:log 2'},
 	level = 1,
 	always_known = true,
 })

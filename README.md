@@ -56,6 +56,7 @@ Some tips and tricks:
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - darkasthaan spider for deep caves
 - graffitti: glow paint
+- new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors,
 - fixed dungeon loot
 - added more artifacts (airboat, art, transporter, wayfinder...)
 - mushrooms for fibre, food/water, sticks (artifact species)
@@ -130,9 +131,6 @@ HEALTH
 -more graffiti in more colors
 -extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
--bricks and mortar (higher carry limit than mudbrick to justify cost)
--crushed lime> quicklime > mortar
--clay roof tiles
 -wood shingle roof, wood walls, beams etc
 -cooking: e.g  juice (fermented)? soup? Stim drug
 -tool repair and modifiers
