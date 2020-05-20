@@ -458,7 +458,7 @@ stairs.register_stair_and_slab(
 crafting.register_recipe({
 	type = "brick_makers_bench",
 	output = "tech:loose_brick_unfired 4",
-	items = {'nodes_nature:clay 3', 'nodes_nature:sand_wet'},
+	items = {'nodes_nature:clay_wet 3', 'nodes_nature:sand_wet'},
 	level = 1,
 	always_known = true,
 })
@@ -627,7 +627,7 @@ minetest.register_node("tech:roof_tile_ic", {
 crafting.register_recipe({
 	type = "brick_makers_bench",
 	output = "tech:roof_tile_unfired",
-	items = {'nodes_nature:clay 2'},
+	items = {'nodes_nature:clay_wet 2'},
 	level = 1,
 	always_known = true,
 })

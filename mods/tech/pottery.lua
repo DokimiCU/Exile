@@ -457,7 +457,7 @@ minetest.register_node("tech:clay_oil_lamp", {
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_water_pot_unfired 1",
-	items = {"nodes_nature:clay 4"},
+	items = {"nodes_nature:clay_wet 4"},
 	level = 1,
 	always_known = true,
 })
@@ -475,7 +475,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_storage_pot_unfired 1",
-	items = {"nodes_nature:clay 6"},
+	items = {"nodes_nature:clay_wet 6"},
 	level = 1,
 	always_known = true,
 })
@@ -492,7 +492,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_oil_lamp_unfired 1",
-	items = {"nodes_nature:clay"},
+	items = {"nodes_nature:clay_wet"},
 	level = 1,
 	always_known = true,
 })

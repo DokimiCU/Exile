@@ -195,8 +195,8 @@ crafting.register_recipe({
 	--type = "crafting_spot",
 	type = "brick_makers_bench",
 	output = "tech:mudbrick 2",
-	--items = {"nodes_nature:clay_wet", "nodes_nature:sand_wet", "group:fibrous_plant"},
-	items = {"nodes_nature:clay", "nodes_nature:sand_wet", "group:fibrous_plant"},
+	items = {"nodes_nature:clay_wet", "nodes_nature:sand_wet", "group:fibrous_plant"},
+	--items = {"nodes_nature:clay", "nodes_nature:sand_wet", "group:fibrous_plant"},
 	level = 1,
 	always_known = true,
 })
