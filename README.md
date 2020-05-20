@@ -56,7 +56,7 @@ Some tips and tricks:
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - darkasthaan spider for deep caves
 - graffitti: glow paint
-- new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors,
+- new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
 - fixed dungeon loot
 - added more artifacts (airboat, art, transporter, wayfinder...)
 - mushrooms for fibre, food/water, sticks (artifact species)
@@ -187,6 +187,7 @@ Volcano:
 Megamorph:
 -a silly string stair doesn't line up (from overpass)
 -self.params.share.surface crash with some layouts (that cross over edges. No current morphs do this)
+-all doors ought to have floors, to avoid doors hanging in space from caves
 
 
 Tech:

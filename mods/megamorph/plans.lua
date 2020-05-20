@@ -18,30 +18,30 @@ local n_ex = 'air'
 
 --primary construction materials
 local stone_main = 'nodes_nature:granite'
-local stone_block_main = 'nodes_nature:granite_block'
-local stone_brick_main = 'nodes_nature:granite_brick'
-local stone_stairs_main = 'stairs:stair_granite_block'
-local stone_stairs_block_main = 'stairs:stair_granite_block'
+local stone_block_main = 'tech:granite_block_mortar'
+local stone_brick_main = 'tech:granite_brick_mortar'
+local stone_stairs_main = 'stairs:stair_granite_block_mortar'
+local stone_stairs_block_main = 'stairs:stair_granite_block_mortar'
 
 --secondary
 local stone_2nd = 'nodes_nature:basalt'
-local stone_block_2nd = 'nodes_nature:basalt_block'
-local stone_brick_2nd = 'nodes_nature:basalt_brick'
-local stone_stairs_2nd = 'stairs:stair_basalt_block'
-local stone_stairs_block_2nd = 'stairs:stair_basalt_block'
+local stone_block_2nd = 'tech:basalt_block_mortar'
+local stone_brick_2nd = 'tech:basalt_brick_mortar'
+local stone_stairs_2nd = 'stairs:stair_basalt_block_mortar'
+local stone_stairs_block_2nd = 'stairs:stair_basalt_block_mortar'
 
 --tertiary
 local stone_3rd = 'nodes_nature:limestone'
-local stone_block_3rd = 'nodes_nature:limestone_block'
-local stone_brick_3rd = 'nodes_nature:limestone_brick'
-local stone_stairs_3rd = 'stairs:stair_limestone_block'
-local stone_stairs_block_3rd = 'stairs:stair_limestone_block'
+local stone_block_3rd = 'tech:limestone_block_mortar'
+local stone_brick_3rd = 'tech:limestone_brick_mortar'
+local stone_stairs_3rd = 'stairs:stair_limestone_block_mortar'
+local stone_stairs_block_3rd = 'stairs:stair_limestone_block_mortar'
 
 --4th
 local stone_4th = 'nodes_nature:gneiss'
-local stone_block_4th = 'nodes_nature:gneiss_block'
-local stone_brick_4th = 'nodes_nature:gneiss_brick'
-local stone_stairs_block_4th = 'stairs:stair_gneiss_block'
+local stone_block_4th = 'tech:gneiss_block_mortar'
+local stone_brick_4th = 'tech:gneiss_brick_mortar'
+local stone_stairs_block_4th = 'stairs:stair_gneiss_block_mortar'
 
 --furniture etc
 local lamp_block = 'artifacts:moon_glass'

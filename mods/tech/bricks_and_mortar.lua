@@ -373,8 +373,8 @@ minetest.register_node('tech:loose_brick_unfired', {
 			{-0.0625, 0.25, 0, 0.1875, 0.5, 0.5}, -- NodeBox38
 		}
 	},
-	groups = {oddly_breakable_by_hand = 1, falling_node = 1, heatable =15},
-	sounds = nodes_nature.node_sound_dirt_defaults(),
+	groups = {oddly_breakable_by_hand = 3, falling_node = 1, heatable =15},
+	sounds = nodes_nature.node_sound_stone_defaults(),
   on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_firing(pos, 40, 10)
@@ -433,6 +433,7 @@ minetest.register_node("tech:bricks_and_mortar", {
 	description = "Brick and Mortar",
 	tiles = {"tech_bricks_and_mortar.png"},
 	stack_max = minimal.stack_max_medium/2,
+	drop = "tech:loose_brick",
 	groups = {cracky = 2},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })
@@ -506,8 +507,8 @@ minetest.register_node("tech:roof_tile_unfired", {
 			{-0.25, 0.4375, 0.3125, 0.25, 0.5, 0.5}, -- NodeBox34
 		}
 	},
-  groups = {oddly_breakable_by_hand = 1, falling_node = 1, heatable =15},
-	sounds = nodes_nature.node_sound_dirt_defaults(),
+  groups = {oddly_breakable_by_hand = 3, falling_node = 1, heatable =15},
+	sounds = nodes_nature.node_sound_stone_defaults(),
   on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_firing(pos, 30, 10)
@@ -664,3 +665,99 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+
+--------------------------------------------------------------------
+--MASONARY WITH MORTAR
+--made at masonary bench,
+--added mortar binds them so not diggable by hand or falling.
+--drop unmortared stone.
+
+local list = {
+	{"limestone", "Limestone", 3},
+	{"ironstone", "Ironstone", 3},
+  {"granite", "Granite", 1},
+	{"basalt", "Basalt", 2},
+	{"gneiss", "Gneiss", 1},
+	{"jade", "Jade", 1},
+
+}
+
+
+for i in ipairs(list) do
+	local name = list[i][1]
+	local desc = list[i][2]
+	local hardness = list[i][3]
+
+
+	--blocks and bricks
+	--Bricks
+	minetest.register_node("tech:"..name.."_brick_mortar", {
+		description = desc.." Brick with Mortar",
+		tiles = {"nodes_nature_"..name.."_brick.png^tech_mortar_brick.png"},
+		drop = "nodes_nature:"..name.."_brick",
+		stack_max = minimal.stack_max_bulky *3,
+		groups = {cracky = hardness},
+		sounds = nodes_nature.node_sound_stone_defaults(),
+	})
+
+	--block
+	minetest.register_node("tech:"..name.."_block_mortar", {
+		description = desc.. " Block with Mortar",
+		tiles = {"nodes_nature_"..name.."_block.png^tech_mortar_block.png"},
+		drop = "nodes_nature:"..name.."_block",
+		stack_max = minimal.stack_max_bulky *2,
+		groups = {cracky = hardness},
+		sounds = nodes_nature.node_sound_stone_defaults(),
+	})
+
+	---
+	crafting.register_recipe({
+		type = "masonry_bench",
+		output = "tech:"..name.."_brick_mortar 4",
+		items = {"nodes_nature:"..name.."_brick 3", "tech:lime_mortar"},
+		level = 1,
+		always_known = true,
+	})
+
+	crafting.register_recipe({
+		type = "masonry_bench",
+		output = "tech:"..name.."_block_mortar 4",
+		items = {"nodes_nature:"..name.."_block 3", "tech:lime_mortar"},
+		level = 1,
+		always_known = true,
+	})
+
+
+	--stairs and slabs
+
+	--brick
+	stairs.register_stair_and_slab(
+		name.."_brick_mortar",
+		"tech:"..name.."_brick_mortar",
+		"masonry_bench",
+		"true",
+		{cracky = hardness},
+		{"nodes_nature_"..name.."_brick.png^tech_mortar_brick.png" },
+		desc.." Brick with Mortar Stair",
+		desc.." Brick with Mortar Slab",
+		minimal.stack_max_bulky * 6,
+		nodes_nature.node_sound_stone_defaults()
+	)
+
+	--block
+	stairs.register_stair_and_slab(
+		name.."_block_mortar",
+		"tech:"..name.."_block_mortar",
+		"masonry_bench",
+		"false",
+		{cracky = hardness},
+		{"nodes_nature_"..name.."_block.png^tech_mortar_block.png" },
+		desc.." Block with Mortar Stair",
+		desc.." Block with Mortar Slab",
+		minimal.stack_max_bulky * 4,
+		nodes_nature.node_sound_stone_defaults()
+	)
+
+
+end

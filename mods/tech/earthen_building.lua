@@ -11,8 +11,8 @@
 minetest.register_node("tech:drystack", {
 	description = "Drystack",
 	tiles = {"tech_drystack.png"},
-	stack_max = minimal.stack_max_bulky *2,
-	groups = {cracky = 3, crumbly = 1, oddly_breakable_by_hand = 1},
+	stack_max = minimal.stack_max_bulky *1.5,
+	groups = {cracky = 3, crumbly = 1, falling_node = 1, oddly_breakable_by_hand = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })
 
@@ -28,7 +28,7 @@ stairs.register_stair_and_slab(
 	{"tech_drystack.png"},
 	"Drystack Stair",
 	"Drystack Slab",
-	minimal.stack_max_bulky *4,
+	minimal.stack_max_bulky *3,
 	nodes_nature.node_sound_stone_defaults()
 )
 
