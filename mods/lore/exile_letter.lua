@@ -28,20 +28,29 @@ local judger = {
   "High Queen",
   "Nobles",
   "Great Leader",
+  "Golden King",
+  "Jade Queen",
+  "Prince",
+  "Princess",
+  "Regent",
   --officials
   "High Judge",
   "Tribunal",
   "Council",
   "Courts",
   "Presidium",
+  "Law Giver's",
+  "King's Justice",
+  "Sheriff",
   --cults
-  "Botherhood",
+  "Brotherhood",
   "Sisterhood",
   "High Priest",
   "High Priestess",
   "Great Prophet",
   "Annoited One",
   "Seers",
+  "Sanctum",
   "Order",
   "Monks",
   "Priests",
@@ -54,6 +63,7 @@ local judger = {
   "Clan Council",
   "Tribal Chiefs",
   "Great Chieftain",
+  "United Clans",
   --republic
   "Citizenry",
   "People",
@@ -61,18 +71,40 @@ local judger = {
   "Consul",
   "Senators",
   "Assembly",
-  --Military/rouges/misc
-  "Generals",
-  "Mighty Warriors",
-  "Pirates",
-  "Bandits",
-  "Admirals",
+  --Geographic/polity
+  "City State",
+  "Empire",
+  "Kingdom",
+  "Principality",
+  "Duchy",
+  "Republic",
   "League",
+  "Confederation",
+  "Federation",
   "Alliance",
   "Coalition",
-  "Company",
+  "Nation",
+  "Clan",
+  "Chiefdom",
+  "Tribe",
+  "Monastic Order",
+
+  --Military
+  "Generals",
+  "Mighty Warriors",
+  "Admirals",
   "Legion",
-  "Horde"
+  "Commander",
+  "Commandant",
+  "Warlord",
+
+  --rogues
+  "Pirates",
+  "Bandits",
+  "Company",
+  "Horde",
+  "Liberators",
+  "Destroyers"
 
 }
 
@@ -93,6 +125,7 @@ local crime1 = {
   "subversion",
   "mutiny",
   "rebellion",
+  "usurpation",
   "espionage",
   "sabotage",
   "treachery",
@@ -139,6 +172,7 @@ local crime2 = {
   "deception",
   "fraud",
   "fakery",
+  "consorting with disreputables",
   "trespassing",
   "poaching",
   "impersonation",
@@ -160,7 +194,18 @@ local crime2 = {
   "hooliganism",
   "harassment",
   "forgery",
-  "bribery"
+  "bribery",
+  "forsaking the ancestors",
+  "mocking all that is good",
+  "stubborn foolishness",
+  "persistent idiocy",
+  "failure to perform duty",
+  "disregard of honor",
+  "breaking faith",
+  "touching the forbidden",
+  "seeking banned knowledge",
+  "slander",
+  "rejecting common sense"
 
 }
 
@@ -190,7 +235,14 @@ local woe = {
   "Thus do we cleanse ourselves.",
   "We wash our hands of them.",
   "Fortune shall be their final judge.",
-  "They are disowned."
+  "They are disowned.",
+  "We never knew them.",
+  "They are cut off.",
+  "Let them live with the beasts.",
+  "Let the barbarians and wild folk have them.",
+  "They are not fit for civilized lands.",
+  "Thus we ensure our security.",
+  "Only the righteous belong among us."
 
 }
 
@@ -238,7 +290,10 @@ local mythic_terror = {
   "Rumbling Earth",
   "Burning Rock",
   "Great Folly",
-  "Old Tales"
+  "Old Tales",
+  "Evil Wind",
+  "Bitter Waters",
+  "Howling Dust"
 }
 
 

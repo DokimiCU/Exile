@@ -42,7 +42,7 @@ end
 
 
 
-local function roast(pos, name, selfname, length, heat)
+local function roast(pos, selfname, name, length, heat)
 	local meta = minetest.get_meta(pos)
 	local roast = meta:get_int("roast")
 
@@ -88,7 +88,7 @@ minetest.register_node("tech:crushed_lime", {
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
-		set_roast(pos, 10, 10)
+		set_roast(pos, 3, 10)
 	end,
 	on_timer = function(pos, elapsed)
     --finished product, length, heat
