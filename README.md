@@ -54,6 +54,7 @@ Some tips and tricks:
 
 # 0.2
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
+- Lore: exile letter
 - darkasthaan spider for deep caves
 - graffitti: glow paint
 - new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
@@ -118,7 +119,6 @@ HEALTH
 --LORE/LOOT/DUNGEONS
 -artifacts (loot): scuba, tree grower
 -dangerous "pandora's box" loot
--lore: sentence of exile letter, bones of lost exiles, lore in geomoria
 -surface ruins
 -geomoria decorations
 -more morphs: gardens, waste dumps, public baths, transporter room, laboratory, storage dumps, factories
@@ -207,6 +207,9 @@ Crafting (Rubenwardy)
 -Calling get_connected_players() at mod load time is deprecated
 -some items need inv images with space around edges (e.g. wattle)
 -sound effects would be nice
+
+Backpacks:
+-uses deprecated meta
 
 Misc:
 -various bits of code could be tidied up (e.g. duplicated code pulled into functions)
