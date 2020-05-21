@@ -420,7 +420,7 @@ minetest.register_node('tech:loose_brick', {
 			{-0.0625, 0.25, 0, 0.1875, 0.5, 0.5}, -- NodeBox38
 		}
 	},
-	groups = {oddly_breakable_by_hand = 1, falling_node = 1},
+	groups = {oddly_breakable_by_hand = 3, falling_node = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })
 
