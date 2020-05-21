@@ -628,7 +628,7 @@ minetest.register_node("tech:roof_tile_ic", {
 crafting.register_recipe({
 	type = "brick_makers_bench",
 	output = "tech:roof_tile_unfired",
-	items = {'nodes_nature:clay_wet 2'},
+	items = {'nodes_nature:clay_wet'},
 	level = 1,
 	always_known = true,
 })
