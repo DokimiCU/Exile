@@ -27,6 +27,11 @@ local judger = {
   "High King",
   "High Queen",
   "Nobles",
+  "Lords",
+  "Duke",
+  "Duchess",
+  "Lord",
+  "Most Highly Exalted Supreme Ruler",
   "Great Leader",
   "Golden King",
   "Jade Queen",
@@ -49,14 +54,17 @@ local judger = {
   "High Priestess",
   "Great Prophet",
   "Annoited One",
+  "God King",
+  "Philosopher King",
   "Seers",
   "Sanctum",
   "Order",
   "Monks",
   "Priests",
-  "Priestessess",
+  "Priestesses",
   "Englightened Ones",
   "Great Sage",
+  "Shaman",
   --tribal
   "Elders",
   "Wise Ones",
@@ -88,9 +96,12 @@ local judger = {
   "Chiefdom",
   "Tribe",
   "Monastic Order",
+  "Merchant Republic",
+  "Theocracy",
 
   --Military
   "Generals",
+  "Champion",
   "Mighty Warriors",
   "Admirals",
   "Legion",
@@ -129,8 +140,7 @@ local crime1 = {
   "espionage",
   "sabotage",
   "treachery",
-  "sedition",
-  "terrorism"
+  "sedition"
 
 }
 
@@ -148,24 +158,30 @@ local crime2 = {
   "inciting violence",
   "unspeakable acts",
   "that of which we shall not speak",
+  "endangering the survival of our people",
+  "causing the great tragedy that befell us",
+  "refusing to partake in the sacred rituals",
   "shameless acts",
   "willful sloth",
-  "preaching foriegn gods",
+  "preaching foreign gods",
   "gross vanity",
   "wickedness",
   "assasination",
   "sharing secrets with foriegn powers",
   "black magic",
   "witchcraft",
+  "placing curses upon the innocent",
   "shameful conduct",
   "cowardice",
   "tax evasion",
+  "abusing their station for personal gain",
   "desecration of holy relics",
   "subverting the course of justice",
   "robbery",
   "attempted murder",
   "grave robbing",
   "cruelty to animals",
+  "eating forbidden foods",
   "embezzlement",
   "questioning the gloriousness of our ways",
   "bearing false witness",
@@ -191,7 +207,9 @@ local crime2 = {
   "improper ambition",
   "failing to acknowledge the gods",
   "vandalism",
-  "hooliganism",
+  "uncouth manners",
+  "adopting barbarian customs",
+  "speaking a forbidden tongue",
   "harassment",
   "forgery",
   "bribery",
@@ -205,7 +223,11 @@ local crime2 = {
   "touching the forbidden",
   "seeking banned knowledge",
   "slander",
-  "rejecting common sense"
+  "rejecting common sense",
+  "failing to appear for military service",
+  "hoarding food during famine",
+  "fouling the good reputation of our people",
+  "sowing discord among the populace"
 
 }
 
@@ -242,7 +264,8 @@ local woe = {
   "Let the barbarians and wild folk have them.",
   "They are not fit for civilized lands.",
   "Thus we ensure our security.",
-  "Only the righteous belong among us."
+  "Only the righteous belong among us.",
+  "May they toil in vain."
 
 }
 
@@ -293,7 +316,8 @@ local mythic_terror = {
   "Old Tales",
   "Evil Wind",
   "Bitter Waters",
-  "Howling Dust"
+  "Howling Dust",
+  "Hateful Sky"
 }
 
 
@@ -317,7 +341,7 @@ local generate_text = function()
     "\n \n "..
     "\n "..your_name.." of "..origin_name..
     "\n \n "..
-    "\nIs hereby sentenced to exile for the crimes of "..
+    "\nis hereby sentenced to exile for the crimes of "..
     "\n  "..
     "\n"..cr1..
     "\n  "..
