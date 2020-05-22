@@ -38,12 +38,13 @@ Some tips and tricks:
 - Go deep enough underground and you might find something....
 - Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
 - Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
-- Fires. Blocks are hotter. Charcoal is hotter than wood.
+- Fires. Blocks are hotter. Charcoal is hotter than wood. Fires can be temporarily extinguished by punching them holding sediment.
 - iron smelting. This is hard. Needs charcoal.
 - Charcoal. Make it like you would for real. A wood fire with no air.
 - Food: eat stuff and see if you live! You can catch animals with clubs (right click)
 - Drugs: a couple of things have useful effects.
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
+- Build stairs and shelters around your base, this will save you energy and protect you from extremes. 
 
 
 
@@ -207,6 +208,9 @@ Crafting (Rubenwardy)
 -Calling get_connected_players() at mod load time is deprecated
 -some items need inv images with space around edges (e.g. wattle)
 -sound effects would be nice
+
+Canoe:
+-rare: canoe vanished and teleported player a few hundred meters away (while pushing W repeatedly)
 
 Backpacks:
 -uses deprecated meta
