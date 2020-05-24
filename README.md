@@ -44,7 +44,7 @@ Some tips and tricks:
 - Food: eat stuff and see if you live! You can catch animals with clubs (right click)
 - Drugs: a couple of things have useful effects.
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
-- Build stairs and shelters around your base, this will save you energy and protect you from extremes. 
+- Build stairs and shelters around your base, this will save you energy and protect you from extremes.
 
 
 
@@ -116,6 +116,7 @@ HEALTH
 --MOBS
 -more mobs: hive, pack/farm animal, bird, lizard/scorpion
 -better looking dead animals, cooking
+-Rimworld style colonists
 
 --LORE/LOOT/DUNGEONS
 -artifacts (loot): scuba, tree grower
@@ -123,6 +124,9 @@ HEALTH
 -surface ruins
 -geomoria decorations
 -more morphs: gardens, waste dumps, public baths, transporter room, laboratory, storage dumps, factories
+-NPCs, quests etc
+-random character skins for each life
+
 
 --CLOTHING:
 -speed effects (likely to cause issues with bed physics)
