@@ -100,7 +100,7 @@ minetest.register_node("tech:crushed_lime", {
 
 
 --quicklime
---turns back into limestone when exposed to air
+--turns back into lime when exposed to air
 minetest.register_node("tech:quicklime", {
 	description = "Quicklime",
 	tiles = {"tech_quicklime.png"},
@@ -131,14 +131,14 @@ minetest.register_node("tech:quicklime", {
       return false
     end
 
-    --slowly revert to limestone by reacting with the air, or slake by rain
+    --slowly revert to lime by reacting with the air, or slake by rain
     if minetest.find_node_near(pos, 1, {"air"}) then
       if random() > 0.99 then
         if climate.get_rain(pos) then
           minetest.set_node(pos, {name = "tech:slaked_lime"})
           minetest.sound_play("tech_boil",	{pos = pos, max_hear_distance = 8, gain = 1})
         else
-          minetest.set_node(pos, {name = "nodes_nature:limestone"})
+          minetest.set_node(pos, {name = "tech:crushed_lime"})
           return false
         end
       end
@@ -151,7 +151,7 @@ minetest.register_node("tech:quicklime", {
 
 
 --slaked lime
---turns back into limestone when exposed to air
+--turns back into lime when exposed to air
 minetest.register_node("tech:slaked_lime", {
 	description = "Slaked Lime",
 	tiles = {"tech_flour.png"},
@@ -172,9 +172,9 @@ minetest.register_node("tech:slaked_lime", {
         return false
       end
 
-      --slowly revert to limestone by reacting with the air, or slake by rain
+      --slowly revert to lime by reacting with the air
       if minetest.find_node_near(pos, 1, {"air"}) then
-        minetest.set_node(pos, {name = "nodes_nature:limestone"})
+        minetest.set_node(pos, {name = "tech:crushed_lime"})
         return false
       end
     end
@@ -188,7 +188,7 @@ minetest.register_node("tech:slaked_lime", {
 --ruined slaked lime
 --same as above, but got mixed with salt water, I suspect that's bad...
 --but can't find what would happen
---turns back into limestone when exposed to air
+--turns back into lime when exposed to air
 minetest.register_node("tech:slaked_lime_ruined", {
 	description = "Slaked Lime (ruined)",
 	tiles = {"tech_flour.png"},
@@ -208,10 +208,10 @@ minetest.register_node("tech:slaked_lime_ruined", {
       return false
     end
 
-    --slowly revert to limestone by reacting with the air, or slake by rain
+    --slowly revert to lime by reacting with the air
     if minetest.find_node_near(pos, 1, {"air"}) then
       if random() > 0.9 then
-        minetest.set_node(pos, {name = "nodes_nature:limestone"})
+        minetest.set_node(pos, {name = "tech:crushed_lime"})
         return false
       end
     end
@@ -225,7 +225,7 @@ minetest.register_node("tech:slaked_lime_ruined", {
 
 --Lime mortar
 --Hooray... the product we actually want. Slaked lime with sand
---also sets back to limestone, not that different from slaked_lime
+--really should set to something, but creates logical mass balance problems
 minetest.register_node("tech:lime_mortar", {
 	description = "Lime Mortar",
 	tiles = {"tech_lime_mortar.png"},
@@ -234,6 +234,7 @@ minetest.register_node("tech:lime_mortar", {
 	sounds = nodes_nature.node_sound_sand_defaults({
 		footstep = {name = "nodes_nature_mud", gain = 0.4},
 		dug = {name = "nodes_nature_mud", gain = 0.4}}),
+		--[[
   on_construct = function(pos)
 		minetest.get_node_timer(pos):start(60)
 	end,
@@ -256,6 +257,7 @@ minetest.register_node("tech:lime_mortar", {
     --it's still here...
     return true
 	end,
+	]]
 })
 
 -----------------------------------------------------
