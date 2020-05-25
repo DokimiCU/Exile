@@ -15,9 +15,10 @@ local pow = math.pow
 
 
 --------------------------------------------------------------------------
---
+--basic
+--------------------------------------------------------------------------
 
-----------------------------------------------------------------------
+
 -- returns 2D angle from self to target in radians
 local function get_yaw_to_object(pos, opos)
   local ankat = pos.x - opos.x
@@ -27,8 +28,19 @@ local function get_yaw_to_object(pos, opos)
 end
 
 
+--flee sound (has to be in water!)
+local function flee_sound(self)
+	if not self.isinliquid then
+		return
+	end
+	mobkit.make_sound(self,'flee')
+end
 
--------------------------------------------------------------------
+--------------------------------------------------------------------------
+--Life and death
+--------------------------------------------------------------------------
+
+----------------------------------------------------
 -- drop on death what is definded in the entity table
 function animals.handle_drops(self)
    if not self.drops then
@@ -53,11 +65,161 @@ function animals.handle_drops(self)
    end
  end
 
+----------------------------------------------------
+--core health
+function animals.core_hp(self)
+  --default drowing and fall damage
+  mobkit.vitals(self)
+  --die from damage
+  local hp = self.hp
+  if hp <= 0 then
+    mobkit.clear_queue_high(self)
+    animals.handle_drops(self)
+    mobkit.hq_die(self)
+    return false
+  else
+    return true
+  end
+end
 
 
 
+function animals.core_hp_water(self)
+
+  if not self.isinliquid then
+    mobkit.hurt(self,1)
+  end
+
+  --die from damage
+  local hp = self.hp
+  if hp <= 0 then
+    mobkit.clear_queue_high(self)
+    animals.handle_drops(self)
+    mobkit.hq_die(self)
+    return false
+  else
+    return true
+  end
+end
+
+----------------------------------------------------
+--core health, energy and age
+function animals.core_life(self, lifespan, pos)
+
+  local energy = mobkit.recall(self,'energy')
+  local age = mobkit.recall(self,'age')
+
+  --stops some crashes in creative?
+  if not energy then
+    energy = 1
+  end
+  if not age then
+    age = 0
+  end
+
+  age = age + 1
+  energy = energy - 1
+
+  --die from exhaustion, old age
+  if energy <=0 or age > lifespan then
+    mobkit.clear_queue_high(self)
+    animals.handle_drops(self)
+    mobkit.hq_die(self)
+    return nil
+  end
+
+  --temperature stress
+  local temp = climate.get_point_temp(pos)
+  if temp < self.min_temp or temp > self.max_temp then
+    energy = energy - 1
+  end
 
 
+  --heal using energy
+  if self.hp < self.max_hp and energy > 10 then
+    mobkit.heal(self,1)
+    energy = energy - 1
+  end
+
+  return age, energy
+end
+
+
+
+----------------------------------------------------
+--put an egg in the world, return energy
+function animals.place_egg(pos, egg_name, energy, energy_egg, medium)
+  local p = mobkit.get_node_pos(pos)
+  if minetest.get_node(p).name == medium then
+    local posu = {x = p.x, y = p.y - 1, z = p.z}
+    local n = mobkit.nodeatpos(posu)
+    if n and n.walkable then
+      minetest.set_node(p, {name = egg_name})
+      energy = energy - energy_egg
+      return energy
+    end
+  end
+
+end
+
+
+----------------------------------------------------
+--release offspring from an egg (called from timers)
+function animals.hatch_egg(pos, medium_name, replace_name, name, energy_egg, young_per_egg)
+
+  local air = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {medium_name})
+  --if can't find the stuff this mob moves through then it dies
+	if #air < 1 then
+		minetest.set_node(pos, {name = replace_name})
+		return false
+	end
+
+  local cnt = 0
+  local start_e = energy_egg/young_per_egg
+
+  while cnt < young_per_egg do
+    local ran_pos = air[random(#air)]
+    local ent = minetest.add_entity(ran_pos, name)
+    minetest.sound_play("animals_hatch_egg", {pos = pos, gain = 0.2, max_hear_distance = 6})
+    ent = ent:get_luaentity()
+    mobkit.remember(ent,'energy', start_e)
+    mobkit.remember(ent,'age',0)
+
+    cnt = cnt + 1
+  end
+
+  minetest.set_node(pos, {name = replace_name})
+  return false
+
+end
+
+ --------------------------------------------------------------------------
+ --Movement
+ --------------------------------------------------------------------------
+
+
+
+----------------------------------------------
+--roam to places with equal or lesser darkness
+function animals.hq_roam_dark(self,prty)
+	local func=function(self)
+		if mobkit.is_queue_empty_low(self) and self.isonground then
+			local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
+
+			if height and not liquidflag then
+       local light = minetest.get_node_light(pos, 0.5)
+       local lightn = minetest.get_node_light(tpos, 0.5)
+       if lightn <= light then
+         mobkit.dumbstep(self,height,tpos,0.3)
+       end
+     end
+		end
+	end
+	mobkit.queue_high(self,func,prty)
+end
 
 
 
@@ -120,7 +282,7 @@ end
 
 
 
-
+---------------------------------------------------
 -- turn around  from tgtob and swim away until out of sight
 function animals.hq_swimfrom(self,prty,tgtobj,speed)
   local timer = time() + 30
@@ -159,7 +321,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
   mobkit.queue_high(self,func,prty)
  end
 
-
+ ---------------------------------------------------
  -- chase tgtob and swim until somewhat out of sight
  function animals.hq_swimafter(self,prty,tgtobj,speed)
    local timer = time() + 15
@@ -195,118 +357,320 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
 
    end
    mobkit.queue_high(self,func,prty)
-  end
-
-
-----------------------------------------------------------------
---roam to places with equal or lesser darkness
- function animals.hq_roam_dark(self,prty)
- 	local func=function(self)
- 		if mobkit.is_queue_empty_low(self) and self.isonground then
- 			local pos = mobkit.get_stand_pos(self)
- 			local neighbor = random(8)
-
- 			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
-
- 			if height and not liquidflag then
-        local light = minetest.get_node_light(pos, 0.5)
-        local lightn = minetest.get_node_light(tpos, 0.5)
-        if lightn <= light then
-          mobkit.dumbstep(self,height,tpos,0.3)
-        end
-      end
- 		end
- 	end
- 	mobkit.queue_high(self,func,prty)
  end
 
+
+
+
+
+--------------------------------------------------------------------------
+--Attack and feeding
+--------------------------------------------------------------------------
+
+----------------------------------------------------------------
+--on_punch
+function animals.on_punch(self, tool_capabilities, puncher, prty, chance)
+  if mobkit.is_alive(self) then
+    --do damage
+    mobkit.clear_queue_high(self)
+    mobkit.hurt(self,tool_capabilities.damage_groups.fleshy or 1)
+    mobkit.make_sound(self,'punch')
+
+    --fight or flight
+    animals.fight_or_flight(self, puncher, prty, chance)
+
+  end
+end
+
+
+function animals.on_punch_water(self, tool_capabilities, puncher, prty, chance)
+  if mobkit.is_alive(self) then
+    --do damage
+    mobkit.clear_queue_high(self)
+    mobkit.hurt(self,tool_capabilities.damage_groups.fleshy or 1)
+    mobkit.make_sound(self,'punch')
+
+    --fight or flight
+    animals.fight_or_flight_water(self, puncher, prty, chance)
+
+  end
+end
+
+----------------------------------------------------------------
+--attack or run vs player
+function animals.fight_or_flight_plyr(self, plyr, prty, chance)
+  --fight chance, or run away (don't do it attach bc buggers physics)
+  if random()< chance and plyr:get_attach() == nil then
+    mobkit.hq_warn(self,prty,plyr)
+  else
+    mobkit.animate(self,'fast')
+    mobkit.make_sound(self,'warn')
+    mobkit.hq_runfrom(self,prty, plyr)
+  end
+end
+
+--attack or run vs entity
+function animals.fight_or_flight(self, threat, prty, chance)
+  --fight chance, or run away
+  if random()< chance then
+    mobkit.hq_warn(self,prty, threat)
+  else
+    mobkit.animate(self,'fast')
+    mobkit.make_sound(self,'warn')
+    mobkit.hq_runfrom(self,prty, threat)
+  end
+end
+
+
+
+
+----attack or run vs player in water
+function animals.fight_or_flight_plyr_water(self, plyr, prty, chance)
+  --ignore chance, or run away
+  if random()< chance and plyr:get_attach() == nil then
+    mobkit.hq_aqua_attack(self, prty, plyr, self.max_speed)
+  else
+    mobkit.animate(self,'fast')
+    animals.hq_swimfrom(self, prty, plyr, self.max_speed)
+    flee_sound(self)
+  end
+end
+
+----attack or run vs player in water
+function animals.fight_or_flight_water(self, threat, prty, chance)
+  --ignore chance, or run away
+  if random()< chance then
+    mobkit.hq_aqua_attack(self, prty, threat, self.max_speed)
+  else
+    mobkit.animate(self,'fast')
+    animals.hq_swimfrom(self, prty, threat, self.max_speed)
+    flee_sound(self)
+  end
+end
+
+----------------------------------------------------------------
+--Find and Flee predators
+function animals.predator_avoid(self, prty, chance)
+
+  for  _, pred in ipairs(self.predators) do
+    local thr = mobkit.get_closest_entity(self,pred)
+    if thr then
+      animals.fight_or_flight(self, thr, prty, chance)
+      return true
+    end
+  end
+end
+
+
+function animals.predator_avoid_water(self, prty, chance)
+
+  for  _, pred in ipairs(self.predators) do
+    local thr = mobkit.get_closest_entity(self,pred)
+    if thr then
+      animals.fight_or_flight_water(self, thr, prty, chance)
+      return true
+    end
+  end
+end
+
+----------------------------------------------------------------
+--Find and hunt prey
+function animals.prey_hunt(self, prty)
+
+  for  _, prey in ipairs(self.prey) do
+    local tgtobj = mobkit.get_closest_entity(self,prey)
+    if tgtobj then
+      animals.hq_attack_eat(self,prty,tgtobj)
+      return true
+    end
+  end
+end
+
+
+function animals.prey_hunt_water(self, prty)
+
+  for  _, prey in ipairs(self.prey) do
+    local tgtobj = mobkit.get_closest_entity(self,prey)
+    if tgtobj then
+      mobkit.animate(self,'fast')
+      flee_sound(self)
+      animals.hq_aqua_attack_eat(self, prty, tgtobj, self.max_speed)
+      return true
+    end
+  end
+end
+
+----------------------------------------------------------------
+--territorial behaviour
+--avoid those in better condition
+function animals.territorial(self, energy, eat)
+
+  for  _, riv in ipairs(self.rivals) do
+
+    local rival = mobkit.get_closest_entity(self, riv)
+
+    if rival then
+
+      --flee if hurt
+      if self.hp < self.max_hp/4 then
+        mobkit.animate(self,'fast')
+        mobkit.make_sound(self,'warn')
+        mobkit.hq_runfrom(self, 25, rival)
+        return true
+      end
+
+      --contest! The more energetic one wins
+      local r_ent = rival:get_luaentity()
+      local r_ent_e = mobkit.recall(r_ent,'energy')
+
+      if energy > r_ent_e then
+        if eat then
+          animals.hq_attack_eat(self, 25, rival)
+        end
+        return true
+      else
+        mobkit.animate(self,'fast')
+        mobkit.make_sound(self,'warn')
+        mobkit.hq_runfrom(self,25,rival)
+        return true
+      end
+    end
+
+  end
+
+end
+
+
+--water version
+function animals.territorial_water(self, energy, eat)
+
+  for  _, riv in ipairs(self.rivals) do
+
+    local rival = mobkit.get_closest_entity(self, riv)
+
+    if rival then
+
+      --flee if hurt
+      if self.hp < self.max_hp/4 then
+        mobkit.animate(self,'fast')
+        flee_sound(self)
+        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
+        return true
+      end
+
+      --contest! The more energetic one wins
+      local r_ent = rival:get_luaentity()
+      local r_ent_e = mobkit.recall(r_ent,'energy')
+
+      --not clear why some have nil, but it happens
+      if r_ent_e == nil then
+        return
+      end
+
+      if energy > r_ent_e then
+        if eat then
+          animals.hq_aqua_attack_eat(self, 25, rival, self.max_speed)
+          flee_sound(self)
+        else
+          --harass
+          mobkit.animate(self,'fast')
+          animals.hq_swimafter(self, 15, rival, self.max_speed)
+          flee_sound(self)
+        end
+        return true
+      else
+        mobkit.animate(self,'fast')
+        flee_sound(self)
+        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
+        return true
+      end
+    end
+
+  end
+
+end
 
 
 
 ----------------------------------------------------------------
 --like mobkit version, but including removal of prey and gaining energy
 --to hit is to catch... for predators, where the chewing does the killing
- function animals.hq_aqua_attack_eat(self,prty,tgtobj,speed)
-   local timer = time() + 12
+function animals.hq_aqua_attack_eat(self,prty,tgtobj,speed)
+ local timer = time() + 12
 
- 	local tyaw = 0
- 	local prvscanpos = {x=0,y=0,z=0}
- 	local init = true
- 	local tgtbox = tgtobj:get_properties().collisionbox
+	local tyaw = 0
+	local prvscanpos = {x=0,y=0,z=0}
+	local init = true
+	local tgtbox = tgtobj:get_properties().collisionbox
 
- 	local func = function(self)
-    if time() > timer then
+	local func = function(self)
+  if time() > timer then
+    return true
+  end
+
+		if not mobkit.is_alive(tgtobj) then
+    return true
+  end
+
+		if init then
+			mobkit.animate(self,'fast')
+			mobkit.make_sound(self,'attack')
+			init = false
+		end
+
+		local pos = mobkit.get_stand_pos(self)
+		local yaw = self.object:get_yaw()
+		local scanpos = mobkit.get_node_pos(mobkit.pos_translate2d(pos,yaw,speed))
+		if not vector.equals(prvscanpos,scanpos) then
+			prvscanpos=scanpos
+			local nyaw,height = aqua_radar_dumb(pos,yaw,speed*0.5)
+			if height and height > pos.y then
+				local vel = self.object:get_velocity()
+				vel.y = vel.y+1
+				self.object:set_velocity(vel)
+			end
+			if yaw ~= nyaw then
+				tyaw=nyaw
+				mobkit.hq_aqua_turn(self,prty+1,tyaw,speed)
+				return
+			end
+		end
+
+		local tpos = tgtobj:get_pos()
+		local tyaw=minetest.dir_to_yaw(vector.direction(pos,tpos))
+		mobkit.turn2yaw(self,tyaw,3)
+		local yaw = self.object:get_yaw()
+		if mobkit.timer(self,1) then
+			if not mobkit.is_in_deep(tgtobj) then return true end
+			local vel = self.object:get_velocity()
+			if tpos.y>pos.y+0.5 then self.object:set_velocity({x=vel.x,y=vel.y+0.5,z=vel.z})
+			elseif tpos.y<pos.y-0.5 then self.object:set_velocity({x=vel.x,y=vel.y-0.5,z=vel.z}) end
+		end
+		if mobkit.is_pos_in_box(mobkit.pos_translate2d(pos,yaw,self.attack.range),tpos,tgtbox) then	--bite
+    mobkit.make_sound(self,'bite')
+			tgtobj:punch(self.object,1,self.attack)
+			mobkit.hq_aqua_turn(self,prty,yaw-pi,speed)
+    if random()>0.2 then
+      local ent = tgtobj:get_luaentity()
+      local ent_e = (mobkit.recall(ent,'energy') or 1)
+      local self_e = (mobkit.recall(self,'energy') or 1)
+      mobkit.remember(self,'energy', ent_e + self_e)
+      ent.object:remove()
       return true
     end
-
- 		if not mobkit.is_alive(tgtobj) then
-      return true
-    end
-
- 		if init then
- 			mobkit.animate(self,'fast')
- 			mobkit.make_sound(self,'attack')
- 			init = false
- 		end
-
- 		local pos = mobkit.get_stand_pos(self)
- 		local yaw = self.object:get_yaw()
- 		local scanpos = mobkit.get_node_pos(mobkit.pos_translate2d(pos,yaw,speed))
- 		if not vector.equals(prvscanpos,scanpos) then
- 			prvscanpos=scanpos
- 			local nyaw,height = aqua_radar_dumb(pos,yaw,speed*0.5)
- 			if height and height > pos.y then
- 				local vel = self.object:get_velocity()
- 				vel.y = vel.y+1
- 				self.object:set_velocity(vel)
- 			end
- 			if yaw ~= nyaw then
- 				tyaw=nyaw
- 				mobkit.hq_aqua_turn(self,prty+1,tyaw,speed)
- 				return
- 			end
- 		end
-
- 		local tpos = tgtobj:get_pos()
- 		local tyaw=minetest.dir_to_yaw(vector.direction(pos,tpos))
- 		mobkit.turn2yaw(self,tyaw,3)
- 		local yaw = self.object:get_yaw()
- 		if mobkit.timer(self,1) then
- 			if not mobkit.is_in_deep(tgtobj) then return true end
- 			local vel = self.object:get_velocity()
- 			if tpos.y>pos.y+0.5 then self.object:set_velocity({x=vel.x,y=vel.y+0.5,z=vel.z})
- 			elseif tpos.y<pos.y-0.5 then self.object:set_velocity({x=vel.x,y=vel.y-0.5,z=vel.z}) end
- 		end
- 		if mobkit.is_pos_in_box(mobkit.pos_translate2d(pos,yaw,self.attack.range),tpos,tgtbox) then	--bite
-      mobkit.make_sound(self,'bite')
- 			tgtobj:punch(self.object,1,self.attack)
- 			mobkit.hq_aqua_turn(self,prty,yaw-pi,speed)
-      if random()>0.2 then
-        local ent = tgtobj:get_luaentity()
-        local ent_e = (mobkit.recall(ent,'energy') or 1)
-        local self_e = (mobkit.recall(self,'energy') or 1)
-        mobkit.remember(self,'energy',(ent_e/10) + self_e)
-        ent.object:remove()
-        return true
-      end
- 		end
- 		mobkit.go_forward_horizontal(self,speed)
- 	end
- 	mobkit.queue_high(self,func,prty)
- end
+		end
+		mobkit.go_forward_horizontal(self,speed)
+	end
+  mobkit.queue_high(self,func,prty)
+end
 
 
 
 
 
-
-
-
-
-
-
- --like mobkit version, but including removal of prey and gaining energy
- --to hit is to catch... for predators, where the chewing does the killing
+---------------------------------------------------
+--like mobkit version, but including removal of prey and gaining energy
+--to hit is to catch... for predators, where the chewing does the killing
 local function lq_jumpattack_eat(self,height,target)
 	local phase=1
 	local timer=0.5
@@ -351,7 +715,7 @@ local function lq_jumpattack_eat(self,height,target)
           local ent = target:get_luaentity()
           local ent_e = (mobkit.recall(ent,'energy') or 1)
           local self_e = (mobkit.recall(self,'energy') or 1)
-          mobkit.remember(self,'energy',(ent_e/10) + self_e)
+          mobkit.remember(self,'energy', ent_e + self_e)
           ent.object:remove()
           return true
         end
@@ -385,7 +749,8 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 			else
 				mobkit.lq_turn2pos(self,tpos)
         --!! placeholder crash fix
-				local height = 0.35--tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
+				--local height = 0.35--tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
+        local height = tgtobj:get_luaentity().height*0.6 or 0.35
 				if tpos.y+height>pos.y then
 					lq_jumpattack_eat(self,tpos.y+height-pos.y,tgtobj)
 
@@ -397,74 +762,3 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 	end
 	mobkit.queue_high(self,func,prty)
 end
-----------------------------------------------------------------
---[[
-
-
-
-
--- find if there is a node between pos1 and pos2
--- water = true means water = obstacle
--- returns distance to obstacle in nodes or nil
-
-function water_life.find_collision(pos1,pos2,water)
-    local ray = minetest.raycast(pos1, pos2, false, water)
-            for pointed_thing in ray do
-                --minetest.chat_send_all(dump(pointed_thing))
-                if pointed_thing.type == "node" then
-                    local dist = math.floor(vector.distance(pos1,pointed_thing.under))
-                    return dist
-                end
-            end
-            return nil
-end
-
-
--- radar function for obstacles lying in front of an entity
--- use water = true if water should be an obstacle
-
-function water_life.radar(pos, yaw, radius, water)
-
-    if not radius or radius < 1 then radius = 16 end
-    local left = 0
-    local right = 0
-    if not water then water = false end
-    for j = 0,3,1 do
-        for i = 0,4,1 do
-            local pos2 = mobkit.pos_translate2d(pos,yaw+(i*pi/16),radius)
-            local pos3 = mobkit.pos_translate2d(pos,yaw-(i*pi/16),radius)
-            --minetest.set_node(pos2,{name="default:stone"})
-            if water_life.find_collision(pos,{x=pos2.x, y=pos2.y + j*2, z=pos2.z}, water) then
-                left = left + 5 - i
-            end
-            if water_life.find_collision(pos,{x=pos3.x, y=pos3.y + j*2, z=pos3.z},water) then
-                right = right + 5 - i
-            end
-        end
-    end
-    local up =0
-    local down = 0
-    for j = -4,4,1 do
-        for i = -3,3,1 do
-            local k = i
-            local pos2 = mobkit.pos_translate2d(pos,yaw+(i*pi/16),radius)
-            local collide = water_life.find_collision(pos,{x=pos2.x, y=pos2.y + j, z=pos2.z}, water)
-            if k < 0 then k = k * -1 end
-            if collide and j <= 0 then
-                down = down + math.floor((7+j-k)*collide/radius*2)
-            elseif collide and j >= 0 then
-                up = up + math.floor((7-j-k)*collide/radius*2)
-            end
-        end
-    end
-    local under = water_life.find_collision(pos,{x=pos.x, y=pos.y - radius, z=pos.z}, water)
-    if not under then under = radius end
-    local above = water_life.find_collision(pos,{x=pos.x, y=pos.y + radius, z=pos.z}, water)
-    if not above then above = radius end
-    if water_life.radar_debug then
-        minetest.chat_send_all("left = "..left.."   right = "..right.."   up = "..up.."   down = "..down.."   under = "..under.."   above = "..above)
-    end
-    return left, right, up, down, under, above
-end
-
-]]

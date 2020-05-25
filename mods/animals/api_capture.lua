@@ -44,7 +44,7 @@ animals.stun_catch_mob = function(self, clicker,chance)
 		--hit
 		mobkit.make_sound(self,'punch')
 		--catch chance
-		if math.random() > chance then
+		if math.random() < chance then
 			mobkit.make_sound(self,'punch')
 			animals.capture(self, clicker)
 		end

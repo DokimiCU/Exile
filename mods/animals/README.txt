@@ -7,12 +7,12 @@ Animals spawn only once on mapgen. They then reproduce. If they go extinct they'
 
 Authors of source code
 ----------------------
-Gundu adapted from riverfish in waterlife by Gundul (GNU Lesser General Public License)
+Some water based code adapted from  waterlife by Gundul (GNU Lesser General Public License)
 
 
 Authors of media (textures, models, sounds)
 ---------------------------
-Gundu: CC-BY-NC-SA 3.0 by Melkor
+Gundu: riverfish from waterlife by Gundul, CC-BY-NC-SA 3.0 by Melkor
 
 Kubwakubwa: spider from Mineclone2 GPLv3, CC BY-SA 4.0
 
@@ -23,3 +23,5 @@ Sarkamos model: MIT License, Copyright (c) 2019 TheTermos
 animals_hatch_egg.ogg, based on http://soundbible.com/1097-Slime-Splash.html, Attribution 3.0, Mike Koenig.
 
 darkasthaan: adapted from spider2 from Mobs Monster by TenPlus1 (MIT License)
+
+impethu: adapted from silkworm from Petz by Runs, CC BY-SA 4.0

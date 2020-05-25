@@ -1,21 +1,20 @@
 ----------------------------------------------------------------------
--- Gundu
---a small fish
+-- Impethu
+--cave worm.
 --[[
-filter feeds in sunlit waters
+Bottom of shallow cave food chain
 ]]
 ---------------------------------------------------------------------
-
 local random = math.random
 
 
 --energy
-local energy_max = 8000--secs it can survive without food
-local energy_egg = energy_max/4 --energy that goes to egg
-local egg_timer  = 60*25
-local young_per_egg = 8		--will get this/energy_egg starting energy
+local energy_max = 4000--secs it can survive without food
+local energy_egg = energy_max/5 --energy that goes to egg
+local egg_timer  = 60*5
+local young_per_egg = 5		--will get this/energy_egg starting energy
 
-local lifespan = energy_max * 6
+local lifespan = energy_max * 5
 
 
 
@@ -23,7 +22,7 @@ local lifespan = energy_max * 6
 local function brain(self)
 
 	--die from damage
-	if not animals.core_hp_water(self) then
+	if not animals.core_hp(self) then
 		return
 	end
 
@@ -41,13 +40,19 @@ local function brain(self)
 		-------------------
 		--High priority actions
 
+		--swim to shore
+		if self.isinliquid then
+			mobkit.hq_liquid_recovery(self,70)
+		end
+
+
 		--Threats
 		local plyr = mobkit.get_nearby_player(self)
 		if plyr then
-			animals.fight_or_flight_plyr_water(self, plyr, 40, 0.01)
+			animals.fight_or_flight_plyr(self, plyr, 65, 0.01)
 		end
 
-		animals.predator_avoid_water(self, 65, 0.01)
+		animals.predator_avoid(self, 65, 0.01)
 
 
 		----------------------
@@ -57,44 +62,31 @@ local function brain(self)
 		if prty < 20 then
 
 			--territorial behaviour
-			local rival = animals.territorial_water(self, energy, false)
+			animals.territorial(self, energy, false)
 
 
 			--feeding
-			local light = minetest.get_node_light(pos, 0.5)
-			if light >= 7 then
+			--eat stuff in the dark
+			local light = (minetest.get_node_light(pos, 0.5) or 0)
+
+			if light <= 12 then
 				if energy < energy_max then
 					energy = energy + 2
 				end
-				mobkit.hq_aqua_roam(self,10, random(0.5, self.max_speed/2))
-			elseif random() < 0.2 then
-				--rise
-				local vel = self.object:get_velocity()
-				vel.y = vel.y+0.1
-				self.object:set_velocity(vel)
-				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
-			end
-
-			--hide during the darkest part of night
-			if random() < 0.01 then
-				local tod = minetest.get_timeofday()
-				if tod <0.1 or tod >0.9 then
-					--sink
-					local vel = self.object:get_velocity()
-					vel.y = vel.y-0.2
-					self.object:set_velocity(vel)
-					mobkit.hq_aqua_roam(self,15,0.1)
-				end
+				mobkit.animate(self,'walk')
+				mobkit.hq_roam(self,10, random(0.2, self.max_speed/3))
+			else
+				--random search for darkness
+				 animals.hq_roam_dark(self,15)
 			end
 
 			--reproduction
 			--asexual parthogenesis, eggs
 			--when in prime condition
 			if random() < 0.01
-			and not rival
 			and self.hp >= self.max_hp
 			and energy >= energy_egg + 60 then
-				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
+				energy = animals.place_egg(pos, "animals:impethu_eggs", energy, energy_egg, 'air')
 			end
 
 		end
@@ -103,9 +95,8 @@ local function brain(self)
 		--generic behaviour
 		if mobkit.is_queue_empty_high(self) then
 			mobkit.animate(self,'def')
-			mobkit.hq_aqua_roam(self,10,1)
+			mobkit.hq_roam_dark(self,10,1)
 		end
-
 
 		-----------------
 		--housekeeping
@@ -126,44 +117,56 @@ end
 ---------------
 
 --eggs
-minetest.register_node("animals:gundu_eggs", {
-	description = 'Gundu Eggs',
+minetest.register_node("animals:impethu_eggs", {
+	description = 'Impethu Eggs',
 	tiles = {"animals_gundu_eggs.png"},
-	stack_max = minimal.stack_max_bulky,
-	groups = {snappy = 3},
+	stack_max = minimal.stack_max_medium,
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.0625, -0.5, -0.0625,  0.0625, -0.4375, 0.0625},
+	},
+	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 12, 120, -60, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 4, -4, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
 	end,
 	on_timer =function(pos, elapsed)
-		return animals.hatch_egg(pos, 'nodes_nature:salt_water_source', 'nodes_nature:salt_water_flowing', "animals:gundu", energy_egg, young_per_egg)
+		return animals.hatch_egg(pos, 'air', 'air', "animals:impethu", energy_egg, young_per_egg)
 	end,
 })
+
+
+
 
 ------------------------------------------------------
 
 --dead
-minetest.register_node("animals:dead_gundu", {
-	description = 'Dead Gundu',
+minetest.register_node("animals:dead_impethu", {
+	description = 'Dead Impethu',
 	drawtype = "nodebox",
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2,  0.2, -0.35, 0.2},
+		fixed = {-0.125, -0.5, -0.125, 0.125, -0.4, 0.125},
 	},
-	tiles = {"animals_gundu.png"},
-	stack_max = minimal.stack_max_medium/2,
+	tiles = {"animals_impethu.png"},
+	stack_max = minimal.stack_max_medium,
 	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 3, 24, -12, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 6, -6, 0)
 	end,
 })
+
+
+
 
 
 
@@ -171,28 +174,27 @@ minetest.register_node("animals:dead_gundu", {
 ----------------------------------------------
 
 --The Animal
-minetest.register_entity("animals:gundu",{
+minetest.register_entity("animals:impethu",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
+	collisionbox = {-0.08, -0.25, -0.08, 0.08, -0.1, 0.08},
 	visual = "mesh",
-	mesh = "animals_gundu.b3d",
-	textures = {"animals_gundu.png"},
-	visual_size = {x = 9, y = 9},
-	makes_footstep_sound = true,
+	mesh = "animals_impethu.b3d",
+	textures = {"animals_impethu.png"},
+	visual_size = {x = 5, y = 5},
+	makes_footstep_sound = false,
 	timeout = 0,
 
 	--damage
-	max_hp = 100,
-	lung_capacity = 20,
-	min_temp = 1,
-	max_temp = 35,
+	max_hp = 10,
+	lung_capacity = 10,
+	min_temp = -5,
+	max_temp = 50,
 
 	--interaction
-	predators = {"animals:sarkamos"},
-	rivals = {"animals:gundu"},
-	--prey = {"animals:impethu"},
+	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
+	rivals = {"animals:impethu"},
 
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,
@@ -202,14 +204,17 @@ minetest.register_entity("animals:gundu",{
 	-- or used by built in behaviors
 	--physics = [function user defined] 		-- optional, overrides built in physics
 	animation = {
-		def={range={x=1,y=35},speed=30,loop=true},
-		fast={range={x=1,y=35},speed=60,loop=true},
-		stand={range={x=36,y=75},speed=20,loop=true},
+		walk={range={x=0, y=12}, speed=10, loop=true},
+		fast={range={x=0, y=12}, speed=10, loop=true},
+		stand={
+			{range={x=12, y=24}, speed=5, loop=true},
+			{range={x=24, y=31}, speed=5, loop=true},
+		},
 	},
 	sounds = {
-		flee = {
-			name = "animals_water_swish",
-			gain={0.5, 1.5},
+		warn = {
+			name = "animals_impethu_warn",
+			gain={0.1, 0.4},
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
@@ -222,11 +227,11 @@ minetest.register_entity("animals:gundu",{
 	},
 
 	--movement
-	springiness=0.5,
-	buoyancy = 1,
-	max_speed = 4,					-- m/s
-	jump_height = 1.5,				-- nodes/meters
-	view_range = 5,					-- nodes/meters
+	springiness=0,
+	buoyancy = 1.01,
+	max_speed = 0.5,					-- m/s
+	jump_height = 1,				-- nodes/meters
+	view_range = 2,					-- nodes/meters
 
 	--attack
 	attack={range=0.3, damage_groups={fleshy=1}},
@@ -234,19 +239,22 @@ minetest.register_entity("animals:gundu",{
 
 	--on actions
 	drops = {
-		{name = "animals:dead_gundu", chance = 1, min = 1, max = 1,},
+		{name = "animals:dead_impethu", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch_water(self, tool_capabilities, puncher, 65, 0.01)
+		animals.on_punch(self, tool_capabilities, puncher, 65, 0.05)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then
 			return
 		end
-		animals.stun_catch_mob(self, clicker, 0.1)
+		animals.stun_catch_mob(self, clicker, 0.75)
 	end,
 })
 
 
+
+
+
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:gundu", "Live Gundu", "animals_gundu_item.png", minimal.stack_max_medium/2, energy_egg)
+animals.register_egg("animals:impethu", "Live Impethu", "animals_impethu_item.png", minimal.stack_max_medium, energy_egg)

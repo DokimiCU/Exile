@@ -411,3 +411,49 @@ minetest.register_craftitem("artifacts:spyglass", {
 		use_spyglass(user)
 	end,
 })
+
+
+
+--[[crashes when used on non-mobkit entities, bug testing tool only!
+------------------------------------
+--ANIMAL PROBE
+--get condition of an animal
+------------------------------------
+
+local animal_probe = function(user, pointed_thing)
+
+  if pointed_thing.type ~= "object" then
+    return
+  end
+
+  local ent = pointed_thing.ref:get_luaentity()
+
+  local r_ent_e = mobkit.recall(ent,'energy')
+  local r_ent_a = mobkit.recall(ent,'age')
+
+  if not r_ent_e or not r_ent_a then
+    return
+  end
+
+
+  local name =user:get_player_name()
+
+	minetest.chat_send_player(name, minetest.colorize("#00ff00", "ANIMAL CONDITION:"))
+
+  local measure
+
+  minetest.chat_send_player(name, minetest.colorize("#cc6600","Age: "..r_ent_a.. " sec    Energy: "..r_ent_e.." units"))
+
+end
+
+minetest.register_craftitem("artifacts:animal_probe", {
+	description = "Animal Probe",
+	inventory_image = "artifacts_animal_probe.png",
+  wield_image = "artifacts_animal_probe.png^[transformR90",
+	stack_max = 1,
+
+	on_use = function(itemstack, user, pointed_thing)
+		animal_probe(user, pointed_thing)
+	end,
+})
+]]

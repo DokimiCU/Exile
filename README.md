@@ -56,7 +56,7 @@ Some tips and tricks:
 # 0.2
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - Lore: exile letter
-- darkasthaan spider for deep caves
+- new mobs: darkasthaan, impethu
 - graffitti: glow paint
 - new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
 - fixed dungeon loot
