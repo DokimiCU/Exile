@@ -69,7 +69,7 @@ local function brain(self)
 			--eat stuff in the dark
 			local light = (minetest.get_node_light(pos, 0.5) or 0)
 
-			if light <= 12 then
+			if light <= 13 then
 				if energy < energy_max then
 					energy = energy + 2
 				end
@@ -94,7 +94,7 @@ local function brain(self)
 		-------------------
 		--generic behaviour
 		if mobkit.is_queue_empty_high(self) then
-			mobkit.animate(self,'def')
+			mobkit.animate(self,'walk')
 			mobkit.hq_roam_dark(self,10,1)
 		end
 
@@ -193,7 +193,7 @@ minetest.register_entity("animals:impethu",{
 	max_temp = 50,
 
 	--interaction
-	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
+	predators = {"animals:kubwakubwa", "animals:darkasthaan", "animals:pegasun"},
 	rivals = {"animals:impethu"},
 
 	on_step = mobkit.stepfunc,

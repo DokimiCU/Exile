@@ -223,6 +223,37 @@ end
 
 
 
+----------------------------------------------
+--roam to places with comfortable temperature
+function animals.hq_roam_comfort_temp(self,prty, opt_temp)
+  local timer = time() + 30
+
+  local func = function(self)
+    if time() > timer then
+      return true
+    end
+
+		if mobkit.is_queue_empty_low(self) and self.isonground then
+			local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
+
+			if height and not liquidflag then
+       local temp = climate.get_point_temp(pos)
+       local tempn = climate.get_point_temp(tpos)
+       local dif = abs(opt_temp - temp)
+       local difn = abs(opt_temp - tempn)
+
+       if difn <= dif then
+         mobkit.dumbstep(self,height,tpos,0.3)
+       end
+     end
+		end
+	end
+	mobkit.queue_high(self,func,prty)
+end
+
 
  ---------------------------------------------------
 --(currently duplicated in mobkit, but only as a local function)
@@ -321,10 +352,39 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
   mobkit.queue_high(self,func,prty)
  end
 
+
+
+
+ ---------------------------------------------------
+ -- chase tgtob until somewhat out of sight
+function mobkit.hq_chaseafter(self,prty,tgtobj)
+  local timer = time() + 5
+
+  local func = function(self)
+    if time() > timer then
+      return true
+    end
+
+    if not mobkit.is_alive(tgtobj) then return true end
+
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+			local pos = mobkit.get_stand_pos(self)
+			local opos = tgtobj:get_pos()
+			if vector.distance(pos,opos) > 3 then
+        mobkit.make_sound(self,'warn')
+				mobkit.goto_next_waypoint(self,opos)
+			else
+				mobkit.lq_idle(self,1)
+			end
+		end
+	end
+	mobkit.queue_high(self,func,prty)
+end
+
  ---------------------------------------------------
  -- chase tgtob and swim until somewhat out of sight
  function animals.hq_swimafter(self,prty,tgtobj,speed)
-   local timer = time() + 15
+   local timer = time() + 5
 
    local func = function(self)
      if time() > timer then
@@ -377,7 +437,15 @@ function animals.on_punch(self, tool_capabilities, puncher, prty, chance)
     mobkit.make_sound(self,'punch')
 
     --fight or flight
-    animals.fight_or_flight(self, puncher, prty, chance)
+    --flee if hurt
+    if self.hp < self.max_hp/10 then
+      mobkit.animate(self,'fast')
+      mobkit.make_sound(self,'warn')
+      mobkit.hq_runfrom(self, prty, puncher)
+    else
+      animals.fight_or_flight(self, puncher, prty, chance)
+    end
+
 
   end
 end
@@ -391,7 +459,13 @@ function animals.on_punch_water(self, tool_capabilities, puncher, prty, chance)
     mobkit.make_sound(self,'punch')
 
     --fight or flight
-    animals.fight_or_flight_water(self, puncher, prty, chance)
+    if self.hp < self.max_hp/10 then
+      mobkit.animate(self,'fast')
+      animals.hq_swimfrom(self, prty, puncher, self.max_speed)
+      flee_sound(self)
+    else
+      animals.fight_or_flight_water(self, puncher, prty, chance)
+    end
 
   end
 end
@@ -500,96 +574,57 @@ function animals.prey_hunt_water(self, prty)
   end
 end
 
-----------------------------------------------------------------
---territorial behaviour
---avoid those in better condition
-function animals.territorial(self, energy, eat)
 
-  for  _, riv in ipairs(self.rivals) do
 
-    local rival = mobkit.get_closest_entity(self, riv)
 
-    if rival then
+----------------------------------------------------
+--for things that scratch in dirt
+function animals.eat_sediment_under(pos, chance)
+  local p = mobkit.get_node_pos(pos)
+  local posu = {x = p.x, y = p.y - 1, z = p.z}
+  local under = minetest.get_node(posu).name
 
-      --flee if hurt
-      if self.hp < self.max_hp/4 then
-        mobkit.animate(self,'fast')
-        mobkit.make_sound(self,'warn')
-        mobkit.hq_runfrom(self, 25, rival)
-        return true
-      end
-
-      --contest! The more energetic one wins
-      local r_ent = rival:get_luaentity()
-      local r_ent_e = mobkit.recall(r_ent,'energy')
-
-      if energy > r_ent_e then
-        if eat then
-          animals.hq_attack_eat(self, 25, rival)
-        end
-        return true
-      else
-        mobkit.animate(self,'fast')
-        mobkit.make_sound(self,'warn')
-        mobkit.hq_runfrom(self,25,rival)
-        return true
-      end
+  if minetest.get_item_group(under, "sediment") > 0 then
+    if random()< chance then
+      --set node to it's drop
+      --this is to scratch up surface layers
+      local nodedef = minetest.registered_nodes[under]
+      local drop = nodedef.drop
+      minetest.check_for_falling(posu)
+      minetest.set_node(posu, {name = drop})
+      minetest.sound_play("nodes_nature_dig_crumbly", {gain = 0.2, pos = pos, max_hear_distance = 10})
     end
 
+    return true
+
+  else
+    return false
   end
 
 end
 
+----------------------------------------------------
+--eating any flora
 
---water version
-function animals.territorial_water(self, energy, eat)
+function animals.eat_flora(pos, chance)
+  local p = mobkit.get_node_pos(pos)
+  local node = minetest.get_node(p).name
 
-  for  _, riv in ipairs(self.rivals) do
-
-    local rival = mobkit.get_closest_entity(self, riv)
-
-    if rival then
-
-      --flee if hurt
-      if self.hp < self.max_hp/4 then
-        mobkit.animate(self,'fast')
-        flee_sound(self)
-        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
-        return true
-      end
-
-      --contest! The more energetic one wins
-      local r_ent = rival:get_luaentity()
-      local r_ent_e = mobkit.recall(r_ent,'energy')
-
-      --not clear why some have nil, but it happens
-      if r_ent_e == nil then
-        return
-      end
-
-      if energy > r_ent_e then
-        if eat then
-          animals.hq_aqua_attack_eat(self, 25, rival, self.max_speed)
-          flee_sound(self)
-        else
-          --harass
-          mobkit.animate(self,'fast')
-          animals.hq_swimafter(self, 15, rival, self.max_speed)
-          flee_sound(self)
-        end
-        return true
-      else
-        mobkit.animate(self,'fast')
-        flee_sound(self)
-        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
-        return true
-      end
+  if minetest.get_item_group(node, "flora") > 0
+  and minetest.get_item_group(node, "cane_plant") == 0
+  then
+    --gain energy
+    if random()< chance then
+      --destroy the plant
+      minetest.set_node(p, {name = 'air'})
+      minetest.sound_play("nodes_nature_dig_snappy", {gain = 0.2, pos = pos, max_hear_distance = 10})
     end
 
+    return true
+  else
+    return false
   end
-
 end
-
 
 
 ----------------------------------------------------------------
@@ -741,7 +776,6 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 
 		if mobkit.is_queue_empty_low(self) then
 			local pos = mobkit.get_stand_pos(self)
---			local tpos = tgtobj:get_pos()
 			local tpos = mobkit.get_stand_pos(tgtobj)
 			local dist = vector.distance(pos,tpos)
 			if dist > 3 then
@@ -761,4 +795,212 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 		end
 	end
 	mobkit.queue_high(self,func,prty)
+end
+
+
+----------------------------------------------------------------
+--Social Behaviour
+
+
+----------------------------------------------------------------
+--territorial behaviour
+--avoid those in better condition
+function animals.territorial(self, energy, eat)
+
+  for  _, riv in ipairs(self.rivals) do
+
+    local rival = mobkit.get_closest_entity(self, riv)
+
+    if rival then
+
+      --flee if hurt
+      if self.hp < self.max_hp/4 then
+        mobkit.animate(self,'fast')
+        mobkit.make_sound(self,'warn')
+        mobkit.hq_runfrom(self, 25, rival)
+        return true
+      end
+
+      --contest! The more energetic one wins
+      local r_ent = rival:get_luaentity()
+      local r_ent_e = mobkit.recall(r_ent,'energy')
+
+      if energy > r_ent_e then
+        if eat then
+          animals.hq_attack_eat(self, 25, rival)
+        else
+          mobkit.animate(self,'fast')
+          mobkit.make_sound(self,'warn')
+          mobkit.hq_chaseafter(self,25,rival)
+        end
+        return true
+      else
+        mobkit.animate(self,'fast')
+        mobkit.make_sound(self,'warn')
+        mobkit.hq_runfrom(self,25,rival)
+        return true
+      end
+    end
+
+  end
+
+end
+
+
+--water version
+function animals.territorial_water(self, energy, eat)
+
+  for  _, riv in ipairs(self.rivals) do
+
+    local rival = mobkit.get_closest_entity(self, riv)
+
+    if rival then
+
+      --flee if hurt
+      if self.hp < self.max_hp/4 then
+        mobkit.animate(self,'fast')
+        flee_sound(self)
+        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
+        return true
+      end
+
+      --contest! The more energetic one wins
+      local r_ent = rival:get_luaentity()
+      local r_ent_e = mobkit.recall(r_ent,'energy')
+
+      --not clear why some have nil, but it happens
+      if r_ent_e == nil then
+        return
+      end
+
+      if energy > r_ent_e then
+        if eat then
+          animals.hq_aqua_attack_eat(self, 25, rival, self.max_speed)
+          flee_sound(self)
+        else
+          --harass
+          mobkit.animate(self,'fast')
+          animals.hq_swimafter(self, 15, rival, self.max_speed)
+          flee_sound(self)
+        end
+        return true
+      else
+        mobkit.animate(self,'fast')
+        flee_sound(self)
+        animals.hq_swimfrom(self, 25, rival ,self.max_speed)
+        return true
+      end
+    end
+
+  end
+
+end
+
+
+----------------------------------------------------------------
+--flocking behaviour
+--follow friends
+
+
+function animals.hq_flock(self,prty,tgtobj, min_dist)
+  local timer = time() + 5
+
+  local func = function(self)
+    if time() > timer then
+      return true
+    end
+
+    if not mobkit.is_alive(tgtobj) then return true end
+
+    if mobkit.is_queue_empty_low(self) then
+      local pos = mobkit.get_stand_pos(self)
+      local tpos = mobkit.get_stand_pos(tgtobj)
+      local dist = vector.distance(pos,tpos)
+      if dist <= min_dist then
+        mobkit.lq_idle(self,1)
+        return true
+      else
+        mobkit.make_sound(self,'call')
+        mobkit.goto_next_waypoint(self,tpos)
+      end
+    end
+  end
+
+  mobkit.queue_high(self,func,prty)
+end
+
+
+
+
+
+function animals.flock(self, prty, min_dist)
+
+  for  _, fr in ipairs(self.friends) do
+
+    --local friend = mobkit.get_closest_entity(self, fr)
+    local friend =mobkit.get_nearby_entity(self, fr)
+
+    if friend then
+      --get distance, if too far away go to them
+      animals.hq_flock(self, prty, friend, min_dist)
+      return
+    end
+  end
+
+end
+
+----------------------------------------------------------------
+--mate
+--go after them, if close enough do the deed
+function animals.hq_mate(self,prty,tgtobj)
+  local timer = time() + 10
+
+  local func = function(self)
+    if time() > timer then
+      return true
+    end
+
+    if not mobkit.is_alive(tgtobj) then return true end
+
+    if mobkit.is_queue_empty_low(self) then
+      local pos = mobkit.get_stand_pos(self)
+      local tpos = mobkit.get_stand_pos(tgtobj)
+      local dist = vector.distance(pos,tpos)
+      if dist <= self.attack.range then
+        mobkit.lq_idle(self,1)
+        mobkit.make_sound(self,'mating')
+        if sex == male then
+          --get the other one pregnant
+          mobkit.remember(tgtobj,'pregnant',true)
+        else
+          --get pregnant
+          mobkit.remember(self,'pregnant',true)
+        end
+        return true
+      else
+        mobkit.make_sound(self,'call')
+        mobkit.goto_next_waypoint(self,tpos)
+      end
+    end
+  end
+
+  mobkit.queue_high(self,func,prty)
+end
+
+--assess potential mate
+function animals.mate_assess(self, name)
+  local mate = mobkit.get_nearby_entity(self, name)
+  if mate then
+    --see if they are in the mood
+    local sexy = mobkit.recall(mate,'sexual')
+    local preg = mobkit.recall(mate,'pregnant')
+    if sexy and not preg then
+      return mate
+    else
+      return false
+    end
+  else
+    return false
+  end
+
 end

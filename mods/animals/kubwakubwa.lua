@@ -81,7 +81,7 @@ local function brain(self)
 			if random() < 0.01
 			and not rival
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 60 then
+			and energy >= energy_egg + 100 then
 				energy = animals.place_egg(pos, "animals:kubwakubwa_eggs", energy, energy_egg, 'air')
 			end
 
@@ -90,7 +90,7 @@ local function brain(self)
 		-------------------
 		--generic behaviour
 		if mobkit.is_queue_empty_high(self) then
-			mobkit.animate(self,'def')
+			mobkit.animate(self,'walk')
 			mobkit.hq_roam_dark(self,10,1)
 		end
 
@@ -192,7 +192,7 @@ minetest.register_entity("animals:kubwakubwa",{
 	--interaction
 	predators = {"animals:darkasthaan"},
 	rivals = {"animals:kubwakubwa"},
-	prey = {"animals:impethu"},
+	prey = {"animals:impethu", "animals:pegasun"},
 
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,

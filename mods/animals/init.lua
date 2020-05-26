@@ -13,6 +13,7 @@ dofile(path.."/darkasthaan.lua")
 dofile(path.."/gundu.lua")
 dofile(path.."/sarkamos.lua")
 
+dofile(path.."/pegasun.lua")
 
 ---
 --Food Web
@@ -31,7 +32,7 @@ Caves:
 
 
 Land:
-
+plants/dirt -> pegasun
 
 
 

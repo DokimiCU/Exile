@@ -93,7 +93,7 @@ local function brain(self)
 			if random() < 0.01
 			and not rival
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 60 then
+			and energy >= energy_egg + 100 then
 				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 

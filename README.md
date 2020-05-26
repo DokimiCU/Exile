@@ -56,7 +56,7 @@ Some tips and tricks:
 # 0.2
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - Lore: exile letter
-- new mobs: darkasthaan, impethu
+- new mobs: darkasthaan, impethu, pegasun
 - graffitti: glow paint
 - new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
 - fixed dungeon loot
@@ -114,7 +114,7 @@ HEALTH
 
 
 --MOBS
--more mobs: hive, pack/farm animal, bird, lizard/scorpion
+-more mobs: land predator
 -better looking dead animals, cooking
 -Rimworld style colonists
 
