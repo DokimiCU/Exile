@@ -42,8 +42,8 @@ end
 minetest.register_abm({
 	label = "Water Freeze Evaporate",
 	nodenames = {"group:water"},
-	interval = 129,
-	chance = 20,
+	interval = 149,
+	chance = 15,
 	action = function(...)
 		water_freeze_evap(...)
 	end
@@ -297,7 +297,7 @@ minetest.register_abm({
 	nodenames = {"group:wet_sediment"},
 	--neighbors = {"group:sediment"},
 	interval = 121,
-	chance = 10,
+	chance = 15,
 	action = function(...)
 		moisture_spread(...)
 	end
@@ -496,8 +496,8 @@ minetest.register_abm({
 	--calling for stone is for puddles only, but means calling all stone
 	--nodenames = {"group:sediment", "group:stone", "group:soft_stone"},
 	nodenames = {"group:sediment"},
-	interval = 72,
-	chance = 140,
+	interval = 92,
+	chance = 180,
 	action = function(...)
 		rain_soak(...)
 	end
