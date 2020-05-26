@@ -578,13 +578,13 @@ end
 
 
 ----------------------------------------------------
---for things that scratch in dirt
-function animals.eat_sediment_under(pos, chance)
+--for things that eat spreading surface
+function animals.eat_spreading_under(pos, chance)
   local p = mobkit.get_node_pos(pos)
   local posu = {x = p.x, y = p.y - 1, z = p.z}
   local under = minetest.get_node(posu).name
 
-  if minetest.get_item_group(under, "sediment") > 0 then
+  if minetest.get_item_group(under, "spreading") > 0 then
     if random()< chance then
       --set node to it's drop
       --this is to scratch up surface layers

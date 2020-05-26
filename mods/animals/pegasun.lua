@@ -125,7 +125,7 @@ local function brain(self)
 				--feed via a method
 				if random()< 0.5 then
 					--scratch dirt
-					if animals.eat_sediment_under(pos, 0.005) then
+					if animals.eat_spreading_under(pos, 0.005) then
 						energy = energy + 15
 					end
 				elseif random()< 0.5 then
@@ -266,7 +266,7 @@ local function brain_male(self)
 				--feed via a method
 				if random()< 0.5 then
 					--scratch dirt
-					if animals.eat_sediment_under(pos, 0.005) then
+					if animals.eat_spreading_under(pos, 0.005) then
 						energy = energy + 15
 					end
 				elseif random()< 0.5 then
@@ -387,8 +387,8 @@ minetest.register_entity("animals:pegasun_male",{
 	--damage
 	max_hp = 120,
 	lung_capacity = 25,
-	min_temp = -20,
-	max_temp = 50,
+	min_temp = -10,
+	max_temp = 40,
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
@@ -497,8 +497,8 @@ minetest.register_entity("animals:pegasun",{
 	--damage
 	max_hp = 100,
 	lung_capacity = 20,
-	min_temp = -20,
-	max_temp = 50,
+	min_temp = -10,
+	max_temp = 40,
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
