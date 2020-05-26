@@ -364,8 +364,8 @@ minetest.register_tool("tech:pickaxe_iron", {
 		max_drop_level = lvl_3_max_lvl,
 		groupcaps={
 			choppy = {times={[3]=lvl_2_chop3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
-			snappy = {times={[3]=lvl_3_snap3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
-			crumbly = {times={[2]=lvl_3_crum2, [3]=lvl_3_crum3}, uses= lvl_3_use, maxlevel=lvl_3_max_lvl},
+			snappy = {times={[3]=lvl_2_snap3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
+			crumbly = {times={[2]=lvl_2_crum2, [3]=lvl_2_crum3}, uses= lvl_3_use, maxlevel=lvl_3_max_lvl},
 			cracky = {times= {[2]=lvl_3_crac2, [3]=lvl_3_crac3}, uses=lvl_3_use, maxlevel=lvl_3_max_lvl},
 		},
 		damage_groups = {fleshy = lvl_3_dmg},
