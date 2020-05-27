@@ -27,3 +27,5 @@ darkasthaan: adapted from spider2 from Mobs Monster by TenPlus1 (MIT License)
 impethu: adapted from silkworm from Petz by Runs, CC BY-SA 4.0
 
 pegasun: adapted from chicken, mobs_animal by Krupnov Pavel and TenPlus1 (MIT)
+
+Gundu call sound: based on http://soundbible.com/1660-Underwater-Pool.html, Attribution 3.0, Mike Koenig.

@@ -38,27 +38,34 @@ local function brain(self)
 		end
 
 
+		local prty = mobkit.get_queue_priority(self)
 		-------------------
 		--High priority actions
+		if prty < 50 then
 
-		--Threats
-		local plyr = mobkit.get_nearby_player(self)
-		if plyr then
-			animals.fight_or_flight_plyr_water(self, plyr, 40, 0.01)
+			--Threats
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr_water(self, plyr, 55, 0.01)
+			end
+
+			local pred = animals.predator_avoid_water(self, 55, 0.01)
+
 		end
-
-		local pred = animals.predator_avoid_water(self, 65, 0.01)
 
 
 		----------------------
 		--Low priority actions
-		local prty = mobkit.get_queue_priority(self)
-
 		if prty < 20 then
 
 
-			--territorial behaviour
-			local rival = animals.territorial_water(self, energy, false)
+			--social behaviour
+			local rival
+			if random() <0.75 then
+				animals.flock(self, 25, 1.5, self.max_speed/4)
+			elseif random() <0.05 then
+				rival = animals.territorial_water(self, energy, false)
+			end
 
 
 			--feeding
@@ -75,6 +82,7 @@ local function brain(self)
 				self.object:set_velocity(vel)
 				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
 			end
+
 
 			--hide during the darkest part of night
 			if random() < 0.01 then
@@ -160,7 +168,7 @@ minetest.register_entity("animals:gundu",{
 	mesh = "animals_gundu.b3d",
 	textures = {"animals_gundu.png"},
 	visual_size = {x = 9, y = 9},
-	makes_footstep_sound = true,
+	makes_footstep_sound = false,
 	timeout = 0,
 
 	--damage
@@ -172,6 +180,7 @@ minetest.register_entity("animals:gundu",{
 	--interaction
 	predators = {"animals:sarkamos"},
 	rivals = {"animals:gundu"},
+	friends = {"animals:gundu"},
 	--prey = {"animals:impethu"},
 
 	on_step = mobkit.stepfunc,
@@ -193,9 +202,15 @@ minetest.register_entity("animals:gundu",{
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
+		call = {
+			name = "animals_gundu_call",
+			gain={0.01, 0.1},
+			fade={0.5, 1.5},
+			pitch={0.6, 1.2},
+		},
 		punch = {
 			name = "animals_punch",
-			gain={0.5, 1.5},
+			gain={0.5, 1},
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
@@ -204,7 +219,7 @@ minetest.register_entity("animals:gundu",{
 	--movement
 	springiness=0.5,
 	buoyancy = 1,
-	max_speed = 4,					-- m/s
+	max_speed = 5,					-- m/s
 	jump_height = 1.5,				-- nodes/meters
 	view_range = 5,					-- nodes/meters
 
@@ -217,7 +232,7 @@ minetest.register_entity("animals:gundu",{
 		{name = "animals:carcass_fish_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch_water(self, tool_capabilities, puncher, 65, 0.01)
+		animals.on_punch_water(self, tool_capabilities, puncher, 55, 0.01)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then

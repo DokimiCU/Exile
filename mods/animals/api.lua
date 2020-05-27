@@ -346,7 +346,6 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
     else
       return true
     end
-    timer = timer - 1
 
   end
   mobkit.queue_high(self,func,prty)
@@ -476,7 +475,7 @@ function animals.fight_or_flight_plyr(self, plyr, prty, chance)
   mobkit.clear_queue_high(self)
   --fight chance, or run away (don't do it attach bc buggers physics)
   if random()< chance and plyr:get_attach() == nil then
-    mobkit.hq_warn(self,prty+1,plyr)
+    mobkit.hq_warn(self,prty,plyr)
   else
     --mobkit.animate(self,'fast')
     --mobkit.make_sound(self,'scared')
@@ -489,7 +488,7 @@ function animals.fight_or_flight(self, threat, prty, chance)
   mobkit.clear_queue_high(self)
   --fight chance, or run away
   if random()< chance then
-    mobkit.hq_warn(self,prty+1, threat)
+    mobkit.hq_warn(self,prty, threat)
   else
     --mobkit.animate(self,'fast')
     --mobkit.make_sound(self,'scared')
@@ -606,6 +605,33 @@ function animals.eat_spreading_under(pos, chance)
   end
 
 end
+
+----------------------------------------------------
+--for things that eat sediment (i.e. dig in the mud)
+function animals.eat_sediment_under(pos, chance)
+  local p = mobkit.get_node_pos(pos)
+  local posu = {x = p.x, y = p.y - 1, z = p.z}
+  local under = minetest.get_node(posu).name
+
+  if minetest.get_item_group(under, "sediment") > 0 then
+    if random()< chance then
+      --set node to it's drop
+      --this is to scratch up surface layers
+      local nodedef = minetest.registered_nodes[under]
+      local drop = nodedef.drop
+      minetest.check_for_falling(posu)
+      minetest.set_node(posu, {name = drop})
+      minetest.sound_play("nodes_nature_dig_crumbly", {gain = 0.2, pos = pos, max_hear_distance = 10})
+    end
+
+    return true
+
+  else
+    return false
+  end
+
+end
+
 
 ----------------------------------------------------
 --eating any flora
@@ -905,7 +931,6 @@ end
 --flocking behaviour
 --follow friends
 
-
 function animals.hq_flock(self,prty,tgtobj, min_dist)
   local timer = time() + 5
 
@@ -924,7 +949,6 @@ function animals.hq_flock(self,prty,tgtobj, min_dist)
         mobkit.lq_idle(self,1)
         return true
       else
-        mobkit.make_sound(self,'call')
         mobkit.goto_next_waypoint(self,tpos)
       end
     end
@@ -935,9 +959,49 @@ end
 
 
 
+function animals.hq_flock_water(self,prty,tgtobj, min_dist, speed)
+  local timer = time() + 5
+
+  local func = function(self)
+    if time() > timer then
+      return true
+    end
+
+    if not mobkit.is_alive(tgtobj) then
+      return true
+    end
+
+    local pos = mobkit.get_stand_pos(self)
+    local opos = tgtobj:get_pos()
+
+    local yaw = get_yaw_to_object(pos, opos) - (pi/2)
+    local distance = vector.distance(pos,opos)
+
+    if distance > min_dist then
+      local swimto, height = aqua_radar_dumb(pos,yaw,3)
+      if height and height > pos.y then
+        local vel = self.object:get_velocity()
+        vel.y = vel.y+0.1
+        self.object:set_velocity(vel)
+      end
+
+      mobkit.hq_aqua_turn(self,51,swimto,speed)
+
+    else
+      return true
+    end
+
+  end
+  mobkit.queue_high(self,func,prty)
+ end
 
 
-function animals.flock(self, prty, min_dist)
+
+
+
+
+
+function animals.flock(self, prty, min_dist, aqua_speed)
 
   for  _, fr in ipairs(self.friends) do
 
@@ -946,7 +1010,15 @@ function animals.flock(self, prty, min_dist)
 
     if friend then
       --get distance, if too far away go to them
-      animals.hq_flock(self, prty, friend, min_dist)
+      if aqua_speed then
+        mobkit.animate(self,'walk')
+        mobkit.make_sound(self,'call')
+        animals.hq_flock_water(self, prty, friend, min_dist, aqua_speed)
+      else
+        mobkit.animate(self,'walk')
+        mobkit.make_sound(self,'call')
+        animals.hq_flock(self, prty, friend, min_dist)
+      end
       return
     end
   end

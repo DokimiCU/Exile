@@ -37,32 +37,36 @@ local function brain(self)
 		end
 
 
+		local prty = mobkit.get_queue_priority(self)
 		-------------------
 		--High priority actions
+		--if prty < 50 then
 
-		--Threats
-		local plyr = mobkit.get_nearby_player(self)
-		if plyr then
-			animals.fight_or_flight_plyr_water(self, plyr, 15, 0.4)
-		end
+			--Threats
 
-		--currently none
-		--animals.predator_avoid_water(self, 65, 0.01)
+			--currently none
+			--animals.predator_avoid_water(self, 65, 0.01)
+
+		--end
 
 
 		----------------------
 		--Low priority actions
-		local prty = mobkit.get_queue_priority(self)
-
 		if prty < 20 then
 
 			--territorial behaviour
 			local rival = animals.territorial_water(self, energy, false)
 
 
+			--You are prey
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr_water(self, plyr, 25, 0.4)
+			end
+
 			--feeding
 			if energy < energy_max then
-				if not animals.prey_hunt_water(self, 50) then
+				if not animals.prey_hunt_water(self, 25) then
 					--random search for darkness
 					mobkit.hq_aqua_roam(self,15,self.max_speed/3)
 				end
@@ -143,7 +147,7 @@ minetest.register_entity("animals:sarkamos",{
 	mesh = "animals_sarkamos.b3d",
 	textures = {"animals_sarkamos.png"},
 	visual_size = {x = 1, y = 1},
-	makes_footstep_sound = true,
+	makes_footstep_sound = false,
 	timeout = 0,
 
 	--damage
@@ -178,15 +182,15 @@ minetest.register_entity("animals:sarkamos",{
 		},
 		punch = {
 			name = "animals_punch",
-			gain={0.5, 1.5},
+			gain={0.5, 1},
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
 		bite = {
 			name = "animals_bite",
-			gain={0.5, 1.5},
+			gain={0.4, 0.8},
 			fade={0.5, 1.5},
-			pitch={0.5, 1.5},
+			pitch={0.6, 1.1},
 		},
 	},
 
@@ -206,7 +210,7 @@ minetest.register_entity("animals:sarkamos",{
 		{name = "animals:carcass_fish_large", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch_water(self, tool_capabilities, puncher, 65, 0.75)
+		animals.on_punch_water(self, tool_capabilities, puncher, 55, 0.75)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then

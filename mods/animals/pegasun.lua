@@ -36,29 +36,35 @@ local function brain(self)
 			return
 		end
 
-
-		-------------------
-		--High priority actions
+		------------------
+		--Emergency actions
 
 		--swim to shore
 		if self.isinliquid then
-			mobkit.hq_liquid_recovery(self,70)
+			mobkit.hq_liquid_recovery(self,60)
 		end
 
 
-		--Threats
-		local plyr = mobkit.get_nearby_player(self)
-		if plyr then
-			animals.fight_or_flight_plyr(self, plyr, 65, 0.01)
-		end
+		local prty = mobkit.get_queue_priority(self)
+		-------------------
+		--High priority actions
+		if prty < 50 then
 
-		animals.predator_avoid(self, 65, 0.01)
+
+			--Threats
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr(self, plyr, 55, 0.01)
+			end
+
+			animals.predator_avoid(self, 55, 0.01)
+
+
+		end
 
 
 		----------------------
 		--Low priority actions
-		local prty = mobkit.get_queue_priority(self)
-
 		if prty < 20 then
 
 
@@ -96,7 +102,7 @@ local function brain(self)
 
 				--social
 				if random()< 0.3 then
-					animals.flock(self, 15, 3)
+					animals.flock(self, 25, 3)
 				elseif random()< 0.01 then
 					animals.territorial(self, energy, false)
 				elseif random() < 0.01 then
@@ -116,7 +122,7 @@ local function brain(self)
 							if mate then
 								--go get him!
 								mobkit.make_sound(self,'mating')
-								animals.hq_mate(self, 20, mate)
+								animals.hq_mate(self, 25, mate)
 							end
 						end
 					else
@@ -148,7 +154,7 @@ local function brain(self)
 					end
 				else
 					--hunt
-					if not animals.prey_hunt(self, 50) then
+					if not animals.prey_hunt(self, 25) then
 						--random search
 						mobkit.animate(self,'walk')
 						mobkit.hq_roam(self,10)
@@ -198,27 +204,34 @@ local function brain_male(self)
 		end
 
 
-		-------------------
-		--High priority actions
+		------------------
+		--Emergency actions
 
 		--swim to shore
 		if self.isinliquid then
-			mobkit.hq_liquid_recovery(self,70)
+			mobkit.hq_liquid_recovery(self,60)
 		end
 
 
-		--Threats
-		local plyr = mobkit.get_nearby_player(self)
-		if plyr then
-			animals.fight_or_flight_plyr(self, plyr, 65, 0.6)
-		end
+		local prty = mobkit.get_queue_priority(self)
+		-------------------
+		--High priority actions
+		if prty < 50 then
 
-		animals.predator_avoid(self, 65, 0.6)
+
+			--Threats
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr(self, plyr, 55, 0.6)
+			end
+
+			animals.predator_avoid(self, 55, 0.6)
+
+		end
 
 
 		----------------------
 		--Low priority actions
-		local prty = mobkit.get_queue_priority(self)
 
 		if prty < 20 then
 
@@ -250,7 +263,7 @@ local function brain_male(self)
 				else
 					--wander temp
 					mobkit.animate(self,'walk')
-					animals.hq_roam_comfort_temp(self,12, 21)
+					animals.hq_roam_comfort_temp(self,10, 21)
 				end
 
 			elseif random() < cs then
@@ -271,7 +284,7 @@ local function brain_male(self)
 						if mate then
 							--go get her!
 							mobkit.make_sound(self,'mating')
-							animals.hq_mate(self, 50, mate)
+							animals.hq_mate(self, 25, mate)
 						end
 					else
 						--in no state for hankypanky
@@ -302,7 +315,7 @@ local function brain_male(self)
 					end
 				else
 					--hunt
-					if not animals.prey_hunt(self, 50) then
+					if not animals.prey_hunt(self, 25) then
 						--random search
 						mobkit.animate(self,'walk')
 						mobkit.hq_roam(self,10)
@@ -470,7 +483,7 @@ minetest.register_entity("animals:pegasun_male",{
 		{name = "animals:carcass_bird_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch(self, tool_capabilities, puncher, 65, 0.6)
+		animals.on_punch(self, tool_capabilities, puncher, 55, 0.6)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then
@@ -586,7 +599,7 @@ minetest.register_entity("animals:pegasun",{
 		{name = "animals:carcass_bird_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch(self, tool_capabilities, puncher, 65, 0.05)
+		animals.on_punch(self, tool_capabilities, puncher, 55, 0.05)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then

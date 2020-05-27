@@ -37,28 +37,33 @@ local function brain(self)
 			return
 		end
 
-
-		-------------------
-		--High priority actions
+		------------------
+		--Emergency actions
 
 		--swim to shore
 		if self.isinliquid then
-			mobkit.hq_liquid_recovery(self,70)
+			mobkit.hq_liquid_recovery(self,60)
 		end
 
 
-		--Threats
-		local plyr = mobkit.get_nearby_player(self)
-		if plyr then
-			animals.fight_or_flight_plyr(self, plyr, 65, 0.15)
-		end
+		local prty = mobkit.get_queue_priority(self)
+		-------------------
+		--High priority actions
+		if prty < 50 then
 
-		animals.predator_avoid(self, 65, 0.15)
+			--Threats
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr(self, plyr, 55, 0.15)
+			end
+
+			animals.predator_avoid(self, 55, 0.15)
+
+		end
 
 
 		----------------------
 		--Low priority actions
-		local prty = mobkit.get_queue_priority(self)
 
 		if prty < 20 then
 
@@ -69,7 +74,7 @@ local function brain(self)
 			--feeding
 			--hunt prey
 			if energy < energy_max then
-				if not animals.prey_hunt(self, 50) then
+				if not animals.prey_hunt(self, 25) then
 					--random search for darkness
 					animals.hq_roam_dark(self,15)
 				end
@@ -91,7 +96,7 @@ local function brain(self)
 		--generic behaviour
 		if mobkit.is_queue_empty_high(self) then
 			mobkit.animate(self,'walk')
-			mobkit.hq_roam_dark(self,10,1)
+			animals.hq_roam_dark(self,10,1)
 		end
 
 		-----------------
@@ -213,7 +218,7 @@ minetest.register_entity("animals:kubwakubwa",{
 		{name = "animals:carcass_invert_large", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch(self, tool_capabilities, puncher, 65, 0.75)
+		animals.on_punch(self, tool_capabilities, puncher, 55, 0.75)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then
