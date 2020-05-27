@@ -172,7 +172,7 @@ minetest.register_entity("animals:impethu",{
 	--damage
 	max_hp = 10,
 	lung_capacity = 10,
-	min_temp = -5,
+	min_temp = -15,
 	max_temp = 50,
 
 	--interaction

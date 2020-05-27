@@ -81,7 +81,7 @@ local active_weather_interval = 1
 
 
 --random walk, for temp
-local ran_walk_range = 8
+local ran_walk_range = 10
 local ran_walk = math.random(-ran_walk_range,ran_walk_range)
 
 --------------------------
@@ -167,6 +167,13 @@ minetest.register_on_joinplayer(function(player)
 		if temp then
 			climate.active_temp = temp
 		end
+
+		--same again, but for ran_walk
+		local ranw = store:get_float("ran_walk")
+		if ranw then
+			ran_walk = ranw
+		end
+
 	end
 
 	--set weather effects for this player
@@ -315,23 +322,23 @@ minetest.register_globalstep(function(dtime)
 		--get day night wave
 		local tod = minetest.get_timeofday()
 		--diff between day and night is this x2
-		local dn_amp = -9
+		local dn_amp = -8
 		local dn_period = 6.283 ---match day length
 		local dn_wav = dn_amp * math.cos(tod * dn_period)
 
 		--get seasonal wave
 		local dc = minetest.get_day_count()
 		--diff +/- from yearly mean (seasonal variation)
-		local dc_amp = 27
+		local dc_amp = 23
 		--~56 day year, 14 day seasons
 		local dc_period = 0.11
 		--yearly average,
-		local dc_mean = 15
+		local dc_mean = 10
 		local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
-		--random walk...an incremental fluctuation that resets
+		--random walk...an incremental fluctuation that is capped
 		ran_walk = ran_walk + math.random(-2, 2)
 		if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
-			ran_walk = ran_walk/2
+			ran_walk = ran_walk/1.04
 		end
 
 		--sum waves plus some random noise
@@ -343,6 +350,7 @@ minetest.register_globalstep(function(dtime)
 		--only actually needed on log out,... but that doesn't work
 		store:set_string("weather", climate.active_weather.name)
 		store:set_float("temp", climate.active_temp)
+		store:set_float("ran_walk", ran_walk)
 
 	end
 end)

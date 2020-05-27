@@ -404,8 +404,8 @@ minetest.register_entity("animals:pegasun_male",{
 	--damage
 	max_hp = 120,
 	lung_capacity = 25,
-	min_temp = -10,
-	max_temp = 40,
+	min_temp = -20,
+	max_temp = 45,
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
@@ -520,8 +520,8 @@ minetest.register_entity("animals:pegasun",{
 	--damage
 	max_hp = 100,
 	lung_capacity = 20,
-	min_temp = -10,
-	max_temp = 40,
+	min_temp = -20,
+	max_temp = 45,
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
