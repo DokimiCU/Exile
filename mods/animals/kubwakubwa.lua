@@ -140,30 +140,6 @@ minetest.register_node("animals:kubwakubwa_eggs", {
 
 
 
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_kubwakubwa", {
-	description = 'Dead Kubwakubwa',
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.125, -0.5, -0.125, 0.125, -0.4, 0.125},
-	},
-	tiles = {"animals_kubwakubwa.png"},
-	stack_max = minimal.stack_max_medium,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 16, -16, 0)
-	end,
-})
-
-
-
-
 
 
 
@@ -234,7 +210,7 @@ minetest.register_entity("animals:kubwakubwa",{
 
 	--on actions
 	drops = {
-		{name = "animals:dead_kubwakubwa", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_invert_large", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch(self, tool_capabilities, puncher, 65, 0.75)

@@ -209,7 +209,7 @@ minetest.register_node("tech:maraka_cake_unbaked", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 6, 6)
+    set_bake_bread(pos, 10, 6)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat
@@ -259,7 +259,7 @@ minetest.register_node("tech:peeled_anperal_tuber", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 5, 6)
+    set_bake_bread(pos, 7, 6)
   end,
   on_timer = function(pos, elapsed)
     --self, finished product, length, heat

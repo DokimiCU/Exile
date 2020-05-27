@@ -473,24 +473,26 @@ end
 ----------------------------------------------------------------
 --attack or run vs player
 function animals.fight_or_flight_plyr(self, plyr, prty, chance)
+  mobkit.clear_queue_high(self)
   --fight chance, or run away (don't do it attach bc buggers physics)
   if random()< chance and plyr:get_attach() == nil then
-    mobkit.hq_warn(self,prty,plyr)
+    mobkit.hq_warn(self,prty+1,plyr)
   else
-    mobkit.animate(self,'fast')
-    mobkit.make_sound(self,'warn')
+    --mobkit.animate(self,'fast')
+    --mobkit.make_sound(self,'scared')
     mobkit.hq_runfrom(self,prty, plyr)
   end
 end
 
 --attack or run vs entity
 function animals.fight_or_flight(self, threat, prty, chance)
+  mobkit.clear_queue_high(self)
   --fight chance, or run away
   if random()< chance then
-    mobkit.hq_warn(self,prty, threat)
+    mobkit.hq_warn(self,prty+1, threat)
   else
-    mobkit.animate(self,'fast')
-    mobkit.make_sound(self,'warn')
+    --mobkit.animate(self,'fast')
+    --mobkit.make_sound(self,'scared')
     mobkit.hq_runfrom(self,prty, threat)
   end
 end
@@ -500,6 +502,7 @@ end
 
 ----attack or run vs player in water
 function animals.fight_or_flight_plyr_water(self, plyr, prty, chance)
+  mobkit.clear_queue_high(self)
   --ignore chance, or run away
   if random()< chance and plyr:get_attach() == nil then
     mobkit.hq_aqua_attack(self, prty, plyr, self.max_speed)
@@ -512,6 +515,7 @@ end
 
 ----attack or run vs player in water
 function animals.fight_or_flight_water(self, threat, prty, chance)
+  mobkit.clear_queue_high(self)
   --ignore chance, or run away
   if random()< chance then
     mobkit.hq_aqua_attack(self, prty, threat, self.max_speed)
@@ -530,7 +534,7 @@ function animals.predator_avoid(self, prty, chance)
     local thr = mobkit.get_closest_entity(self,pred)
     if thr then
       animals.fight_or_flight(self, thr, prty, chance)
-      return true
+      return thr
     end
   end
 end
@@ -542,7 +546,7 @@ function animals.predator_avoid_water(self, prty, chance)
     local thr = mobkit.get_closest_entity(self,pred)
     if thr then
       animals.fight_or_flight_water(self, thr, prty, chance)
-      return true
+      return thr
     end
   end
 end
@@ -784,7 +788,7 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 				mobkit.lq_turn2pos(self,tpos)
         --!! placeholder crash fix
 				--local height = 0.35--tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
-        local height = tgtobj:get_luaentity().height*0.6 or 0.35
+        local height = tgtobj:get_luaentity().height*0.4 or 0.35
 				if tpos.y+height>pos.y then
 					lq_jumpattack_eat(self,tpos.y+height-pos.y,tgtobj)
 

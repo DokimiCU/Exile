@@ -52,7 +52,7 @@ local function brain(self)
 			animals.fight_or_flight_plyr(self, plyr, 65, 0.01)
 		end
 
-		animals.predator_avoid(self, 65, 0.01)
+		local pred = animals.predator_avoid(self, 65, 0.01)
 
 
 		----------------------
@@ -62,7 +62,7 @@ local function brain(self)
 		if prty < 20 then
 
 			--territorial behaviour
-			animals.territorial(self, energy, false)
+			local rival = animals.territorial(self, energy, false)
 
 
 			--feeding
@@ -82,10 +82,11 @@ local function brain(self)
 
 			--reproduction
 			--asexual parthogenesis, eggs
-			--when in prime condition
 			if random() < 0.01
+			and not rival
+			and not pred
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 60 then
+			and energy >= energy_egg + 600 then
 				energy = animals.place_egg(pos, "animals:impethu_eggs", energy, energy_egg, 'air')
 			end
 
@@ -144,30 +145,6 @@ minetest.register_node("animals:impethu_eggs", {
 
 
 
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_impethu", {
-	description = 'Dead Impethu',
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.125, -0.5, -0.125, 0.125, -0.4, 0.125},
-	},
-	tiles = {"animals_impethu.png"},
-	stack_max = minimal.stack_max_medium,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 6, -6, 0)
-	end,
-})
-
-
-
-
 
 
 
@@ -178,7 +155,7 @@ minetest.register_entity("animals:impethu",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.08, -0.25, -0.08, 0.08, -0.1, 0.08},
+	collisionbox = {-0.09, -0.25, -0.09, 0.09, -0.1, 0.09},
 	visual = "mesh",
 	mesh = "animals_impethu.b3d",
 	textures = {"animals_impethu.png"},
@@ -239,7 +216,7 @@ minetest.register_entity("animals:impethu",{
 
 	--on actions
 	drops = {
-		{name = "animals:dead_impethu", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_invert_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch(self, tool_capabilities, puncher, 65, 0.05)

@@ -82,10 +82,15 @@ local function brain(self)
 
 
 			if random() < ce then
-
-				--wander
-				mobkit.animate(self,'walk')
-				animals.hq_roam_comfort_temp(self,12, 21)
+				if random() < 0.5 then
+					--wander random
+					mobkit.animate(self,'walk')
+					mobkit.hq_roam(self,10)
+				else
+					--wander temp
+					mobkit.animate(self,'walk')
+					animals.hq_roam_comfort_temp(self,12, 21)
+				end
 
 			elseif random() < cs then
 
@@ -127,11 +132,19 @@ local function brain(self)
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.005) then
 						energy = energy + 15
+					else
+						--wander random
+						mobkit.animate(self,'walk')
+						mobkit.hq_roam(self,10)
 					end
 				elseif random()< 0.5 then
 					--veg
 					if animals.eat_flora(pos, 0.005) then
 						energy = energy + 15
+					else
+						--wander random
+						mobkit.animate(self,'walk')
+						mobkit.hq_roam(self,10)
 					end
 				else
 					--hunt
@@ -230,10 +243,15 @@ local function brain_male(self)
 
 
 			if random() < ce then
-
-				--wander
-				mobkit.animate(self,'walk')
-				animals.hq_roam_comfort_temp(self,12, 21)
+				if random() < 0.75 then
+					--wander random
+					mobkit.animate(self,'walk')
+					mobkit.hq_roam(self,10)
+				else
+					--wander temp
+					mobkit.animate(self,'walk')
+					animals.hq_roam_comfort_temp(self,12, 21)
+				end
 
 			elseif random() < cs then
 
@@ -268,11 +286,19 @@ local function brain_male(self)
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.005) then
 						energy = energy + 15
+					else
+						--wander random
+						mobkit.animate(self,'walk')
+						mobkit.hq_roam(self,10)
 					end
 				elseif random()< 0.5 then
 					--veg
 					if animals.eat_flora(pos, 0.005) then
 						energy = energy + 15
+					else
+						--wander random
+						mobkit.animate(self,'walk')
+						mobkit.hq_roam(self,10)
 					end
 				else
 					--hunt
@@ -342,28 +368,6 @@ minetest.register_node("animals:pegasun_eggs", {
 
 
 
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_pegasun", {
-	description = 'Dead Pegasun',
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.1875, -0.5, -0.1875, 0.1875, -0.4, 0.1875},
-	},
-	tiles = {"animals_pegasun.png"},
-	stack_max = minimal.stack_max_medium,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 12, -6, 0)
-	end,
-})
-
-
 
 
 
@@ -376,7 +380,7 @@ minetest.register_entity("animals:pegasun_male",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.125, -0.75, -0.125, 0.125, -0.125, 0.125},
+	collisionbox = {-0.14, -0.75, -0.14, 0.14, -0.1375, 0.14},
 	visual = "mesh",
 	mesh = "animals_pegasun.b3d",
 	textures = {"animals_pegasun_male.png"},
@@ -418,6 +422,12 @@ minetest.register_entity("animals:pegasun_male",{
 			fade={0.5, 1.5},
 			pitch={0.9, 1.1},
 		},
+		scared = {
+			name = "animals_pegasun_scared",
+			gain={0.3, 0.4},
+			fade={0.5, 1.5},
+			pitch={1.2, 1.3},
+		},
 		call = {
 			name = "animals_pegasun_call",
 			gain={0.2, 0.5},
@@ -452,12 +462,12 @@ minetest.register_entity("animals:pegasun_male",{
 	view_range = 7,					-- nodes/meters
 
 	--attack
-	attack={range=0.6, damage_groups={fleshy=4}},
+	attack={range=0.5, damage_groups={fleshy=4}},
 	armor_groups = {fleshy=100},
 
 	--on actions
 	drops = {
-		{name = "animals:dead_pegasun", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_bird_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch(self, tool_capabilities, puncher, 65, 0.6)
@@ -486,7 +496,7 @@ minetest.register_entity("animals:pegasun",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.125, -0.75, -0.125, 0.125, -0.125, 0.125},
+	collisionbox = {-0.14, -0.75, -0.14, 0.14, -0.1375, 0.14},
 	visual = "mesh",
 	mesh = "animals_pegasun.b3d",
 	textures = {"animals_pegasun.png"},
@@ -528,6 +538,12 @@ minetest.register_entity("animals:pegasun",{
 			fade={0.5, 1.5},
 			pitch={0.9, 1.1},
 		},
+		scared = {
+			name = "animals_pegasun_scared",
+			gain={0.2, 0.3},
+			fade={0.5, 1.5},
+			pitch={1.3, 1.4},
+		},
 		call = {
 			name = "animals_pegasun_call",
 			gain={0.2, 0.4},
@@ -562,12 +578,12 @@ minetest.register_entity("animals:pegasun",{
 	view_range = 7,					-- nodes/meters
 
 	--attack
-	attack={range=0.6, damage_groups={fleshy=2}},
+	attack={range=0.5, damage_groups={fleshy=2}},
 	armor_groups = {fleshy=100},
 
 	--on actions
 	drops = {
-		{name = "animals:dead_pegasun", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_bird_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch(self, tool_capabilities, puncher, 65, 0.05)

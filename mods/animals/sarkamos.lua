@@ -75,7 +75,7 @@ local function brain(self)
 			if random() < 0.01
 			and not rival
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 600 then
+			and energy >= energy_egg *2 then
 				energy = animals.place_egg(pos, "animals:sarkamos_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
@@ -129,26 +129,6 @@ minetest.register_node("animals:sarkamos_eggs", {
 
 
 
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_sarkamos", {
-	description = 'Dead Sarkamos',
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3,  0.3, -0.15, 0.3},
-	},
-	tiles = {"animals_sarkamos.png"},
-	stack_max = minimal.stack_max_medium/2,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 6, 48, -24, 0)
-	end,
-})
 
 
 ----------------------------------------------
@@ -223,7 +203,7 @@ minetest.register_entity("animals:sarkamos",{
 
 	--on actions
 	drops = {
-		{name = "animals:dead_sarkamos", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_fish_large", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch_water(self, tool_capabilities, puncher, 65, 0.75)

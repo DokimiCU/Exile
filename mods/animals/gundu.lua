@@ -47,7 +47,7 @@ local function brain(self)
 			animals.fight_or_flight_plyr_water(self, plyr, 40, 0.01)
 		end
 
-		animals.predator_avoid_water(self, 65, 0.01)
+		local pred = animals.predator_avoid_water(self, 65, 0.01)
 
 
 		----------------------
@@ -55,6 +55,7 @@ local function brain(self)
 		local prty = mobkit.get_queue_priority(self)
 
 		if prty < 20 then
+
 
 			--territorial behaviour
 			local rival = animals.territorial_water(self, energy, false)
@@ -89,11 +90,11 @@ local function brain(self)
 
 			--reproduction
 			--asexual parthogenesis, eggs
-			--when in prime condition
 			if random() < 0.01
 			and not rival
+			and not pred
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 100 then
+			and energy >= energy_egg *2 then
 				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
@@ -141,27 +142,6 @@ minetest.register_node("animals:gundu_eggs", {
 	end,
 	on_timer =function(pos, elapsed)
 		return animals.hatch_egg(pos, 'nodes_nature:salt_water_source', 'nodes_nature:salt_water_flowing', "animals:gundu", energy_egg, young_per_egg)
-	end,
-})
-
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_gundu", {
-	description = 'Dead Gundu',
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2,  0.2, -0.35, 0.2},
-	},
-	tiles = {"animals_gundu.png"},
-	stack_max = minimal.stack_max_medium/2,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 3, 24, -12, 0)
 	end,
 })
 
@@ -234,7 +214,7 @@ minetest.register_entity("animals:gundu",{
 
 	--on actions
 	drops = {
-		{name = "animals:dead_gundu", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_fish_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		animals.on_punch_water(self, tool_capabilities, puncher, 65, 0.01)
