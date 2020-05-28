@@ -393,7 +393,7 @@ minetest.register_entity("animals:pegasun_male",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.14, -0.75, -0.14, 0.14, -0.1375, 0.14},
+	collisionbox = {-0.16, -0.75, -0.16, 0.16, -0.25, 0.16},
 	visual = "mesh",
 	mesh = "animals_pegasun.b3d",
 	textures = {"animals_pegasun_male.png"},
@@ -409,7 +409,7 @@ minetest.register_entity("animals:pegasun_male",{
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
-	prey = {"animals:impethu"},
+	prey = {"animals:sneachan", "animals:impethu"},
 	friends = {"animals:pegasun"},
 	rivals = {"animals:pegasun_male"},
 
@@ -509,7 +509,7 @@ minetest.register_entity("animals:pegasun",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.14, -0.75, -0.14, 0.14, -0.1375, 0.14},
+	collisionbox = {-0.16, -0.75, -0.16, 0.16, -0.25, 0.16},
 	visual = "mesh",
 	mesh = "animals_pegasun.b3d",
 	textures = {"animals_pegasun.png"},
@@ -525,7 +525,7 @@ minetest.register_entity("animals:pegasun",{
 
 	--interaction
 	predators = {"animals:kubwakubwa", "animals:darkasthaan"},
-	prey = {"animals:impethu"},
+	prey = {"animals:sneachan", "animals:impethu"},
 	friends = {"animals:pegasun", "animals:pegasun_male"},
 	rivals = {"animals:pegasun"},
 
@@ -591,7 +591,7 @@ minetest.register_entity("animals:pegasun",{
 	view_range = 7,					-- nodes/meters
 
 	--attack
-	attack={range=0.5, damage_groups={fleshy=2}},
+	attack={range=0.3, damage_groups={fleshy=2}},
 	armor_groups = {fleshy=100},
 
 	--on actions

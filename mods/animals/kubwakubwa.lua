@@ -173,7 +173,7 @@ minetest.register_entity("animals:kubwakubwa",{
 	--interaction
 	predators = {"animals:darkasthaan"},
 	rivals = {"animals:kubwakubwa"},
-	prey = {"animals:impethu", "animals:pegasun"},
+	prey = {"animals:impethu", "animals:pegasun", "animals:sneachan"},
 
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,

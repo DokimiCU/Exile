@@ -12,7 +12,7 @@ local random = math.random
 
 --energy
 local energy_max = 12000--secs it can survive without food
-local energy_egg = energy_max/2 --energy that goes to egg
+local energy_egg = energy_max/3 --energy that goes to egg
 local egg_timer  = 60*15
 local young_per_egg = 3		--will get this/energy_egg starting energy
 
@@ -87,7 +87,7 @@ local function brain(self)
 			if random() < 0.01
 			and not rival
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 100 then
+			and energy >= energy_egg*2 then
 				energy = animals.place_egg(pos, "animals:darkasthaan_eggs", energy, energy_egg, 'air')
 			end
 
@@ -173,7 +173,7 @@ minetest.register_entity("animals:darkasthaan",{
 	--interaction
 	--predators = {"animals:darkasthaan"},
 	rivals = {"animals:darkasthaan"},
-	prey = {"animals:impethu", "animals:kubwakubwa", "animals:pegasun"},
+	prey = {"animals:impethu", "animals:kubwakubwa", "animals:pegasun", "animals:sneachan"},
 
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,

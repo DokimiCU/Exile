@@ -72,7 +72,7 @@ local function brain(self)
 			local light = minetest.get_node_light(pos, 0.5)
 			if light >= 7 then
 				if energy < energy_max then
-					energy = energy + 2
+					energy = energy + 2.1
 				end
 				mobkit.hq_aqua_roam(self,10, random(0.5, self.max_speed/2))
 			elseif random() < 0.2 then

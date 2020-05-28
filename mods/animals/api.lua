@@ -719,7 +719,7 @@ function animals.hq_aqua_attack_eat(self,prty,tgtobj,speed)
       local ent = tgtobj:get_luaentity()
       local ent_e = (mobkit.recall(ent,'energy') or 1)
       local self_e = (mobkit.recall(self,'energy') or 1)
-      mobkit.remember(self,'energy', ent_e + self_e)
+      mobkit.remember(self,'energy', (ent_e*0.7) + self_e)
       ent.object:remove()
       return true
     end
@@ -740,8 +740,11 @@ local function lq_jumpattack_eat(self,height,target)
 	local phase=1
 	local timer=0.5
 	local tgtbox = target:get_properties().collisionbox
+
 	local func=function(self)
+
 		if not mobkit.is_alive(target) then return true end
+
 		if self.isonground then
 			if phase==1 then	-- collision bug workaround
 				local vel = self.object:get_velocity()
@@ -763,12 +766,15 @@ local function lq_jumpattack_eat(self,height,target)
 		elseif phase==3 then	-- in air
 			local tgtpos = target:get_pos()
 			local pos = self.object:get_pos()
+
 			-- calculate attack spot
 			local yaw = self.object:get_yaw()
 			local dir = minetest.yaw_to_dir(yaw)
 			local apos = mobkit.pos_translate2d(pos,yaw,self.attack.range)
 
-			if mobkit.is_pos_in_box(apos,tgtpos,tgtbox) then	--bite
+			if mobkit.is_pos_in_box(apos,tgtpos,tgtbox)
+      or (mobkit.isnear2d(pos,tgtpos,1) and random()<0.1) --makes up for issue with some boxes not working together
+      then	--bite
 				target:punch(self.object,1,self.attack)
 					-- bounce off
 				local vy = self.object:get_velocity().y
@@ -780,7 +786,7 @@ local function lq_jumpattack_eat(self,height,target)
           local ent = target:get_luaentity()
           local ent_e = (mobkit.recall(ent,'energy') or 1)
           local self_e = (mobkit.recall(self,'energy') or 1)
-          mobkit.remember(self,'energy', ent_e + self_e)
+          mobkit.remember(self,'energy', (ent_e*0.7) + self_e)
           ent.object:remove()
           return true
         end
@@ -789,8 +795,6 @@ local function lq_jumpattack_eat(self,height,target)
 	end
 	mobkit.queue_low(self,func)
 end
-
-
 
 
 
@@ -805,16 +809,15 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 		if not mobkit.is_alive(tgtobj) then return true end
 
 		if mobkit.is_queue_empty_low(self) then
-			local pos = mobkit.get_stand_pos(self)
+      local pos = mobkit.get_stand_pos(self)
+		--	local pos = mobkit.get_stand_pos(self)
 			local tpos = mobkit.get_stand_pos(tgtobj)
 			local dist = vector.distance(pos,tpos)
 			if dist > 3 then
 				return true
 			else
 				mobkit.lq_turn2pos(self,tpos)
-        --!! placeholder crash fix
-				--local height = 0.35--tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
-        local height = tgtobj:get_luaentity().height*0.4 or 0.35
+        local height = tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
 				if tpos.y+height>pos.y then
 					lq_jumpattack_eat(self,tpos.y+height-pos.y,tgtobj)
 
@@ -826,6 +829,9 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 	end
 	mobkit.queue_high(self,func,prty)
 end
+
+
+
 
 
 ----------------------------------------------------------------
@@ -1068,8 +1074,9 @@ function animals.mate_assess(self, name)
   local mate = mobkit.get_nearby_entity(self, name)
   if mate then
     --see if they are in the mood
-    local sexy = mobkit.recall(mate,'sexual')
-    local preg = mobkit.recall(mate,'pregnant')
+    local ent = mate:get_luaentity()
+    local sexy = mobkit.recall(ent,'sexual')
+    local preg = mobkit.recall(ent,'pregnant')
     if sexy and not preg then
       return mate
     else
