@@ -166,17 +166,19 @@ end
 
 minetest.register_entity("mod:name",{
 
-			-- required minetest api props
+	-- required minetest api props
 
-	physical = true,
-	collide_with_objects = true,
-	collisionbox = {...},
-	visual = "mesh",
-	mesh = "...",
-	textures = {...},
+	initial_properties = {
+		physical = true,
+		collide_with_objects = true,
+		collisionbox = {...},
+		visual = "mesh",
+		mesh = "...",
+		textures = {...},
+	},
 
 
-				-- required mobkit props
+	-- required mobkit props
 
 	timeout = [num],			-- entities are removed after this many seconds inactive
 								-- 0 is never
