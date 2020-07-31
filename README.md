@@ -56,13 +56,14 @@ Some tips and tricks:
 # 0.2
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - Lore: exile letter
-- new mobs: darkasthaan, impethu, pegasun
+- new mobs: darkasthaan, impethu, pegasun, sneachan
+- cookable animal carcasses
 - graffitti: glow paint
 - new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
 - fixed dungeon loot
 - added more artifacts (airboat, art, transporter, wayfinder...)
 - mushrooms for fibre, food/water, sticks (artifact species)
-- split into realms (highways, and city structure)
+- split geomoria into realms (highways, and city structure)
 - added more geomorphs
 - gneiss and jade for deep underground biome
 - better looking bones
@@ -115,7 +116,7 @@ HEALTH
 
 --MOBS
 -more mobs: land predator
--better looking dead animals, cooking
+-catch chance based on weild item (can catch with hand)
 -Rimworld style colonists
 
 --LORE/LOOT/DUNGEONS
@@ -134,7 +135,6 @@ HEALTH
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
 -more graffiti in more colors
--extinguish fire to partially burnt fire (so can turn-off/on)
 -inventory on canoe
 -wood shingle roof, wood walls, beams etc
 -cooking: e.g  juice (fermented)? soup? Stim drug
@@ -151,11 +151,12 @@ HEALTH
 -watering can (make soil wet)
 -pottery wheel and more sophisticated glazed pottery
 -iron doors (e.g. for furnaces, nonflammable)
+-automation (via cogs, gears, windmills etc)
 
 
 --DECO
 -more ambience: rustling leaves, lava
--stalactites in limestone
+
 
 
 
@@ -175,7 +176,7 @@ Bed:
 Health:
 
 Animals:
--occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider (placeholder solution in place, seems to work okay)
+-occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider (not sure if still happens since overhauled mobs)
 -some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
 
 
@@ -193,6 +194,7 @@ Megamorph:
 -a silly string stair doesn't line up (from overpass)
 -self.params.share.surface crash with some layouts (that cross over edges. No current morphs do this)
 -all doors ought to have floors, to avoid doors hanging in space from caves
+-may have redundant and nonfunctional code (due to difficulty of extracting it from source mods)
 
 
 Tech:
@@ -202,6 +204,9 @@ Tech:
 -ropes don't go through air temp
 -air temp needs to spread better in open spaces.
 -partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
+
+illumination:
+-Node 'light_source' value exceeds maximum, limiting to maximum: illumination:light_full
 
 Artifacts:
 -airboat collision allows going into things, dig pointer is out of line with crosshairs

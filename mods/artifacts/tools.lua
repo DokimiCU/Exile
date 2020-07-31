@@ -414,7 +414,7 @@ minetest.register_craftitem("artifacts:spyglass", {
 
 
 
---[[crashes when used on non-mobkit entities, bug testing tool only!
+--crashes when used on non-mobkit entities, bug testing tool only!
 ------------------------------------
 --ANIMAL PROBE
 --get condition of an animal
@@ -440,8 +440,6 @@ local animal_probe = function(user, pointed_thing)
 
 	minetest.chat_send_player(name, minetest.colorize("#00ff00", "ANIMAL CONDITION:"))
 
-  local measure
-
   minetest.chat_send_player(name, minetest.colorize("#cc6600","Age: "..r_ent_a.. " sec    Energy: "..r_ent_e.." units"))
 
 end
@@ -456,4 +454,3 @@ minetest.register_craftitem("artifacts:animal_probe", {
 		animal_probe(user, pointed_thing)
 	end,
 })
-]]
