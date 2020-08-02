@@ -3,11 +3,8 @@ local path = minetest.get_modpath("mapgen")
 
 
 minetest.set_mapgen_setting("mg_flags", "caves, nodungeons, light, decorations, biomes", true)
+minetest.set_mapgen_setting("mgvalleys_spflags", "altitude_chill, humid_rivers, vary_river_depth, altitude_dry", true)
 
-
-dofile(path.."/biomes.lua")
-dofile(path.."/ores.lua")
-dofile(path.."/deco.lua")
 
 
 
@@ -16,8 +13,25 @@ dofile(path.."/deco.lua")
 -- Aliases for map generators
 --
 
-minetest.register_alias("mapgen_stone", "nodes_nature:conglomerate")
+-- ESSENTIAL node aliases
+-- Basic nodes
 
+minetest.register_alias("mapgen_stone", "nodes_nature:conglomerate")
+minetest.register_alias("mapgen_water_source", "nodes_nature:salt_water_source")
+minetest.register_alias("mapgen_river_water_source", "nodes_nature:freshwater_source")
+
+
+
+
+
+dofile(path.."/biomes.lua")
+dofile(path.."/ores.lua")
+dofile(path.."/deco.lua")
+
+
+---------------------------------------------
+
+--[[
 
 minetest.register_alias("mapgen_dirt", "nodes_nature:silt")
 minetest.register_alias("mapgen_dirt_with_grass", "nodes_nature:grassland_soil")
@@ -61,3 +75,4 @@ minetest.register_alias("mapgen_mossycobble", "nodes_nature:limestone_brick")
 minetest.register_alias("mapgen_stair_desert_stone", "stairs:stair_limestone_block")
 minetest.register_alias("mapgen_sandstonebrick", "nodes_nature:limestone_brick")
 minetest.register_alias("mapgen_stair_sandstone_block", "stairs:stair_limestone_block")
+]]
