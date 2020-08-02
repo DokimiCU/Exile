@@ -5,7 +5,6 @@ local path = minetest.get_modpath("mapgen")
 minetest.set_mapgen_setting("mg_flags", "caves, nodungeons, light, decorations, biomes", true)
 
 
-
 dofile(path.."/biomes.lua")
 dofile(path.."/ores.lua")
 dofile(path.."/deco.lua")
@@ -18,6 +17,8 @@ dofile(path.."/deco.lua")
 --
 
 minetest.register_alias("mapgen_stone", "nodes_nature:conglomerate")
+
+
 minetest.register_alias("mapgen_dirt", "nodes_nature:silt")
 minetest.register_alias("mapgen_dirt_with_grass", "nodes_nature:grassland_soil")
 minetest.register_alias("mapgen_sand", "nodes_nature:sand")
@@ -25,6 +26,8 @@ minetest.register_alias("mapgen_sand", "nodes_nature:sand")
 minetest.register_alias("mapgen_water_source", "nodes_nature:salt_water_source")
 --minetest.register_alias("mapgen_river_water_source", "nodes_nature:freshwater_source")
 minetest.register_alias("mapgen_river_water_source", "air")
+
+
 minetest.register_alias("mapgen_lava_source", "nodes_nature:lava_source")
 minetest.register_alias("mapgen_gravel", "nodes_nature:gravel")
 minetest.register_alias("mapgen_desert_stone", "nodes_nature:siltstone")
