@@ -48,6 +48,8 @@ local function brain(self)
 		local prty = mobkit.get_queue_priority(self)
 		-------------------
 		--High priority actions
+		local pred
+
 		if prty < 50 then
 
 
@@ -57,7 +59,7 @@ local function brain(self)
 				animals.fight_or_flight_plyr(self, plyr, 55, 0.01)
 			end
 
-			local pred = animals.predator_avoid(self, 55, 0.01)
+			pred = animals.predator_avoid(self, 55, 0.01)
 
 		end
 

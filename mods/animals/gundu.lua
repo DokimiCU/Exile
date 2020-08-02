@@ -41,6 +41,8 @@ local function brain(self)
 		local prty = mobkit.get_queue_priority(self)
 		-------------------
 		--High priority actions
+		local pred
+
 		if prty < 50 then
 
 			--Threats
@@ -49,7 +51,7 @@ local function brain(self)
 				animals.fight_or_flight_plyr_water(self, plyr, 55, 0.01)
 			end
 
-			local pred = animals.predator_avoid_water(self, 55, 0.01)
+			pred = animals.predator_avoid_water(self, 55, 0.01)
 
 		end
 
