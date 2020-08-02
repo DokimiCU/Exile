@@ -157,7 +157,7 @@ local setup_hud = function(player)
 	local danger_low = stress_low - 40
 	local danger_high = stress_high +40
 
-	local place = {x = 0.36, y = 0.885}
+	local place = {x = 0.315, y = 0.868}--{x = 0.36, y = 0.885}
 	local size = { x = 1.8, y = 1.8}
 
 	hud_data.thirst_hud_img = player:hud_add({

@@ -395,7 +395,7 @@ local function get_formspec(meta, letter_text)
 
 	local formspec = {
     "size[9,11]",
-  	"textarea[2,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
+  	"textarea[1.5,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
     "button_exit[8.2,10.6;0.8,0.5;exit_form;X]",
   	"background[0,0;18,11;lore_exile_letter_bg.png;true]"}
 

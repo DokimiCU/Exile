@@ -110,11 +110,11 @@ local function sfinv_get(self, player, context)
 	"label[0.1,3.1; Move Speed: " .. move .. " % change]"..
 	"label[0.1,3.6; Jumping: " .. jump .. " % change]"..
 
-	"label[3,0.1; Heal Rate: " .. heal_rate .. " ]"..
-	"label[3,0.6; Thirst Rate: " .. thirst_rate .. " ]"..
-	"label[3,1.1; Hunger Rate: " .. hunger_rate .. " ]"..
-	"label[3,1.6; Recovery Rate: " .. recovery_rate .. " ]"..
-	"label[3,2.1; External Temperature: " .. enviro_temp .. " C]"..
+	"label[4,0.1; Heal Rate: " .. heal_rate .. " ]"..
+	"label[4,0.6; Thirst Rate: " .. thirst_rate .. " ]"..
+	"label[4,1.1; Hunger Rate: " .. hunger_rate .. " ]"..
+	"label[4,1.6; Recovery Rate: " .. recovery_rate .. " ]"..
+	"label[4,2.1; External Temperature: " .. enviro_temp .. " C]"..
 	"button[4,3.1;1,1;toggle_health_hud;HUD]"
 	--..
 	--"textarea[0.5,5.1;6,6;;Active Effects:;"..active_list.." ]"
