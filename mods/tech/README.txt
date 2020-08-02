@@ -12,6 +12,8 @@ Dokimi (GPLv3)
 The torch code was derived by sofar from the 'torches' mod by
 BlockMen (LGPLv2.1+)
 
+Lever adapted from minetest game mod Screwdriver by RealBadAngel, Maciej Kasatkin, various Minetest developers and contributors (LGPLv2.1+)
+
 
 Authors of media (sounds)
 ------------------------
@@ -19,6 +21,7 @@ tool_breaks.* - http://www.freesound.org/people/HerbertBoland/sounds/33206/ CC-B
 
 fire_small.ogg, dobroide (CC BY 3.0) http://www.freesound.org/people/dobroide/sounds/4211/
 
+tech_boil.ogg adapted from Bubbling Cauldron, Mike Koenig, Attribution 3.0 , http://soundbible.com/51-Bubbling-Cauldron.html
 
 
 Authors of media (textures)
@@ -45,4 +48,4 @@ VanessaE (CC BY-SA 3.0):
   default_torch_on_floor.png
 
 AspireMint (CC by SA 3.0):
-  tech_paint_brush_white.png 
+  tech_paint_brush_white.png

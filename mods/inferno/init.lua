@@ -304,18 +304,47 @@ minetest.register_tool("inferno:fire_sticks", {
 		local player_name = user:get_player_name()
 		if pointed_thing.type == "node" then
 			local node_under = minetest.get_node(pointed_thing.under).name
+
 			if node_under == "tech:small_wood_fire_unlit" then
 				minetest.set_node(pointed_thing.under, {name = "tech:small_wood_fire"})
 				return add_wear(player_name, itemstack)
 			elseif node_under == "tech:large_wood_fire_unlit" then
 				minetest.set_node(pointed_thing.under, {name = "tech:large_wood_fire"})
 				return add_wear(player_name, itemstack)
+
 			elseif node_under == "tech:charcoal" then
 				minetest.set_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
 				return add_wear(player_name, itemstack)
 			elseif node_under == "tech:charcoal_block" then
 				minetest.set_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
 				return add_wear(player_name, itemstack)
+
+			elseif node_under == "tech:small_wood_fire_ext" then
+				local meta = minetest.get_meta(pointed_thing.under)
+				local fuel = meta:get_int("fuel")
+				minetest.set_node(pointed_thing.under, {name = "tech:small_wood_fire"})
+				meta:set_int("fuel", fuel)
+				return add_wear(player_name, itemstack)
+			elseif node_under == "tech:large_wood_fire_ext" then
+				local meta = minetest.get_meta(pointed_thing.under)
+				local fuel = meta:get_int("fuel")
+				minetest.set_node(pointed_thing.under, {name = "tech:large_wood_fire"})
+				meta:set_int("fuel", fuel)
+				return add_wear(player_name, itemstack)
+
+			elseif node_under == "tech:small_charcoal_fire_ext" then
+				local meta = minetest.get_meta(pointed_thing.under)
+				local fuel = meta:get_int("fuel")
+				minetest.set_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
+				meta:set_int("fuel", fuel)
+				return add_wear(player_name, itemstack)
+			elseif node_under == "tech:large_charcoal_fire_ext" then
+				local meta = minetest.get_meta(pointed_thing.under)
+				local fuel = meta:get_int("fuel")
+				minetest.set_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
+				meta:set_int("fuel", fuel)
+				return add_wear(player_name, itemstack)
+
 			end
 
 

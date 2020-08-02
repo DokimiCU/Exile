@@ -59,7 +59,12 @@ local function retting(pos, name, length)
 	local retting = meta:get_int("retting")
 
 	--check if wet,
-	if minetest.find_node_near(pos, 1, {"group:water"}) then
+	local node_a = minetest.get_node({x=pos.x, y=pos.y + 1, z=pos.z})
+
+	--check if wet,
+	if minetest.get_item_group(node_a.name, "water") > 0 then
+
+	--if minetest.find_node_near(pos, 1, {"group:water"}) then
 
     if retting <= 0 then
       --finished
@@ -96,7 +101,7 @@ minetest.register_node('tech:unretted_cana_bundle', {
 	end,
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    set_retting(pos, 20, 10)
+    set_retting(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length

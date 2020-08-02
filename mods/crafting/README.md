@@ -6,6 +6,7 @@ the craft grid.
 By rubenwardy  
 License: LGPLv2.1+
 
+![Screenshot](screenshot.png)
 
 ## Image Licenses
 
@@ -102,3 +103,18 @@ be used twice: `default:wood, group:wood`.
 * crafting.create_async_station(name, type, level, def_inactive, def_active)
 	* Makes a station which players put items into and then leave to craft.
 	* Registers two nodes - inactive and active versions of the station.
+
+## Development
+
+
+**Installation:**
+
+```sh
+# Dependencies for linter and test framework
+sudo apt install luarocks
+sudo luarocks install luacheck
+sudo luarocks install busted
+
+# Set up git hook to disallow commiting when linter or tests fail
+./utils/setup.sh
+```

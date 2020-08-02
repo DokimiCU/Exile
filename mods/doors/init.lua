@@ -266,7 +266,7 @@ function doors.register(name, def)
 		description = def.description,
 		inventory_image = def.inventory_image,
 		groups = table.copy(def.groups),
-		stack_max = minimal.stack_max_bulky,
+		stack_max = def.stack_max or minimal.stack_max_bulky,
 
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos
@@ -567,7 +567,7 @@ function doors.register_trapdoor(name, def)
 	end
 
 	-- Common trapdoor configuration
-	def.stack_max = minimal.stack_max_bulky *2
+	def.stack_max = def.stack_max or minimal.stack_max_bulky *2
 	def.drawtype = "nodebox"
 	def.paramtype = "light"
 	def.paramtype2 = "facedir"

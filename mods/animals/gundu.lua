@@ -5,176 +5,121 @@
 filter feeds in sunlit waters
 ]]
 ---------------------------------------------------------------------
+
 local random = math.random
-local energy_max = 8000
-local energy_egg = energy_max/5
-local egg_timer  = 60*30
-
---must get to e max to lay eggs,
---therefore this is max # of laying chances
-local lifespan = energy_max * 4 --~ 8hrs
 
 
----------------------------------
---flee sound (has to be in water!)
-local function flee_sound(self)
-	if not self.isinliquid then
-		return
-	end
-	mobkit.make_sound(self,'flee')
-end
+--energy
+local energy_max = 8000--secs it can survive without food
+local energy_egg = energy_max/4 --energy that goes to egg
+local egg_timer  = 60*25
+local young_per_egg = 8		--will get this/energy_egg starting energy
+
+local lifespan = energy_max * 6
+
+
 
 -----------------------------------
-local function fish_brain(self)
+local function brain(self)
+
 	--die from damage
-	local hp = self.hp
-	if hp <= 0 then
-		mobkit.clear_queue_high(self)
-		animals.handle_drops(self)
-		mobkit.hq_die(self)
+	if not animals.core_hp_water(self) then
 		return
 	end
 
 	if mobkit.timer(self,1) then
 
-		--use energy to live
-		local energy = mobkit.recall(self,'energy')
+		local pos = mobkit.get_stand_pos(self)
 
-		--grow old and die
-		local age = mobkit.recall(self,'age')
-
-		--this shouldn't happen but this prevents crashes during development
-		--hopefully can be removed at some point...
-		if not energy then
-			energy = 1
-		end
+		local age, energy = animals.core_life(self, lifespan, pos)
+		--die from exhaustion or age
 		if not age then
-		age = 0
-		end
-
-		age = age + 1
-		energy = energy - 1
-
-		--die from exhaustion
-		if energy <=0 or age > lifespan then
-			mobkit.clear_queue_high(self)
-			animals.handle_drops(self)
-			mobkit.hq_die(self)
 			return
 		end
 
-		--heal using energy
-		if hp < self.max_hp and energy > 120 then
-			mobkit.heal(self,1)
-			energy = energy - 1
-		end
 
-		--suffocate
-		if not self.isinliquid then
-			mobkit.hurt(self,1)
-		end
-
-		--temperature damage
-		--!??
-
-		--Emergency actions
-
-		--flee from player, and predator
-		local plyr = mobkit.get_nearby_player(self)
-
-		if plyr then
-			mobkit.animate(self,'fast')
-			animals.hq_swimfrom(self,25,plyr,self.max_speed)
-			flee_sound(self)
-		end
-
-		local pred = mobkit.get_closest_entity(self,'animals:sarkamos')
-		if pred then
-			mobkit.animate(self,'fast')
-			animals.hq_swimfrom(self,50,pred,self.max_speed)
-			flee_sound(self)
-		end
-
-		--swim out of unsuitable water
-		local liq = self.isinliquid
-		if liq and liq == "nodes_nature:freshwater_source" then
-			water_life.hq_swimto(self,30,2,"nodes_nature:salt_water_source")
-		end
-
-		--low priority actions
 		local prty = mobkit.get_queue_priority(self)
+		-------------------
+		--High priority actions
+		local pred
 
+		if prty < 50 then
+
+			--Threats
+			local plyr = mobkit.get_nearby_player(self)
+			if plyr then
+				animals.fight_or_flight_plyr_water(self, plyr, 55, 0.01)
+			end
+
+			pred = animals.predator_avoid_water(self, 55, 0.01)
+
+		end
+
+
+		----------------------
+		--Low priority actions
 		if prty < 20 then
-			if liq and liq == "nodes_nature:salt_water_source" then
-				local pos = mobkit.get_stand_pos(self)
-				--territorial behaviour..keeps density down
-				--avoid the bigger fish
-				local rival = mobkit.get_closest_entity(self,'animals:gundu')
-				if rival then
-					local tpos = rival:get_pos()
-					local r_ent = rival:get_luaentity()
-					local r_ent_e = (mobkit.recall(r_ent,'energy') or 1)
-					--most energy wins, flee or harass
-					--we want fish to spread out wide across the ocean
-					if energy < r_ent_e  then
-						animals.hq_swimfrom(self, 25, rival ,self.max_speed)
-						flee_sound(self)
-					elseif random() > 0.4 then
-						animals.hq_swimafter(self,15,rival,self.max_speed)
-						flee_sound(self)
-					end
+
+
+			--social behaviour
+			local rival
+			if random() <0.75 then
+				animals.flock(self, 25, 1.5, self.max_speed/4)
+			elseif random() <0.05 then
+				rival = animals.territorial_water(self, energy, false)
+			end
+
+
+			--feeding
+			local light = minetest.get_node_light(pos, 0.5)
+			if light >= 7 then
+				if energy < energy_max then
+					energy = energy + 2.1
 				end
+				mobkit.hq_aqua_roam(self,10, random(0.5, self.max_speed/2))
+			elseif random() < 0.2 then
+				--rise
+				local vel = self.object:get_velocity()
+				vel.y = vel.y+0.1
+				self.object:set_velocity(vel)
+				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
+			end
 
-				--feed on "stuff" in water, if it is bright.
-				local light = minetest.get_node_light(pos, 0.5)
 
-				if light >= 13 then
-					if energy < energy_max then
-						energy = energy + 2
-					end
-					mobkit.hq_aqua_roam(self,10, random(0.5, self.max_speed/2))
-				elseif random() > 0.5 then
-					--rise
+			--hide during the darkest part of night
+			if random() < 0.01 then
+				local tod = minetest.get_timeofday()
+				if tod <0.1 or tod >0.9 then
+					--sink
 					local vel = self.object:get_velocity()
-					vel.y = vel.y+0.1
+					vel.y = vel.y-0.2
 					self.object:set_velocity(vel)
-					mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
+					mobkit.hq_aqua_roam(self,15,0.1)
 				end
+			end
 
-
-				--hide during the darkest part of night
-				if random() > 0.2 then
-					local tod = minetest.get_timeofday()
-					if tod <0.2 or tod >0.8 then
-						--sink
-						local vel = self.object:get_velocity()
-						vel.y = vel.y-0.2
-						self.object:set_velocity(vel)
-						mobkit.hq_aqua_roam(self,15,0.1)
-						--lay eggs at the bottom
-						if not rival and energy >= energy_max and random() > 0.99 then
-							local p = mobkit.get_node_pos(pos)
-							local posu = {x = p.x, y = p.y - 1, z = p.z}
-							local n = mobkit.nodeatpos(posu)
-							if n.walkable then
-								minetest.set_node(p, {name = 'animals:gundu_eggs'})
-								energy = energy - (energy_egg*3)
-							end
-						end
-					end
-				end
-
+			--reproduction
+			--asexual parthogenesis, eggs
+			if random() < 0.01
+			and not rival
+			and not pred
+			and self.hp >= self.max_hp
+			and energy >= energy_egg *2 then
+				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
 		end
 
-
+		-------------------
 		--generic behaviour
 		if mobkit.is_queue_empty_high(self) then
 			mobkit.animate(self,'def')
 			mobkit.hq_aqua_roam(self,10,1)
 		end
 
+
+		-----------------
+		--housekeeping
 		--save energy, age
 		mobkit.remember(self,'energy',energy)
 		mobkit.remember(self,'age',age)
@@ -188,7 +133,7 @@ end
 
 
 ---------------
--- the Fish
+-- the CREATURE
 ---------------
 
 --eggs
@@ -206,64 +151,18 @@ minetest.register_node("animals:gundu_eggs", {
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
 	end,
 	on_timer =function(pos, elapsed)
-		local water = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {"nodes_nature:salt_water_source"})
-		--dies, or hatch
-		if #water < 2 then
-			minetest.set_node(pos, {name = "nodes_nature:salt_water_flowing"})
-			return false
-		else
-			for _, wp in pairs(water) do
-				if random() >= 0.5 then
-					local ent = minetest.add_entity(wp,"animals:gundu")
-					minetest.sound_play("animals_hatch_egg", {pos = pos, gain = random(0.1,0.4), max_hear_distance = 6})
-					ent = ent:get_luaentity()
-					mobkit.remember(ent,'energy',math.random(energy_egg/2,energy_egg*2))
-					mobkit.remember(ent,'age',0)
-				end
-			end
-			minetest.set_node(pos, {name = "nodes_nature:salt_water_flowing"})
-			return false
-		end
+		return animals.hatch_egg(pos, 'nodes_nature:salt_water_source', 'nodes_nature:salt_water_flowing', "animals:gundu", energy_egg, young_per_egg)
 	end,
 })
-
-
-
-
-------------------------------------------------------
-
---dead
-minetest.register_node("animals:dead_gundu", {
-	description = 'Dead Gundu',
-	drawtype = 'mesh',
-	--mesh = "animals_gundu.b3d",
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2,  0.2, -0.35, 0.2},
-	},
-	tiles = {"animals_gundu.png"},
-	stack_max = minimal.stack_max_medium/2,
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1},
-	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 3, 24, -24, 0)
-	end,
-})
-
-
-
 
 
 
 
 ----------------------------------------------
 
---The fish
+--The Animal
 minetest.register_entity("animals:gundu",{
-	-- required minetest api props
+	--core
 	physical = true,
 	collide_with_objects = true,
 	collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
@@ -271,23 +170,32 @@ minetest.register_entity("animals:gundu",{
 	mesh = "animals_gundu.b3d",
 	textures = {"animals_gundu.png"},
 	visual_size = {x = 9, y = 9},
-	makes_footstep_sound = true,
-	-- required mobkit props
+	makes_footstep_sound = false,
 	timeout = 0,
-	buoyancy = 1,
-	--lung_capacity = [num], 		-- seconds
-	max_hp = 30,
+
+	--damage
+	max_hp = 100,
+	lung_capacity = 20,
+	min_temp = 1,
+	max_temp = 35,
+
+	--interaction
+	predators = {"animals:sarkamos"},
+	rivals = {"animals:gundu"},
+	friends = {"animals:gundu"},
+	--prey = {"animals:impethu"},
+
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,
 	get_staticdata = mobkit.statfunc,
-	logic = fish_brain,
+	logic = brain,
 	-- optional mobkit props
 	-- or used by built in behaviors
 	--physics = [function user defined] 		-- optional, overrides built in physics
 	animation = {
-		def={range={x=1,y=35},speed=40,loop=true},
-		fast={range={x=1,y=35},speed=80,loop=true},
-		idle={range={x=36,y=75},speed=20,loop=true},
+		def={range={x=1,y=35},speed=30,loop=true},
+		fast={range={x=1,y=35},speed=60,loop=true},
+		stand={range={x=36,y=75},speed=20,loop=true},
 	},
 	sounds = {
 		flee = {
@@ -296,48 +204,46 @@ minetest.register_entity("animals:gundu",{
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
+		call = {
+			name = "animals_gundu_call",
+			gain={0.01, 0.1},
+			fade={0.5, 1.5},
+			pitch={0.6, 1.2},
+		},
 		punch = {
 			name = "animals_punch",
-			gain={0.5, 1.5},
+			gain={0.5, 1},
 			fade={0.5, 1.5},
 			pitch={0.5, 1.5},
 		},
 	},
-	springiness=1,
+
+	--movement
+	springiness=0.5,
+	buoyancy = 1,
 	max_speed = 5,					-- m/s
-	jump_height = 2,				-- nodes/meters
-	view_range = 6,					-- nodes/meters
+	jump_height = 1.5,				-- nodes/meters
+	view_range = 5,					-- nodes/meters
+
+	--attack
 	attack={range=0.3, damage_groups={fleshy=1}},
 	armor_groups = {fleshy=100},
+
 	--on actions
 	drops = {
-		{name = "animals:dead_gundu", chance = 1, min = 1, max = 1,},
+		{name = "animals:carcass_fish_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		if mobkit.is_alive(self) then
-			mobkit.clear_queue_high(self)
-			mobkit.make_sound(self,'punch')
-			flee_sound(self)
-			mobkit.hurt(self,tool_capabilities.damage_groups.fleshy or 1)
-			--fight or flight
-			if random()>0.95 then
-				mobkit.hq_attack(self,50,puncher)
-			else
-				animals.hq_swimfrom(self,60,puncher,self.max_speed)
-			end
-		end
+		animals.on_punch_water(self, tool_capabilities, puncher, 55, 0.01)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then
 			return
 		end
-		animals.stun_catch_mob(self, clicker, 0.8)
+		animals.stun_catch_mob(self, clicker, 0.1)
 	end,
 })
 
 
-
-
-
---spawn egg (i.e. live fish in inventory)
+--spawn egg (i.e. live animal in inventory)
 animals.register_egg("animals:gundu", "Live Gundu", "animals_gundu_item.png", minimal.stack_max_medium/2, energy_egg)

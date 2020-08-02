@@ -9,15 +9,58 @@ local overcast_rain = {}
 
 overcast_rain.name = 'overcast_rain'
 
-overcast_rain.sky_color_day = 80
-overcast_rain.sky_color_night = 15
-overcast_rain.fog = 150
 
-overcast_rain.clouds_color = "#606060"
-overcast_rain.clouds_density = 0.6
-overcast_rain.clouds_height = 480
-overcast_rain.clouds_thickness = 128
-overcast_rain.clouds_speed = {x=2, z=0}
+overcast_rain.sky_data = {
+	type = "regular",
+	clouds = true,
+	sky_color = {
+		day_sky = "#777D89",
+		day_horizon = "#848a94",
+		dawn_sky = "#CBC0D6",
+		dawn_horizon ="#d5ccde",
+		night_sky = "#4B3C5A",
+		night_horizon = "#6e627a",
+		indoors = "#2B2B2B",
+		--fog_sun_tint = "#FB7F55",
+		--fog_moon_tint = "#C5C9C9",
+		--fog_tint_type = "custom"
+	}
+}
+
+
+overcast_rain.cloud_data = {
+	color = "#5D5F69",
+	density = 0.6,
+	height = 280,
+	thickness = 128,
+	speed = {x=2, z=0}
+}
+
+overcast_rain.moon_data = {
+	visible = false,
+	--texture = "moon.png",
+	--tonemap = "moon_tonemap.png",
+	--scale = 0.5
+}
+
+
+overcast_rain.sun_data = {
+	visible = false,
+	texture = "sun.png",
+	tonemap = "sun_tonemap.png",
+	sunrise = "sunrisebg.png",
+	sunrise_visible = false,
+	scale = 0.4
+}
+
+overcast_rain.star_data = {
+	visible = false,
+	count = 1000,
+	color = "#80FCFEFF"
+}
+
+
+
 
 overcast_rain.sound_loop = 'rain_loop'
 
@@ -25,7 +68,7 @@ overcast_rain.sound_loop = 'rain_loop'
 overcast_rain.chain = {
 	--name, p_cold, p_mid , p_hot
 	{'overcast_light_rain', 0.01, 0.25, 0.5, 0.75},
-	{'heavy_rain', 0.01, 0.5, 0.25, 0.25},
+	{'overcast_heavy_rain', 0.01, 0.5, 0.25, 0.25},
 	{'thunderstorm', 0.01, 0.01, 0.1, 0.25},
 	{'overcast_snow', 0.5, 0, 0, 0}
 

@@ -235,7 +235,7 @@ for i in ipairs(treelist) do
 		drawtype =  "plantlike",
 		visual_scale = 1,
 		tiles ={"nodes_nature_"..treename.."_leaves.png" },
-		stack_max = minimal.stack_max_medium,
+		stack_max = minimal.stack_max_bulky * 3,
 		paramtype = "light",
 		paramtype2 = "meshoptions",
 		place_param2 = 4,
@@ -328,10 +328,11 @@ minetest.override_item("nodes_nature:maraka_nut",{
 	end,
 })
 
---tangkal_fruit is good food
+--tangkal_fruit is good food, but bulky
 minetest.override_item("nodes_nature:tangkal_fruit",{
+	stack_max = minimal.stack_max_medium/2,
 	on_use = function(itemstack, user, pointed_thing)
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 10, 10, 10, 0)
+		return HEALTH.use_item(itemstack, user, 0, 5, 10, 10, 0)
 	end,
 })

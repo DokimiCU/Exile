@@ -4,8 +4,59 @@
 ------------------------------------
 
 
---Cheap and ineffective bed
+
+--------------------------------
+--Free and ineffective bed
 --so you don't die simply because you can't lie down
+--a bit like crafing spots
+
+bed_rest.register_bed("tech:sleeping_spot", {
+	description = "Sleeping Spot",
+	inventory_image = "tech_sleeping_spot_inv.png",
+	wield_image = "tech_sleeping_spot_inv.png",
+	stack_max = 1,
+  tiles = {
+		bottom = {
+			"tech_sleeping_spot.png^[transformR180",
+			--"tech_thatch.png",
+			--"tech_thatch.png",
+			--"tech_thatch.png^[transformfx",
+			--"tech_thatch.png"
+		},
+		top = {
+			"tech_sleeping_spot.png",
+			--"tech_thatch.png",
+			--"tech_thatch.png",
+			--"tech_thatch.png^[transformfx",
+			--"tech_thatch.png",
+		}
+	},
+	nodebox = {
+		bottom = {-0.5, -0.5, -0.5, 0.5, -0.48, 0.5},
+		top = {-0.5, -0.5, -0.5, 0.5, -0.48, 0.5},
+	},
+	selectionbox = {-0.5, -0.5, -0.5, 0.5, -0.45, 1.5},
+	sounds =  nodes_nature.node_sound_wood_defaults(),
+	groups = {snappy = 3, dig_immediate = 3, falling_node = 1, bed = 1, temp_pass = 1},
+	bed_level = 0.5,
+
+
+	walkable = false,
+	buildable_to = true,
+	floodable = true,
+	on_punch = function(pos, node, player)
+		local name = player:get_player_name()
+		if bed_rest.player[name] == nil then
+			minetest.remove_node(pos)
+		end
+	end
+
+})
+
+
+
+-------------------------------
+--Cheap bed
 --for travel, early game
 bed_rest.register_bed("tech:sleeping_mat", {
 	description = "Sleeping Mat",
@@ -35,7 +86,7 @@ bed_rest.register_bed("tech:sleeping_mat", {
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, -0.4, 1.5},
 	sounds =  nodes_nature.node_sound_leaves_defaults(),
 	groups = {snappy = 3, dig_immediate = 3, flammable = 3, bed = 1, temp_pass = 1},
-	bed_level = 0.5,
+	bed_level = 1,
 })
 
 
@@ -157,6 +208,16 @@ bed_rest.register_bed("tech:bed", {
 ------------------------------------
 --RECIPES
 
+--sleeping_spot is free
+crafting.register_recipe({
+	type = "inv",
+	output = "tech:sleeping_spot",
+	items = {},
+	level = 1,
+	always_known = true,
+})
+
+
 --sleeping_mat from cheap thatch
 crafting.register_recipe({
 	type = "crafting_spot",
@@ -176,11 +237,21 @@ crafting.register_recipe({
 })
 
 
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:primitive_bed",
+	items = {"tech:sleeping_mat 4", "tech:stick 36"},
+	level = 1,
+	always_known = true,
+})
+
+
+
 --Mattress from fine fabric stuffed with fine fibre
 crafting.register_recipe({
 	type = "loom",
 	output = "tech:mattress",
-	items = {"tech:fine_fabric 6", "tech:fine_fibre 24"},
+	items = {"tech:fine_fabric 6", "tech:coarse_fibre 24"},
 	level = 1,
 	always_known = true,
 })

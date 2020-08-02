@@ -16,7 +16,7 @@ local hud = {}
 ----------------------------------------
 --Update
 
-HEALTH.update_hud = function(player, thirst, hunger, energy, temperature, enviro_temp)
+HEALTH.update_hud = function(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
 	local playername = player:get_player_name()
 	local hud_data = hud[playername]
 
@@ -59,12 +59,6 @@ HEALTH.update_hud = function(player, thirst, hunger, energy, temperature, enviro
 --43-47: severe heat stroke. malus no heal
 -->47 death
 
---enviro_temp tolerances are place holders, when clothes is done
---this will get pulled from meta
--- 15<>35 comfort zone
--- 5><15 or 35><40 stress zone
--- -35><5 or 40><80 danger zone
--- <-35 or >80 extreme zone
 
 
 	if thirst > 60 then
@@ -114,11 +108,13 @@ HEALTH.update_hud = function(player, thirst, hunger, energy, temperature, enviro
 		player:hud_change(hud_data.temp_hud_img, "text", "health_dot_green_temp.png")
 	end
 
-	if enviro_temp > 80 or enviro_temp < -35 then
+
+	--enviro_temp tolerances
+	if enviro_temp > danger_high or enviro_temp < danger_low then
 		player:hud_change(hud_data.env_temp_hud_img, "text", "health_dot_black_env_temp.png")
-	elseif enviro_temp > 40 or enviro_temp < 5 then
+	elseif enviro_temp > stress_high or enviro_temp < stress_low then
 		player:hud_change(hud_data.env_temp_hud_img, "text", "health_dot_red_env_temp.png")
-	elseif enviro_temp > 35 or enviro_temp < 15 then
+	elseif enviro_temp > comfort_high or enviro_temp < comfort_low then
 		player:hud_change(hud_data.env_temp_hud_img, "text", "health_dot_orange_env_temp.png")
 	else
 		player:hud_change(hud_data.env_temp_hud_img, "text", "health_dot_green_env_temp.png")
@@ -154,7 +150,14 @@ local setup_hud = function(player)
 	player_pos.y = player_pos.y + 0.6 --adjust to body height
 	local enviro_temp = math.floor(climate.get_point_temp(player_pos))
 
-	local place = {x = 0.36, y = 0.885}
+	local comfort_low = meta:get_int("clothing_temp_min")
+	local comfort_high = meta:get_int("clothing_temp_max")
+	local stress_low = comfort_low - 10
+	local stress_high = comfort_high + 10
+	local danger_low = stress_low - 40
+	local danger_high = stress_high +40
+
+	local place = {x = 0.315, y = 0.868}--{x = 0.36, y = 0.885}
 	local size = { x = 1.8, y = 1.8}
 
 	hud_data.thirst_hud_img = player:hud_add({
@@ -207,7 +210,7 @@ local setup_hud = function(player)
 	--set correct images
 	--no idea why this pause is needed...  but it is, and can be no shorter
 	minetest.after(0.1, function()
-		HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp)
+		HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
 	end)
 
 
@@ -253,9 +256,9 @@ end)
 
 
 --placeholder!
-minetest.register_on_joinplayer(function(player)
+--minetest.register_on_joinplayer(function(player)
 	--HEALTH.setup_hud(player)
-end)
+--end)
 
 
 minetest.register_on_leaveplayer(function(player)

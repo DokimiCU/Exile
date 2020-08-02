@@ -14,10 +14,20 @@ minetest.register_node("tech:stick", {
  drawtype = "nodebox",
  node_box = {
 	 type ="fixed",
-	 fixed = {{-0.0625, -0.5, -0.0625, 0.125, 0.5, 0.125}},
+	 fixed = {{-0.0625, -0.5, -0.0625, 0.0625, 0.5, 0.0625}},
  },
- --inventory_image = "tech_stick_inv.png",
- --wield_image = "tech_stick_inv.png",
+ --[[ --this might be resuable as a fence, but fails here
+ node_box = {
+   type = "connected",
+   fixed = {{-0.0625, -0.5, -0.0625, 0.0625, 0.5, 0.0625}},
+   connect_front = {{-0.0625, -0.0625, -0.5, 0.0625, 0.0625, -0.0625}},
+   connect_left = {{-0.5, -0.0625, -0.0625, -0.0625, 0.0625, 0.0625}},
+   connect_back = {{-0.0625, -0.0625, 0.0625, 0.0625, 0.0625, 0.5}},
+   connect_right = {{0.0625, -0.0625, -0.0625, 0.5, 0.0625, 0.0625}},
+ },
+ connects_to = {'tech:stick'},
+ ]]
+
  tiles = {"tech_stick.png"},
  stack_max = minimal.stack_max_medium,
  paramtype = "light",
@@ -29,6 +39,8 @@ minetest.register_node("tech:stick", {
  sounds = nodes_nature.node_sound_wood_defaults(),
 
 })
+
+
 
 
 
@@ -54,8 +66,11 @@ local function wash_maraka(pos, name, length)
 	local meta = minetest.get_meta(pos)
 	local washing = meta:get_int("washing")
 
+  local node_a = minetest.get_node({x=pos.x, y=pos.y + 1, z=pos.z})
+
 	--check if wet,
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+	if climate.get_rain(pos) or  minetest.get_item_group(node_a.name, "water") > 0 then
+  -- or minetest.find_node_near(pos, 1, {"group:water"}) then
 
     if washing <= 0 then
       --finished
@@ -88,11 +103,11 @@ minetest.register_node('tech:maraka_flour_bitter', {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    set_maraka_wash(pos, 20, 10)
+    set_maraka_wash(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length
-    return wash_maraka(pos, "tech:maraka_flour", 15)
+    return wash_maraka(pos, "tech:maraka_flour", 60)
   end,
 })
 
@@ -122,7 +137,7 @@ end
 
 
 
-local function bake_bread(pos, name, length, heat)
+local function bake_bread(pos, selfname, name, length, heat)
 	local meta = minetest.get_meta(pos)
 	local baking = meta:get_int("baking")
 
@@ -132,7 +147,7 @@ local function bake_bread(pos, name, length, heat)
 	end
 
   --exchange accumulated heat
-  climate.heat_transfer(pos)
+  climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -190,15 +205,15 @@ minetest.register_node("tech:maraka_cake_unbaked", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, -0.3, 0.3},
 	},
-	groups = {crumbly = 3, dig_immediate = 3, temp_pass = 1, heatable = 1},
+	groups = {crumbly = 3, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 6, 6)
+    set_bake_bread(pos, 10, 6)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat
-    return bake_bread(pos, "tech:maraka_cake", 10, 160)
+    return bake_bread(pos, "tech:maraka_cake_unbaked", "tech:maraka_cake", 10, 160)
   end,
 })
 
@@ -240,15 +255,15 @@ minetest.register_node("tech:peeled_anperal_tuber", {
     type = "fixed",
     fixed = {-0.15, -0.5, -0.15,  0.15, -0.35, 0.15},
   },
-	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 1},
+	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 70},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 5, 6)
+    set_bake_bread(pos, 7, 6)
   end,
   on_timer = function(pos, elapsed)
-    --finished product, length, heat
-    return bake_bread(pos, "tech:cooked_anperal_tuber", 7, 100)
+    --self, finished product, length, heat
+    return bake_bread(pos, "tech:peeled_anperal_tuber", "tech:cooked_anperal_tuber", 7, 100)
   end,
 })
 
@@ -336,6 +351,16 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:peeled_anperal_tuber",
+	items = {"nodes_nature:anperla_seed"},
+	level = 1,
+	always_known = true,
+})
+
 
 
 --

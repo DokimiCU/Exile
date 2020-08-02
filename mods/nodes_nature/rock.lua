@@ -12,6 +12,8 @@ local list = {
 	{"ironstone", "Ironstone", 3},
   {"granite", "Granite", 1},
 	{"basalt", "Basalt", 2},
+	{"gneiss", "Gneiss", 1},
+	{"jade", "Jade", 1},
 
 }
 
@@ -72,12 +74,13 @@ for i in ipairs(list) do
 
 
 		--blocks and bricks
-		--drystone construction. Bricks are more portable.
+		--drystone construction. (see tech for the mortared version)
+		--Bricks are more portable.
 		minetest.register_node("nodes_nature:"..name.."_brick", {
 			description = desc.." Brick",
 			tiles = {"nodes_nature_"..name.."_brick.png"},
 			stack_max = minimal.stack_max_bulky *3,
-			groups = {cracky = hardness, oddly_breakable_by_hand = 1},
+			groups = {cracky = hardness, falling_node = 1,  oddly_breakable_by_hand = 1},
 			sounds = nodes_nature.node_sound_stone_defaults(),
 		})
 
@@ -103,7 +106,7 @@ for i in ipairs(list) do
 				}
 			},]]
 			stack_max = minimal.stack_max_bulky *2,
-			groups = {cracky = hardness, oddly_breakable_by_hand = 1},
+			groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
 			sounds = nodes_nature.node_sound_stone_defaults(),
 		})
 
@@ -149,7 +152,7 @@ for i in ipairs(list) do
 			"nodes_nature:"..name.."_brick",
 			"masonry_bench",
 			"true",
-			{cracky = hardness, oddly_breakable_by_hand = 1},
+			{cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
 			{"nodes_nature_"..name.."_brick.png" },
 			desc.." Brick Stair",
 			desc.." Brick Slab",
@@ -163,7 +166,7 @@ for i in ipairs(list) do
 			"nodes_nature:"..name.."_block",
 			"masonry_bench",
 			"false",
-			{cracky = hardness, oddly_breakable_by_hand = 1},
+			{cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
 			{"nodes_nature_"..name.."_block.png" },
 			desc.." Block Stair",
 			desc.." Block Slab",

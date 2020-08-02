@@ -9,8 +9,6 @@ local pi = math.pi
 
 
 
-
-
 ----------------------------------------------------
 --Break taker
 --
@@ -63,7 +61,27 @@ local quote_list = {
 	"'There is scarcely any passion without struggle.'\n- Albert Camus",
 	"'O snail\nClimb Mount Fuji\nBut slowly, slowly!'\n-  Kobayashi Issa",
 	"'Not all those who wander are lost.'\n- Tolkien",
-	"'I've never been lost, but I was mighty turned around for three days once.'\n- Daniel Boone"
+	"'I've never been lost, but I was mighty turned around for three days once.'\n- Daniel Boone",
+	"'Dripping water hollows out stone, not through force but through persistence.'\n- Ovid",
+	"'I have not failed. I've just found 10,000 ways that won't work.'\n- Thomas Edison",
+	"'I'm not afraid of death; I just don't want to be there when it happens.'\n- Woody Allen",
+	"'Reality continues to ruin my life.'\n- Bill Watterson",
+	"'Give a man a fire and he's warm for a day, but set fire to him and he's warm for the rest of his life.'\n- Terry Pratchett",
+	"'There's a fine line between genius and insanity. I have erased this line.'\n- Oscar Levant",
+	"'Let's think the unthinkable, let's do the undoable.\nLet us prepare to grapple with the ineffable itself, and see if we may not eff it after all.'\n- Douglas Adams",
+	"'When we are tired, we are attacked by ideas we conquered long ago.'\n- Friedrich Nietzsche",
+	"'One cannot think well, love well, sleep well, if one has not dined well.'\n- Virginia Woolf",
+	"'Do not go gentle into that good night.\nRage, rage against the dying of the light.'\n- Dylan Thomas",
+	"'If you think you are too small to make a difference, try sleeping with a mosquito.'\n- The Dalai Lama",
+	"'Each night, when I go to sleep, I die. And the next morning, when I wake up, I am reborn.'\n- Mahatma Gandhi",
+	"'Be careful about reading health books. Some fine day you'll die of a misprint.'\n- Markus Herz",
+	"'Let food be thy medicine and medicine be thy food.'\n- Hippocrates",
+	"'Somewhere, something incredible is waiting to be known.'\n- Carl Sagan",
+	"'If you wish to make an apple pie from scratch, you must first invent the universe.'\n- Carl Sagan",
+	"'Time you enjoy wasting is not wasted time.'\n- Marthe Troly-Curtin",
+	"'They say I'm old-fashioned, and live in the past, but sometimes I think progress progresses too fast!'\n- Dr. Seuss"
+
+
 
 
 
@@ -73,7 +91,7 @@ local quote_list = {
 
 local function get_formspec()
 	local title = "BREAK TIME!"
-	local message1 = "You've been here long enough to justify a real break.\nThink of this as a reminder from your better self.\nGo get some rest. Leave Exile behind. You can come back, anytime."
+	local message1 = "You've been here long enough to justify a real break.\nThink of this as a reminder from your better self.\nGo get some rest. Leave Exile behind. You can come back any time."
 
 	local quote = quote_list[math.random(1,#quote_list)]
 
@@ -102,6 +120,9 @@ local function break_taker(name)
 
 		--show form
 		minetest.show_formspec(name, "bed_rest:break_taker", get_formspec())
+
+		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 1})
+
 
 		--reset clock, with a diminishing limit
 		--if ignored too long it will eventually become a constant nag

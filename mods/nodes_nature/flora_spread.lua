@@ -207,12 +207,13 @@ minetest.register_abm({
 
 minetest.register_abm({
 	label = "Surface spread",
-	nodenames = {"group:spreading_surface"},
+	nodenames = {"group:spreading"},
 	neighbors = {"air", "group:sediment"},
 	interval = 291,
 	chance = 15,
 	catch_up = false,
 	action = function(pos, node)
+
 		--get drop so we know what it grows on
 		local nodedef = minetest.registered_nodes[node.name]
 		local drop = nodedef.drop
@@ -222,7 +223,7 @@ minetest.register_abm({
 
 		--remove in dark
 		local light = minetest.get_node_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
-		if light ~= nil and light < 13 then
+		if light ~= nil and light < 10 then
 			minetest.set_node(pos, {name = drop})
 			return
 		end

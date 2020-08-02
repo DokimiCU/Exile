@@ -47,36 +47,35 @@ function mod.save_map(params)
 	params.vm:write_to_map()
 
 	-- Save all meta data for chests, cabinets, etc.
-	--[[
+
 	for _, t in ipairs(params.metadata) do
 		local meta = minetest.get_meta({x=t.x, y=t.y, z=t.z})
 		meta:from_table()
 		meta:from_table(t.meta)
 	end
-	]]
+
 
 	mod.do_on_constructs(params)
 
---[[
+
 	do
-		local ps = PcgRandom(os.time())
+		--local ps = PcgRandom(os.time())
 		for _, v in ipairs(params.share.treasure_chests or {}) do
 			local n = minetest.get_node_or_nil(v)
-			if n and dungeon_loot and dungeon_loot.populate_chest then
-				if params.share.treasure_chest_handler then
-					params.share.treasure_chest_handler(v)
-				else
-					local meta = minetest.get_meta(v)
-					local inv = meta:get_inventory()
-					local listsz = inv:get_size("main")
-					if listsz > 0 then
-						mod.populate_chest(v, ps)
-					end
+			if n then
+
+				minetest.registered_nodes['artifacts:antiquorium_chest'].on_construct(v)
+
+				local meta = minetest.get_meta(v)
+				local inv = meta:get_inventory()
+				local listsz = inv:get_size("main")
+				if listsz > 0 then
+					mod.fill_chest(v)
 				end
 			end
 		end
 	end
-]]
+
 	mod.time_overhead = mod.time_overhead + os.clock() - t_over
 end
 
@@ -167,10 +166,10 @@ local function generate(p_minp, p_maxp, seed)
 
   params.share = {}
   params.share.surface = surface
-  --params.share.treasure_chests = {} --?
+  params.share.treasure_chests = {} --?
 
   params.vm = vm
-  --params.metadata = {}
+  params.metadata = {}
 
 
   --Select a random one of the realms available
@@ -188,6 +187,7 @@ local function generate(p_minp, p_maxp, seed)
 		return
 	end
 
+
   --get a random box
   local box_seed = chunk.z * 10000 + chunk.y * 100 + chunk.x + 150
   local bgpr = PcgRandom(box_seed)
@@ -197,6 +197,7 @@ local function generate(p_minp, p_maxp, seed)
   --create box
 	local geo = Geomorph.new(params, box)
 	geo:write_to_map(0)
+
 
 
   mod.save_map(params)

@@ -28,6 +28,32 @@ doors.register_trapdoor("tech:trapdoor_wattle", {
 --------------------------------------
 
 
+--Wooden
+
+doors.register("door_wooden", {
+		tiles = {{ name = "tech_wooden_door.png", backface_culling = true }},
+		description = "Wooden Door",
+		stack_max = minimal.stack_max_bulky *4,
+		inventory_image = "tech_wooden_door_item.png",
+		groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
+		sounds = nodes_nature.node_sound_wood_defaults(),
+})
+
+
+doors.register_trapdoor("tech:trapdoor_wooden", {
+	description = "Wooden Trapdoor",
+	stack_max = minimal.stack_max_bulky *4,
+	inventory_image = "tech_wooden_trapdoor.png",
+	wield_image = "tech_wooden_trapdoor.png",
+	tile_front = "tech_wooden_trapdoor.png",
+	tile_side = "tech_trapdoor_wooden_side.png",
+	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+})
+
+
+
+
 ------------------------------------
 --RECIPES
 
@@ -63,6 +89,24 @@ crafting.register_recipe({
 	type = "mixing_spot",
 	output = "tech:wattle",
 	items = {"tech:trapdoor_wattle"},
+	level = 1,
+	always_known = true,
+})
+
+
+--------------------
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "doors:door_wooden 4",
+	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:trapdoor_wooden 8",
+	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
 	level = 1,
 	always_known = true,
 })

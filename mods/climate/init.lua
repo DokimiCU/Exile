@@ -1,7 +1,7 @@
 --CLIMATE
 
 --[[
-Uses a markov change to switch between weather states.
+Uses a markov chain to switch between weather states.
 Has seasonal and diurnal fluctations in temperature, which adjust
 the probability for which switch will occur (e.g rain more likely in cold)
 
@@ -22,7 +22,7 @@ climate = {
 }
 
 local modpath = minetest.get_modpath("climate")
-local mod_storage = minetest.get_mod_storage()
+local store = minetest.get_mod_storage()
 
 
 -- Adds weather to register_weathers table
@@ -47,8 +47,9 @@ dofile(modpath .. "/weathers/light_rain.lua")
 dofile(modpath .. "/weathers/overcast_light_rain.lua")
 dofile(modpath .. "/weathers/overcast.lua")
 dofile(modpath .. "/weathers/overcast_rain.lua")
-dofile(modpath .. "/weathers/heavy_rain.lua")
+dofile(modpath .. "/weathers/overcast_heavy_rain.lua")
 dofile(modpath .. "/weathers/thunderstorm.lua")
+dofile(modpath .. "/weathers/superstorm.lua")
 dofile(modpath .. "/weathers/light_haze.lua")
 dofile(modpath .. "/weathers/haze.lua")
 dofile(modpath .. "/weathers/duststorm.lua")
@@ -56,9 +57,10 @@ dofile(modpath .. "/weathers/snow_flurry.lua")
 dofile(modpath .. "/weathers/light_snow.lua")
 dofile(modpath .. "/weathers/overcast_light_snow.lua")
 dofile(modpath .. "/weathers/overcast_snow.lua")
-dofile(modpath .. "/weathers/heavy_snow.lua")
+dofile(modpath .. "/weathers/overcast_heavy_snow.lua")
 dofile(modpath .. "/weathers/snowstorm.lua")
-dofile(modpath .. "/weathers/superstorm.lua")
+dofile(modpath .. "/weathers/fog.lua")
+
 
 
 --setting...for random intervals
@@ -72,13 +74,14 @@ local plvl_mid = 25
 
 
 --what weather is on, and how long it will last, and temp
+--random values that should get overriden by mod storage
 climate.active_weather = registered_weathers[math.random(#registered_weathers)]
-local active_weather_interval = 0
---temperature...accessible by health etc
-climate.active_temp = math.random(10,30)
+climate.active_temp = math.random(15,25)
+local active_weather_interval = 1
+
 
 --random walk, for temp
-local ran_walk_range = 4
+local ran_walk_range = 10
 local ran_walk = math.random(-ran_walk_range,ran_walk_range)
 
 --------------------------
@@ -95,52 +98,14 @@ end
 
 -----------------
 --set the sky, for on join and when new weather set
-local function set_sky_clouds(player, time)
+local function set_sky_clouds(player)
 	local active_weather = climate.active_weather
 
-  if active_weather.sky_color_day then
-    --day night transitions
-    local sval
-
-    if not time then
-      time = minetest.get_timeofday()
-      if time >= 0.5 then
-        time = 1 - time
-      end
-    end
-
-    -- Sky brightness transitions:
-    -- First transition (24000 -) 4500, (1 -) 0.1875
-    -- Last transition (24000 -) 5750, (1 -) 0.2396
-
-    if time <= 0.1875 then
-      sval = active_weather.sky_color_night
-
-    elseif time >= 0.2396 then
-      sval = active_weather.sky_color_day
-
-    else
-
-      local difsval = active_weather.sky_color_day - active_weather.sky_color_night
-
-      sval = math.floor(active_weather.sky_color_night + ((time - 0.1875) / 0.0521) * difsval)
-
-    end
-
-    player:set_sky({r = sval, g = sval, b = sval, a = active_weather.fog},	"plain", nil, true)
-
-	else
-		--no sky so remove any previous effect (i.e. it's a blue sky)
-			player:set_sky(nil, "regular", nil)
-  end
-
-  player:set_clouds({
-    color = active_weather.clouds_color,
-    density = active_weather.clouds_density,
-    height = active_weather.clouds_height,
-    thickness = active_weather.thickness,
-    speed = active_weather.clouds_speed
-  })
+	player:set_sky(active_weather.sky_data)
+	player:set_clouds(active_weather.cloud_data)
+	player:set_moon(active_weather.moon_data)
+	player:set_sun(active_weather.sun_data)
+	player:set_stars(active_weather.star_data)
 
 
 end
@@ -166,16 +131,59 @@ local function get_weather_table(name, registered_weathers)
 end
 
 -------------------------
+--SAVE AND LOAD
 
+--[[
+--on_leave seems incapable of saving stuff :-(
+minetest.register_on_leaveplayer(function(player)
+	--save climate info it your the last one out
+	local num_p = minetest.get_connected_players()
+	if #num_p <=1 then
+		local name = climate.active_weather.name
+		local t = climate.active_temp
+		store:set_string("weather", name)
+		store:set_float("temp", t)
+	end
+end)
+]]
 
 minetest.register_on_joinplayer(function(player)
+	--get weather from storage, override random start values
+	local num_p = minetest.get_connected_players()
+	if #num_p <=1 then
+
+		local w_name = store:get_string("weather")
+
+		if w_name ~= "" then
+			--check valid
+			local weather = get_weather_table(w_name, registered_weathers)
+			if weather then
+				climate.active_weather = weather
+			end
+		end
+
+		--same again, but for temperature
+		local temp = store:get_float("temp")
+		if temp then
+			climate.active_temp = temp
+		end
+
+		--same again, but for ran_walk
+		local ranw = store:get_float("ran_walk")
+		if ranw then
+			ran_walk = ranw
+		end
+
+	end
+
+	--set weather effects for this player
   set_sky_clouds(player)
   if climate.active_weather.sound_loop then
     local p_name = player:get_player_name()
     sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
   end
-end
-)
+
+end)
 
 
 --------------------------
@@ -186,6 +194,7 @@ local timer = 0
 local timer_p = 0
 
 minetest.register_globalstep(function(dtime)
+
 	--check if anyone is above ground to bother doing this for
 	local ag_c = 0
 	for _,player in ipairs(minetest.get_connected_players()) do
@@ -231,17 +240,6 @@ minetest.register_globalstep(function(dtime)
 					sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
 				end
 			end
-
-			if climate.active_weather.sky_color_day then
-				local time = minetest.get_timeofday()
-        if time >= 0.5 then
-          time = 1 - time
-        end
-				--update during transition so a smooth change
-        if time >= 0.1875 and time <= 0.2396 then
-          set_sky_clouds(player, time)
-        end
-      end
 
     end
 
@@ -324,27 +322,120 @@ minetest.register_globalstep(function(dtime)
 		--get day night wave
 		local tod = minetest.get_timeofday()
 		--diff between day and night is this x2
-		local dn_amp = -9
+		local dn_amp = -8
 		local dn_period = 6.283 ---match day length
 		local dn_wav = dn_amp * math.cos(tod * dn_period)
 
 		--get seasonal wave
 		local dc = minetest.get_day_count()
 		--diff +/- from yearly mean (seasonal variation)
-		local dc_amp = 31
+		local dc_amp = 23
 		--~56 day year, 14 day seasons
 		local dc_period = 0.11
 		--yearly average,
-		local dc_mean = 15
+		local dc_mean = 10
 		local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
-		--random walk...an incremental fluctuation that resets
-		ran_walk = ran_walk + math.random(-3, 3)
+		--random walk...an incremental fluctuation that is capped
+		ran_walk = ran_walk + math.random(-2, 2)
 		if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
-			ran_walk = 0
+			ran_walk = ran_walk/1.04
 		end
 
 		--sum waves plus some random noise
 		climate.active_temp = dc_wav + dn_wav + ran_walk
 
+
+
+		--save state so can be reloaded.
+		--only actually needed on log out,... but that doesn't work
+		store:set_string("weather", climate.active_weather.name)
+		store:set_float("temp", climate.active_temp)
+		store:set_float("ran_walk", ran_walk)
+
 	end
 end)
+
+
+
+
+--------------------------------------------------------------------
+--CHAT COMMANDS
+
+
+minetest.register_privilege("set_temp", {
+	description = "Set the Climate active temperature",
+	give_to_singleplayer = false
+})
+
+
+minetest.register_chatcommand("set_temp", {
+    params = "<temp>",
+    description = "Set the Climate active temperature",
+		privs = {privs=true},
+    func = function(name, param)
+		if minetest.check_player_privs(name, {set_temp = true}) then
+			climate.active_temp = tonumber(param)
+
+			--only actually needed on log out,... but that doesn't work
+			store:set_float("temp", climate.active_temp)
+
+			return true, "Climate active temperature set to: "..param
+
+		else
+			return false, "You need the set_temp privilege to use this command."
+		end
+	end,
+})
+
+
+
+-------------
+
+minetest.register_privilege("set_weather", {
+	description = "Set the Climate active weather",
+	give_to_singleplayer = false
+})
+
+
+minetest.register_chatcommand("set_weather", {
+    params = "<weather>",
+    description = "Set the Climate active weather",
+		privs = {privs=true},
+    func = function(name, param)
+		if minetest.check_player_privs(name, {set_weather = true}) then
+			--check valid
+			local weather = get_weather_table(param, registered_weathers)
+			if weather then
+				climate.active_weather = weather
+				--do for each player
+				for _,player in ipairs(minetest.get_connected_players()) do
+					--set sky and clouds for new state using the new active_weather
+
+					set_sky_clouds(player)
+
+					--remove old sounds
+					local p_name = player:get_player_name()
+					local sound = sound_handlers[p_name]
+					if sound ~= nil then
+						minetest.sound_stop(sound)
+						sound_handlers[p_name] = nil
+					end
+					--add new loop
+					if climate.active_weather.sound_loop then
+						sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+					end
+
+				end
+				--only actually needed on log out,... but that doesn't work
+				store:set_string("weather", climate.active_weather.name)
+
+				return true, "Climate active weather set to: "..param
+			else
+				return false, "Invalid weather name"
+			end
+
+		else
+			return false, "You need the set_temp privilege to use this command."
+		end
+	end,
+})

@@ -792,6 +792,29 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+minetest.register_decoration({
+	name = "nodes_nature:gneiss_boulder",
+	deco_type = "simple",
+	place_on = "nodes_nature:gneiss",
+  sidelen = 80,
+	fill_ratio = 0.05,
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:gneiss_boulder",
+  flags = "all_floors",
+})
+
+minetest.register_decoration({
+	name = "nodes_nature:jade_boulder",
+	deco_type = "simple",
+	place_on = "nodes_nature:jade",
+  sidelen = 80,
+	fill_ratio = 0.4,
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:jade_boulder",
+  flags = "all_floors",
+})
 
 -----------------------------------------------------
 --Animal eggs
@@ -802,7 +825,7 @@ minetest.register_decoration({
 	place_on = {"nodes_nature:silt", "nodes_nature:silt_wet_salty", "nodes_nature:sand", "nodes_nature:sand_wet_salty"},
   sidelen = 80,
 	fill_ratio = 0.0005,
-	y_max = -7,
+	y_max = -5,
 	y_min = -25,
 	flags = "force_placement",
 	decoration = "animals:gundu_eggs",
@@ -814,12 +837,33 @@ minetest.register_decoration({
 	deco_type = "simple",
 	place_on = {"nodes_nature:silt", "nodes_nature:silt_wet_salty", "nodes_nature:sand", "nodes_nature:sand_wet_salty"},
   sidelen = 80,
-	fill_ratio = 0.00005,
-	y_max = -10,
+	fill_ratio = 0.00007,
+	y_max = -7,
 	y_min = -35,
 	flags = "force_placement",
 	decoration = "animals:sarkamos_eggs",
 })
+
+
+--impethu_eggs
+minetest.register_decoration({
+	name = "animals:impethu_eggs",
+	deco_type = "simple",
+  place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:basalt",
+    "nodes_nature:limestone",
+    "nodes_nature:sandstone",
+    "nodes_nature:siltstone",
+    "nodes_nature:claystone"},
+  sidelen = 80,
+	fill_ratio = 0.005,
+  y_max = lowland_ymax,
+	y_min = -1300,
+	decoration = "animals:impethu_eggs",
+  flags = "all_floors",
+})
+
 
 --kubwakubwa_eggs
 minetest.register_decoration({
@@ -833,22 +877,87 @@ minetest.register_decoration({
     "nodes_nature:siltstone",
     "nodes_nature:claystone"},
   sidelen = 80,
-	fill_ratio = 0.0005,
+	fill_ratio = 0.001,
 	y_max = lowland_ymax,
-	y_min = -1000,
+	y_min = -150,
 	decoration = "animals:kubwakubwa_eggs",
   flags = "all_floors",
 })
 
+
+--darkasthaan_eggs
+minetest.register_decoration({
+	name = "animals:darkasthaan_eggs",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:basalt"},
+  sidelen = 80,
+	fill_ratio = 0.001,
+	y_max = -130,
+	y_min = -1300,
+	decoration = "animals:darkasthaan_eggs",
+  flags = "all_floors",
+})
+
+
+--pegasun_eggs
+minetest.register_decoration({
+	name = "animals:pegasun_eggs",
+	deco_type = "simple",
+	place_on = all_soils_on,
+  sidelen = 16,
+	noise_params = {
+		offset = 0,
+		scale = 0.0015,
+		spread = {x = 100, y = 100, z = 100},
+		seed = 1882,
+		octaves = 2,
+		persist = 0.9
+	},
+	y_max = lowland_ymax,
+	y_min = 3,
+	decoration = "animals:pegasun_eggs",
+  flags = "all_floors",
+})
+
+
+--sneachan_eggs
+minetest.register_decoration({
+	name = "animals:sneachan_eggs",
+	deco_type = "simple",
+	place_on = all_soils_on,
+  sidelen = 80,
+	fill_ratio = 0.001,
+	y_max = lowland_ymax,
+	y_min = 3,
+	decoration = "animals:sneachan_eggs",
+  flags = "all_floors",
+})
 
 -----------------------------------
 --Start node timers
 -- get decoration IDs
 local gundu_eggs = minetest.get_decoration_id("animals:gundu_eggs")
 local sarkamos_eggs = minetest.get_decoration_id("animals:sarkamos_eggs")
+local impethu_eggs = minetest.get_decoration_id("animals:impethu_eggs")
 local kubwakubwa_eggs = minetest.get_decoration_id("animals:kubwakubwa_eggs")
+local darkasthaan_eggs = minetest.get_decoration_id("animals:darkasthaan_eggs")
+local pegasun_eggs = minetest.get_decoration_id("animals:pegasun_eggs")
+local sneachan_eggs = minetest.get_decoration_id("animals:sneachan_eggs")
 
-minetest.set_gen_notify({decoration = true}, {gundu_eggs, sarkamos_eggs, kubwakubwa_eggs})
+minetest.set_gen_notify(
+  {decoration = true},
+  {
+    gundu_eggs,
+    sarkamos_eggs,
+    impethu_eggs,
+    kubwakubwa_eggs,
+    darkasthaan_eggs,
+    pegasun_eggs,
+    sneachan_eggs
+
+  })
 
 -- start nodetimers
 minetest.register_on_generated(function(minp, maxp, blockseed)
@@ -865,9 +974,29 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
     table.insert(poslist, sarkamos_eggs_pos)
   end
 
+  for _, pos in ipairs(gennotify["decoration#"..impethu_eggs] or {}) do
+    local impethu_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, impethu_eggs_pos)
+  end
+
   for _, pos in ipairs(gennotify["decoration#"..kubwakubwa_eggs] or {}) do
     local kubwakubwa_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
     table.insert(poslist, kubwakubwa_eggs_pos)
+  end
+
+  for _, pos in ipairs(gennotify["decoration#"..darkasthaan_eggs] or {}) do
+    local darkasthaan_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, darkasthaan_eggs_pos)
+  end
+
+  for _, pos in ipairs(gennotify["decoration#"..pegasun_eggs] or {}) do
+    local pegasun_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, pegasun_eggs_pos)
+  end
+
+  for _, pos in ipairs(gennotify["decoration#"..sneachan_eggs] or {}) do
+    local sneachan_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, sneachan_eggs_pos)
   end
 
 	if #poslist ~= 0 then

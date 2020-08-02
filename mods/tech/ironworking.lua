@@ -38,7 +38,7 @@ end
 
 
 
-local function roast(pos, name, length, heat, smelt)
+local function roast(pos, selfname, name, length, heat, smelt)
 	local meta = minetest.get_meta(pos)
 	local roast = meta:get_int("roast")
 
@@ -48,7 +48,7 @@ local function roast(pos, name, length, heat, smelt)
 	end
 
 	--exchange accumulated heat
-	climate.heat_transfer(pos)
+	climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -56,9 +56,19 @@ local function roast(pos, name, length, heat, smelt)
 
 	if roast <= 0 then
 		--finished firing
-		minetest.set_node(pos, {name = name})
-    minetest.check_for_falling(pos)
-		return false
+		--need to transfer heat to smelt
+		--for others doesn't matter
+		if name == "tech:iron_and_slag" then
+			local temp = meta:get_float("temp")
+			minetest.set_node(pos, {name = name})
+			meta:set_float("temp", temp)
+			minetest.check_for_falling(pos)
+			return false
+		else
+			minetest.set_node(pos, {name = name})
+			minetest.check_for_falling(pos)
+			return false
+		end
   elseif temp < fire_temp then
     --not lit yet
     return true
@@ -80,10 +90,26 @@ local function roast(pos, name, length, heat, smelt)
       local cn = 0
       for _, p in pairs(posb) do
         local n = minetest.get_node(p).name
-        if n == 'air' or n == 'climate:air_temp' then
+				--must drain into air or other slag mix
+        if n == 'air' or n == 'climate:air_temp' or n == 'tech:iron_and_slag' then
 					minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 8, gain = 0.1})
-          minetest.set_node(p, {name = 'tech:molten_slag_flowing'})
-          cn = cn + 1
+					if n ~= 'tech:iron_and_slag' then
+						minetest.set_node(p, {name = 'tech:molten_slag_flowing'})
+						--only drain to one place (i.e. so they all drain the same amount)
+						cn = cn + 1
+						break
+					else
+						--undo progress of the one it is draining into.
+						local meta_under = minetest.get_meta(p)
+						local roast_under = meta_under:get_int("roast")
+						--only if still has room (i.e. can't infinitely fill it)
+						if roast_under < 100 then
+							meta_under:set_int("roast", roast_under + 1)
+							--only drain to one place (i.e. so they all drain the same amount)
+							cn = cn + 1
+							break
+						end
+					end
         end
       end
       --only makes smelt progress if able to drain
@@ -92,11 +118,12 @@ local function roast(pos, name, length, heat, smelt)
         meta:set_int("roast", roast - 1)
         return true
       else
+				--try again later
         return true
       end
 
     else
-      --do firing
+      --do non-smelting firing
       meta:set_int("roast", roast - 1)
       return true
     end
@@ -118,15 +145,15 @@ minetest.register_node("tech:crushed_iron_ore", {
 	tiles = {"tech_crushed_iron_ore.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
-	groups = {crumbly = 3, falling_node = 1, heatable =1},
+	groups = {crumbly = 3, falling_node = 1, heatable =10},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_roast(pos, 10, 10)
 	end,
 	on_timer = function(pos, elapsed)
-    --finished product, length, heat, smelt
-    return roast(pos, "tech:roasted_iron_ore", 10, 300, false)
+    --selfname, finished product, length, heat, smelt
+    return roast(pos, "tech:crushed_iron_ore", "tech:roasted_iron_ore", 10, 300, false)
 	end,
 })
 
@@ -179,7 +206,7 @@ minetest.register_node("tech:iron_smelting_mix", {
 	tiles = {"tech_iron_smelting_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
-	groups = {crumbly = 3, falling_node = 1, heatable =1},
+	groups = {crumbly = 3, falling_node = 1, heatable =20},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
@@ -187,7 +214,7 @@ minetest.register_node("tech:iron_smelting_mix", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat, smelt
-    return roast(pos, "tech:iron_and_slag", 2, 1350, false)
+    return roast(pos, "tech:iron_smelting_mix", "tech:iron_and_slag", 2, 1350, false)
   end,
 })
 
@@ -208,7 +235,7 @@ minetest.register_node("tech:iron_and_slag", {
 	tiles = {"tech_iron_and_slag.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
-	groups = {cracky = 3, crumbly = 1, falling_node = 1, temp_pass = 1, heatable =1},
+	groups = {cracky = 3, crumbly = 1, falling_node = 1, temp_pass = 1, heatable =10},
 	sounds = nodes_nature.node_sound_stone_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
@@ -216,7 +243,7 @@ minetest.register_node("tech:iron_and_slag", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat, smelt
-    return roast(pos, "tech:iron_bloom", 50, 1350, true)
+    return roast(pos, "tech:iron_and_slag", "tech:iron_bloom", 50, 1350, true)
   end,
 })
 

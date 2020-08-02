@@ -1,5 +1,8 @@
 # Exile
-Version 0.1, by Dokimi
+Version 0.2
+by Dokimi
+
+For Minetest 5.3
 
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
@@ -30,105 +33,49 @@ After that will come the sub-zero conditions of winter.
 Starvation and freezing are hard to avoid without preparation.
 
 
-
-
-### To Do:
-Features needed:
--Rimworld style story-teller (for events, dynamic and unexpected challenges)
-
-
-
-Features ideas:
-
---INTERFACE
--remove inventory trash when not creative?
--nameable bags
-
---PROCESSES
--punch with torch for firelighter?
--boil water in pots?
--food decay
-
-
-HEALTH
--disease and other player effects
-
---NATURE
--bamboo like thing (like canes but for sticks)
--shellfish
--tree seedling?/sapling?/slow growth (no insta-trees!)
--unique environ tolerances for each plant species
--frozen wet ground (cracky)
--fire tolerance for trees (on_burn to charred tree, regenerates)
-
-
---MOBS
--more mobs: hive, pack/farm animal, bird, lizard/scorpion
--better looking dead animals, cooking
-
---LORE/LOOT/DUNGEONS
--artifacts (loot): a way to get map, teleporter, etc
--lore: sentence of exile letter, bones of lost exiles, lore in geomoria
--divide geomoria depths
--surface ruins
-
---TECH
--more graffiti in more colors
--extinguish fire to partially burnt fire (so can turn-off/on)
--inventory on canoe
--clothing (with effect on temp tolerance)
--bricks and mortar (higher carry limit than mudbrick to justify cost)
--cooking: e.g  juice (fermented)? soup? Stim drug
--tool repair and modifiers
--climbing pick?
--chair (small bed rest effect, but better for crafting)
--sailing
--glassware (windows, bottles, distillery, solar still)
--compost
--bellows that displaces air_temp nodes
--Scyth
--a use for broken pottery,
--bell?
--ash crafts
--compass
-
---DECO
--more ambience: rustling leaves,
--stalactites in limestone
--coastal sea rocks
+Some tips and tricks:
+- Beds are important. If you're exhausted you get hypothermia/heat stroke. Get under shelter in a nice temperature.
+- Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
+- Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
+- Go deep enough underground and you might find something....
+- Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
+- Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
+- Fires. Blocks are hotter. Charcoal is hotter than wood. Fires can be temporarily extinguished by punching them holding sediment.
+- iron smelting. This is hard. Needs charcoal.
+- Charcoal. Make it like you would for real. A wood fire with no air.
+- Food: eat stuff and see if you live! You can catch animals with clubs (right click)
+- Drugs: a couple of things have useful effects.
+- Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
+- Build stairs and shelters around your base, this will save you energy and protect you from extremes.
 
 
 
-#Bugs/fix
-Climate:
--sky twilight transition doesn't work when emerging from underground. Sky is not reset instantly like sound is.
--weather not saved when all players leave
--what does "fog" in weather actually do...?
+### Changelog:
 
-Bed:
--bed rest wipes physics effects (almost a feature...)
+# 0.1
+- Initial release
 
-Health:
-
-
-Nature:
--ocean flora lacks spreading (barely matters at this point)
--might need something to animal numbers in check... needs to be run over time...
--some spiders were getting nil energy (from egg spawning?)
-
-Megamorph:
--megamorph dungeon_loot doesn't work (disabled)
--megamorph would benefit from some doors and ladders nodes to use (disabled), also appropriate treasure chests
-
-Tech:
--oil lamp doesn't remove oil from inv
--doors ought to toggle temp_pass group on open and close
--torches should save how much burnt when returned to inventory, and should burn when held (i.e. no infinite burn exploit)
--grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
--ropes don't go through air temp
-
-Misc:
--might be missing credit for some textures etc
--crafting when full inventory should drop crafts that don't fit inventory (Rubenwardy)
--a lot of cluttering nodes could be removed from creative inventory
--performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much)
+# 0.2
+- clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
+- Lore: exile letter
+- Sleeping spot
+- new mobs: darkasthaan, impethu, pegasun, sneachan
+- cookable animal carcasses
+- graffitti: glow paint
+- new building materials: rammed earth, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry
+- fixed dungeon loot
+- added more artifacts (airboat, art, transporter, wayfinder...)
+- mushrooms for fibre, food/water, sticks (artifact species)
+- split geomoria into realms (highways, and city structure)
+- added more geomorphs
+- gneiss and jade for deep underground biome
+- better looking bones
+- newly formatted colored skies
+- climate chat commands
+- Design Guide
+- updated backgrounds
+- updated version of crafting
+- various minor fixes
+- various minor balance changes
+- various minor additions
+- Minetest 5.3 compatibility

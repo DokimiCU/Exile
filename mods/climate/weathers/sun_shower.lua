@@ -9,11 +9,60 @@ local sun_shower = {}
 
 sun_shower.name = 'sun_shower'
 
-sun_shower.clouds_color = "#FFFFFF"
-sun_shower.clouds_density = 0.4
-sun_shower.clouds_height = 540
-sun_shower.clouds_thickness = 32
-sun_shower.clouds_speed = {x=2, z=0}
+
+sun_shower.sky_data = {
+	type = "regular",
+	clouds = true,
+	sky_color = {
+		day_sky = "#A5D4F6",
+		day_horizon = "#b7dcf7",
+		dawn_sky = "#9EADFF",
+		dawn_horizon ="#b1bdff",
+		night_sky = "#020042",
+		night_horizon = "#343267",
+		indoors = "#2B2B2B",
+		--fog_sun_tint = "#FB7F55",
+		--fog_moon_tint = "#C5C9C9",
+		--fog_tint_type = "custom"
+	}
+}
+
+
+sun_shower.cloud_data = {
+	color = "#FFFFFF",
+	density = 0.4,
+	height = 340,
+	thickness = 32,
+	speed = {x=2, z=0}
+}
+
+
+
+sun_shower.moon_data = {
+	visible = true,
+	texture = "moon.png",
+	tonemap = "moon_tonemap.png",
+	scale = 0.5
+}
+
+
+sun_shower.sun_data = {
+	visible = true,
+	texture = "sun.png",
+	tonemap = "sun_tonemap.png",
+	sunrise = "sunrisebg.png",
+	sunrise_visible = true,
+	scale = 0.4
+}
+
+sun_shower.star_data = {
+	visible = true,
+	count = 2000,
+	color = "#80FCFEFF"
+}
+
+
+
 
 sun_shower.sound_loop = 'light_rain_loop'
 

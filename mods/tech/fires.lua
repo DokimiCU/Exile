@@ -10,7 +10,7 @@ local base_fuel = 300
 
 --temperatures
 --blocks are x 1.5 temp max, 2x temp effect,
---smouldering is 1/3
+--smouldering is 1/3 temp effect, but same temp max
 local wood_temp_effect = 15
 local wood_temp_max = 600
 local wood_air_c = 0.65
@@ -192,6 +192,32 @@ minetest.register_node("tech:charcoal", {
 
 
 
+--------------------------------------------------
+-- extinguish on punch
+--
+
+local function extinguish_fire(pos, puncher, itemstack, ext_name)
+	--you must be holding something to smother it with or you get burned
+	--hit it with fertilizer to restore
+	local itemstack = puncher:get_wielded_item()
+	local ist_name = itemstack:get_name()
+
+	if minetest.get_item_group(ist_name, "sediment") >= 1
+	then
+
+		--get meta and save to extinguished version
+		local meta = minetest.get_meta(pos)
+		local fuel = meta:get_int("fuel")
+		minetest.set_node(pos, {name = ext_name})
+		meta:set_int("fuel", fuel)
+		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
+
+	else
+		local hp = puncher:get_hp()
+		puncher:set_hp(hp-1)
+	end
+
+end
 
 --------------------------------------------------
 -- wood fires
@@ -248,6 +274,10 @@ minetest.register_node('tech:small_wood_fire', {
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:small_wood_fire_ext')
+	end,
+
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
@@ -286,6 +316,10 @@ minetest.register_node('tech:large_wood_fire', {
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:large_wood_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--duration of burn
@@ -328,12 +362,16 @@ minetest.register_node('tech:small_wood_fire_smoldering', {
 	light_source= 3,
 	paramtype = "light",
 	temp_effect = wood_temp_effect/3,
-	temp_effect_max = wood_temp_max/3,
+	temp_effect_max = wood_temp_max,
 	--walkable = false,
 	drop = "tech:wood_ash",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:small_wood_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--no meta , should only be made from a pre-existing fire
@@ -350,7 +388,7 @@ minetest.register_node('tech:small_wood_fire_smoldering', {
 			if can_smolder(pos, meta, 'tech:small_wood_fire', "tech:wood_ash") then
 				meta:set_int("fuel", fuel - 1)
 				--add hot air
-				climate.air_temp_source(pos, wood_temp_effect/3, wood_temp_max/3, wood_air_c+0.3, base_burn_rate)
+				climate.air_temp_source(pos, wood_temp_effect/3, wood_temp_max, wood_air_c+0.3, base_burn_rate)
 				-- Restart timer
 				return true
 			end
@@ -364,12 +402,16 @@ minetest.register_node('tech:large_wood_fire_smoldering', {
 	light_source= 3,
 	paramtype = "light",
 	temp_effect = (wood_temp_effect*2)/3,
-	temp_effect_max = (wood_temp_max*1.5)/3,
+	temp_effect_max = (wood_temp_max*1.5),
 	--walkable = false,
 	drop = "tech:wood_ash_block",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:large_wood_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--no meta , should only be made from a pre-existing fire
@@ -386,7 +428,7 @@ minetest.register_node('tech:large_wood_fire_smoldering', {
 			if can_smolder(pos, meta, 'tech:large_wood_fire', "tech:wood_ash_block") then
 				meta:set_int("fuel", fuel - 1)
 				--add hot air
-				climate.air_temp_source(pos, (wood_temp_effect*2)/3, (wood_temp_max*2)/3, wood_air_c+0.15, base_burn_rate)
+				climate.air_temp_source(pos, (wood_temp_effect*2)/3, wood_temp_max*2, wood_air_c+0.15, base_burn_rate)
 				-- Restart timer
 				return true
 			end
@@ -418,6 +460,10 @@ minetest.register_node('tech:small_charcoal_fire', {
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:small_charcoal_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--duration of burn ...less than wood due to loss
@@ -458,10 +504,14 @@ minetest.register_node('tech:large_charcoal_fire', {
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:large_charcoal_fire_ext')
+	end,
+
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
-		meta:set_int("fuel", base_fuel *0.75)
+		meta:set_int("fuel", base_fuel *2*0.75)
 
 		--fire effects
 		minetest.get_node_timer(pos):start(base_burn_rate)
@@ -498,13 +548,17 @@ minetest.register_node('tech:small_charcoal_fire_smoldering', {
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	temp_effect = char_temp_effect/3,
-	temp_effect_max = char_temp_max/3,
+	temp_effect_max = char_temp_max,
 	paramtype = "light",
 	--walkable = false,
 	drop = "tech:wood_ash",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:small_charcoal_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--no meta , should only be made from a pre-existing fire
@@ -521,7 +575,7 @@ minetest.register_node('tech:small_charcoal_fire_smoldering', {
 			if can_smolder(pos, meta, 'tech:small_charcoal_fire', "tech:wood_ash") then
 				meta:set_int("fuel", fuel - 1)
 				--add hot air
-				climate.air_temp_source(pos, char_temp_effect/3, char_temp_max/3, char_air_c +0.3, base_burn_rate)
+				climate.air_temp_source(pos, char_temp_effect/3, char_temp_max, char_air_c +0.3, base_burn_rate)
 				-- Restart timer
 				return true
 			end
@@ -534,13 +588,17 @@ minetest.register_node('tech:large_charcoal_fire_smoldering', {
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	temp_effect = (char_temp_effect*2)/3,
-	temp_effect_max = (char_temp_max*1.5)/3,
+	temp_effect_max = (char_temp_max*1.5),
 	paramtype = "light",
 	--walkable = false,
 	drop = "tech:wood_ash_block",
 	groups = {crumbly = 1, igniter = 1, falling_node = 1,  temp_effect = 1, temp_pass = 1},
 	--damage_per_second = 1,
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_punch = function(pos, node, puncher, pointed_thing)
+		extinguish_fire(pos, puncher, itemstack, 'tech:large_charcoal_fire_ext')
+	end,
 
 	on_construct = function(pos)
 		--duration of burn
@@ -559,13 +617,125 @@ minetest.register_node('tech:large_charcoal_fire_smoldering', {
 			if can_smolder(pos, meta, 'tech:large_charcoal_fire', "tech:wood_ash_block") then
 				meta:set_int("fuel", fuel - 1)
 				--add hot air
-				climate.air_temp_source(pos, (char_temp_effect*2)/3, (char_temp_max*2)/3, char_air_c+0.15, base_burn_rate)
+				climate.air_temp_source(pos, (char_temp_effect*2)/3, char_temp_max*2, char_air_c+0.15, base_burn_rate)
 				-- Restart timer
 				return true
 			end
 		end
 	end,
 })
+
+
+
+
+
+--------------------------------------------------
+--Extinguished Fires
+--Fires that got put out
+--punch to turn lit fires into this
+--saves burn amount in meta, including when in inv.
+--can be relit like normal fire
+
+
+--save usage into inventory
+local on_dig_fire = function(pos, node, digger)
+	if minetest.is_protected(pos, digger:get_player_name()) then
+		return false
+	end
+
+	local meta = minetest.get_meta(pos)
+	local fuel = meta:get_int("fuel")
+
+	local new_stack = ItemStack(node.name)
+	local stack_meta = new_stack:get_meta()
+	stack_meta:set_int("fuel", fuel)
+
+
+	minetest.remove_node(pos)
+	local player_inv = digger:get_inventory()
+	if player_inv:room_for_item("main", new_stack) then
+		player_inv:add_item("main", new_stack)
+	else
+		minetest.add_item(pos, new_stack)
+	end
+end
+
+--set saved fuel
+local after_place_fire = function(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local stack_meta = itemstack:get_meta()
+	local fuel = stack_meta:get_int("fuel")
+	if fuel >0 then
+		meta:set_int("fuel", fuel)
+	end
+end
+
+
+-- wood fires
+minetest.register_node('tech:small_wood_fire_ext', {
+	description = 'Small Wood Fire (extinguished)',
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+	},
+	tiles = {"tech_fire_ext.png"},
+	paramtype = "light",
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_dig = on_dig_fire,
+	after_place_node = after_place_fire,
+
+})
+
+
+minetest.register_node('tech:large_wood_fire_ext', {
+	description = 'Large Wood Fire (extinguished)',
+	tiles = {"tech_fire_ext.png"},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_dig = on_dig_fire,
+	after_place_node = after_place_fire,
+
+})
+
+
+
+-- charcoal fires
+minetest.register_node('tech:small_charcoal_fire_ext', {
+	description = 'Small Charcoal Fire (extinguished)',
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+	},
+	tiles = {"tech_fire_ext.png"},
+	paramtype = "light",
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_dig = on_dig_fire,
+	after_place_node = after_place_fire,
+
+})
+
+
+minetest.register_node('tech:large_charcoal_fire_ext', {
+	description = 'Large Charcoal Fire (extinguished)',
+	tiles = {"tech_fire_ext.png"},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+
+	on_dig = on_dig_fire,
+	after_place_node = after_place_fire,
+
+})
+
+
+
+
 
 
 

@@ -165,7 +165,7 @@ local lvl_2_use = base_use * 2
 local lvl_2_max_lvl = lvl_1_max_lvl
 
 --damage
-local lvl_2_dmg = lvl_1_dmg * 3
+local lvl_2_dmg = lvl_1_dmg * 2
 --snappy
 local lvl_2_snap3 = lvl_1_snap3 * lvl_2
 local lvl_2_snap2 = lvl_1_snap2 * lvl_2
@@ -222,6 +222,24 @@ minetest.register_tool("tech:adze_basalt", {
 })
 
 
+--many more uses than granite.
+minetest.register_tool("tech:adze_jade", {
+	description = "Jade Adze",
+	inventory_image = "tech_tool_adze_jade.png",
+	tool_capabilities = {
+		full_punch_interval = base_punch_int * 1.1,
+		max_drop_level = lvl_2_max_lvl,
+		groupcaps={
+			choppy = {times={[2]=lvl_2_chop2, [3]=lvl_2_chop3}, uses=lvl_2_use * 1.5, maxlevel=lvl_2_max_lvl},
+			snappy={times={[1]=lvl_2_snap1, [2]=lvl_2_snap2, [3]=lvl_2_snap3}, uses=lvl_2_use, maxlevel=lvl_2_max_lvl},
+			crumbly = {times={[3]=lvl_1_crum3}, uses=base_use, maxlevel=lvl_1_max_lvl},
+		},
+		damage_groups = {fleshy = lvl_2_dmg},
+	},
+	groups = {axe = 1},
+	sound = {breaks = "tech_tool_breaks"},
+})
+
 
 --stone club. A weapon. Not very good for anything else
 --can stun catch animals
@@ -236,7 +254,7 @@ minetest.register_tool("tech:stone_club", {
 			snappy = {times={[3]=lvl_1_snap3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 			crumbly = {times= {[3]=lvl_1_crum3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl}
 		},
-		damage_groups = {fleshy=lvl_2_dmg*4},
+		damage_groups = {fleshy=lvl_2_dmg*2},
 	},
 	groups = {club = 1},
 	sound = {breaks = "tech_tool_breaks"},
@@ -256,7 +274,7 @@ local lvl_3_use = base_use * 4
 local lvl_3_max_lvl = lvl_1_max_lvl + 1
 
 --damage
-local lvl_3_dmg = lvl_2_dmg * 3
+local lvl_3_dmg = lvl_2_dmg * 2
 --snappy
 local lvl_3_snap3 = lvl_2_snap3 * lvl_3
 local lvl_3_snap2 = lvl_2_snap2 * lvl_3
@@ -330,7 +348,7 @@ minetest.register_tool("tech:mace_iron", {
 			snappy = {times={[3]=lvl_1_snap3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 			crumbly = {times= {[3]=lvl_1_crum3}, uses=base_use*0.5, maxlevel=lvl_1_max_lvl},
 		},
-		damage_groups = {fleshy=lvl_3_dmg*4},
+		damage_groups = {fleshy=lvl_3_dmg*2},
 	},
 	groups = {club = 1},
 	sound = {breaks = "tech_tool_breaks"},
@@ -346,8 +364,8 @@ minetest.register_tool("tech:pickaxe_iron", {
 		max_drop_level = lvl_3_max_lvl,
 		groupcaps={
 			choppy = {times={[3]=lvl_2_chop3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
-			snappy = {times={[3]=lvl_3_snap3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
-			crumbly = {times={[2]=lvl_3_crum2, [3]=lvl_3_crum3}, uses= lvl_3_use, maxlevel=lvl_3_max_lvl},
+			snappy = {times={[3]=lvl_2_snap3}, uses=lvl_3_use *0.8, maxlevel=lvl_3_max_lvl},
+			crumbly = {times={[2]=lvl_2_crum2, [3]=lvl_2_crum3}, uses= lvl_3_use, maxlevel=lvl_3_max_lvl},
 			cracky = {times= {[2]=lvl_3_crac2, [3]=lvl_3_crac3}, uses=lvl_3_use, maxlevel=lvl_3_max_lvl},
 		},
 		damage_groups = {fleshy = lvl_3_dmg},
@@ -401,6 +419,14 @@ crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:adze_granite",
 	items = {'nodes_nature:granite_boulder', 'tech:stick', 'group:fibrous_plant 4'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "grinding_stone",
+	output = "tech:adze_jade",
+	items = {'nodes_nature:jade_boulder', 'tech:stick', 'group:fibrous_plant 4'},
 	level = 1,
 	always_known = true,
 })

@@ -23,7 +23,7 @@ climate.get_rain = function(pos, l)
 	local w = climate.active_weather.name
 
 	if l == 15
-	and (w == 'heavy_rain'
+	and (w == 'overcast_heavy_rain'
 	or w == 'overcast_rain'
 	or w == 'thunderstorm'
 	or w == 'superstorm') then
@@ -47,7 +47,7 @@ climate.get_snow = function(pos, l)
 	local w = climate.active_weather.name
 
 	if l == 15
-	and (w == 'heavy_snow'
+	and (w == 'overcast_heavy_snow'
 	or w == 'overcast_snow'
 	or w == 'snowstorm') then
 		return true
@@ -59,26 +59,28 @@ end
 
 --evaporatable
 climate.can_evaporate = function(pos, l)
+
 	--must have air to be taken up by
 	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
-	if minetest.get_node(posa) ~= "air" then
-		return
+	if minetest.get_node(posa).name ~= "air" then
+		return false
 	end
 
 	if not l then
 		l = minetest.get_node_light(posa, 0.5)
 	end
-	--exposed
-	if l >= 14 then
-		--not when raining, i.e high humidity
-		if not climate.get_rain(pos, l) then
-			--higher chance of evap at higher temp.
-			--none below 0, always above 100
-			local c = math.random(0,100)
-			local t = climate.active_temp
-			if t > c then
-				return true
-			end
+
+	--not when raining, i.e high humidity
+	if not climate.get_rain(pos, l) then
+
+		--higher chance of evap at higher temp.
+		local t = climate.get_point_temp(pos)
+		if t > 500 then
+			--so hot things would get steamy fast
+			return true
+		elseif t > math.random(0,1000) then
+			--none below 0 C, 10% chance at 100 C
+			return true
 		end
 	end
 
@@ -233,12 +235,7 @@ end
 
 
 --For air_temp. Heat based movement. returns if moved or not
-local move_air_nodes = function(pos)
-
-	--get current temperature
-	--remember meta temp is a booster, not the positions actual temp
-	local meta = minetest.get_meta(pos)
-	local temp_m = meta:get_float("temp")
+local move_air_nodes = function(pos, meta, temp_m)
 
 	--heat rises 	-cold sink
 	local pos_new
@@ -249,7 +246,7 @@ local move_air_nodes = function(pos)
 	end
 
 	--movement
-	local timer = 9
+	local timer = 8
 	local name_new = minetest.get_node(pos_new).name
 	if name_new == 'air' then
 		--displace it
@@ -287,38 +284,12 @@ end
 
 --replace is optional node to turn it into when its heat effect is gone
 --e.g. air_temp -> air (has to makes sense with both cooling and heating)
---only air_temp currently needs nodename (for adding extra effects e.g. movement)
 function climate.heat_transfer(pos, nodename, replace)
 
 	--get current accumulated temperature
 	--remember meta temp is a booster, not the positions actual temp
 	local meta = minetest.get_meta(pos)
 	local temp_m = meta:get_float("temp")
-
-	--heat transfers (exchange heat with other 'heatable')
-	local neighbor = minetest.find_node_near(pos, 1, 'group:heatable')
-	if neighbor then
-		--equalize their temperatures
-		local meta_new = minetest.get_meta(neighbor)
-		local temp_new = meta_new:get_float("temp")
-		temp_m = (temp_m + temp_new)/2
-		meta:set_float("temp", temp_m)
-		meta_new:set_int("temp", temp_m)
-	end
-
-	--dissappation..lose heat to environment
-	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
-	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
-	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water'})
-	local amb = #cn
-	--trapped. Slowly lose the accumulated temp boost
-	if amb < 1 then
-		temp_m = temp_m/1.008
-		meta:set_float("temp", temp_m)
-	else
-		--reduce air temp boost by how much ambient air etc it is exposed to.
-		temp_m = temp_m /(amb + 0.2)
-	end
 
 	--remove node when boost is too small (if set)
 	if replace then
@@ -327,6 +298,52 @@ function climate.heat_transfer(pos, nodename, replace)
 			return false
 		end
 	end
+
+	--heat transfers (exchange heat with other 'heatable')
+	local neighbor = minetest.find_node_near(pos, 1, 'group:heatable')
+	if neighbor then
+		--heat flows down a gradient
+		local meta_new = minetest.get_meta(neighbor)
+		local temp_new = meta_new:get_float("temp")
+		local t_diff = temp_m - temp_new
+		local t_mo = math.abs(t_diff/4)
+		--move quarter the difference to the colder one.
+		--e.g. 8 vs 4. move 1, -> 7, 5
+		--e.g. 20, 2, move 4.5 -> 15.5, 6.5
+
+		--new is colder
+		if t_diff > 0 then
+			temp_m = temp_m - t_mo
+			meta:set_float("temp", temp_m)
+			meta_new:set_int("temp", temp_new + t_mo)
+		else
+			--old is colder
+			temp_m = temp_m + t_mo
+			meta:set_float("temp", temp_m)
+			meta_new:set_int("temp", temp_new - t_mo)
+		end
+
+	end
+
+	--dissappation..lose heat to environment
+	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
+	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
+	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water', 'climate:air_temp'})
+	--including group:temp_pass causes problems for doing pottery etc in groups (cools down bc of neighbors).
+	--taking them out of temp_pass would allow exploits (e.g. furnaces built from pots)
+	-- it seems good to let air_temp self cool. Any other temp_pass nodes that ought to be here
+	--will need to be added individually
+	local amb = #air
+
+	--factors:  base rate + ambient exposure X strength. * dis_speed = %reduction
+	--dis_speed: 100 % means disspates fast. 0% means disspates slow
+
+	local dis_speed =  minetest.get_item_group(nodename, "heatable") /100
+	local dis_rate = ( 0.02 + (amb*0.035) ) * dis_speed
+
+	temp_m = temp_m *(1 - dis_rate)
+	meta:set_float("temp", temp_m)
+
 
 	if nodename == "climate:air_temp" then
 		local moved = move_air_nodes(pos, meta, temp_m)
@@ -358,11 +375,11 @@ minetest.register_node("climate:air_temp", {
 	diggable = false,
 	buildable_to = true,
 	floodable = true,
-	groups = {temp_pass = 1, heatable = 1},
+	groups = {temp_pass = 1, heatable = 100},
 	on_timer =function(pos, elapsed)
 		return climate.heat_transfer(pos, "climate:air_temp", 'air')
 	end,
-	post_effect_color = {a = 20, r = 254, g = 254, b = 254}
+	post_effect_color = {a = 5, r = 254, g = 254, b = 254}
 })
 
 --Water
@@ -408,7 +425,30 @@ function climate.air_temp_source(pos, temp_effect, temp_max, chance, timer)
 				local temp = meta:get_float("temp")
 
 				temp_effect = temp_effect*(1-(temp/temp_max))
-				temp = temp + temp_effect
+
+				--apply temp caps
+				local temp_new =  temp + temp_effect
+				--heaters
+				if temp_effect > 0 then
+					if temp_new < temp_max then
+						--still below cap... apply full heat.
+						temp = temp_new
+					elseif temp < temp_max then
+						--can't add full heat, but not yet at cap
+						--so raise it to the cap
+						temp = temp_max
+					end
+				--coolers
+				elseif temp_effect < 0 then
+					if temp_new > temp_max then
+						--still above cap... apply cooling.
+						temp = temp_new
+					elseif temp > temp_max then
+						--can't add full cooling, but not yet at cap
+						--so lower it to the cap
+						temp = temp_max
+					end
+				end
 
 				--update temp
 				meta:set_float("temp", temp)

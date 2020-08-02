@@ -37,10 +37,74 @@ local node = mod.node
 
 ----------------------------------------
 --Realms
-----------------------------------------
+--[[
+By depth
+150 - 350  --agricultural,
+350- 550  --residential
+550 - 750  --market
+750 - 950  --civic
+950 - 1150 --industrial
+1150 - 1350 -- mines
 
+--plus a little overlap to help blur them into eachother
+
+--then divided into four quaters to with highways between them
+]]
+
+
+----------------------------------------
+--city limits
+local ymax = -150
+local xzmax = 25000
+local hwy_w = 60
+
+
+--city sections
 mod.registered_realms = {
-  {name = 'geomoria', realm_minp = {x = -31000, y = -1000, z = -31000}, realm_maxp = {x = 31000, y = -120, z = 31000}},
+
+  {name = 'ns_highway', realm_minp = {x = -hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = hwy_w, y = ymax, z = xzmax}},
+  {name = 'ew_highway', realm_minp = {x = -xzmax, y = -1200, z = -hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = hwy_w}},
+
+  {name = 'n_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = xzmax + hwy_w}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = xzmax}},
+  {name = 's_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = -xzmax - hwy_w}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = -xzmax}},
+  {name = 'e_highway', realm_minp = {x = -xzmax - hwy_w , y = -1200, z = -xzmax}, realm_maxp = {x = -xzmax, y = ymax, z = xzmax}},
+  {name = 'w_highway', realm_minp = {x = xzmax , y = -1200, z = -xzmax}, realm_maxp = {x = xzmax + hwy_w, y = ymax, z = xzmax}},
+
+  --Ag
+  {name = 'nw_moria_ag', realm_minp = {x = -xzmax, y = -400, z = hwy_w}, realm_maxp = {x = -hwy_w, y = ymax, z = xzmax}},
+  {name = 'ne_moria_ag', realm_minp = {x = hwy_w, y = -400, z = hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = xzmax}},
+  {name = 'sw_moria_ag', realm_minp = {x = -xzmax, y = -400, z = -xzmax}, realm_maxp = {x = -hwy_w, y = ymax, z = -hwy_w}},
+  {name = 'se_moria_ag', realm_minp = {x = hwy_w, y = -400, z = -xzmax}, realm_maxp = {x = xzmax, y = ymax, z = -hwy_w}},
+
+  --Res
+  {name = 'nw_moria_res', realm_minp = {x = -xzmax, y = -600, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -350, z = xzmax}},
+  {name = 'ne_moria_res', realm_minp = {x = hwy_w, y = -600, z = hwy_w}, realm_maxp = {x = xzmax, y = -350, z = xzmax}},
+  {name = 'sw_moria_res', realm_minp = {x = -xzmax, y = -600, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -350, z = -hwy_w}},
+  {name = 'se_moria_res', realm_minp = {x = hwy_w, y = -600, z = -xzmax}, realm_maxp = {x = xzmax, y = -350, z = -hwy_w}},
+
+  --mar
+  {name = 'nw_moria_mar', realm_minp = {x = -xzmax, y = -800, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -550, z = xzmax}},
+  {name = 'ne_moria_mar', realm_minp = {x = hwy_w, y = -800, z = hwy_w}, realm_maxp = {x = xzmax, y = -550, z = xzmax}},
+  {name = 'sw_moria_mar', realm_minp = {x = -xzmax, y = -800, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -550, z = -hwy_w}},
+  {name = 'se_moria_mar', realm_minp = {x = hwy_w, y = -800, z = -xzmax}, realm_maxp = {x = xzmax, y = -550, z = -hwy_w}},
+
+  --civ
+  {name = 'nw_moria_civ', realm_minp = {x = -xzmax, y = -1000, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -750, z = xzmax}},
+  {name = 'ne_moria_civ', realm_minp = {x = hwy_w, y = -1000, z = hwy_w}, realm_maxp = {x = xzmax, y = -750, z = xzmax}},
+  {name = 'sw_moria_civ', realm_minp = {x = -xzmax, y = -1000, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -750, z = -hwy_w}},
+  {name = 'se_moria_civ', realm_minp = {x = hwy_w, y = -1000, z = -xzmax}, realm_maxp = {x = xzmax, y = -750, z = -hwy_w}},
+
+  --ind
+  {name = 'nw_moria_ind', realm_minp = {x = -xzmax, y = -1200, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -950, z = xzmax}},
+  {name = 'ne_moria_ind', realm_minp = {x = hwy_w, y = -1200, z = hwy_w}, realm_maxp = {x = xzmax, y = -950, z = xzmax}},
+  {name = 'sw_moria_ind', realm_minp = {x = -xzmax, y = -1200, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -950, z = -hwy_w}},
+  {name = 'se_moria_ind', realm_minp = {x = hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = xzmax, y = -950, z = -hwy_w}},
+
+  --mine
+  {name = 'nw_moria_mine', realm_minp = {x = -xzmax, y = -1400, z = hwy_w}, realm_maxp = {x = -hwy_w, y = -1150, z = xzmax}},
+  {name = 'ne_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = hwy_w}, realm_maxp = {x = xzmax, y = -1150, z = xzmax}},
+  {name = 'sw_moria_mine', realm_minp = {x = -xzmax, y = -1400, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -1150, z = -hwy_w}},
+  {name = 'se_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = -xzmax}, realm_maxp = {x = xzmax, y = -1150, z = -hwy_w}},
 
 }
 
@@ -185,7 +249,7 @@ end
 
 
 --Loot
---[[
+
 function mod.fill_chest(pos)
 	local value = math.random(20)
 	if pos.y < -100 then
@@ -288,90 +352,153 @@ end
 
 minetest.after(0, function()
 	local options = {}
+  --level, rarity, max stack (nil for unstackables)
+  --not sure what, if anything, level does (original seems to have all at 1)
+  --Examples from original:
 	-- 1 wood / stone
 	-- 2 coal
 	-- 3 iron
 	-- 4 gold
 	-- 5 diamond
 	-- 6 mese
-	--options['booty:flaming_sword']       =  {  1,  10,   nil   }
-	--options['booty:philosophers_stone']  =  {  1,  10,  nil   }
-	--options['booty:unobtainium']         =  {  1,  10,  nil   }
-	options['bucket:bucket_empty']       =  {  1,  3,    2     }
-	options['bucket:bucket_lava']      =  {  1,  5,   nil     }
-	options['bucket:bucket_water']      =  {  1,  4,   nil     }
-	options['carts:rail']      =  {  1,  4,   nil     }
-	options['default:acacia_wood']       =  {  1,  1,    10    }
-	options['default:apple']             =  {  1,  1,    10    }
-	options['default:axe_diamond']      =  {  1,  6,   nil     }
-	options['default:book']              =  {  1,  3,    10    }
-	options['default:cactus']      =  {  1,  1,   5     }
-	options['default:coal_lump']         =  {  1,  2,    10    }
-	options['default:desert_cobble']      =  {  1,  1,   20     }
-	options['default:desert_sand']      =  {  1,  1,   20     }
-	options['default:diamond']           =  {  1,  5,   5     }
-	options['default:dirt']      =  {  1,  1,   20     }
-	options['default:flint']      =  {  1,  2,   5     }
-	options['default:glass']             =  {  1,  3,    5     }
-	options['default:gold_ingot']        =  {  1,  4,   5     }
-	options['default:junglewood']        =  {  1,  1,    10    }
-	options['default:mese']      =  {  1,  7,   5     }
-	options['default:mese_crystal']      =  {  1,  6,   nil   }
-	options['default:meselamp']          =  {  1,  7,   nil   }
-	options['default:obsidian']          =  {  1,  6,   nil   }
-	options['default:obsidian_glass']    =  {  1,  6,   5     }
-	options['default:obsidian_shard']    =  {  1,  5,    nil   }
-	options['default:paper']             =  {  1,  2,    10    }
-	options['default:pick_diamond']      =  {  1,  6,   nil   }
-	options['default:pick_mese']         =  {  1,  7,   nil   }
-	options['default:pick_steel']      =  {  1,  4,   nil   }
-	options['default:pick_stone']      =  {  1,  2,   nil   }
-	options['default:pick_wood']      =  {  1,  1,   nil   }
-	options['default:sand']      =  {  1,  1,   20     }
-	options['default:steel_ingot']       =  {  1,  3,    5     }
-	options['default:stick']      =  {  1,  1,   20     }
-	options['default:sword_diamond']     =  {  1,  6,   nil   }
-	options['default:sword_mese']        =  {  1,  7,   nil   }
-	options['default:sword_steel']      =  {  1,  4,   nil   }
-	options['default:sword_stone']      =  {  1,  2,   nil   }
-	options['default:sword_wood']      =  {  1,  1,   nil   }
-	options['default:wood']              =  {  1,  1,    10    }
-	options['dinv:bag_large']             =  { 1, 5, nil }
-	options['dinv:bag_medium']            =  { 1, 4, nil }
-	options['dinv:bag_small']             =  { 1, 3, nil }
-	options['dinv:boots']                 =  { 1, 3, nil }
-	options['dinv:chain_armor']           =  { 1, 6, nil }
-	options['dinv:fur_cloak']             =  { 1, 3, nil }
-	options['dinv:leather_armor']         =  { 1, 4, nil }
-	options['dinv:leather_cap']           =  { 1, 4, nil }
-	options['dinv:plate_armor']           =  { 1, 8, nil }
-	options['dinv:ring_breath']           =  { 1, 6, nil }
-	options['dinv:ring_leap']             =  { 1, 5, nil }
-	options['dinv:ring_protection_9']     =  { 1, 5, nil }
-	options['dinv:steel_shield']          =  { 1, 5, nil }
-	options['dinv:wood_shield']           =  { 1, 3, nil }
-	options['dpies:apple_pie']           =  {  1,  3,   10    }
-	options['dpies:blueberry_pie']        =  {  1,   3,   nil   }
-	options['dpies:meat_pie']            =  {  1,  3,   10    }
-	options['dpies:onion']               =  {  1,  1,    10    }
-	options['farming:cotton']            =  {  1,  1,    10    }
-	options['farming:flour']             =  {  1,  1,    10    }
-	options['farming:seed_cotton']       =  {  1,  1,    10    }
-	options['farming:seed_wheat']        =  {  1,  1,    10    }
-	options['farming:string']      =  {  1,  2,   5     }
-	options['farming:wheat']      =  {  1,  1,   20     }
-	options['fire:permanent_flame']      =  {  1,  4,   nil   }
-	options['fun_tools:flare_gun']        =  { 1, 4, nil }
-	options['fun_tools:molotov_cocktail'] =  { 1, 4, 5 }
-	options['fun_tools:naptha']           =  { 1, 3, 5 }
-	options['mapgen:moon_glass']      =  {  1,  4,   5     }
-	--options['mapgen:moon_juice']      =  {  1,  4,   5     }
-	--options['mapgen:moonstone']       =  {  1,  5,   nil   }
-	options['map:mapping_kit']            =  { 1, 4, nil }
-	options['tnt:gunpowder']              =  { 1, 3, 10 }
-	options['vessels:glass_fragments']      =  {  1,  2,   5     }
-	options['wooden_bucket:bucket_wood_empty']       =  {  1,  3,    nil     }
-	options['wool:white']                =  {  1,  1,    nil     }
+  --[[
+  options['default:desert_cobble']      =  {  1,  1,   20     }
+  options['default:coal_lump']         =  {  1,  2,    10    }
+  options['map:mapping_kit']            =  { 1, 4, nil }
+  options['default:pick_diamond']      =  {  1,  6,   nil   }
+  ]]
+
+  --Only those items whch could survive centuries.
+  --e.g. no food, wood/fabric etc rare
+  --no tools, materials etc that allow to skip easily up the tech progression.
+
+  --raw materials (rarity 1)
+
+  options['nodes_nature:granite_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:basalt_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:limestone_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:ironstone_boulder'] =  { 1, 1, 2 }
+  options['nodes_nature:gravel'] =  { 1, 1, 2 }
+  options['nodes_nature:sand'] =  { 1, 1, 2 }
+  options['nodes_nature:silt'] =  { 1, 1, 2 }
+  options['nodes_nature:clay'] =  { 1, 1, 2 }
+  options['nodes_nature:loam'] =  { 1, 1, 2 }
+  options['tech:wood_ash'] =  { 1, 1, 2 }
+  options['tech:broken_pottery'] =  { 1, 1, 2 }
+
+
+  --cheap processed materials (rarity 2)
+  options['nodes_nature:granite_brick'] =  { 1, 2, 4 }
+  options['nodes_nature:basalt_brick'] =  { 1, 2, 4 }
+  options['nodes_nature:limestone_brick'] =  { 1, 1, 4 }
+  options['nodes_nature:granite_block'] =  { 1, 2, 4 }
+  options['nodes_nature:basalt_block'] =  { 1, 2, 4 }
+  options['nodes_nature:limestone_block'] =  { 1, 2, 4 }
+
+  options['nodes_nature:gneiss_boulder'] =  { 1, 2, 2 }
+
+
+  --medium processed materials, cheap tools (rarity 3)
+  options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
+  options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
+  options['tech:clay_water_pot'] =  { 1, 3, nil }
+  options['tech:clay_storage_pot'] =  { 1, 3, nil }
+  options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }
+  options['tech:charcoal'] =  { 1, 3, 2 }
+
+  options['nodes_nature:gneiss_brick'] =  { 1, 3, 2 }
+  options['nodes_nature:gneiss_block'] =  { 1, 3, 2 }
+  options['nodes_nature:jade_boulder'] =  { 1, 3, 2 }
+
+  --costly processed materials, expensive tools, crap artifacts (rarity 4)
+  options['artifacts:moon_glass'] =  { 1, 4, 1 }
+  options['artifacts:antiquorium_ladder'] =  { 1, 4, 1 }
+  options['artifacts:antiquorium'] =  { 1, 4, 1 }
+  options['doors:door_antiquorium'] =  { 1, 4, nil }
+  options['artifacts:trapdoor_antiquorium'] =  { 1, 4, 1 }
+  options['nodes_nature:jade_block'] =  { 1, 4, 2 }
+  options['nodes_nature:jade_brick'] =  { 1, 4, 2 }
+
+  options['nodes_nature:zufani_seed'] =  { 1, 4, 4 }
+
+
+  --low level artifacts (rarity 5), non-durables
+  options['artifacts:conveyor'] =  { 1, 5, 24 }
+  options['artifacts:trampoline'] =  { 1, 5, nil }
+
+  options['nodes_nature:merki_seed'] =  { 1, 5, 4 }
+
+  options['artifacts:light_meter'] =  { 1, 5, nil }
+  options['artifacts:thermometer'] =  { 1, 5, nil }
+  options['artifacts:temp_probe'] =  { 1, 5, nil }
+  options['artifacts:fuel_probe'] =  { 1, 5, nil }
+  options['artifacts:smelter_probe'] =  { 1, 5, nil }
+  options['artifacts:potters_probe'] =  { 1, 5, nil }
+  options['artifacts:chefs_probe'] =  { 1, 5, nil }
+  options['artifacts:farmers_probe'] =  { 1, 5, nil }
+
+  options['artifacts:spyglass'] =  { 1, 5, nil }
+  options['artifacts:bell'] =  { 1, 5, nil }
+  options['artifacts:waystone'] =  { 1, 5, nil }
+  options['artifacts:wayfinder_0'] =  { 1, 5, nil }
+
+  options['tech:stick'] =  { 1, 5, 1 }
+
+  options['tech:fine_fibre'] =  { 1, 5, nil }
+  options['tech:coarse_fibre'] =  { 1, 5, nil }
+  options['tech:paint_lime_white'] =  { 1, 5, nil }
+  options['tech:paint_glow_paint'] =  { 1, 5, nil }
+
+  options['artifacts:sculpture_mg_dancers'] =  { 1, 5, nil }
+  options['artifacts:sculpture_mg_bonsai'] =  { 1, 5, nil }
+  options['artifacts:sculpture_mg_bloom'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_axeman'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_dragon_head'] =  { 1, 5, nil }
+  options['artifacts:sculpture_j_skull_head'] =  { 1, 5, nil }
+
+  options['artifacts:star_stone'] =  { 1, 5, 12 }
+  options['artifacts:singing_stone'] =  { 1, 5, 12 }
+  options['artifacts:drumming_stone'] =  { 1, 5, 12 }
+
+  options['artifacts:gamepiece_a_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_a_white'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_b_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_b_white'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_c_black'] =  { 1, 5, 12 }
+  options['artifacts:gamepiece_c_white'] =  { 1, 5, 12 }
+
+  --high level artifacts, and intact non-durables (rarity 6)
+  options['artifacts:moon_stone'] =  { 1, 6, nil }
+  options['artifacts:sun_stone'] =  { 1, 6, nil }
+
+  options['tech:fine_fabric'] =  { 1, 6, nil }
+  options['tech:torch'] =  { 1, 6, nil }
+  options['tech:vegetable_oil'] =  { 1, 6, nil }
+  options['tech:coarse_fabric'] =  { 1, 6, nil }
+  options['tech:mattress'] =  { 1, 6, 1 }
+  --options["backpacks:backpack_fabric_bag"] =  { 1, 6, 1 }
+
+  options['artifacts:airboat'] =  { 1, 6, nil }
+  options['artifacts:mapping_kit'] =  { 1, 6, nil }
+  options['artifacts:antiquorium_chisel'] =  { 1, 6, nil }
+
+  options['artifacts:transporter_key'] =  { 1, 6, nil }
+  options['artifacts:transporter_regulator'] =  { 1, 6, nil }
+  options['artifacts:transporter_stabilizer'] =  { 1, 6, nil }
+  options['artifacts:transporter_focalizer'] =  { 1, 6, nil }
+  options['artifacts:transporter_power_dep'] =  { 1, 6, nil }
+  options['artifacts:transporter_power'] =  { 1, 6, nil }
+  options['artifacts:transporter_pad'] =  { 1, 6, nil }
+
+  options['nodes_nature:lambakap_seed'] =  { 1, 6, 4 }
+  options['nodes_nature:reshedaar_seed'] =  { 1, 6, 4 }
+  options['nodes_nature:mahal_seed'] =  { 1, 6, 4 }
+
+  options['artifacts:sculpture_g_arch_judge'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_beast'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_trickster'] =  { 1, 6, nil }
+  options['artifacts:sculpture_g_arch_mother'] =  { 1, 6, nil }
+
 
 	for name, d in pairs(options) do
 		if minetest.registered_items[name] then
@@ -405,27 +532,7 @@ end)
 
 
 
-do
-	local orig_loot_reg = dungeon_loot.register
-	dungeon_loot.register = function(def)
-		if not def or def.chance <= 0 then
-			return
-		end
 
-		mod.register_loot({
-			name = def.name,
-			rarity = math.ceil(1 / 2 / def.chance),
-			level = def.level or 1,
-			number = {
-				min = def.count[1] or 1,
-				max = def.count[2] or 1,
-			},
-		})
-
-		orig_loot_reg(def)
-	end
-end
-]]
 
 
 --------------------------------------

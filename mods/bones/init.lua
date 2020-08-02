@@ -30,16 +30,51 @@ local share_bones_time_early = tonumber(minetest.settings:get("share_bones_time_
 
 minetest.register_node("bones:bones", {
 	description = S("Bones"),
-	tiles = {
-		"bones_top.png^[transform2",
-		"bones_bottom.png",
-		"bones_side.png",
-		"bones_side.png",
-		"bones_rear.png",
-		"bones_front.png"
-	},
+	inventory_image = "bones_inv.png",
+	wield_image = "bones_inv.png",
+	tiles = {"bones_bone.png"},
+	stack_max = minimal.stack_max_bulky,
+	drawtype = "nodebox",
+	node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.125, -0.5, -0.5, 0.0625, -0.375, 0.0625}, -- NodeBox1
+				{-0.1875, -0.5, 0.0625, 0.125, -0.3125, 0.25}, -- NodeBox2
+				{0.0625, -0.5, -0.5, 0.3125, -0.4375, -0.375}, -- NodeBox3
+				{-0.375, -0.5, -0.5, -0.125, -0.4375, -0.375}, -- NodeBox4
+				{0.0625, -0.5, -0.3125, 0.3125, -0.4375, -0.25}, -- NodeBox5
+				{-0.375, -0.5, -0.3125, -0.125, -0.4375, -0.25}, -- NodeBox6
+				{-0.375, -0.4375, -0.3125, -0.3125, -0.3125, -0.25}, -- NodeBox7
+				{0.25, -0.4375, -0.3125, 0.3125, -0.3125, -0.25}, -- NodeBox8
+				{0, -0.3125, -0.3125, 0.3125, -0.25, -0.25}, -- NodeBox9
+				{-0.375, -0.3125, -0.3125, -0.0625, -0.25, -0.25}, -- NodeBox10
+				{-0.0625, -0.3125, -0.3125, 0, -0.25, -0.0625}, -- NodeBox11
+				{-0.375, -0.5, -0.1875, -0.125, -0.4375, -0.125}, -- NodeBox12
+				{-0.375, -0.3125, -0.1875, -0.0625, -0.25, -0.125}, -- NodeBox13
+				{-0.375, -0.4375, -0.1875, -0.3125, -0.3125, -0.125}, -- NodeBox14
+				{0.0625, -0.5, -0.1875, 0.3125, -0.4375, -0.125}, -- NodeBox15
+				{0.25, -0.4375, -0.1875, 0.3125, -0.3125, -0.125}, -- NodeBox16
+				{0.375, -0.5, -0.4375, 0.4375, -0.4375, -0.125}, -- NodeBox17
+				{-0.4375, -0.5, -0.25, -0.375, -0.4375, 0.0625}, -- NodeBox18
+				{-0.3125, -0.5, 0.125, -0.1875, -0.4375, 0.4375}, -- NodeBox19
+				{0.1875, -0.5, 0, 0.25, -0.375, 0.4375}, -- NodeBox20
+				{0.3125, -0.5, -0.0625, 0.5, -0.4375, 0.125}, -- NodeBox21
+				{0.25, -0.375, -0.125, 0.4375, -0.1875, 0.1875}, -- NodeBox23
+				{0.3125, -0.4375, -0.0625, 0.4375, -0.375, 0.125}, -- NodeBox28
+				{0.3125, -0.5, 0.4375, 0.5, -0.4375, 0.5}, -- NodeBox29
+				{-0.4375, -0.5, 0.1875, -0.375, -0.4375, 0.375}, -- NodeBox30
+				{0.4375, -0.25, -0.125, 0.5, -0.1875, 0.1875}, -- NodeBox31
+				{0.4375, -0.375, -0.125, 0.5, -0.3125, 0.1875}, -- NodeBox32
+				{0.4375, -0.3125, -0.125, 0.5, -0.25, -0.0625}, -- NodeBox33
+				{0.4375, -0.3125, 0.125, 0.5, -0.25, 0.1875}, -- NodeBox34
+				{0.4375, -0.3125, 0, 0.5, -0.25, 0.0625}, -- NodeBox35
+			}
+		},
+	paramtype = "light",
 	paramtype2 = "facedir",
-	groups = {dig_immediate = 2},
+	sunlight_propagates = true,
+	walkable = true,
+	groups = {dig_immediate = 2, attached_node = 1, temp_pass = 1, falling_node = 1},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
 
 	can_dig = function(pos, player)

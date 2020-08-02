@@ -129,10 +129,10 @@ if minetest.settings:get_bool("enable_damage") then
 				or controls.right
 				or controls.RMB
 				then
-					energy = energy - 1
+					energy = energy - 3
 				elseif controls.LMB
 				or controls.jump then
-					energy = energy - 6
+					energy = energy - 8
 				end
 
 				----------------
@@ -144,23 +144,22 @@ if minetest.settings:get_bool("enable_damage") then
 				local enviro_temp = climate.get_point_temp(player_pos)
 				--being outside tolerance range will drain energy. When energy is drained will succumb.
         --[safe] comfort zone ->[low cost]->stress zone ->[high cost]-> danger zone->[damage]
-        --placeholder values! until do clothes!
-        -- (different clothes should affect each value differently)
-				local comfort_low = 15
-				local comfort_high = 35
+
+        local comfort_low = meta:get_int("clothing_temp_min")
+      	local comfort_high = meta:get_int("clothing_temp_max")
         local stress_low = comfort_low - 10
         local stress_high = comfort_high + 10
         local danger_low = stress_low - 40
         local danger_high = stress_high +40
         --energy costs (extreme, danger, stress)
-        local costex = 10
-        local costd = 5
-        local costs = 1
+        local costex = 12
+        local costd = 6
+        local costs = 2
         --water conducts heat better
         if water then
-          costex = 20
-          costd = 10
-          costs = 2
+          costex = 24
+          costd = 12
+          costs = 4
         end
 
 
@@ -242,7 +241,7 @@ if minetest.settings:get_bool("enable_damage") then
 							energy = 0
 						end
 					elseif rain or snow then
-						energy = energy - 1
+						energy = energy - 2
 						if energy < 0 then
 							energy = 0
 						end
@@ -256,8 +255,7 @@ if minetest.settings:get_bool("enable_damage") then
 				--update form so can see change while looking
 				sfinv.set_player_inventory_formspec(player)
         --update hud (will abort if no hud on)
-        HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp)
-
+        HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
 
 			end
 

@@ -87,6 +87,7 @@ function g.register_grafitti(name, def)
             drawtype = "nodebox",
             tiles = { image_name },
             sunlight_propagates = true,
+            light_source = def.light or 0,
             floodable = true,
             paramtype = "light",
             paramtype2 = "wallmounted",
@@ -210,7 +211,7 @@ function g.register_brush(brush_name, def)
             local meta = itemstack:get_meta()
 
             if pointed_thing.type == "nothing" or meta:get_string("grafitti") == "" then
-                show_palette(user, def.palette)
+                --show_palette(user, def.palette)
                 return nil
             end
 
@@ -229,6 +230,7 @@ function g.register_brush(brush_name, def)
             if node_under_def and node_under_def.buildable_to then
                 if node_under_def.groups.grafitti then
                     minetest.add_node(pointed_thing.under, {name = "air"})
+                    minetest.sound_play("grafitti_scrape",	{pos = pointed_thing.above, max_hear_distance = 4, gain = 1})
                 end
                 return nil
             end
@@ -241,6 +243,7 @@ function g.register_brush(brush_name, def)
 
             if node_above_def.groups.grafitti then
                 minetest.add_node(pointed_thing.above, {name = "air"})
+                minetest.sound_play("grafitti_scrape",	{pos = pointed_thing.above, max_hear_distance = 4, gain = 1})
                 return nil
             end
 
@@ -248,6 +251,7 @@ function g.register_brush(brush_name, def)
             local dir = vector.direction(pointed_thing.above, pointed_thing.under)
             local wallmounted = minetest.dir_to_wallmounted(dir)
             minetest.add_node(pointed_thing.above, {name = meta:get_string("grafitti"), param2=wallmounted})
+            minetest.sound_play("grafitti_paint",	{pos = pointed_thing.above, max_hear_distance = 4, gain = 1})
 
             itemstack:add_wear(65535/(2000-1))
 

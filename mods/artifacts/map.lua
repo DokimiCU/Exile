@@ -21,11 +21,11 @@ local function update_hud_flags(player)
 
 	local minimap_enabled = creative_enabled or
 		player:get_inventory():contains_item("main", "artifacts:mapping_kit")
-	local radar_enabled = creative_enabled
+	--local radar_enabled = creative_enabled
 
 	player:hud_set_flags({
 		minimap = minimap_enabled,
-		minimap_radar = radar_enabled
+		minimap_radar = minimap_enabled
 	})
 end
 
@@ -52,10 +52,10 @@ minetest.after(5.3, cyclic_update)
 -- Mapping kit item
 
 minetest.register_craftitem("artifacts:mapping_kit", {
-	description = "Mapping Kit".. "\n" .. "Use with 'Minimap' key",
+	description = "Geosurveyor".. "\n" .. "Use with 'Minimap' key",
 	inventory_image = "artifacts_mapping_kit.png",
 	stack_max = 1,
-	groups = {flammable = 1},
+	--groups = {flammable = 1},
 
 	on_use = function(itemstack, user, pointed_thing)
 		update_hud_flags(user)

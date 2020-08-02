@@ -339,7 +339,7 @@ for i in ipairs(list2) do
 			tileable_vertical = false}},
 		stack_max = minimal.stack_max_bulky,
 		groups = g2,
-		drop = "nodes_nature:"..dropped,
+		drop = "nodes_nature:"..dropped.."_wet",
 		sounds = sw,
 		_dry_name = "nodes_nature:"..name,
 		_ag_soil = "nodes_nature:"..dropped.."_agricultural_soil_wet",

@@ -39,7 +39,7 @@ end
 
 
 
-local function fire_pottery(pos, name, length)
+local function fire_pottery(pos, selfname, name, length)
 	local meta = minetest.get_meta(pos)
 	local firing = meta:get_int("firing")
 
@@ -50,7 +50,7 @@ local function fire_pottery(pos, name, length)
 	end
 
 	--exchange accumulated heat
-	climate.heat_transfer(pos)
+	climate.heat_transfer(pos, selfname)
 
 	--check if above firing temp
 	local temp = climate.get_point_temp(pos)
@@ -195,7 +195,7 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
 		}
 	},
-	groups = {dig_immediate=3, temp_pass = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -203,7 +203,7 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_water_pot", base_firing)
+		return fire_pottery(pos, "tech:clay_water_pot_unfired", "tech:clay_water_pot", base_firing)
 	end,
 })
 
@@ -233,7 +233,7 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 				{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5},
 			}
 		},
-	groups = {dig_immediate=3, temp_pass = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -241,13 +241,49 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_storage_pot", base_firing+5)
+		return fire_pottery(pos, "tech:clay_storage_pot_unfired", "tech:clay_storage_pot", base_firing+5)
 	end,
 })
 
 
 
 --------------------------------------
+--OIL LAMP
+--save usage into inventory, to prevent infinite supply
+local on_dig_oil_lamp = function(pos, node, digger)
+	if minetest.is_protected(pos, digger:get_player_name()) then
+		return false
+	end
+
+	local meta = minetest.get_meta(pos)
+	local fuel = meta:get_int("fuel")
+
+	local new_stack = ItemStack("tech:clay_oil_lamp")
+	local stack_meta = new_stack:get_meta()
+	stack_meta:set_int("fuel", fuel)
+
+
+	minetest.remove_node(pos)
+	local player_inv = digger:get_inventory()
+	if player_inv:room_for_item("main", new_stack) then
+		player_inv:add_item("main", new_stack)
+	else
+		minetest.add_item(pos, new_stack)
+	end
+end
+
+--set saved fuel
+local after_place_oil_lamp = function(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local stack_meta = itemstack:get_meta()
+	local fuel = stack_meta:get_int("fuel")
+	if fuel >0 then
+		meta:set_int("fuel", fuel)
+	end
+end
+
+
+
 --unfired oil clay lamp
 minetest.register_node("tech:clay_oil_lamp_unfired", {
 	description = "Clay Oil Lamp (unfired)",
@@ -276,7 +312,7 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 			{-0.0625, -0.3125, -0.25, 0.0625, -0.125, -0.1875}, -- handle
 		}
 	},
-	groups = {dig_immediate=3, temp_pass = 1, falling_node = 1, heatable = 1},
+	groups = {dig_immediate=3, temp_pass = 1, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
@@ -284,7 +320,7 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_oil_lamp_empty", base_firing)
+		return fire_pottery(pos, "tech:clay_oil_lamp_unfired", "tech:clay_oil_lamp_empty", base_firing)
 	end,
 })
 
@@ -331,10 +367,8 @@ minetest.register_node("tech:clay_oil_lamp_empty", {
 
 		if ist_name == "tech:vegetable_oil" then
 			minetest.set_node(pos, {name = 'tech:clay_oil_lamp'})
-			--local inv = clicker:get_inventory()
-			--inv:remove_item("main", ist_name.." 1")
 			itemstack:take_item()
-			clicker:set_wielded_item(itemstack)
+			return itemstack
 		end
 	end,
 
@@ -384,12 +418,18 @@ minetest.register_node("tech:clay_oil_lamp", {
 		minetest.add_item(pos, ItemStack("tech:clay_oil_lamp_empty 1"))
 		return false
 	end,
+	on_dig = function(pos, node, digger)
+		on_dig_oil_lamp(pos, node, digger)
+	end,
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
 		meta:set_int("fuel", math.random(2100,2200))
 		--burn oil
 		minetest.get_node_timer(pos):start(5)
+	end,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		after_place_oil_lamp(pos, placer, itemstack, pointed_thing)
 	end,
 	on_timer =function(pos, elapsed)
 		local meta = minetest.get_meta(pos)
@@ -417,7 +457,7 @@ minetest.register_node("tech:clay_oil_lamp", {
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_water_pot_unfired 1",
-	items = {"nodes_nature:clay 4"},
+	items = {"nodes_nature:clay_wet 4"},
 	level = 1,
 	always_known = true,
 })
@@ -435,7 +475,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_storage_pot_unfired 1",
-	items = {"nodes_nature:clay 6"},
+	items = {"nodes_nature:clay_wet 6"},
 	level = 1,
 	always_known = true,
 })
@@ -452,7 +492,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "crafting_spot",
 	output = "tech:clay_oil_lamp_unfired 1",
-	items = {"nodes_nature:clay"},
+	items = {"nodes_nature:clay_wet"},
 	level = 1,
 	always_known = true,
 })

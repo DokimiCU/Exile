@@ -4,38 +4,81 @@
 
 ------------------------------
 
-local superstorm = {
+local superstorm = {}
 
 
-	name = 'superstorm',
+superstorm.name = 'superstorm'
 
-	--day, night, sunrise/sunset
-	sky_color_day = 60,
-	sky_color_night = 15,
 
-	fog = 180,
+superstorm.sky_data = {
+	type = "regular",
+	clouds = true,
+	sky_color = {
+		day_sky = "#40434F",
+		day_horizon = "#535560",
+		dawn_sky = "#CBC0D6",
+		dawn_horizon ="#d5ccde",
+		night_sky = "#4B3C5A",
+		night_horizon = "#6e627a",
+		indoors = "#2B2B2B",
+		--fog_sun_tint = "#FB7F55",
+		--fog_moon_tint = "#C5C9C9",
+		--fog_tint_type = "custom"
+	}
+}
 
-	clouds_color = "#505050",
-	clouds_density = 0.6,
-	clouds_height = 460,
-	clouds_thickness = 128,
-	clouds_speed = {x=2, z=0},
 
-	sound_loop = 'heavy_rain_loop',
+superstorm.cloud_data = {
+	color = "#2E3036",
+	density = 0.6,
+	height = 260,
+	thickness = 128,
+	speed = {x=3, z=0}
+}
+
+
+superstorm.moon_data = {
+	visible = false,
+	texture = "moon.png",
+	tonemap = "moon_tonemap.png",
+	scale = 0.5
+}
+
+
+superstorm.sun_data = {
+	visible = false,
+	texture = "sun.png",
+	tonemap = "sun_tonemap.png",
+	sunrise = "sunrisebg.png",
+	sunrise_visible = false,
+	scale = 0.4
+}
+
+superstorm.star_data = {
+	visible = false,
+	count = 1000,
+	color = "#80FCFEFF"
+}
+
+
+
+
+
+
+superstorm.sound_loop = 'heavy_rain_loop'
 
 	--probabilities in each temp class
-	chain = {
-		--name, p_froz, p_cold, p_mid , p_hot
-		{'thunderstorm', 0, 1, 1, 1},
-		{'snowstorm', 1, 0, 0, 0}
+superstorm.chain = {
+	--name, p_froz, p_cold, p_mid , p_hot
+	{'thunderstorm', 0, 1, 1, 1},
+	{'snowstorm', 1, 0, 0, 0}
+
+}
 
 
-	},
+superstorm.particle_interval = 0.0009
 
-
-	particle_interval = 0.0009,
-
-	particle_function = function()
+superstorm.particle_function = function()
 		local vel = -10
 		local acc = -10
 		local ext = 6
@@ -48,10 +91,8 @@ local superstorm = {
 		if math.random() < 0.02 then
 			lightning.strike()
 		end
-	end,
+	end
 
-
-}
 
 --add this weather to register
 climate.register_weather(superstorm)
