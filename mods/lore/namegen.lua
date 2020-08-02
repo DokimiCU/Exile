@@ -62,7 +62,23 @@ local syl_start = {
 	'Osm', 'Isn', 'Osp', 'Osh', 'Osch', 'Ost',
 	'Uch', 'Uzh', 'Uth',
 	'Ung', 'Ulb', 'Urk', 'Urc', 'Ulk', 'Ulc', 'Urf', 'Urd', 'Urb', 'Urg', 'Urp',
-	'Usm', 'Usn', 'Usp', 'Ush', 'Usch', 'Ust'
+	'Usm', 'Usn', 'Usp', 'Ush', 'Usch', 'Ust',
+	--Various Full
+	'Ari', 'Abne', 'Abi', 'Ane',
+	'Bern', 'Bio',
+	"Call", 'Calu', 'Cale',
+	'Dona', 'Dela', 'Dan', 'Duo', 'Deca',
+	'Halcy', 'Hyne',
+	'Feli',
+	'Jad', 'Joh',
+	'Meth', 'Mar', 'Max', 'Mega',
+	'Noto', 'Neo',
+	'Ore', 'Oct', 'Ozy',
+	'Per', 'Pent', 'Phil',
+	'Resh', 'Roch', 'Rach',
+	'Soph',
+	'Vict',
+	'Yesh'
 
 	}
 
@@ -124,7 +140,19 @@ local syl_mid = {
 	'osm', 'isn', 'osp', 'osh', 'osch', 'ost',
 	'uch', 'uzh', 'uth',
 	'ung', 'ulb', 'urk', 'urc', 'ulk', 'ulc', 'urf', 'urd', 'urb', 'urg', 'urp',
-	'usm', 'usn', 'usp', 'ush', 'usch', 'ust'
+	'usm', 'usn', 'usp', 'ush', 'usch', 'ust',
+	--Various Full
+	'uckle',
+	'cifer',
+	'grippa',
+	'grun',
+	'midor',
+	'anael',
+	'umber',
+	'erild',
+	'rendra', 'rillus', 'riah',
+	'avius',
+	'phoros',
 
 
 }
@@ -192,7 +220,28 @@ local syl_end = {
 	'osm', 'isn', 'osp', 'osh', 'osch', 'ost',
 	'uch', 'uzh', 'uth',
 	'ung', 'ulb', 'urk', 'urc', 'ulk', 'ulc', 'urf', 'urd', 'urb', 'urg', 'urp',
-	'usm', 'usn', 'usp', 'ush', 'usch', 'ust'
+	'usm', 'usn', 'usp', 'ush', 'usch', 'ust',
+	--Various Full
+	'sea',
+	'ghu',
+	'tius', 'lius',
+	'hild',
+	'via',
+	'tina',
+	'tia',
+	'lia',
+	'iana',
+	'laus',
+	'ecca',
+	'ara',
+	'vus',
+	'etos',
+	'gund',
+	'alaa',
+	'ion',
+	'ium'
+
+
 }
 
 

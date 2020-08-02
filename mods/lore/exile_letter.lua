@@ -38,6 +38,7 @@ local judger = {
   "Prince",
   "Princess",
   "Regent",
+  "Dictator",
   --officials
   "High Judge",
   "Tribunal",
@@ -72,6 +73,8 @@ local judger = {
   "Tribal Chiefs",
   "Great Chieftain",
   "United Clans",
+  "Wise Man",
+  "Wise Woman",
   --republic
   "Citizenry",
   "People",
@@ -79,6 +82,7 @@ local judger = {
   "Consul",
   "Senators",
   "Assembly",
+  "Chief Minister",
   --Geographic/polity
   "City State",
   "Empire",
@@ -115,7 +119,20 @@ local judger = {
   "Company",
   "Horde",
   "Liberators",
-  "Destroyers"
+  "Destroyers",
+
+  --freaky
+  "All Seeing Eye",
+  "Old Children",
+  "Spectre",
+  "Dragon King",
+  "Seven Hands",
+  "Imperial Phylogistar",
+  "Sacred Snake-god",
+  "Eternal Pyramid",
+  "Towering Tree",
+  "Viridian Majestar",
+  "Thousand-tongued All-speaker"
 
 }
 
@@ -227,7 +244,11 @@ local crime2 = {
   "failing to appear for military service",
   "hoarding food during famine",
   "fouling the good reputation of our people",
-  "sowing discord among the populace"
+  "sowing discord among the populace",
+  "sleeping with unclean creatures",
+  "violating the chastity of the priesthood",
+  "marrying outside their caste",
+  "cheating at dice"
 
 }
 
@@ -265,7 +286,10 @@ local woe = {
   "They are not fit for civilized lands.",
   "Thus we ensure our security.",
   "Only the righteous belong among us.",
-  "May they toil in vain."
+  "May they toil in vain.",
+  "So it is done.",
+  "Even the dogs despise them.",
+  "We break no bread with traitors."
 
 }
 
@@ -295,7 +319,7 @@ local mythic_terror = {
   "Unending Curse",
   "Ancient Curse",
   "Curse",
-  "Catastrohpe",
+  "Catastrophe",
   "Great Dying",
   "Mythic Terror",
   "Night",
@@ -317,7 +341,9 @@ local mythic_terror = {
   "Evil Wind",
   "Bitter Waters",
   "Howling Dust",
-  "Hateful Sky"
+  "Hateful Sky",
+  "Great Confusion",
+  "Lost"
 }
 
 
@@ -369,9 +395,9 @@ local function get_formspec(meta, letter_text)
 
 	local formspec = {
     "size[9,11]",
-  	"textarea[2.5,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
-  	"background[0,0;18,11;lore_exile_letter_bg.png;true]",
-  	"button_exit[17.3,0;0.8,0.5;exit_form;X]"}
+  	"textarea[2,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
+    "button_exit[8.2,10.6;0.8,0.5;exit_form;X]",
+  	"background[0,0;18,11;lore_exile_letter_bg.png;true]"}
 
 	return table.concat(formspec, "")
 end
