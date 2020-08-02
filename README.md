@@ -2,6 +2,8 @@
 Version 0.2
 by Dokimi
 
+For Minetest 5.3
+
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
 Use your wits to find food, water, and shelter before succumbing to the elements,
@@ -56,6 +58,7 @@ Some tips and tricks:
 # 0.2
 - clothing (plus multiskin model, new player api), weaving frame, temperature tolerance via clothing
 - Lore: exile letter
+- Sleeping spot
 - new mobs: darkasthaan, impethu, pegasun, sneachan
 - cookable animal carcasses
 - graffitti: glow paint

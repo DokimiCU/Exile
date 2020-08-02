@@ -23,19 +23,19 @@ Climate:
 Bed:
 -bed rest wipes physics effects (almost a feature...)
 -multiplayer bug caused by breaktaker?
+-need something to stop beds getting destroyed while a player is one them (a problem for punchable/floodable/buildable sleeping spot)
 
 Health:
 
 Animals:
 -occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider (not sure if still happens since overhauled mobs)
 -some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
-- undefined global vars
-
+-mobs_chicken_white.png is being called by something (the chicken model itself? Isn't in the code anywhere...)
+-crash when attack a dead rival?
+-stability of animal populations over time unknown
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
--might need something to animal numbers in check... needs to be run over time...
--water doesn't freeze?
 -Tangkal tree schem has grass in it?
 -freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
 
@@ -54,7 +54,6 @@ Tech:
 -torches/oil lamp should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
--air temp needs to spread better in open spaces.
 -partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
 
 illumination:
@@ -81,6 +80,8 @@ Misc:
 -might be missing credit for some textures etc (mostly from Minetest game? plus some plants?)
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much, also large numbers of mobs)
+-Irrlicht: PNG warning: iCCP: profile 'ICC PROFILE': 9019A303h: invalid length
+-Irrlicht: PNG warning: iCCP: CRC error
 
 
 
@@ -93,7 +94,7 @@ IDEAS AND TO DO LIST
 
 Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
-- sleeping spot
+
 
 
 Features ideas:
@@ -136,6 +137,9 @@ HEALTH
 -more morphs: gardens, waste dumps, public baths, transporter room, laboratory, storage dumps, factories
 -NPCs, quests etc
 -random character skins for each life
+-currently looking for loot is a bit gambling/grindy. Doesn't have the right feel for the game.
+Going into the lost city needs to feel like a terrifying bad idea. Searching through the junk of
+a people who destroyed themselves should also be a dubious/bad idea.
 
 
 --CLOTHING:
@@ -165,3 +169,4 @@ HEALTH
 
 --DECO
 -more ambience: rustling leaves, lava
+-cave flora (mud with mushrooms)

@@ -47,6 +47,12 @@ function bed_rest.register_bed(name, def)
 			fixed = def.selectionbox,
 		},
 
+		walkable = def.walkable or true,
+		buildable_to = def.buildable_to or false,
+		floodable = def.floodable or false,
+		on_punch = def.on_punch,
+
+
 		on_place = function(itemstack, placer, pointed_thing)
 			local under = pointed_thing.under
 			local node = minetest.get_node(under)
@@ -172,6 +178,12 @@ function bed_rest.register_bed(name, def)
 			local p = vector.add(pos, dir)
 			return bed_rest.can_dig(p)
 		end,
+
+		walkable = def.walkable or true,
+		buildable_to = def.buildable_to or false,
+		floodable = def.floodable or false,
+		on_punch = def.on_punch,
+
 	})
 
 	minetest.register_alias(name, name .. "_bottom")
