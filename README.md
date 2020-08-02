@@ -72,6 +72,7 @@ Some tips and tricks:
 - better looking bones
 - newly formatted colored skies
 - climate chat commands
+- Design Guide
 - updated backgrounds
 - updated version of crafting
 - various minor fixes
