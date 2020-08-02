@@ -261,7 +261,7 @@ lore.generate_name = function(max_length)
 	else
 		first = syl_start[random(#syl_start)]
 		last = syl_end[random( #syl_end)]
-		cnt = 0
+		local cnt = 0
 		--mid = syl_mid[random( #syl_mid)]
 		while cnt < length - 2 do
 			mid = mid..syl_mid[random( #syl_mid)]
