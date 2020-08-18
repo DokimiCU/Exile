@@ -129,9 +129,11 @@ function animals.core_life(self, lifespan, pos)
   end
 
   --temperature stress
-  local temp = climate.get_point_temp(pos)
-  if temp < self.min_temp or temp > self.max_temp then
-    energy = energy - 1
+  if random() < 0.2 then
+    local temp = climate.get_point_temp(pos)
+    if temp < self.min_temp or temp > self.max_temp then
+      energy = energy - 6
+    end
   end
 
 
@@ -859,7 +861,7 @@ function animals.territorial(self, energy, eat)
 
       --contest! The more energetic one wins
       local r_ent = rival:get_luaentity()
-      local r_ent_e = mobkit.recall(r_ent,'energy')
+      local r_ent_e = mobkit.recall(r_ent,'energy') or 0
 
       if energy > r_ent_e then
         if eat then

@@ -10,11 +10,11 @@ local random = math.random
 
 --energy
 local energy_max = 5000--secs it can survive without food
-local energy_egg = energy_max/5 --energy that goes to egg
-local egg_timer  = 60*5
+local energy_egg = energy_max/10 --energy that goes to egg
+local egg_timer  = 120*5
 local young_per_egg = 5		--will get this/energy_egg starting energy
 
-local lifespan = energy_max * 5
+local lifespan = energy_max * 4
 
 
 
@@ -26,7 +26,7 @@ local function brain(self)
 		return
 	end
 
-	if mobkit.timer(self,1) then
+	if mobkit.timer(self,1.5) then
 
 		local pos = mobkit.get_stand_pos(self)
 
@@ -56,10 +56,10 @@ local function brain(self)
 			--Threats
 			local plyr = mobkit.get_nearby_player(self)
 			if plyr then
-				animals.fight_or_flight_plyr(self, plyr, 55, 0.01)
+				animals.fight_or_flight_plyr(self, plyr, 55, 0.02)
 			end
 
-			pred = animals.predator_avoid(self, 55, 0.01)
+			pred = animals.predator_avoid(self, 55, 0.02)
 
 		end
 
@@ -70,33 +70,39 @@ local function brain(self)
 		if prty < 20 then
 
 			--territorial behaviour
-			local rival = animals.territorial(self, energy, false)
+			local rival
+			if random() < 0.7 then
+				rival = animals.territorial(self, energy, false)
+			else
+				rival = animals.territorial(self, energy, true)
+			end
 
 
 			--feeding
 			--eat stuff in the dark
 			local light = (minetest.get_node_light(pos) or 0)
 
-			if light <= 12 then
-				if energy < energy_max then
+			if light <= 5 then
+				if not rival and energy < energy_max then
 					energy = energy + 2
 				end
 				mobkit.animate(self,'walk')
 				mobkit.hq_roam(self,10)
 			else
 				--random search for darkness
-				 animals.hq_roam_dark(self,15)
+				--fatigued by light
+				energy = energy - 1
+				animals.hq_roam_dark(self,15)
 			end
 
 
 			--reproduction
 			--asexual parthogenesis, eggs
-			if random() < 0.01
-			and not rival
-			and not pred
-			and self.hp >= self.max_hp
-			and energy >= energy_egg + energy_egg/2 then
-				energy = animals.place_egg(pos, "animals:impethu_eggs", energy, energy_egg, 'air')
+			if random() < 0.005 then
+				if not rival
+				and energy >= energy_max then
+					energy = animals.place_egg(pos, "animals:impethu_eggs", energy, energy_egg, 'air')
+				end
 			end
 
 		end
