@@ -79,3 +79,7 @@ Some tips and tricks:
 - various minor balance changes
 - various minor additions
 - Minetest 5.3 compatibility
+
+#0.2.1
+- fix animals crash
+- minor balance animals
