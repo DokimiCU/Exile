@@ -4,6 +4,12 @@ by Dokimi
 
 For Minetest 5.3
 
+### Installation
+Exile should be in games folder like so:
+
+Minetest > games > Exile > mods/menu/... etc
+
+
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
 Use your wits to find food, water, and shelter before succumbing to the elements,
@@ -82,4 +88,5 @@ Some tips and tricks:
 
 #0.2.1
 - fix animals crash
+- fix exile letter crash
 - minor balance animals
