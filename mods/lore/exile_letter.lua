@@ -424,6 +424,11 @@ end
 
 ----------------------------------------------
 local dig = function(pos, node, digger, width, height)
+  if not digger then
+		minetest.remove_node(pos)
+		return
+	end
+  
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
 	end
