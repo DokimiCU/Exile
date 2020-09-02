@@ -1,5 +1,5 @@
 # Exile
-Version 0.2
+Version 0.2.1 dev
 by Dokimi
 
 For Minetest 5.3
@@ -54,7 +54,19 @@ Some tips and tricks:
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
 - Build stairs and shelters around your base, this will save you energy and protect you from extremes.
 
+### Development
+Exile is opensource - that means it is as good as you choose to make it.
+It also means development can be erratic and haphazard at times, so be patient!
 
+To report bugs, fixes, or suggestions check out the Minetest forums or Github:
+
+https://github.com/DokimiCU/Exile
+
+https://forum.minetest.net/viewtopic.php?t=24334
+
+Exile is currently in Alpha, therefore expect bugs, missing features, and performance issues.
+Despite this, Exile does have enough features to be a playable game without too many crashes.
+(See Doc > Issues_ToDo for a list of known bugs, missing features etc)
 
 ### Changelog:
 
@@ -90,3 +102,4 @@ Some tips and tricks:
 - fix animals crash
 - fix exile letter crash
 - minor balance animals
+
