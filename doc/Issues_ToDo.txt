@@ -11,7 +11,9 @@ This also lists various ideas, planned, and possible features.
 #ISSUES
 -------------------------------------------------------------------
 Urgent Fixes needed:
+!!
 -occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value).
+-Pegasun - needs better feeding, to move off unsuitable ground, to stay grouped, lay younger,
 
 
 Climate:
@@ -30,7 +32,6 @@ Health:
 -energy can go negative (needs to cap at 0)
 
 Animals:
--occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value). From darkasthaan spider (not sure if still happens since overhauled mobs)
 -some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
 -mobs_chicken_white.png is being called by something (the chicken model itself? Isn't in the code anywhere...)
 -stability of animal populations over time unknown
@@ -148,6 +149,8 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -random (re)spawn location
 -random character skins for each life
 -acquired character traits (see each life becomes meaningfully unique)
+-Death screen - name and days survived (also put in Breaktaker, maybe a Highscores page?). Give name to bones meta.
+-multiplayer protection that allows protection to fade after death?? might get abused?
 
 --CLOTHING:
 -speed effects (likely to cause issues with bed physics)

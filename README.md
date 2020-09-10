@@ -101,5 +101,5 @@ Despite this, Exile does have enough features to be a playable game without too 
 #0.2.1
 - fix animals crash
 - fix exile letter crash
+- fix salt water surface sediment crash
 - minor balance animals
-
