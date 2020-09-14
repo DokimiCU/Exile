@@ -80,18 +80,15 @@ local function brain(self)
 			if light <= 14 then
 				--hungry eat stuff in the dark
 				if energy < energy_max then
-					if animals.eat_sediment_under(pos, 0.001) then
+					if animals.eat_sediment_under(pos, 0.001) == true then
 						energy = energy + 3
-					elseif  animals.eat_flora(pos, 0.001) then
+					elseif  animals.eat_flora(pos, 0.001) == true then
 						energy = energy + 4
 					else
 						--wander random
 						mobkit.animate(self,'walk')
-						mobkit.hq_roam(self,10)
-						if random()<0.01 then
-							--find "detritus"
-							energy = energy + 1
-						end
+						--mobkit.hq_roam(self,10)
+						animals.hq_roam_surface_group(self, 'sediment', 20)
 					end
 				else
 					--full

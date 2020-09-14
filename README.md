@@ -64,7 +64,8 @@ https://github.com/DokimiCU/Exile
 
 https://forum.minetest.net/viewtopic.php?t=24334
 
-Exile is currently in Alpha, therefore expect bugs, missing features, and performance issues.
+Exile is currently in Alpha, therefore expect bugs, missing features, performance issues,
+and compatibility breaking updates.
 Despite this, Exile does have enough features to be a playable game without too many crashes.
 (See Doc > Issues_ToDo for a list of known bugs, missing features etc)
 
@@ -99,7 +100,6 @@ Despite this, Exile does have enough features to be a playable game without too 
 - Minetest 5.3 compatibility
 
 #0.2.1
-- fix animals crash
 - fix exile letter crash
 - fix salt water surface sediment crash
-- minor balance animals
+- balance and bugfix animals

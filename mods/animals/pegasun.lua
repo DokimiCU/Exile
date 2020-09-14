@@ -2,7 +2,8 @@
 -- Pegasun
 --chicken like bird
 --[[
-
+males and females, must mate to reproduce.
+lives off flora, spreading surface and insects
 ]]
 ---------------------------------------------------------------------
 local random = math.random
@@ -10,11 +11,11 @@ local random = math.random
 
 --energy
 local energy_max = 8000--secs it can survive without food
-local energy_egg = energy_max/4 --energy that goes to egg
+local energy_egg = energy_max/2 --energy that goes to egg
 local egg_timer  = 60*25
 local young_per_egg = 1		--will get this/energy_egg starting energy
 
-local lifespan = energy_max * 8
+local lifespan = energy_max * 10
 
 
 
@@ -82,13 +83,13 @@ local function brain(self)
 				cs = 0.75
 			elseif tod >0.55 and tod <0.55 then
 				--explore during midday
-				ce = 0.75
-				cs = 0.01
+				ce = 0.5
+				cs = 0.1
 			end
 
 
 			if random() < ce then
-				if random() < 0.5 then
+				if random() < 0.95 then
 					--wander random
 					mobkit.animate(self,'walk')
 					mobkit.hq_roam(self,10)
@@ -105,17 +106,23 @@ local function brain(self)
 					animals.flock(self, 25, 3)
 				elseif random()< 0.01 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.01 then
+				elseif random() < 0.1 then
+
 					--reproduction
-					if age > lifespan/10
-					and self.hp >= self.max_hp
-					and energy >= energy_max/2 then
+					if self.hp >= self.max_hp
+					and energy >= energy_max - 100 then
+
 						--are we already pregnant?
-						local preg = mobkit.recall(self,'pregnant')
-						if preg and random() < 0.01 then
-							energy = animals.place_egg(pos, "animals:pegasun_eggs", energy, energy_egg, 'air')
-							mobkit.remember(self,'pregnant',false)
+						local preg = mobkit.recall(self,'pregnant') or false
+						if preg == true then
+							mobkit.lq_idle(self,3)
+							if random() < 0.1 then
+								energy = animals.place_egg(pos, "animals:pegasun_eggs", energy, energy_egg, 'air')
+								mobkit.remember(self,'pregnant',false)
+							end
+
 						else
+
 							--we are randy
 							mobkit.remember(self,'sexual',true)
 							local mate = animals.mate_assess(self, 'animals:pegasun_male')
@@ -134,23 +141,25 @@ local function brain(self)
 			elseif energy < energy_max then
 
 				--feed via a method
-				if random()< 0.5 then
+				if random()< 0.85 then
 					--scratch dirt
-					if animals.eat_spreading_under(pos, 0.005) then
+					if animals.eat_spreading_under(pos, 0.001) == true then
 						energy = energy + 15
 					else
-						--wander random
+						--wander to food source
 						mobkit.animate(self,'walk')
-						mobkit.hq_roam(self,10)
+						--mobkit.hq_roam(self,10)
+						animals.hq_roam_surface_group(self, 'spreading', 20)
 					end
-				elseif random()< 0.5 then
+				elseif random()< 0.75 then
 					--veg
-					if animals.eat_flora(pos, 0.005) then
-						energy = energy + 15
+					if animals.eat_flora(pos, 0.005) == true then
+						energy = energy + 20
 					else
 						--wander random
 						mobkit.animate(self,'walk')
-						mobkit.hq_roam(self,10)
+						--mobkit.hq_roam(self,10)
+						animals.hq_roam_walkable_group(self, 'flora', 10)
 					end
 				else
 					--hunt
@@ -158,6 +167,7 @@ local function brain(self)
 						--random search
 						mobkit.animate(self,'walk')
 						mobkit.hq_roam(self,10)
+						--animals.hq_roam_surface_group(self, 'spreading', 10)
 					end
 				end
 			end
@@ -240,23 +250,23 @@ local function brain_male(self)
 			--feeding, exploring, social
 			--chance differs by time
 			local ce = 0.2
-			local cs = 0.3
+			local cs = 0.4
 			-- c feeding is simply what happens if no
 			--others are selected
 			local tod = minetest.get_timeofday()
 			if tod <0.2 or tod >0.8 then
 				--more social at night
 				ce = 0.01
-				cs = 0.85
+				cs = 0.95
 			elseif tod >0.55 and tod <0.55 then
 				--explore during midday
-				ce = 0.85
+				ce = 0.6
 				cs = 0.2
 			end
 
 
 			if random() < ce then
-				if random() < 0.75 then
+				if random() < 0.95 then
 					--wander random
 					mobkit.animate(self,'walk')
 					mobkit.hq_roam(self,10)
@@ -269,23 +279,27 @@ local function brain_male(self)
 			elseif random() < cs then
 
 				--social
-				if random()< 0.3 then
+				if random()< 0.5 then
 					animals.flock(self, 25, 1)
-				elseif random()< 0.95 then
+				elseif random()< 0.5 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.01 then
+				elseif random() < 0.5 then
+
 					--reproduction
 					if self.hp >= self.max_hp
 					and energy >= energy_max/10 then
+
 						--set status as randy
 						--find nearby prospect and try to mate
 						mobkit.remember(self, 'sexual', true)
 						local mate = animals.mate_assess(self, 'animals:pegasun')
+
 						if mate then
 							--go get her!
 							mobkit.make_sound(self,'mating')
 							animals.hq_mate(self, 25, mate)
 						end
+
 					else
 						--in no state for hankypanky
 						mobkit.remember(self, 'sexual', false)
@@ -295,23 +309,25 @@ local function brain_male(self)
 			elseif energy < energy_max then
 
 				--feed via a method
-				if random()< 0.5 then
+				if random()< 0.75 then
 					--scratch dirt
-					if animals.eat_spreading_under(pos, 0.005) then
+					if animals.eat_spreading_under(pos, 0.001) == true then
 						energy = energy + 15
 					else
 						--wander random
 						mobkit.animate(self,'walk')
-						mobkit.hq_roam(self,10)
+						--mobkit.hq_roam(self,10)
+						animals.hq_roam_surface_group(self, 'spreading', 20)
 					end
 				elseif random()< 0.5 then
 					--veg
-					if animals.eat_flora(pos, 0.005) then
-						energy = energy + 15
+					if animals.eat_flora(pos, 0.005) == true then
+						energy = energy + 20
 					else
 						--wander random
 						mobkit.animate(self,'walk')
-						mobkit.hq_roam(self,10)
+						--mobkit.hq_roam(self,10)
+						animals.hq_roam_walkable_group(self, 'flora', 10)
 					end
 				else
 					--hunt
@@ -319,6 +335,7 @@ local function brain_male(self)
 						--random search
 						mobkit.animate(self,'walk')
 						mobkit.hq_roam(self,10)
+						--animals.hq_roam_surface_group(self, 'spreading', 10)
 					end
 				end
 			end

@@ -11,9 +11,7 @@ This also lists various ideas, planned, and possible features.
 #ISSUES
 -------------------------------------------------------------------
 Urgent Fixes needed:
-!!
 -occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value).
--Pegasun - needs better feeding, to move off unsuitable ground, to stay grouped, lay younger,
 
 
 Climate:
@@ -151,6 +149,7 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -acquired character traits (see each life becomes meaningfully unique)
 -Death screen - name and days survived (also put in Breaktaker, maybe a Highscores page?). Give name to bones meta.
 -multiplayer protection that allows protection to fade after death?? might get abused?
+-character page with: days survived, character biography, achievements, nickname
 
 --CLOTHING:
 -speed effects (likely to cause issues with bed physics)

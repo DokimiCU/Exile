@@ -204,7 +204,13 @@ end
 ----------------------------------------------
 --roam to places with equal or lesser darkness
 function animals.hq_roam_dark(self,prty)
+  local timer = time() + 30
+
 	local func=function(self)
+    if time() > timer then
+      return true
+    end
+
 		if mobkit.is_queue_empty_low(self) and self.isonground then
 			local pos = mobkit.get_stand_pos(self)
 			local neighbor = random(8)
@@ -216,6 +222,8 @@ function animals.hq_roam_dark(self,prty)
        local lightn = minetest.get_node_light(tpos, 0.5)
        if lightn <= light then
          mobkit.dumbstep(self,height,tpos,0.3)
+       else
+         return true
        end
      end
 		end
@@ -249,6 +257,8 @@ function animals.hq_roam_comfort_temp(self,prty, opt_temp)
 
        if difn <= dif then
          mobkit.dumbstep(self,height,tpos,0.3)
+       else
+         return true
        end
      end
 		end
@@ -256,6 +266,75 @@ function animals.hq_roam_comfort_temp(self,prty, opt_temp)
 	mobkit.queue_high(self,func,prty)
 end
 
+
+----------------------------------------------
+--roam to a better surface (by group)
+function animals.hq_roam_surface_group(self, group, prty)
+  local timer = time() + 15
+
+  local func=function(self)
+
+    if time() > timer then
+      return true
+    end
+
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+      local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+
+			if height and not liquidflag then
+        --is it the correct group?
+        local s_pos = tpos
+        s_pos.y = s_pos.y - 1
+        local under = minetest.get_node(s_pos)
+
+        if minetest.get_item_group(under.name, group) > 0 then
+          mobkit.dumbstep(self, height, tpos, 0.3)
+        else
+          return true
+        end
+      end
+
+    end
+  end
+  mobkit.queue_high(self,func,prty)
+end
+
+
+----------------------------------------------
+--roam to a walkable (by group) i.e. walk into the node itself c.f. under
+function animals.hq_roam_walkable_group(self, group, prty)
+  local timer = time() + 15
+
+  local func=function(self)
+
+    if time() > timer then
+      return true
+    end
+
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+      local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+
+			if height and not liquidflag then
+        --is it the correct?
+        local n_node = minetest.get_node(tpos).name
+
+        if minetest.get_item_group(n_node, group) > 0 then
+          mobkit.dumbstep(self, height, tpos, 0.3)
+        else
+          return true
+        end
+      end
+
+    end
+  end
+  mobkit.queue_high(self,func,prty)
+end
 
  ---------------------------------------------------
 --(currently duplicated in mobkit, but only as a local function)
@@ -1077,10 +1156,10 @@ function animals.mate_assess(self, name)
   if mate then
     --see if they are in the mood
     local ent = mate:get_luaentity()
-    local sexy = mobkit.recall(ent,'sexual')
-    local preg = mobkit.recall(ent,'pregnant')
-    if sexy and not preg then
-      return mate
+    local sexy = mobkit.recall(ent,'sexual') or false
+    local preg = mobkit.recall(ent,'pregnant') or false
+    if sexy == true and preg == false then
+      return ent
     else
       return false
     end
