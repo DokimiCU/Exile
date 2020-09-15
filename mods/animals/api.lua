@@ -151,17 +151,23 @@ end
 ----------------------------------------------------
 --put an egg in the world, return energy
 function animals.place_egg(pos, egg_name, energy, energy_egg, medium)
+
   local p = mobkit.get_node_pos(pos)
+  local e = energy
+
   if minetest.get_node(p).name == medium then
+
     local posu = {x = p.x, y = p.y - 1, z = p.z}
     local n = mobkit.nodeatpos(posu)
+
     if n and n.walkable then
       minetest.set_node(p, {name = egg_name})
-      energy = energy - energy_egg
-      return energy
+      e = energy - energy_egg
     end
+
   end
 
+  return e
 end
 
 
@@ -397,9 +403,10 @@ end
 ---------------------------------------------------
 -- turn around  from tgtob and swim away until out of sight
 function animals.hq_swimfrom(self,prty,tgtobj,speed)
-  local timer = time() + 30
+  local timer = time() + 2
 
   local func = function(self)
+
     if time() > timer then
       return true
     end
@@ -422,7 +429,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
         self.object:set_velocity(vel)
       end
 
-      mobkit.hq_aqua_turn(self,51,swimto,speed)
+      mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
     else
       return true
@@ -438,7 +445,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
  ---------------------------------------------------
  -- chase tgtob until somewhat out of sight
 function mobkit.hq_chaseafter(self,prty,tgtobj)
-  local timer = time() + 5
+  local timer = time() + 3
 
   local func = function(self)
     if time() > timer then
@@ -464,7 +471,7 @@ end
  ---------------------------------------------------
  -- chase tgtob and swim until somewhat out of sight
  function animals.hq_swimafter(self,prty,tgtobj,speed)
-   local timer = time() + 5
+   local timer = time() + 3
 
    local func = function(self)
      if time() > timer then
@@ -489,7 +496,7 @@ end
          self.object:set_velocity(vel)
        end
 
-       mobkit.hq_aqua_turn(self,51,swimto,speed)
+       mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
      else
        return true
@@ -1047,7 +1054,7 @@ end
 
 
 function animals.hq_flock_water(self,prty,tgtobj, min_dist, speed)
-  local timer = time() + 5
+  local timer = time() + 7
 
   local func = function(self)
     if time() > timer then
@@ -1072,9 +1079,15 @@ function animals.hq_flock_water(self,prty,tgtobj, min_dist, speed)
         self.object:set_velocity(vel)
       end
 
-      mobkit.hq_aqua_turn(self,51,swimto,speed)
+      mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
     else
+      --sync with target
+      local tvel = tgtobj:get_velocity()
+      local tyaw = tgtobj:get_yaw()
+
+      mobkit.hq_aqua_turn(self,prty+1,tyaw,tvel)
+      mobkit.make_sound(self,'call')
       return true
     end
 
