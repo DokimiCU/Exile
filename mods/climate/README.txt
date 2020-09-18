@@ -1,6 +1,6 @@
 Exile mod: Climate
 =============================
-Adds weather, as well as functions for checking point temperature, exposure to rain etc.
+Adds seasonal weather, as well as functions for checking point temperature, exposure to rain etc.
 
 
 Register weather:
@@ -29,8 +29,14 @@ Checks if the position is exposed to significant snow.
 Returns true if snowing.
 
 `climate.can_evaporate(pos, light[optional])`
-Temperature based chance of returning true.
+For water. Temperature based chance of returning true.
 e.g. at 100 degrees it will be 100% chance. At 1 degree it will be a 1% chance.
+
+`climate.can_freeze(pos)`
+For water. Temperature based chance of returning true.
+
+`climate.can_thaw(pos)`
+For ice/snow. Temperature based chance of returning true.
 
 `climate.get_damage_weather(pos, light[optional])`
 Checks if the position is exposed to player harming weather. e.g. duststorms
@@ -42,10 +48,10 @@ Temperature:
 Returns the temperature at position. Calculated based on air temperature, and
 the distance adjusted sum of nearby by nodes in `temp_effect` group.
 
-Nodes must be in line of sight (via air of `temp_pass` group) to have an effect.
+Nodes must be in line of sight (via air or `temp_pass` group) to have an effect.
 Effect weakens with distance.
 Node definition `temp_effect` is the amount the node raises or lowers temperature.
-Node definition `temp_effect_max` is the maximum/minumum effect that node can have.
+Node definition `temp_effect_max` is the maximum/minimum effect that node can have.
 
 e.g. `temp_effect` = 50 `temp_effect_max` = 100, will raise temperature by 50 degrees
 but max out at 100.
@@ -55,6 +61,7 @@ e.g. `temp_effect` = 50 `temp_effect_max` = -100, this strange thing will only h
 
 air_temp can be used for powerful heating/cooling effects where air movements are important.
 e.g. for ovens, fridges, i.e. the ability to trap air matters.
+
 
 Authors of source code
 ----------------------

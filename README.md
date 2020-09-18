@@ -103,3 +103,4 @@ Despite this, Exile does have enough features to be a playable game without too 
 - fix exile letter crash
 - fix salt water surface sediment crash
 - balance and bugfix animals
+- adjust ice freezing and thawing
