@@ -25,7 +25,7 @@ minetest.register_abm({
 	label = "Water Freeze",
 	nodenames = {"group:water"},
 	interval = 141,
-	chance = 15,
+	chance = 10,
 	action = function(...)
 		water_freeze(...)
 	end
@@ -72,8 +72,7 @@ local function thaw_frozen(pos, node)
 		local name = node.name
 
 		if name == "nodes_nature:ice" or name == "nodes_nature:snow_block" then
-			--isn't adding the flowing? but does remove
-			minetest.set_node(p, {name = "nodes_nature:freshwater_flowing"})
+			minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
 			minetest.check_for_falling(p)
 
 		elseif name == "nodes_nature:snow" then
@@ -93,8 +92,8 @@ end
 minetest.register_abm({
 	label = "Thaw Ice and snow",
 	nodenames = {"nodes_nature:ice", "nodes_nature:snow_block", "nodes_nature:snow", "nodes_nature:sea_ice"},
-	interval = 123,
-	chance = 10,
+	interval = 103,
+	chance = 5,
 	action = function(...)
 		thaw_frozen(...)
 	end

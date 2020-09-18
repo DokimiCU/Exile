@@ -125,10 +125,10 @@ climate.can_thaw = function(pos)
 
 	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
 
-	local c = math.random(0,100)
+	local c = math.random(0,30)
 
 	--rain washes it away
-	if c < 10 then
+	if c < 5 then
 		if climate.get_rain(posa) then
 			return true
 		end
@@ -150,7 +150,7 @@ climate.can_thaw = function(pos)
 	end
 
 	if minetest.get_item_group(node, "water") > 0 then
-		c = c/10
+		c = c/2
 	end
 
 	if climate.get_point_temp(posa) > c then
