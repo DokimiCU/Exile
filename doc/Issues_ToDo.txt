@@ -122,7 +122,7 @@ HEALTH
 -unique environ tolerances for each plant species
 -frozen wet ground (cracky)
 -fire tolerance for trees (on_burn to charred tree, regenerates)
-
+-seasonal fruit
 
 
 --MOBS

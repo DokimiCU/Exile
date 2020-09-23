@@ -125,10 +125,12 @@ climate.can_thaw = function(pos)
 
 	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
 
-	local c = math.random(0,30)
+	--threshold must be low,
+	--as its getting cooled by the ice itself
+	local c = math.random(0,12)
 
 	--rain washes it away
-	if c < 5 then
+	if c < 2 then
 		if climate.get_rain(posa) then
 			return true
 		end
@@ -140,7 +142,7 @@ climate.can_thaw = function(pos)
 	--water is an effective melting agent, so adjust c
 	local node
 
-	if c <50 then
+	if c <6 then
 		--above
 		node = minetest.get_node(posa).name
 	else
@@ -150,7 +152,7 @@ climate.can_thaw = function(pos)
 	end
 
 	if minetest.get_item_group(node, "water") > 0 then
-		c = c/2
+		c = c/3
 	end
 
 	if climate.get_point_temp(posa) > c then
