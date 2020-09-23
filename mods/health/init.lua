@@ -124,7 +124,7 @@ end
 
 
 
-local function register_tab()
+local function register_tab(player)
 	sfinv.register_page("health:health_tab", {
 		title = "Health",
 		on_enter = function(self, player, context)
@@ -317,7 +317,7 @@ minetest.register_on_newplayer(function(player)
 end)
 
 minetest.register_on_joinplayer(function(player)
-	register_tab()
+	register_tab(player)
 	sfinv.set_player_inventory_formspec(player)
 end)
 
