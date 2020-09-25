@@ -1,5 +1,5 @@
 # Exile
-Version 0.2.1 dev
+Version 0.2.1
 by Dokimi
 
 For Minetest 5.3
