@@ -137,7 +137,7 @@ local function register_tab()
 	})
 end
 
-
+register_tab()
 
 -----------------------------
 --Bonus Malus... so can be called whenever player status is changed
@@ -317,7 +317,6 @@ minetest.register_on_newplayer(function(player)
 end)
 
 minetest.register_on_joinplayer(function(player)
-	register_tab()
 	sfinv.set_player_inventory_formspec(player)
 end)
 

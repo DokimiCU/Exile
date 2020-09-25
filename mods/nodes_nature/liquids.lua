@@ -200,12 +200,19 @@ crafting.register_recipe({
 	always_known = true,
 })
 
-
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:snow_block 4",
+	items = {"nodes_nature:ice"},
+	level = 1,
+	always_known = true,
+})
 
 --ice
 minetest.register_node("nodes_nature:ice", {
 	description = "Ice",
 	tiles = {"nodes_nature_ice.png"},
+	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
 	use_texture_alpha = true,
 	temp_effect = -8,

@@ -11,8 +11,8 @@ local random = math.random
 
 --energy
 local energy_max = 8000--secs it can survive without food
-local energy_egg = energy_max/4 --energy that goes to egg
-local egg_timer  = 60*25
+local energy_egg = energy_max/2 --energy that goes to egg
+local egg_timer  = 60*15
 local young_per_egg = 8		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 6
@@ -41,17 +41,17 @@ local function brain(self)
 		local prty = mobkit.get_queue_priority(self)
 		-------------------
 		--High priority actions
-		local pred
+		local pred = nil
 
 		if prty < 50 then
 
 			--Threats
 			local plyr = mobkit.get_nearby_player(self)
 			if plyr then
-				animals.fight_or_flight_plyr_water(self, plyr, 55, 0.01)
+				animals.fight_or_flight_plyr_water(self, plyr, 55, 0)
 			end
 
-			pred = animals.predator_avoid_water(self, 55, 0.01)
+			pred = animals.predator_avoid_water(self, 55, 0)
 
 		end
 
@@ -60,51 +60,63 @@ local function brain(self)
 		--Low priority actions
 		if prty < 20 then
 
+			--feeding
+			local light = minetest.get_node_light(pos, 0.5) or 0
+			if light >= 8 then
+				--much light much food
+				if energy < energy_max then
+					energy = energy + 8
+				end
+
+			elseif light >= 1 then
+				--some light
+				if energy < energy_max then
+					energy = energy + 1
+				end
+			end
+
+			--movement
+			local tod = minetest.get_timeofday()
+
+			if tod <0.05 or tod >0.95 then
+				--sink at night to lay eggs
+				local vel = self.object:get_velocity()
+				vel.y = vel.y-0.3
+				self.object:set_velocity(vel)
+				mobkit.hq_aqua_roam(self,10,0.2)
+
+			elseif light <= 8 then
+				--rise during day if not in best light
+				local vel = self.object:get_velocity()
+				vel.y = vel.y+0.3
+				self.object:set_velocity(vel)
+				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
+
+			else
+				--no special movement
+				mobkit.hq_aqua_roam(self,5, random(0.5, self.max_speed/2))
+
+			end
+
 
 			--social behaviour
 			local rival
-			if random() <0.75 then
-				animals.flock(self, 25, 1.5, self.max_speed/4)
-			elseif random() <0.05 then
+			if pred then
+				animals.flock(self, 21, 1, self.max_speed)
+			elseif random() <0.12 then
+				animals.flock(self, 15, 2, self.max_speed/2)
+			elseif random() <0.08 then
 				rival = animals.territorial_water(self, energy, false)
 			end
 
 
-			--feeding
-			local light = minetest.get_node_light(pos, 0.5)
-			if light >= 7 then
-				if energy < energy_max then
-					energy = energy + 2.1
-				end
-				mobkit.hq_aqua_roam(self,10, random(0.5, self.max_speed/2))
-			elseif random() < 0.2 then
-				--rise
-				local vel = self.object:get_velocity()
-				vel.y = vel.y+0.1
-				self.object:set_velocity(vel)
-				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
-			end
-
-
-			--hide during the darkest part of night
-			if random() < 0.01 then
-				local tod = minetest.get_timeofday()
-				if tod <0.1 or tod >0.9 then
-					--sink
-					local vel = self.object:get_velocity()
-					vel.y = vel.y-0.2
-					self.object:set_velocity(vel)
-					mobkit.hq_aqua_roam(self,15,0.1)
-				end
-			end
-
 			--reproduction
 			--asexual parthogenesis, eggs
-			if random() < 0.01
+			if random() < 0.07
 			and not rival
 			and not pred
 			and self.hp >= self.max_hp
-			and energy >= energy_egg *2 then
+			and energy >= energy_egg + 100 then
 				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
@@ -176,7 +188,7 @@ minetest.register_entity("animals:gundu",{
 	--damage
 	max_hp = 100,
 	lung_capacity = 20,
-	min_temp = 1,
+	min_temp = -2,
 	max_temp = 35,
 
 	--interaction
@@ -206,7 +218,7 @@ minetest.register_entity("animals:gundu",{
 		},
 		call = {
 			name = "animals_gundu_call",
-			gain={0.01, 0.1},
+			gain={0.05, 0.15},
 			fade={0.5, 1.5},
 			pitch={0.6, 1.2},
 		},
@@ -234,7 +246,7 @@ minetest.register_entity("animals:gundu",{
 		{name = "animals:carcass_fish_small", chance = 1, min = 1, max = 1,},
 	},
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		animals.on_punch_water(self, tool_capabilities, puncher, 55, 0.01)
+		animals.on_punch_water(self, tool_capabilities, puncher, 56, 0)
 	end,
 	on_rightclick = function(self, clicker)
 		if not clicker or not clicker:is_player() then

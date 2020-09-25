@@ -15,6 +15,21 @@ So here is Exile's design philosophy...
 
 
 
+The Aim of Exile:
+==============================================================
+Exile is a game, mere escapism, a bit of fun. Nothing too serious.
+
+At the same time, people often seek escapism at precisely those moments when life is hardest.
+Therefore the goal of Exile is to be the kind of escapism that leaves you feeling better.
+Exile aims to be the kind of escapism that helps during those moments when you are seeking "Exile" from the world.
+
+That is the ultimate, lofty, aspiration of Exile. Hu-rah!
+
+In the likely event Exile fails to help you achieve enlightenment/self-actualization/transmogrification/a rocking bod/ etc,
+Exile should at least be fun. I'll be happy with fun.
+
+
+
 Inspirations:
 =============
 
@@ -42,9 +57,8 @@ Choice focused realism focuses on the fact that coal is non-renewable, so compar
 using wood you need to make different decisions.
 
 
-
 - Player Welfare
-Exile is escapism. People need escapism, but some of the escapism on offer is damaging to people.
+Games are escapism. People need escapism, but some of the escapism on offer is damaging to people.
 Exile should be escapism that leaves you feeling better (or at least not worse off).
 e.g. the skills needed to succeed should be valuable in real life (planning, creativity),
 e.g. breaktaker exists to stop player from spending unhealthy amounts of time sitting.
@@ -54,6 +68,13 @@ e.g. breaktaker exists to stop player from spending unhealthy amounts of time si
 I've been reluctant to add anything that is purely decorative. Almost everything
 has some use. The use is why it got added to the game. I break this rule if
 aesthetics (or fun) requires it.
+
+- Clarity:
+The player should be trying to figure out the world of Exile, not the user interface of Exile!
+Menus, information, etc should be tidy, uncluttered and easy to understand.
+e.g. crafting stations ideally have one page of crafts (for easy access)
+e.g. non-obvious "gamey" mechanics (things that exist due to the limits of making a game)
+    ought to be documented somewhere.
 
 
 - Secrets
@@ -73,15 +94,19 @@ You can feel the pride of having used skill to achieve something genuinely diffi
 - Meaning
 Exile exists in its own world. Names, characters, objects etc are chosen
 to build a consistent world that feels like a real place with a real history.
+The player should have ways of adding meaning to the world.
 e.g. plants and animals have unique names (not just copies of real species)
 e.g. soft perma-death. Each player life is treated as a new character.
+e.g. paint tools allow creation of art, symbolic markings.
 
 
 - Dynamism
 The world is alive. It is doing it's own thing. It will act and you must respond (and vice versa).
 Stories and challenges should emerge out of the world itself, whether you are ready or not.
 
-
+- Artistic Value
+Can a game be art? Might as well try....
+(at the very least it should look good!)
 
 
 Aesthetics

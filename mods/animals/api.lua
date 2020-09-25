@@ -129,9 +129,11 @@ function animals.core_life(self, lifespan, pos)
   end
 
   --temperature stress
-  local temp = climate.get_point_temp(pos)
-  if temp < self.min_temp or temp > self.max_temp then
-    energy = energy - 1
+  if random() < 0.2 then
+    local temp = climate.get_point_temp(pos)
+    if temp < self.min_temp or temp > self.max_temp then
+      energy = energy - 6
+    end
   end
 
 
@@ -149,17 +151,23 @@ end
 ----------------------------------------------------
 --put an egg in the world, return energy
 function animals.place_egg(pos, egg_name, energy, energy_egg, medium)
+
   local p = mobkit.get_node_pos(pos)
+  local e = energy
+
   if minetest.get_node(p).name == medium then
+
     local posu = {x = p.x, y = p.y - 1, z = p.z}
     local n = mobkit.nodeatpos(posu)
+
     if n and n.walkable then
       minetest.set_node(p, {name = egg_name})
-      energy = energy - energy_egg
-      return energy
+      e = energy - energy_egg
     end
+
   end
 
+  return e
 end
 
 
@@ -202,7 +210,13 @@ end
 ----------------------------------------------
 --roam to places with equal or lesser darkness
 function animals.hq_roam_dark(self,prty)
+  local timer = time() + 30
+
 	local func=function(self)
+    if time() > timer then
+      return true
+    end
+
 		if mobkit.is_queue_empty_low(self) and self.isonground then
 			local pos = mobkit.get_stand_pos(self)
 			local neighbor = random(8)
@@ -214,6 +228,8 @@ function animals.hq_roam_dark(self,prty)
        local lightn = minetest.get_node_light(tpos, 0.5)
        if lightn <= light then
          mobkit.dumbstep(self,height,tpos,0.3)
+       else
+         return true
        end
      end
 		end
@@ -247,6 +263,8 @@ function animals.hq_roam_comfort_temp(self,prty, opt_temp)
 
        if difn <= dif then
          mobkit.dumbstep(self,height,tpos,0.3)
+       else
+         return true
        end
      end
 		end
@@ -254,6 +272,75 @@ function animals.hq_roam_comfort_temp(self,prty, opt_temp)
 	mobkit.queue_high(self,func,prty)
 end
 
+
+----------------------------------------------
+--roam to a better surface (by group)
+function animals.hq_roam_surface_group(self, group, prty)
+  local timer = time() + 15
+
+  local func=function(self)
+
+    if time() > timer then
+      return true
+    end
+
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+      local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+
+			if height and not liquidflag then
+        --is it the correct group?
+        local s_pos = tpos
+        s_pos.y = s_pos.y - 1
+        local under = minetest.get_node(s_pos)
+
+        if minetest.get_item_group(under.name, group) > 0 then
+          mobkit.dumbstep(self, height, tpos, 0.3)
+        else
+          return true
+        end
+      end
+
+    end
+  end
+  mobkit.queue_high(self,func,prty)
+end
+
+
+----------------------------------------------
+--roam to a walkable (by group) i.e. walk into the node itself c.f. under
+function animals.hq_roam_walkable_group(self, group, prty)
+  local timer = time() + 15
+
+  local func=function(self)
+
+    if time() > timer then
+      return true
+    end
+
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+      local pos = mobkit.get_stand_pos(self)
+			local neighbor = random(8)
+
+			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+
+			if height and not liquidflag then
+        --is it the correct?
+        local n_node = minetest.get_node(tpos).name
+
+        if minetest.get_item_group(n_node, group) > 0 then
+          mobkit.dumbstep(self, height, tpos, 0.3)
+        else
+          return true
+        end
+      end
+
+    end
+  end
+  mobkit.queue_high(self,func,prty)
+end
 
  ---------------------------------------------------
 --(currently duplicated in mobkit, but only as a local function)
@@ -316,9 +403,10 @@ end
 ---------------------------------------------------
 -- turn around  from tgtob and swim away until out of sight
 function animals.hq_swimfrom(self,prty,tgtobj,speed)
-  local timer = time() + 30
+  local timer = time() + 2
 
   local func = function(self)
+
     if time() > timer then
       return true
     end
@@ -341,7 +429,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
         self.object:set_velocity(vel)
       end
 
-      mobkit.hq_aqua_turn(self,51,swimto,speed)
+      mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
     else
       return true
@@ -357,7 +445,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
  ---------------------------------------------------
  -- chase tgtob until somewhat out of sight
 function mobkit.hq_chaseafter(self,prty,tgtobj)
-  local timer = time() + 5
+  local timer = time() + 3
 
   local func = function(self)
     if time() > timer then
@@ -383,7 +471,7 @@ end
  ---------------------------------------------------
  -- chase tgtob and swim until somewhat out of sight
  function animals.hq_swimafter(self,prty,tgtobj,speed)
-   local timer = time() + 5
+   local timer = time() + 3
 
    local func = function(self)
      if time() > timer then
@@ -408,7 +496,7 @@ end
          self.object:set_velocity(vel)
        end
 
-       mobkit.hq_aqua_turn(self,51,swimto,speed)
+       mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
      else
        return true
@@ -859,7 +947,7 @@ function animals.territorial(self, energy, eat)
 
       --contest! The more energetic one wins
       local r_ent = rival:get_luaentity()
-      local r_ent_e = mobkit.recall(r_ent,'energy')
+      local r_ent_e = mobkit.recall(r_ent,'energy') or 0
 
       if energy > r_ent_e then
         if eat then
@@ -966,7 +1054,7 @@ end
 
 
 function animals.hq_flock_water(self,prty,tgtobj, min_dist, speed)
-  local timer = time() + 5
+  local timer = time() + 7
 
   local func = function(self)
     if time() > timer then
@@ -991,9 +1079,15 @@ function animals.hq_flock_water(self,prty,tgtobj, min_dist, speed)
         self.object:set_velocity(vel)
       end
 
-      mobkit.hq_aqua_turn(self,51,swimto,speed)
+      mobkit.hq_aqua_turn(self,prty,swimto,speed)
 
     else
+      --sync with target
+      local tvel = tgtobj:get_velocity()
+      local tyaw = tgtobj:get_yaw()
+
+      mobkit.hq_aqua_turn(self,prty+1,tyaw,tvel)
+      mobkit.make_sound(self,'call')
       return true
     end
 
@@ -1075,10 +1169,10 @@ function animals.mate_assess(self, name)
   if mate then
     --see if they are in the mood
     local ent = mate:get_luaentity()
-    local sexy = mobkit.recall(ent,'sexual')
-    local preg = mobkit.recall(ent,'pregnant')
-    if sexy and not preg then
-      return mate
+    local sexy = mobkit.recall(ent,'sexual') or false
+    local preg = mobkit.recall(ent,'pregnant') or false
+    if sexy == true and preg == false then
+      return ent
     else
       return false
     end

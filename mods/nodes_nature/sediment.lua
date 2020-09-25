@@ -327,6 +327,7 @@ for i in ipairs(list2) do
 		drop = "nodes_nature:"..dropped,
 		sounds = s,
 		_wet_name = "nodes_nature:"..name.."_wet",
+		_wet_salty_name = "nodes_nature:"..dropped.."_wet_salty",
 		_ag_soil = "nodes_nature:"..dropped.."_agricultural_soil",
 	})
 
@@ -346,6 +347,7 @@ for i in ipairs(list2) do
 	})
 
 	--no salty as salty kills the surface life
+	--wet salty is just the raw sediment version.
 
 
 end
@@ -434,6 +436,7 @@ for i in ipairs(list3) do
 		sounds = s,
 		drop = source,
 		_wet_name = "nodes_nature:"..name.."_wet",
+		_wet_salty_name = "nodes_nature:"..type.."_wet_salty",
 		on_construct = function(pos)
 			--speed of erosion, degrade to depleted
 			minetest.get_node_timer(pos):start(math.random(60, 300))
@@ -478,6 +481,7 @@ for i in ipairs(list3) do
 		sounds = s,
 		drop = source,
 		_wet_name = "nodes_nature:"..name.."_wet_depleted",
+		_wet_salty_name = "nodes_nature:"..type.."_wet_salty",
 		on_punch = function(pos, node, puncher, pointed_thing)
 			fertilize_ag_soil(pos, puncher, "nodes_nature:"..name)
 		end,

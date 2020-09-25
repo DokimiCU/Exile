@@ -1,8 +1,14 @@
 # Exile
-Version 0.2
+Version 0.2.1
 by Dokimi
 
 For Minetest 5.3
+
+### Installation
+Exile should be in games folder like so:
+
+Minetest > games > Exile > mods/menu/... etc
+
 
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
@@ -35,6 +41,7 @@ Starvation and freezing are hard to avoid without preparation.
 
 Some tips and tricks:
 - Beds are important. If you're exhausted you get hypothermia/heat stroke. Get under shelter in a nice temperature.
+- Do your crafting, organizing, planning while you rest.
 - Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
 - Go deep enough underground and you might find something....
@@ -48,7 +55,20 @@ Some tips and tricks:
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
 - Build stairs and shelters around your base, this will save you energy and protect you from extremes.
 
+### Development
+Exile is opensource - that means it is as good as you choose to make it.
+It also means development can be erratic and haphazard at times, so be patient!
 
+To report bugs, fixes, or suggestions check out the Minetest forums or Github:
+
+https://github.com/DokimiCU/Exile
+
+https://forum.minetest.net/viewtopic.php?t=24334
+
+Exile is currently in Alpha, therefore expect bugs, missing features, performance issues,
+and compatibility breaking updates.
+Despite this, Exile does have enough features to be a playable game without too many crashes.
+(See Doc > Issues_ToDo for a list of known bugs, missing features etc)
 
 ### Changelog:
 
@@ -79,3 +99,10 @@ Some tips and tricks:
 - various minor balance changes
 - various minor additions
 - Minetest 5.3 compatibility
+
+#0.2.1
+- fix exile letter crash
+- fix salt water surface sediment crash
+- fix for multiplayer health tab crash
+- balance and bugfix animals
+- adjust ice freezing and thawing

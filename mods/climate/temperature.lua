@@ -88,6 +88,81 @@ climate.can_evaporate = function(pos, l)
 end
 
 
+--freeze
+climate.can_freeze = function(pos)
+
+	local c = math.random(-50,0)
+
+	--stop freezing underwater
+	--although technically you should be able to do it
+	--given large volume of seas means lots of underwater ice
+	--even if probabilities are low
+	local t
+
+	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
+	local node = minetest.get_node(posa).name
+	if minetest.get_item_group(node, "water") > 0 then
+		return false
+	elseif node == 'air' then
+		--use air temp for air exposed ()
+		t = climate.get_point_temp(posa)
+	else
+		t = climate.get_point_temp(pos)
+	end
+
+	--higher chance of freeze at lower temp.
+	if t <= c then
+		-- e.g. at -25 will freeze half the time.
+		return true
+	end
+
+	return false
+end
+
+
+--thaw frozen
+climate.can_thaw = function(pos)
+
+	local posa = {x=pos.x, y=pos.y + 1, z=pos.z}
+
+	--threshold must be low,
+	--as its getting cooled by the ice itself
+	local c = math.random(0,12)
+
+	--rain washes it away
+	if c < 2 then
+		if climate.get_rain(posa) then
+			return true
+		end
+	end
+
+	--frozen nodes are also temp-source so have to
+	--check outside the nodes
+	--check above, or check below
+	--water is an effective melting agent, so adjust c
+	local node
+
+	if c <6 then
+		--above
+		node = minetest.get_node(posa).name
+	else
+		--below
+		posa.y = posa.y - 2
+		node = minetest.get_node(posa).name
+	end
+
+	if minetest.get_item_group(node, "water") > 0 then
+		c = c/3
+	end
+
+	if climate.get_point_temp(posa) > c then
+		return true
+	end
+
+	return false
+end
+
+
 --exposed to lethal weather e.g. choking duststorm
 --i.e. will expose to significant harm, do player damage
 climate.get_damage_weather = function(pos, l)
