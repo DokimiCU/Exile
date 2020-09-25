@@ -41,6 +41,7 @@ Starvation and freezing are hard to avoid without preparation.
 
 Some tips and tricks:
 - Beds are important. If you're exhausted you get hypothermia/heat stroke. Get under shelter in a nice temperature.
+- Do your crafting, organizing, planning while you rest.
 - Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
 - Go deep enough underground and you might find something....
@@ -102,5 +103,6 @@ Despite this, Exile does have enough features to be a playable game without too 
 #0.2.1
 - fix exile letter crash
 - fix salt water surface sediment crash
+- fix for multiplayer health tab crash
 - balance and bugfix animals
 - adjust ice freezing and thawing

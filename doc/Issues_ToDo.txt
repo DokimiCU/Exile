@@ -19,7 +19,7 @@ Climate:
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
 -values on inventory page don't update instantly (e.g. when using chat commands)
-
+-settings for season length (longer seasons might be better for servers)
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
@@ -37,7 +37,7 @@ Animals:
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
--Tangkal tree schem has grass in it?
+-Tangkal tree schem has grass in it.
 -freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
 -a gemedi cane was spotted on top of moss (flora spread?)
 
@@ -60,6 +60,7 @@ Tech:
 
 illumination:
 -Node 'light_source' value exceeds maximum, limiting to maximum: illumination:light_full
+-Doesn't illuminate invisible functional non-air nodes (e.g. tree markers)
 
 Artifacts:
 -airboat collision allows going into things, dig pointer is out of line with crosshairs, can jump off inside blocks
@@ -76,6 +77,12 @@ Canoe:
 
 Backpacks:
 -uses deprecated meta
+
+
+Multiplayer:
+-odd stuck walking in place glitch (when player dying, raining)
+-add protection (i.e. locks) to wooden chest and doors
+
 
 Misc:
 -various bits of code could be tidied up (e.g. duplicated code pulled into functions)
@@ -104,6 +111,7 @@ Features ideas:
 --INTERFACE
 -remove inventory trash when not creative?
 -nameable bags
+-help menu
 
 --PROCESSES
 -punch with torch for firelighter?
@@ -144,7 +152,7 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -dangerous contaminants, traps etc
 
 --SOFT PERMA-DEATH i.e. new life = new character
--random (re)spawn location
+-random (re)spawn location. With settings (e.g. multiplayer spawn needs to be same place)
 -random character skins for each life
 -acquired character traits (see each life becomes meaningfully unique)
 -Death screen - name and days survived (also put in Breaktaker, maybe a Highscores page?). Give name to bones meta.
@@ -177,7 +185,12 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -ranged weapons
 -armor
 
-
 --DECO
 -more ambience: rustling leaves, lava
 -cave flora (mud with mushrooms)
+
+--MULTIPLAYER
+-various standard server tools (e.g. protection, chat, etc)
+-signs, letters, etc (graffiti could have an alphabet paint kit, but servers need more detailed signage)
+- intro page (optional - off in single player)
+- multiplayer only crafts (e.g. for trade). (optional - off in single player)
