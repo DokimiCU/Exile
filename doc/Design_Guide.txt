@@ -69,6 +69,13 @@ I've been reluctant to add anything that is purely decorative. Almost everything
 has some use. The use is why it got added to the game. I break this rule if
 aesthetics (or fun) requires it.
 
+- Clarity:
+The player should be trying to figure out the world of Exile, not the user interface of Exile!
+Menus, information, etc should be tidy, uncluttered and easy to understand.
+e.g. crafting stations ideally have one page of crafts (for easy access)
+e.g. non-obvious "gamey" mechanics (things that exist due to the limits of making a game)
+    ought to be documented somewhere.
+
 
 - Secrets
 This is a game to reward experimentation, creativity, and exploration.

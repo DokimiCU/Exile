@@ -11,8 +11,8 @@ local random = math.random
 
 --energy
 local energy_max = 5000--secs it can survive without food
-local energy_egg = energy_max/4 --energy that goes to egg
-local egg_timer  = 60*7
+local energy_egg = energy_max-100 --energy that goes to egg
+local egg_timer  = 60*10
 local young_per_egg = 5		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 5
@@ -77,7 +77,7 @@ local function brain(self)
 			--feeding
 			local light = (minetest.get_node_light(pos) or 0)
 
-			if light <= 14 then
+			if light <= 12 then
 				--hungry eat stuff in the dark
 				if energy < energy_max then
 					if animals.eat_sediment_under(pos, 0.001) == true then
@@ -94,7 +94,7 @@ local function brain(self)
 					--full
 					mobkit.hq_roam(self,1)
 				end
-			elseif random()<0.75 and energy < energy_max then
+			elseif random()<0.5 and energy < energy_max then
 				--slower, less effective feeding during day
 				if animals.eat_sediment_under(pos, 0.001) then
 					energy = energy + 1
@@ -119,7 +119,7 @@ local function brain(self)
 			and not rival
 			and not pred
 			and self.hp >= self.max_hp
-			and energy >= energy_egg *2 then
+			and energy >= energy_max then
 				energy = animals.place_egg(pos, "animals:sneachan_eggs", energy, energy_egg, 'air')
 			end
 
