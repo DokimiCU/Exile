@@ -15,6 +15,9 @@ local heat = 450
 -------------------------------------------
 --save usage into inventory, to prevent infinite torch supply
 local on_dig = function(pos, node, digger)
+
+	if not digger then return false end
+	
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
 	end

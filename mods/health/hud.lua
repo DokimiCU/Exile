@@ -11,6 +11,69 @@ HEALTH.update_hud(player) called by health code (e.g. on actions)
 ]]
 
 local hud = {}
+if minetest.get_modpath("hudbars") then
+	HEALTH.hudbars = true
+	
+	--Thirst
+	hb.register_hudbar('thirst', 0xffffff, "Hydration", {
+		bar = 'health_hudbar_bar_thirst.png',
+		icon = 'health_dot_blue_thirst.png'
+	}, 100, 100, false)
+	
+	--Hunger
+	hb.register_hudbar('hunger', 0xffffff, "Satiation", {
+		bar = 'health_hudbar_bar_hunger.png',
+		icon = 'health_dot_orange_hunger.png'
+	}, 1000, 1000, false)
+	
+	--Energy
+	hb.register_hudbar('energy', 0xffffff, "Energy", {
+		bar = 'health_hudbar_bar_energy.png',
+		icon = 'health_dot_green_energy.png'
+	}, 1000, 1000, false)
+	
+	--Body-temp
+	hb.register_hudbar('temperature', 0xffffff, "Body-Temp", {
+		bar = 'health_hudbar_bar_temp.png',
+		icon = 'health_dot_red_temp.png'
+	}, 37, 50, false)
+	
+	
+	
+	function HEALTH.get_value(player,hval)
+		if not player then return false end
+		
+		local meta = player:get_meta()
+		if not meta then return false end
+		
+		local thirst = meta:get_int("thirst")
+		local hunger = meta:get_int("hunger")
+		local energy = meta:get_int("energy")
+		local temperature = meta:get_int("temperature")
+		
+		if hval == "thirst" then return thirst end
+		if hval == "hunger" then return hunger end
+		if hval == "energy" then return energy end
+		if hval == "temp" then return temperature end
+	end
+	
+	
+	minetest.register_on_joinplayer(function(player)
+		if not HEALTH.hudbars then return end
+		if player then
+			local thirst = HEALTH.get_value(player,"thirst") or 100
+			local hunger = HEALTH.get_value(player,"hunger") or 1000
+			local energy = HEALTH.get_value(player,"energy") or 1000
+			local temp = HEALTH.get_value(player,"temp") or 37
+							
+			hb.init_hudbar(player, 'thirst', thirst, 100, false)
+			hb.init_hudbar(player, 'hunger', hunger, 1000, false)    
+			hb.init_hudbar(player, 'energy', energy, 1000, false)
+			hb.init_hudbar(player, 'temperature', temp, 50, false)
+		end
+	end)
+
+end
 
 
 ----------------------------------------
@@ -20,6 +83,18 @@ HEALTH.update_hud = function(player, thirst, hunger, energy, temperature, enviro
 	local playername = player:get_player_name()
 	local hud_data = hud[playername]
 
+	if HEALTH.hudbars then
+		local thirst = HEALTH.get_value(player,"thirst") or 100
+		local hunger = HEALTH.get_value(player,"hunger") or 1000
+		local energy = HEALTH.get_value(player,"energy") or 1000
+		local temp = HEALTH.get_value(player,"temp") or 37
+		
+		hb.change_hudbar(player, 'thirst', thirst, 100)
+		hb.change_hudbar(player, 'hunger', hunger, 1000)
+		hb.change_hudbar(player, 'energy', energy, 1000)
+		hb.change_hudbar(player, 'temperature', temp, 50)
+	end
+	
 	if not hud_data then
 		return
 	end
@@ -254,11 +329,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
-
---placeholder!
---minetest.register_on_joinplayer(function(player)
-	--HEALTH.setup_hud(player)
---end)
 
 
 minetest.register_on_leaveplayer(function(player)
