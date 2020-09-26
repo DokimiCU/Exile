@@ -1,5 +1,7 @@
 # Exile
-Version 0.2.1
+Version 0.X
+Development Branch
+
 by Dokimi
 
 For Minetest 5.3
