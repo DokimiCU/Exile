@@ -264,7 +264,7 @@ end
 
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
-	lay_down(player, nil, nil, false, true)
+	--lay_down(player, nil, nil, false, true)
 	bed_rest.player[name] = nil
 	bed_rest.join_time[name] = nil
 end)
