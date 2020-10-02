@@ -12,7 +12,7 @@ This also lists various ideas, planned, and possible features.
 -------------------------------------------------------------------
 Urgent Fixes needed:
 -occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value).
-
+-api line 299, group check
 
 Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
@@ -123,6 +123,7 @@ HEALTH
 -disease and other player effects
 -speed/jump malus from low hp
 -more sophisticated health: energy drawn from Hunger.
+-setting to display temperature in F
 
 --NATURE
 -bamboo like thing (like canes but for sticks)
@@ -132,6 +133,9 @@ HEALTH
 -fire tolerance for trees (on_burn to charred tree, regenerates)
 -seasonal fruit
 
+--CLIMATE
+-humidity, wet bulb temperatures
+
 
 --MOBS
 -more mobs: land predator
@@ -140,6 +144,7 @@ HEALTH
 
 
 --LORE/LOOT/DUNGEONS
+-surface access shafts along highways
 -artifacts (loot): scuba, tree grower
 -dangerous "pandora's box" loot
 -surface ruins

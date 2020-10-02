@@ -1,5 +1,5 @@
 # Exile
-Version 0.X
+Version 0.2.2
 Development Branch
 
 by Dokimi
@@ -53,6 +53,7 @@ Some tips and tricks:
 - iron smelting. This is hard. Needs charcoal.
 - Charcoal. Make it like you would for real. A wood fire with no air.
 - Food: eat stuff and see if you live! You can catch animals with clubs (right click)
+- Farming: digging tools also can till soil. Punching depleted farm soil with fertilizers will restore it.
 - Drugs: a couple of things have useful effects.
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
 - Build stairs and shelters around your base, this will save you energy and protect you from extremes.
@@ -108,3 +109,5 @@ Despite this, Exile does have enough features to be a playable game without too 
 - fix for multiplayer health tab crash
 - balance and bugfix animals
 - adjust ice freezing and thawing
+
+#0.2.2

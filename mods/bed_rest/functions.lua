@@ -82,8 +82,9 @@ local quote_list = {
 	"'They say I'm old-fashioned, and live in the past, but sometimes I think progress progresses too fast!'\n- Dr. Seuss",
 	"'He who has a strong enough why can bear any how.'\n- Friedrich Nietzsche",
 	"'The greatest threat to our planet is the belief that someone else will save it.'\n- Robert Swan",
-	"'Life is a struggle and wandering in a foreign country.'\n- Marcus Aurelius"
-
+	"'Life is a struggle and wandering in a foreign country.'\n- Marcus Aurelius",
+	"'It will be a sinister day when computers start to laugh,\nbecause that will mean they are capable of a lot of other things as well'\n- Edward de Bono",
+	"'Po converts what might otherwise be taken as madness into a perfectly reasonable illogical procedure.'\n- Edward de Bono"
 
 
 
