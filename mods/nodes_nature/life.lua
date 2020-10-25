@@ -13,7 +13,7 @@ Currently the following meshes are choosable:
 
 
 ---------------------------------------
-
+local random = math.random
 
 --how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
 --18000 per season?
@@ -78,7 +78,7 @@ local function seed_soil_response(pos)
 		timer_min = timer_min - (timer_min * 0.2)
 	end
 
-	local timer_max = timer_min * 1.3
+	local timer_max = timer_min * 1.1
 	return timer_min, timer_max
 end
 
@@ -433,7 +433,7 @@ for i in ipairs(plantlist) do
 	--extract seeds
 	crafting.register_recipe({
 		type = "threshing_spot",
-		output = "nodes_nature:"..plantname.."_seed 4",
+		output = "nodes_nature:"..plantname.."_seed 6",
 		items = {"nodes_nature:"..plantname},
 		level = 1,
 		always_known = true,
@@ -447,22 +447,21 @@ end
 
 --Consummables
 --Use: hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
---most raw food items have some malus and are mostly realitively ineffective
 local plantlist2 = {
   --drugs
-	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,20,1, nil, nil, nil, base_growth},
-	--evil
-	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, -5,-5,-500,-5,-5, nil, nil, nil, base_growth},
-	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 20,-95,-995,-995,0, nil, nil, nil, base_growth*2},
+	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,2,0, nil, nil, nil, base_growth, 0.001},
+	--toxic
+	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, 0,0,0,0,0, nil, nil, nil, base_growth, 0.001},
+	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 0, 0, 0, 0,0, nil, nil, nil, base_growth*2, 0.001},
   --medicine
-  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 3, 1,0,0,-100,0, nil, nil, nil, base_growth * 2},
-	{"merki", "Merki", nil, 1, "mushroom", nil, 2, 4,0,0,-500,0, nil, nil, nil, base_growth * 2},
+  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
+	{"merki", "Merki", nil, 1, "mushroom", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
 	--food and water
-	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,4,0,-8,0, nil, nil, nil, base_growth * 2 },
-	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,-8,0, nil, nil, nil, base_growth * 2},
-	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,2,2,-8,0, nil, nil, nil, base_growth *0.8},
+	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,3,1,0,0, nil, nil, nil, base_growth * 2, 0.005},
+	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,2,0,0, nil, nil, nil, base_growth * 2, 0.01},
+	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, base_growth *0.8, 0.008},
 	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *5},
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *5, 0.001},
 
 }
 
@@ -484,6 +483,7 @@ for i in ipairs(plantlist2) do
 	local seed_desc = plantlist2[i][14]
 	local seed_image = plantlist2[i][15]
 	local growth = plantlist2[i][16] --for seeds
+	local c_food_pois = plantlist2[i][17]
 
 	if not growth then
 		growth = base_growth
@@ -541,6 +541,15 @@ for i in ipairs(plantlist2) do
 			groups = g,
 			sounds = s,
 			on_use = function(itemstack, user, pointed_thing)
+				--food poisoning
+		    local c = c_food_pois
+				local block = {
+					{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+					{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+					{"Food Poisoning (severe)", nil, nil, 2}
+				}
+				HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
 				return HEALTH.use_item(itemstack, user, u_hp, u_th, u_hu, u_en, u_te, u_rep)
 			end,
 		})
@@ -730,7 +739,7 @@ for i in ipairs(plantlist2) do
 		--extract seeds
 		crafting.register_recipe({
 			type = "threshing_spot",
-			output = "nodes_nature:"..plantname.."_seed 4",
+			output = "nodes_nature:"..plantname.."_seed 6",
 			items = {"nodes_nature:"..plantname},
 			level = 1,
 			always_known = true,
@@ -956,6 +965,20 @@ end
 --edible sea_lettuce
 minetest.override_item("nodes_nature:sea_lettuce",{
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		local c = 0.05
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
+		--parasites
+		local c2 = 0.05
+		HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 5, -10, 0)
 	end,
@@ -967,7 +990,7 @@ minetest.override_item("nodes_nature:sea_lettuce",{
 
 --glowing mushroom
 minetest.override_item("nodes_nature:merki",{
-	light_source = 3
+	light_source = 2
 })
 
 
@@ -990,23 +1013,141 @@ minetest.override_item("nodes_nature:anperla_seed",{
 --oil seed crop
 minetest.override_item("nodes_nature:vansano_seed",{
 	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
 	end,
 })
 
---tikusati's real power is in the seeds
+---------------------------------------
+--tikusati's stimulant in the seeds too
 minetest.override_item("nodes_nature:tikusati_seed",{
 	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, -10, math.random(50, 300), math.random(1, 3))
+		return HEALTH.use_item(itemstack, user, 0, 0, -2, 2, 0)
 	end,
 })
 
---lambakap. Glows, is also a mushroom.
+
+--marbhan has a Neurotoxin, and will cause a fever
+minetest.override_item("nodes_nature:marbhan",{
+	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
+		--toxin
+		local c2 = 0.75
+		HEALTH.check_for_effect(user, {"Neurotoxicity", c2}, {{"Neurotoxicity"}})
+
+
+		local meta = user:get_meta()
+		local temperature = meta:get_int("temperature")
+
+		if temperature <= 42 then
+			meta:set_int("temperature", temperature + 2)
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, -1, 0, 0, -10, 0)
+	end,
+})
+
+
+--nebiyi has a Hepatotoxin, and will cause a hypothermia
+minetest.override_item("nodes_nature:nebiyi",{
+	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
+		--toxin
+		local c2 = 0.75
+		HEALTH.check_for_effect(user, {"Hepatotoxicity", c2}, {{"Hepatotoxicity"}})
+
+
+		local meta = user:get_meta()
+		local temperature = meta:get_int("temperature")
+
+		if temperature >= 34 then
+			meta:set_int("temperature", temperature - 2)
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, -1, 0, 0, -10, 0)
+	end,
+})
+
+
+--hakimi is antibacterial
+minetest.override_item("nodes_nature:hakimi",{
+	on_use = function(itemstack, user, pointed_thing)
+
+		--only cure mild
+		if random()<0.25 then
+			local meta = user:get_meta()
+			local effects_list = meta:get_string("effects_list")
+			effects_list = minetest.deserialize(effects_list) or {}
+			HEALTH.remove_effect(meta, effects_list, "Food Poisoning (mild)")
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 1, 0, 0, -10, 0)
+	end,
+})
+
+--merki is anti-parasitic
+minetest.override_item("nodes_nature:merki",{
+	on_use = function(itemstack, user, pointed_thing)
+
+		if random()<0.25 then
+			local meta = user:get_meta()
+			local effects_list = meta:get_string("effects_list")
+			effects_list = minetest.deserialize(effects_list) or {}
+			HEALTH.remove_effect(meta, effects_list, "Intestinal Parasites")
+		end
+
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 1, 0, 0, -10, 0)
+	end,
+})
+
+
+
+
+--------------------------------------
+--lambakap. is also a mushroom.
 --slow growing food and water source, main crop for longterm underground living.
 minetest.override_item("nodes_nature:lambakap",{
-	light_source = 2,
+	--light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1021,10 +1162,10 @@ minetest.override_item("nodes_nature:lambakap",{
 	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 })
 
---reshedaar. Glows, is also a mushroom.
+--reshedaar.  is also a mushroom.
 --slow growing fibre mushroom, main fibre crop for longterm underground living.
 minetest.override_item("nodes_nature:reshedaar",{
-	light_source = 2,
+	--light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1042,10 +1183,10 @@ minetest.override_item("nodes_nature:reshedaar",{
 	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 })
 
---Mahal. Glows, is also a mushroom.
+--Mahal. is also a mushroom.
 --slow growing woody mushroom, main stick crop for longterm underground living.
 minetest.override_item("nodes_nature:mahal",{
-	light_source = 2,
+	--light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {

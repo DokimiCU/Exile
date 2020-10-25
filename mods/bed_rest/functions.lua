@@ -216,6 +216,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		--clear physics
 		player_monoids.speed:del_change(player, "health:physics")
 		player_monoids.jump:del_change(player, "health:physics")
+		player_monoids.speed:del_change(player, "health:physics_HE")
+		player_monoids.jump:del_change(player, "health:physics_HE")
 		player:set_physics_override(0, 0, 0)
 		player:set_pos(p)
 		player_api.player_attached[name] = true
@@ -262,14 +264,14 @@ end
 
 --------------------------------------------
 --clear attachment etc
-
+--[[
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
 	lay_down(player, nil, nil, false, true)
 	bed_rest.player[name] = nil
 	bed_rest.join_time[name] = nil
 end)
-
+]]
 
 minetest.register_on_dieplayer(function(player)
 	local name = player:get_player_name()

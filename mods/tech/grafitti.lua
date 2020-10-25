@@ -120,7 +120,7 @@ grafitti.register_brush("tech:paint_glow_paint", {
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:paint_glow_paint",
-	items = {'nodes_nature:merki 48', 'tech:stick', 'group:fibrous_plant 4', 'tech:vegetable_oil 4'},
+	items = {'nodes_nature:merki 24', 'tech:stick', 'group:fibrous_plant 4', 'tech:vegetable_oil 4'},
 	level = 1,
 	always_known = true,
 })

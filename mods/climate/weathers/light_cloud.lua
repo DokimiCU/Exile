@@ -66,8 +66,8 @@ light_cloud.star_data = {
 
 light_cloud.chain = {
 	--name, p_cold, p_mid , p_hot
-	{'clear', 0.1, 0.2, 0.4, 0.8},
-	{'medium_cloud', 0.75, 0.75, 0.5, 0.25},
+	{'clear', 0.1, 0.2, 0.4, 0.5},
+	{'medium_cloud', 0.75, 0.75, 0.5, 0.5},
 	{'snow_flurry', 0.1, 0, 0, 0}
 
 }

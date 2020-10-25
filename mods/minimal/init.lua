@@ -3,10 +3,10 @@ minimal = {
 	stack_max_medium = 24,
 	stack_max_light = 288,
 	--hand base abilities
-	hand_punch_int = 0.9,
+	hand_punch_int = 0.8,
 	hand_max_lvl = 1,
-	hand_crac = 4.0,
-	hand_chop = 2.0,
+	hand_crac = 3.5,
+	hand_chop = 1.5,
 	hand_crum = 1.0,
 	hand_snap = 0.5,
 	hand_dmg = 1,

@@ -18,17 +18,18 @@ Use your wits to find food, water, and shelter before succumbing to the elements
 while exploring the mysterious world, and developing your capacities to endure your exile.
 
 Features:
-Player health effects: hypothermia, exhaustion,...
-Dynamic nature with: Seasonal weather, erosion, soil water flows...
-Building matters: make shelters from the rain, kilns, water reservoirs,...
-...
+Player health effects: hypothermia, exhaustion, disease...
+Dynamic nature: Seasonal weather, erosion, soil water flows...
+Building matters: make shelters from the rain, kilns, smelters,...
+
+CAUTION: some people may find parts of this game difficult or disturbing.
 
 ### Gameplay Guide
 Many different strategies might work, and part of the fun is figuring out what does,
 and catastrophically does not, work.
 
 Here are some early steps you might pass though:
-1. Make basic tools, and a bag. Find a suitable camp site.
+1. Make basic tools. Find a suitable camp site.
 2. Build a bed to rest in, shelter, and maybe fire for warmth.
 3. Make a kiln, and make pots. Harvest wild foods while you wait.
 4. Collect water with pots, and build up a water supply.
@@ -47,14 +48,15 @@ Some tips and tricks:
 - Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
 - Go deep enough underground and you might find something....
-- Water: you can drink cave drips (click them). Water pots collect rain water, or from wet soil. Some plants, food has water.
+- Water: you can drink cave drips (click them). Water pots collect rain water. Some plants, food has water.
+- Keep an eye on "health effects". You may have eaten something bad, or have a terrible disease.
 - Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
 - Fires. Blocks are hotter. Charcoal is hotter than wood. Fires can be temporarily extinguished by punching them holding sediment.
 - iron smelting. This is hard. Needs charcoal.
 - Charcoal. Make it like you would for real. A wood fire with no air.
 - Food: eat stuff and see if you live! You can catch animals with clubs (right click)
 - Farming: digging tools also can till soil. Punching depleted farm soil with fertilizers will restore it.
-- Drugs: a couple of things have useful effects.
+- Drugs: some plants have useful effects. Be careful not to OD on drugs.
 - Not every step in crafting can be done at a work station. Some things need to be fired, or soaked in water etc.
 - Build stairs and shelters around your base, this will save you energy and protect you from extremes.
 
@@ -62,16 +64,12 @@ Some tips and tricks:
 Exile is opensource - that means it is as good as you choose to make it.
 It also means development can be erratic and haphazard at times, so be patient!
 
-To report bugs, fixes, or suggestions check out the Minetest forums or Github:
-
-https://github.com/DokimiCU/Exile
-
-https://forum.minetest.net/viewtopic.php?t=24334
-
 Exile is currently in Alpha, therefore expect bugs, missing features, performance issues,
 and compatibility breaking updates.
 Despite this, Exile does have enough features to be a playable game without too many crashes.
-(See Doc > Issues_ToDo for a list of known bugs, missing features etc)
+
+See Doc > Issues_ToDo for a list of known bugs, missing features etc
+See Doc > Development_Process for more details
 
 ### Changelog:
 
@@ -111,3 +109,10 @@ Despite this, Exile does have enough features to be a playable game without too 
 - adjust ice freezing and thawing
 
 #0.2.2
+- new HUD
+- character page
+- health effects
+- Drugs: Tiku, Tang, metastim
+- megamorph surface airshafts
+- fix clothing infinite tolerance bug
+- misc minor fixes and balancing

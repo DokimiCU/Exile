@@ -153,6 +153,8 @@ local syl_mid = {
 	'rendra', 'rillus', 'riah',
 	'avius',
 	'phoros',
+	'-',
+	"'"
 
 
 }

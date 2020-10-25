@@ -1,5 +1,15 @@
 -------------------------------------
 --HEALTH
+
+--[[
+Two global step functions
+Fast, and slow.
+
+Fast applies environmental and action based effects (in on_actions)
+Slow applies internal metabolism effects (here)
+
+
+]]
 ------------------------------------
 --[[
 Some notes:
@@ -23,7 +33,7 @@ cabbage 240 cal/kg = 4.8 u/kg
 
 HEALTH = {}
 
-
+dofile(minetest.get_modpath('health')..'/health_effects.lua')
 dofile(minetest.get_modpath('health')..'/on_actions.lua')
 dofile(minetest.get_modpath('health')..'/hud.lua')
 
@@ -45,8 +55,8 @@ local move = 0
 local jump = 0
 
 --no clothing temperature comfort zone
-local temp_min = 20
-local temp_max = 30
+local temp_min = 18--20
+local temp_max = 32--30
 
 --e.g. for new players
 local function set_default_attibutes(player)
@@ -68,7 +78,7 @@ end
 
 
 
-
+--[[
 -----------------------------
 --Forms for sfinv
 --only for bug testing
@@ -94,13 +104,7 @@ local function sfinv_get(self, player, context)
 	local move = tostring(meta:get_int("move"))
 	local jump = tostring(meta:get_int("jump"))
 
-	--[[
-	local active_list = ""
-	local all_actives = {"Drank Sea Water", "Plague", "Intestinal Parasites"}
-	for i, all_actives in ipairs(all_actives) do
-		active_list = active_list .. all_actives.. ", "
-	end
-	]]
+
 
 	local formspec = "label[0.1,0.1; Health: " .. health .. " / 20]"..
 	"label[0.1,0.6; Thirst: " .. thirst .. " / 100]"..
@@ -139,6 +143,109 @@ end
 
 register_tab()
 
+
+]]
+
+-----------------------------
+--Applies Health Effects
+--called by malus_bonus
+--takes all the same variables, and outputs as any effect may use them.
+--adjusted outputs feed back into malus_bonus
+--when functions are called other effects may happen within them (beyond returned adjustments)
+
+local function do_effects_list(player, name, meta, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
+	local effects_list = meta:get_string("effects_list")
+	effects_list = minetest.deserialize(effects_list) or {}
+
+	if not effects_list then
+		return h_rate, r_rate, t_rate, hun_rate, mov, jum, health, energy, thirst, hunger, temperature
+	end
+
+	for _, effect in ipairs(effects_list) do
+
+		--look for name in Health Effects
+		--just go through one by one... is there a better way??...
+
+		---------
+		if effect == "Hangover (mild)" then
+			mov, jum = HEALTH.hangover_mild(meta, effects_list, mov, jum)
+		elseif effect == "Hangover (moderate)" then
+			mov, jum = HEALTH.hangover_moderate(meta, effects_list, mov, jum)
+		elseif effect == "Hangover (severe)" then
+			mov, jum = HEALTH.hangover_severe(player, meta, effects_list, mov, jum)
+		end
+
+		---------
+		if effect == "Drunk (mild)" then
+			r_rate, mov, jum = HEALTH.drunk_mild(player, meta, effects_list, r_rate, mov, jum)
+		elseif effect == "Drunk (moderate)" then
+			r_rate, mov, jum = HEALTH.drunk_moderate(player, meta, effects_list, r_rate, mov, jum)
+		elseif effect == "Drunk (severe)" then
+			r_rate, mov, jum = HEALTH.drunk_severe(player, meta, effects_list, r_rate, mov, jum)
+		elseif effect == "Alcohol Poisoning" then
+			r_rate, h_rate, mov, jum, temperature = HEALTH.alcohol_poisoning(player, meta, effects_list, r_rate, h_rate, mov, jum, temperature)
+		end
+
+
+		----------
+		if effect == "Food Poisoning (mild)" then
+			r_rate, mov, jum = HEALTH.food_poisoning_mild(player, meta, effects_list, r_rate, mov, jum)
+		elseif effect == "Food Poisoning (moderate)" then
+			r_rate, mov, jum = HEALTH.food_poisoning_moderate(player, meta, effects_list, r_rate, mov, jum)
+		elseif effect == "Food Poisoning (severe)" then
+			r_rate, mov, jum, temperature = HEALTH.food_poisoning_severe(player, meta, effects_list, r_rate, mov, jum, temperature)
+		end
+
+		----------
+		if effect == "Intestinal Parasites" then
+			r_rate, hun_rate = HEALTH.intestinal_parasites(meta, effects_list, r_rate, hun_rate)
+		end
+
+		---------
+		if effect == "Tiku High (mild)" then
+			r_rate, hun_rate, mov, jum = HEALTH.tiku_mild(player, meta, effects_list, r_rate, hun_rate, mov, jum)
+		elseif effect == "Tiku High (moderate)" then
+			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_moderate(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+		elseif effect == "Tiku High (severe)" then
+			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_severe(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+		elseif effect == "Tiku Overdose" then
+			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_overdose(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+		end
+
+		---------
+		if effect == "Neurotoxicity" then
+			mov, jum, h_rate = HEALTH.neurotoxicity(player, meta, effects_list, mov, jum, h_rate)
+		end
+
+		---------
+		if effect == "Hepatotoxicity" then
+			mov, jum, r_rate, h_rate = HEALTH.hepatotoxicity(player, meta, effects_list, mov, jum, r_rate, h_rate)
+		end
+
+		---------
+		if effect == "Photosensitivity" then
+			h_rate, r_rate = HEALTH.photosensitivity(player, meta, effects_list, h_rate, r_rate)
+		end
+
+		---------
+		if effect == "Meta-Stim" then
+			h_rate, r_rate, hun_rate, t_rate = HEALTH.meta_stim(player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
+		end
+
+
+
+
+
+	end
+
+	return h_rate, r_rate, t_rate, hun_rate, mov, jum, health, energy, thirst, hunger, temperature
+end
+
+
+
+
+
+
 -----------------------------
 --Bonus Malus... so can be called whenever player status is changed
 --takes standard rates and adjusts them based on player status.
@@ -147,7 +254,7 @@ register_tab()
 --also give name and meta, bc anything calling it should already have that
 -- returns the adjusted rates so they can be used if desired
 --
-function HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperature)
+function HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, temperature)
 
 	--use standard values, so it doesn't compound each time adjusted.
 	--Only saved to player meta so they can be accessed without recalculating
@@ -157,6 +264,7 @@ function HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperat
 	local r_rate = recovery_rate
 	local mov = move
 	local jum = jump
+
 
 	--(hunger/Energy has 10x stock)
 	--0-20 starving/severe dehydrated: malus, no heal
@@ -184,6 +292,28 @@ function HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperat
 	--
 
 	--bonus/malus from health
+	if health <= 1 then
+		mov = mov - 50
+		jum = jum - 50
+		h_rate = h_rate - 3
+		r_rate = r_rate - 4
+	elseif health < 4 then
+		mov = mov - 25
+		jum = jum - 25
+		h_rate = h_rate - 2
+		r_rate = r_rate - 2
+	elseif health < 8 then
+		mov = mov - 20
+		jum = jum - 20
+		h_rate = h_rate - 1
+		r_rate = r_rate - 1
+	elseif health < 12 then
+		mov = mov - 15
+		jum = jum - 15
+	elseif health < 16 then
+		mov = mov - 10
+		jum = jum - 10
+	end
 
 	--bonus/malus from energy
 	if energy > 800 then
@@ -270,7 +400,13 @@ function HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperat
 	end
 
 	--temp malus..severe..having this happen would make you very ill
-	if temperature > 47 or temperature < 27 then
+	if temperature > 100 or temperature < 0 then
+		--you dead
+		h_rate = h_rate - 10000
+		r_rate = r_rate - 10000
+		mov = mov - 10000
+		jum = jum - 10000
+	elseif temperature > 47 or temperature < 27 then
 		h_rate = h_rate - 16
 		r_rate = r_rate - 64
 		mov = mov - 80
@@ -287,24 +423,37 @@ function HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperat
 		jum = jum - 20
 	end
 
+	--health effects
+	local HE_mov
+	local HE_jum
+	h_rate, r_rate, t_rate, hun_rate, HE_mov, HE_jum, health, energy, thirst, hunger, temperature = do_effects_list(player, name, meta, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
+
 
 	--save adjusted rates for access (e.g. by a medical tab/equipment etc)
 	meta:set_int("heal_rate", h_rate)
 	meta:set_int("thirst_rate", t_rate)
 	meta:set_int("hunger_rate", hun_rate)
 	meta:set_int("recovery_rate", r_rate)
-	meta:set_int("move", mov)
-	meta:set_int("jump", jum)
+	meta:set_int("move", HE_mov)
+	meta:set_int("jump", HE_jum)
 
 	--apply player physics
 	--don't do in bed or it buggers the physics
 	if not bed_rest.player[name] then
 		player_monoids.speed:add_change(player, 1 + (mov/100), "health:physics")
 		player_monoids.jump:add_change(player, 1 + (jum/100), "health:physics")
+		--split physics from hunger etc from that from health effects
+		--this means quick_physics can fiddle with one half, without overriding the half from effects
+		HE_mov = HE_mov - mov
+		HE_jum = HE_jum - jum
+		player_monoids.speed:add_change(player, 1 + (HE_mov/100), "health:physics_HE")
+		player_monoids.jump:add_change(player, 1 + (HE_jum/100), "health:physics_HE")
+
+
 	end
 
 	--return adjusted rates so can be applied if necessary
-	return h_rate, r_rate, t_rate, hun_rate,  mov, jum
+	return h_rate, r_rate, t_rate, hun_rate, mov, jum, health, energy, thirst, hunger, temperature
 
 end
 
@@ -318,16 +467,38 @@ end)
 
 minetest.register_on_joinplayer(function(player)
 	sfinv.set_player_inventory_formspec(player)
+
+	--set physics etc
+	local name = player:get_player_name()
+	local meta = player:get_meta()
+	local health = player:get_hp()
+	local thirst = meta:get_int("thirst")
+	local hunger = meta:get_int("hunger")
+	local energy = meta:get_int("energy")
+	local temperature = meta:get_int("temperature")
+	HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, temperature)
+
+end)
+
+
+minetest.register_on_dieplayer(function(player)
+	--redo physics (to clear what killed them)
+	player_monoids.speed:del_change(player, "health:physics")
+	player_monoids.jump:del_change(player, "health:physics")
+	player_monoids.speed:del_change(player, "health:physics_HE")
+	player_monoids.jump:del_change(player, "health:physics_HE")
+	--clear Health effects list
+	local meta = player:get_meta()
+	meta:set_string("effects_list", "")
+	meta:set_int("effects_num", 0)
+
 end)
 
 minetest.register_on_respawnplayer(function(player)
 	set_default_attibutes(player)
 	--sfinv.set_player_inventory_formspec(player)
-
-	--redo physics (to clear what killed them)
-	player_monoids.speed:del_change(player, "health:physics")
-	player_monoids.jump:del_change(player, "health:physics")
 end)
+
 
 
 if minetest.settings:get_bool("enable_damage") then
@@ -355,7 +526,7 @@ if minetest.settings:get_bool("enable_damage") then
 
 
 				--apply rate adjustments so they are correct for current player status
-				local h_rate, r_rate, t_rate, hun_rate,  mov, jum = HEALTH.malus_bonus(player, name, meta, energy, thirst, hunger, temperature)
+				local h_rate, r_rate, t_rate, hun_rate, mov, jum, health, energy, thirst, hunger, temperature  = HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, temperature)
 
 				--
 				--update attributes based on adjusted rates
@@ -419,8 +590,6 @@ if minetest.settings:get_bool("enable_damage") then
 				meta:set_int("energy", energy1)
 				meta:set_int("temperature", temperature1)
 
-
-				--sfinv.set_player_inventory_formspec(player)
 
 			end
 		end

@@ -145,6 +145,28 @@ minetest.override_item("nodes_nature:freshwater_source",{
 			minetest.set_node(pos, {name = "air"})
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
 
+			--food poisoning
+			local c = 0.005
+			--parasites
+			local c2 = 0.005
+
+			--disease chance worse if water in a bad place (e.g. a muddy hole)
+			local bad = minetest.find_node_near(pos, 1, {"group:sediment"})
+			if bad then
+				c = 0.1
+				c2 = 0.1
+			end
+
+
+			HEALTH.check_for_effect(clicker, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+
+			local block = {
+				{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+				{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+				{"Food Poisoning (severe)", nil, nil, 2}
+			}
+			HEALTH.check_for_effect(clicker, {"Food Poisoning (mild)", c}, block)
+
 		end
 	end
 })
@@ -204,6 +226,14 @@ crafting.register_recipe({
 	type = "mixing_spot",
 	output = "nodes_nature:snow_block 4",
 	items = {"nodes_nature:ice"},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:ice",
+	items = {"nodes_nature:snow_block 4"},
 	level = 1,
 	always_known = true,
 })

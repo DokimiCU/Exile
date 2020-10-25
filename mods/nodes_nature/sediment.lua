@@ -301,7 +301,7 @@ local list2 = {
 	{"grassland_soil", "Grassland Soil", 2, "clay", "clay"},
 	{"marshland_soil", "Marshland Soil", 3, "silt", "silt"},
 	{"duneland_soil", "Duneland Soil", 3, "sand", "sand"},
-	{"highland_soil", "Highland Soil", 3, "gravel", "gravel"},
+	{"highland_soil", "Highland Soil", 2, "gravel", "gravel"},
 	{"woodland_soil", "Woodland Soil", 3, "loam", "loam"},
 
 }

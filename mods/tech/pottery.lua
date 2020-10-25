@@ -95,6 +95,8 @@ local function water_pot(pos)
 		local name_a = minetest.get_node(posa).name
 		if name_a == "air" then
 			return true
+		--[[-- Water puddles make more sense than this now,
+		--especially given disease risks
 		elseif minetest.get_item_group(name_a, "wet_sediment") == 1 then
 			local nodedef = minetest.registered_nodes[name_a]
 			if not nodedef then
@@ -111,10 +113,9 @@ local function water_pot(pos)
 			minetest.set_node(posa, {name = nodedef._dry_name})
 			minetest.set_node(pos, {name = "tech:clay_water_pot_salt_water"})
 			return
-		elseif name_a == "nodes_nature:ice" or name_a == "nodes_nature:snow_block" then
-			local t = climate.get_point_temp(pos)
-			local c = math.random(1,100)
-			if t > c then
+			]]
+		elseif name_a == "nodes_nature:ice" then
+			if climate.can_thaw(posa) then
 				minetest.set_node(pos, {name = "tech:clay_water_pot_freshwater"})
 				minetest.remove_node(posa)
 				return
@@ -586,6 +587,9 @@ minetest.override_item("tech:clay_water_pot_freshwater",{
 			if thirst > 100 then
 				thirst = 100
 			end
+
+			--could add disease risk, but different sources have different risks
+			--e.g. rain vs mud puddle
 
 			meta:set_int("thirst", thirst)
 			minetest.set_node(pos, {name = "tech:clay_water_pot"})

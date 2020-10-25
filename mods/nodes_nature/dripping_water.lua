@@ -55,6 +55,19 @@ minetest.register_entity("nodes_nature:drop_water", {
 			meta:set_int("thirst", thirst)
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.1})
 			self.object:remove()
+
+			--parasites
+			local c2 = 0.001
+			HEALTH.check_for_effect(clicker, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+			--food poisoning
+			local c = 0.005
+			local block = {
+				{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+				{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+				{"Food Poisoning (severe)", nil, nil, 2}
+			}
+			HEALTH.check_for_effect(clicker, {"Food Poisoning (mild)", c}, block)
+
 		end
 	end,
 })

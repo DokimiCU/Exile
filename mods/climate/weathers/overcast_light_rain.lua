@@ -67,8 +67,8 @@ overcast_light_rain.sound_loop = 'light_rain_loop'
 --probabilities in each temp class
 overcast_light_rain.chain = {
 	--name, p_cold, p_mid , p_hot
-	{'light_rain', 0.01, 0.1, 0.2, 0.3},
-	{'overcast', 0.5, 0.5, 0.5, 0.75},
+	{'light_rain', 0.01, 0.25, 0.5, 0.75},
+	{'overcast', 0.5, 0.5, 0.5, 0.5},
 	{'overcast_rain', 0.01, 0.75, 0.5, 0.25},
 	{'overcast_light_snow', 0.25, 0, 0, 0}
 

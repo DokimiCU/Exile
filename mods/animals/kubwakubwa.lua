@@ -131,8 +131,21 @@ minetest.register_node("animals:kubwakubwa_eggs", {
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
+
+		local c2 = 0.01
+		HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+
+		--food poisoning
+		local c = 0.1
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 6, -6, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 6, 0, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))

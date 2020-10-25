@@ -4,6 +4,120 @@
 
 -----------------------------
 
+-----------------------------
+--!!!!!!!!!!!! Still conflicts with Health Effects?? will overide physics
+--Quick physics
+-- update the physics immediately, without going through all of malus_bonus
+--(using malus_bonus itself produces conflicts)
+--for things that need to instantly update physics i.e. need the flow on from reduced hunger now.
+--only need the physics part as rates etc get applied from main health function
+--MUST MATCH malus_bonus as it will get overriden by that when it kicks in!!!!
+
+local function quick_physics(player, name, health, energy, thirst, hunger, temperature)
+  --use standard values
+  local mov = 0
+  local jum = 0
+
+  --
+  --update rates
+  --
+
+  --bonus/malus from health
+  if health <= 1 then
+    mov = mov - 50
+    jum = jum - 50
+  elseif health < 4 then
+    mov = mov - 25
+    jum = jum - 25
+  elseif health < 8 then
+    mov = mov - 20
+    jum = jum - 20
+  elseif health < 12 then
+    mov = mov - 15
+    jum = jum - 15
+  elseif health < 16 then
+    mov = mov - 10
+    jum = jum - 10
+  end
+
+  --bonus/malus from energy
+  if energy > 800 then
+    mov = mov + 15
+    jum = jum + 15
+  elseif energy < 1 then
+    mov = mov - 30
+    jum = jum - 30
+  elseif energy < 200 then
+    mov = mov - 20
+    jum = jum - 20
+  elseif energy < 400 then
+    mov = mov - 10
+    jum = jum - 10
+  elseif energy < 600 then
+    mov = mov - 1
+    jum = jum - 1
+  end
+
+
+  --bonus/malus from thirst
+  if thirst > 80 then
+    mov = mov + 1
+    jum = jum + 1
+  elseif thirst < 1 then
+    mov = mov - 30
+    jum = jum - 30
+  elseif thirst < 20 then
+    mov = mov - 20
+    jum = jum - 20
+  elseif thirst < 40 then
+    mov = mov - 10
+    jum = jum - 10
+  elseif thirst < 60 then
+    mov = mov - 1
+    jum = jum - 1
+  end
+
+  --bonus/malus from hunger
+  if hunger > 800 then
+    mov = mov + 1
+    jum = jum + 1
+  elseif hunger < 1 then
+    mov = mov - 30
+    jum = jum - 30
+  elseif hunger < 200 then
+    mov = mov - 20
+    jum = jum - 20
+  elseif hunger < 400 then
+    mov = mov - 10
+    jum = jum - 10
+  elseif hunger < 600 then
+    mov = mov - 1
+    jum = jum - 1
+  end
+
+  --temp malus..severe..having this happen would make you very ill
+  if temperature > 47 or temperature < 27 then
+    mov = mov - 80
+    jum = jum - 80
+  elseif temperature > 43 or temperature < 32 then
+    mov = mov - 40
+    jum = jum - 40
+  elseif temperature > 38 or temperature < 37 then
+    mov = mov - 20
+    jum = jum - 20
+  end
+
+
+  --apply player physics
+  --don't do in bed or it buggers the physics
+  if not bed_rest.player[name] then
+    player_monoids.speed:add_change(player, 1 + (mov/100), "health:physics")
+    player_monoids.jump:add_change(player, 1 + (jum/100), "health:physics")
+  end
+
+
+
+end
 
 
 -----------------------------
@@ -12,7 +126,6 @@
 
 --Consummable items
 function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item)
-  local name = user:get_player_name()
 
 	if itemstack == nil or user == nil or not minetest.settings:get_bool("enable_damage") then
 		return
@@ -28,7 +141,8 @@ function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_chang
 	local energy = meta:get_int("energy")
 	local temperature = meta:get_int("temperature")
 
-
+  local mov = meta:get_int("move")
+	local jum = meta:get_int("jump")
 
 	--calc change with min max
 	health = health + hp_change
@@ -62,8 +176,9 @@ function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_chang
 	temperature = temperature + temp_change
 
 	--set new values
-	-- and update malus (need for setting correct physics)
-	HEALTH.malus_bonus(user, name, meta, energy, thirst, hunger, temperature)
+	-- and update malus (need for setting correct physics) --conflicts with Health Effects!
+	--HEALTH.malus_bonus(user, name, meta, health, energy, thirst, hunger, temperature)
+  quick_physics(user, name, health, energy, thirst, hunger, temperature)
 
 	user:set_hp(health)
 	meta:set_int("thirst", thirst)
@@ -152,14 +267,14 @@ if minetest.settings:get_bool("enable_damage") then
         local danger_low = stress_low - 40
         local danger_high = stress_high +40
         --energy costs (extreme, danger, stress)
-        local costex = 12
-        local costd = 6
-        local costs = 2
+        local costex = 9
+        local costd = 3
+        local costs = 1
         --water conducts heat better
         if water then
-          costex = 24
-          costd = 12
-          costs = 4
+          costex = 27
+          costd = 9
+          costs = 3
         end
 
 
@@ -179,8 +294,11 @@ if minetest.settings:get_bool("enable_damage") then
 							energy = energy - costs
 						end
 					end
-        --totally exhausted, heat stroke or hypothermia now sets in
-				elseif enviro_temp < comfort_low or enviro_temp > comfort_high then
+        end
+
+          --totally exhausted, heat stroke or hypothermia now sets in
+        if energy <= 0
+        and (enviro_temp < stress_low or enviro_temp > stress_high) then
           --heat or cool to ambient temperature
           temperature = (temperature*0.95) + (enviro_temp*0.05)
           meta:set_int("temperature", temperature)
@@ -205,18 +323,17 @@ if minetest.settings:get_bool("enable_damage") then
             or enviro_temp < stress_low
             or enviro_temp > stress_high then
               --terrible sleep in the rain etc
-							energy = energy + math.random(0, lvl)
+							energy = energy + math.random(1, (5*lvl))
+
+            elseif enviro_temp < comfort_low
+            or enviro_temp > comfort_high
+            or light >= 14 then
+              --okay sleep if in uncomfortable temp, exposed
+              energy = energy + (10 * lvl)
+
             elseif enviro_temp < comfort_high and enviro_temp > comfort_low and light < 14 then
               --best rest is under shelter, in a non-extreme temperature
-							energy = energy + (15 * lvl)
-							if energy > 1000 then
-								energy = 1000
-							end
-						else
-							energy = energy + (2*lvl)
-							if energy > 1000 then
-								energy = 1000
-							end
+							energy = energy + (20 * lvl)
 						end
 					end
 				end
@@ -249,13 +366,21 @@ if minetest.settings:get_bool("enable_damage") then
 				end
 
 
+        --cap energy
+        if energy < 0 then
+          energy = 0
+        elseif energy > 1000 then
+          energy = 1000
+        end
+
+
 				--update
 				meta:set_int("energy", energy)
         player:set_hp(health)
 				--update form so can see change while looking
 				sfinv.set_player_inventory_formspec(player)
         --update hud (will abort if no hud on)
-        HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
+        --HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
 
 			end
 

@@ -884,6 +884,17 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+minetest.register_decoration({
+	name = "animals:kubwakubwa_eggs_land",
+	deco_type = "simple",
+	place_on = all_soils_on,
+  sidelen = 80,
+	fill_ratio = 0.0001,
+	y_max = lowland_ymax,
+	y_min = 2,
+	decoration = "animals:kubwakubwa_eggs",
+  flags = "all_floors",
+})
 
 --darkasthaan_eggs
 minetest.register_decoration({
@@ -942,6 +953,7 @@ local gundu_eggs = minetest.get_decoration_id("animals:gundu_eggs")
 local sarkamos_eggs = minetest.get_decoration_id("animals:sarkamos_eggs")
 local impethu_eggs = minetest.get_decoration_id("animals:impethu_eggs")
 local kubwakubwa_eggs = minetest.get_decoration_id("animals:kubwakubwa_eggs")
+local kubwakubwa_eggs_land = minetest.get_decoration_id("animals:kubwakubwa_eggs_land")
 local darkasthaan_eggs = minetest.get_decoration_id("animals:darkasthaan_eggs")
 local pegasun_eggs = minetest.get_decoration_id("animals:pegasun_eggs")
 local sneachan_eggs = minetest.get_decoration_id("animals:sneachan_eggs")
@@ -953,6 +965,7 @@ minetest.set_gen_notify(
     sarkamos_eggs,
     impethu_eggs,
     kubwakubwa_eggs,
+    kubwakubwa_eggs_land,
     darkasthaan_eggs,
     pegasun_eggs,
     sneachan_eggs
@@ -980,6 +993,11 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
   end
 
   for _, pos in ipairs(gennotify["decoration#"..kubwakubwa_eggs] or {}) do
+    local kubwakubwa_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, kubwakubwa_eggs_pos)
+  end
+
+  for _, pos in ipairs(gennotify["decoration#"..kubwakubwa_eggs_land] or {}) do
     local kubwakubwa_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
     table.insert(poslist, kubwakubwa_eggs_pos)
   end

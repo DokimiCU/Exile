@@ -7,10 +7,16 @@
 ----------------------------------------------------------------
 --freeze water
 local function water_freeze(pos, node)
+	local n_name = node.name
+
+	--don't freeze flows, allows infinite ice generators
+	if string.match(n_name, "flowing") then
+		return
+	end
 
 	if climate.can_freeze(pos) then
 
-		local water_type = minetest.get_item_group(node.name, "water")
+		local water_type = minetest.get_item_group(n_name, "water")
 		if water_type == 1 then
 			minetest.set_node(pos, {name = "nodes_nature:ice"})
 		elseif water_type == 2 then
@@ -71,8 +77,12 @@ local function thaw_frozen(pos, node)
 
 		local name = node.name
 
-		if name == "nodes_nature:ice" or name == "nodes_nature:snow_block" then
+		if name == "nodes_nature:ice" then
 			minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+			minetest.check_for_falling(p)
+
+		elseif name == "nodes_nature:snow_block" then
+			minetest.set_node(p, {name = "nodes_nature:freshwater_flowing"})
 			minetest.check_for_falling(p)
 
 		elseif name == "nodes_nature:snow" then

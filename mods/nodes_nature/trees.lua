@@ -320,18 +320,54 @@ end
 --maraka thorns
 minetest.override_item("nodes_nature:maraka_leaves",{damage_per_second = 1})
 
---maraka nut is dangerous poisonous until processed
+
+--maraka nut is dangerous poisonous until processed,
+-- causes photosensitivity, risk of hepatotoxicity
+--you can eat it raw if you want to take the risk... famine food for the desperate
 minetest.override_item("nodes_nature:maraka_nut",{
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
+		--toxins
+		HEALTH.check_for_effect(user, {"Hepatotoxicity", 0.01}, {{"Hepatotoxicity"}})
+		HEALTH.check_for_effect(user, {"Photosensitivity", 0.25}, {{"Photosensitivity"}})
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, -1, -100, -500, -100, 1)
+		return HEALTH.use_item(itemstack, user, 0, 0, 5, 5, 0)
 	end,
 })
 
---tangkal_fruit is good food, but bulky
+--tangkal_fruit is good food, but bulky, contains small amounts of alcohol
 minetest.override_item("nodes_nature:tangkal_fruit",{
 	stack_max = minimal.stack_max_medium/4,
 	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+    local c = 0.001
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		
+		--chance of getting drunk
+		local c2 = 0.005
+		local block2 = {
+			{"Drunk (mild)","Drunk (moderate)", c, true},
+			{"Drunk (moderate)","Drunk (severe)", c, true},
+			{"Drunk (severe)", "Alcohol Poisoning", c, true},
+			{"Alcohol Poisoning", nil, nil, 8}
+		}
+		HEALTH.check_for_effect(clicker, {"Drunk (mild)", c2}, block2)
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 5, 10, 10, 0)
 	end,

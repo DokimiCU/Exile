@@ -296,7 +296,7 @@ function animals.hq_roam_surface_group(self, group, prty)
         s_pos.y = s_pos.y - 1
         local under = minetest.get_node(s_pos)
 
-        if minetest.get_item_group(under.name, group) > 0 then
+        if under and minetest.get_item_group(under.name, group) > 0 then
           mobkit.dumbstep(self, height, tpos, 0.3)
         else
           return true
@@ -905,7 +905,7 @@ function animals.hq_attack_eat(self,prty,tgtobj)
 				return true
 			else
 				mobkit.lq_turn2pos(self,tpos)
-        local height = tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6
+        local height = tgtobj:is_player() and 0.35 or tgtobj:get_luaentity().height*0.6 or 0
 				if tpos.y+height>pos.y then
 					lq_jumpattack_eat(self,tpos.y+height-pos.y,tgtobj)
 

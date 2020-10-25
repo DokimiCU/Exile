@@ -168,7 +168,7 @@ local crime2 = {
   "smuggling",
   "vagabondage",
   "banditry",
-  "piracy in peacetime",
+  "unathourized piracy",
   "drunkness",
   "sinful living",
   "rabble rousing",
@@ -248,7 +248,11 @@ local crime2 = {
   "sleeping with unclean creatures",
   "violating the chastity of the priesthood",
   "marrying outside their caste",
-  "cheating at dice"
+  "cheating at dice",
+  "gardening without a permit",
+  "stealing priceless art",
+  "aiding an adulterous princess",
+  "leading an unathourized military campagain"
 
 }
 
@@ -348,11 +352,13 @@ local mythic_terror = {
 
 
 
-local generate_text = function()
+local generate_text = function(player)
   local letter_text = ""
 
+  local meta = player:get_meta()
+
   local judge = judger[random(#judger)]
-  local your_name = lore.generate_name(3)
+  local your_name = meta:get_string("char_name")
   local origin_name = lore.generate_name(4)
   local polity_name = lore.generate_name(5)
   local cr1 = crime1[random(#crime1)]
@@ -413,7 +419,7 @@ local after_place = function(pos, placer, itemstack, pointed_thing)
 
   local letter_text = stack_meta:get_string("lore:letter_text")
   if letter_text == "" then
-    letter_text = generate_text()
+    letter_text = generate_text(placer)
   end
 
   local form = get_formspec(meta, letter_text )
@@ -428,7 +434,7 @@ local dig = function(pos, node, digger, width, height)
 		minetest.remove_node(pos)
 		return
 	end
-  
+
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
 	end

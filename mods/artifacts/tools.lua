@@ -37,7 +37,7 @@ minetest.register_craftitem("artifacts:light_meter", {
 	end,
 })
 
-
+--[[ Redundant
 ------------------------------------
 --THERMOMETER
 --get ambient position temperature
@@ -68,7 +68,7 @@ minetest.register_craftitem("artifacts:thermometer", {
 	end,
 })
 
-
+]]
 
 ------------------------------------
 --TEMPERATURE PROBE

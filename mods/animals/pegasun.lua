@@ -12,7 +12,7 @@ local random = math.random
 --energy
 local energy_max = 8000--secs it can survive without food
 local energy_egg = energy_max/2 --energy that goes to egg
-local egg_timer  = 60*25
+local egg_timer  = 60*45
 local young_per_egg = 1		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 10
@@ -129,7 +129,9 @@ local function brain(self)
 							if mate then
 								--go get him!
 								mobkit.make_sound(self,'mating')
-								animals.hq_mate(self, 25, mate)
+								if random() < 0.5 then
+									animals.hq_mate(self, 25, mate)
+								end
 							end
 						end
 					else
@@ -144,7 +146,7 @@ local function brain(self)
 				if random()< 0.85 then
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.001) == true then
-						energy = energy + 15
+						energy = energy + 6
 					else
 						--wander to food source
 						mobkit.animate(self,'walk')
@@ -297,7 +299,9 @@ local function brain_male(self)
 						if mate then
 							--go get her!
 							mobkit.make_sound(self,'mating')
-							animals.hq_mate(self, 25, mate)
+							if random() < 0.5 then
+								animals.hq_mate(self, 25, mate)
+							end
 						end
 
 					else
@@ -312,7 +316,7 @@ local function brain_male(self)
 				if random()< 0.75 then
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.001) == true then
-						energy = energy + 15
+						energy = energy + 6
 					else
 						--wander random
 						mobkit.animate(self,'walk')
@@ -379,8 +383,20 @@ minetest.register_node("animals:pegasun_eggs", {
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
+
+		local c2 = 0.02
+		HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+		--food poisoning
+		local c = 0.025
+		local block = {
+			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
+			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
+			{"Food Poisoning (severe)", nil, nil, 2}
+		}
+		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 8, -4, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 10, 0, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
