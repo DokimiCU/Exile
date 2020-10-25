@@ -12,7 +12,7 @@ local random = math.random
 --energy
 local energy_max = 8000--secs it can survive without food
 local energy_egg = energy_max/2 --energy that goes to egg
-local egg_timer  = 60*25
+local egg_timer  = 120*25
 local young_per_egg = 1		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 10
@@ -129,7 +129,7 @@ local function brain(self)
 							if mate then
 								--go get him!
 								mobkit.make_sound(self,'mating')
-								animals.hq_mate(self, 25, mate)
+								if random() < 0.25 then animals.hq_mate(self, 25, mate) end
 							end
 						end
 					else
