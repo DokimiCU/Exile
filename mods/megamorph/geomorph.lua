@@ -526,7 +526,9 @@ function Geomorph:write_sphere(shape, rot, loc)
 		local zv = (z - center.z) / proportions.z
 		local zvs = zv * zv
 		for x = min.x, max.x do
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			if minp and self.params.share.surface[minp.z + z][minp.x + x] then
+				local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			end
 			height = height or -33000
 			--local height = -33000
 
