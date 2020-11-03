@@ -430,12 +430,8 @@ function Geomorph:write_cube(shape, rot, loc)
 					end
 				end
 			end
-			local height = nil
-			if self and minp and self.params.share.surface[minp.z + z][minp.x + x] then
-				height = self.params.share.surface[minp.z + z][minp.x + x].top
-			end
-			height = height or -33000
-			--local height = -33000
+			
+			local height = -33000
 
 			local ivm = self.area:index(minp.x + x, minp.y + min.y, minp.z + z)
 			for y = min.y, top_y do
