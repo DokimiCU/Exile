@@ -525,9 +525,10 @@ function Geomorph:write_sphere(shape, rot, loc)
 		local index = z * self.csize.x + min.x + 1
 		local zv = (z - center.z) / proportions.z
 		local zvs = zv * zv
+		local height = nil
 		for x = min.x, max.x do
 			if minp and self.params.share.surface[minp.z + z][minp.x + x] then
-				local height = self.params.share.surface[minp.z + z][minp.x + x].top
+				height = self.params.share.surface[minp.z + z][minp.x + x].top
 			end
 			height = height or -33000
 			--local height = -33000
@@ -630,8 +631,10 @@ function Geomorph:write_cylinder(shape, rot, loc)
 		for x = min.x, max.x do
 			local ivm = area:index(minp.x + x, minp.y + min.y, minp.z + z)
 			local top_y = max.y
-
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			local height = nil
+			if minp and self.params.share.surface[minp.z + z][minp.x + x] then
+				height = self.params.share.surface[minp.z + z][minp.x + x].top
+			end
 			height = height or -33000
 			--local height = -33000
 
