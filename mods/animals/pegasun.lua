@@ -12,11 +12,11 @@ local random = math.random
 --energy
 local energy_max = 8000--secs it can survive without food
 local energy_egg = energy_max/2 --energy that goes to egg
-local egg_timer  = 60*45
+local egg_timer  = 60*60
 local young_per_egg = 1		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 10
-
+local lifespan_male = lifespan * 1.2 --if the flock male dies they go extinct
 
 
 -----------------------------------
@@ -106,7 +106,7 @@ local function brain(self)
 					animals.flock(self, 25, 3)
 				elseif random()< 0.01 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.1 then
+				elseif random() < 0.05 then
 
 					--reproduction
 					if self.hp >= self.max_hp
@@ -116,7 +116,7 @@ local function brain(self)
 						local preg = mobkit.recall(self,'pregnant') or false
 						if preg == true then
 							mobkit.lq_idle(self,3)
-							if random() < 0.1 then
+							if random() < 0.05 then
 								energy = animals.place_egg(pos, "animals:pegasun_eggs", energy, energy_egg, 'air')
 								mobkit.remember(self,'pregnant',false)
 							end
@@ -209,7 +209,7 @@ local function brain_male(self)
 
 		local pos = mobkit.get_stand_pos(self)
 
-		local age, energy = animals.core_life(self, lifespan, pos)
+		local age, energy = animals.core_life(self, lifespan_male, pos)
 		--die from exhaustion or age
 		if not age then
 			return
@@ -283,13 +283,13 @@ local function brain_male(self)
 				--social
 				if random()< 0.5 then
 					animals.flock(self, 25, 1)
-				elseif random()< 0.5 then
+				elseif random()< 0.85 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.5 then
+				elseif random() < 0.1 then
 
 					--reproduction
 					if self.hp >= self.max_hp
-					and energy >= energy_max/10 then
+					and energy >= energy_max/2 then
 
 						--set status as randy
 						--find nearby prospect and try to mate

@@ -9,9 +9,9 @@ Fast applies environmental and action based effects (in on_actions)
 Slow applies internal metabolism effects (here)
 
 
-]]
+
 ------------------------------------
---[[
+
 Some notes:
 
 Calculating sensible values for food:
@@ -47,10 +47,10 @@ local interval = 60
 --use standard values base, so it doesn't compound each time called
 --Only adjusted values saved in player meta so they can be accessed without recalculating
 --cf hunger etc which do get change and have no base value
-local heal_rate = 4
+local heal_rate = 1 -- 4
 local thirst_rate = -1
-local hunger_rate = -2
-local recovery_rate = 5
+local hunger_rate = -3 -- -2
+local recovery_rate = 4 -- 5
 local move = 0
 local jump = 0
 
@@ -322,8 +322,8 @@ function HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, 
 		jum = jum + 15
 	elseif energy < 1 then
 		h_rate = h_rate - 1
-		mov = mov - 30
-		jum = jum - 30
+		mov = mov - 40
+		jum = jum - 40
 		t_rate = t_rate - 12
 		hun_rate = hun_rate - 24
 	elseif energy < 200 then
@@ -338,8 +338,8 @@ function HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, 
 		t_rate = t_rate - 3
 		hun_rate = hun_rate - 4
 	elseif energy < 600 then
-		mov = mov - 1
-		jum = jum - 1
+		mov = mov - 5
+		jum = jum - 5
 		t_rate = t_rate - 2
 		hun_rate = hun_rate - 2
 	elseif energy < 700 then
@@ -589,6 +589,8 @@ if minetest.settings:get_bool("enable_damage") then
 				meta:set_int("hunger", hunger1)
 				meta:set_int("energy", energy1)
 				meta:set_int("temperature", temperature1)
+				--update form so can see change while looking
+				sfinv.set_player_inventory_formspec(player)
 
 
 			end

@@ -524,6 +524,14 @@ local function fall_water(pos,node)
 	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local under_name = minetest.get_node(pos_under).name
 
+	if under_name == "nodes_nature:freshwater_flowing" and under_name ~= "nodes_nature:salt_water_flowing" then
+		minetest.remove_node(pos)
+		minetest.set_node(pos_under, {name = node.name})
+		return
+	end
+
+	--[[
+
 	if minetest.get_item_group(under_name, "water") > 0 or under_name == "air"  then
 
 		--don't collapse sources
@@ -533,14 +541,15 @@ local function fall_water(pos,node)
 			return
 		end
 	end
+	]]
 
 end
 
 minetest.register_abm({
 	label = "Water Fall",
 	nodenames = {"nodes_nature:freshwater_source", "nodes_nature:salt_water_source"},
-	interval = 190,
-	chance = 10,
+	interval = 41,
+	chance = 5,
 	action = function(...)
 		fall_water(...)
 	end

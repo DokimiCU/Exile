@@ -17,7 +17,7 @@ local random = math.random
 
 --how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
 --18000 per season?
-local base_growth = 400
+local base_growth = 600
 
 ---------------------------
 -- Dig upwards
@@ -176,7 +176,7 @@ local plantlist = {
 	{"alaf", "Alaf", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth * 2},
 	{"damo", "Damo", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth},
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, base_growth * 1.2},
-	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 1.5},
+	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 2},
 	--artifact
 	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *4},
 	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *4},

@@ -156,7 +156,7 @@ local function grow_cane(pos, node)
 	local under = minetest.get_node(pos)
 	pos.y = pos.y + 1
 
-	if minetest.get_item_group(under.name, "wet_sediment") == 0 then
+	if minetest.get_item_group(under.name, "wet_sediment") ~= 1 then
 		return
 	end
 
@@ -192,7 +192,7 @@ minetest.register_abm({
 	label = "Grow cane",
 	nodenames = {"group:cane_plant"},
 	neighbors = {"group:sediment"},
-	interval = 280,
+	interval = 220,
 	chance = 3,
 	action = function(...)
 		grow_cane(...)
@@ -209,8 +209,8 @@ minetest.register_abm({
 	label = "Surface spread",
 	nodenames = {"group:spreading"},
 	neighbors = {"air", "group:sediment"},
-	interval = 291,
-	chance = 15,
+	interval = 161,
+	chance = 5,
 	catch_up = false,
 	action = function(pos, node)
 

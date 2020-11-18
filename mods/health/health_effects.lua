@@ -648,8 +648,8 @@ end
 
 --name = "Tiku High (mild)"
 function HEALTH.tiku_mild(player, meta, effects_list, r_rate, hun_rate, mov, jum)
-	r_rate = r_rate + 5
-	hun_rate = hun_rate - 5
+	r_rate = r_rate + 6
+	hun_rate = hun_rate - 2
 	mov = mov + 24
 	jum = jum + 12
 
@@ -683,8 +683,8 @@ end
 
 --name = "Tiku High (moderate)"
 function HEALTH.tiku_moderate(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate + 10
-	hun_rate = hun_rate - 10
+	r_rate = r_rate + 12
+	hun_rate = hun_rate - 4
 	mov = mov + 36
 	jum = jum + 24
 
@@ -708,9 +708,8 @@ function HEALTH.tiku_moderate(player, meta, effects_list, r_rate, hun_rate, mov,
 			}
 			HEALTH.remove_effect(meta, effects_list, "Tiku High (moderate)", swap, block)
 		end
-	end
 
-	if random()<0.03 then
+	elseif random()<0.03 then
 		local swap = {"Tiku High (severe)", 1}
 		HEALTH.remove_effect(meta, effects_list, "Tiku High (moderate)", swap, nil)
 		meta:set_int("Tiku High (moderate)",0)
@@ -723,8 +722,8 @@ end
 
 --name = "Tiku High (severe)"
 function HEALTH.tiku_severe(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate + 20
-	hun_rate = hun_rate - 20
+	r_rate = r_rate + 24
+	hun_rate = hun_rate - 8
 	mov = mov + 48
 	jum = jum + 45
 
@@ -753,9 +752,8 @@ function HEALTH.tiku_severe(player, meta, effects_list, r_rate, hun_rate, mov, j
 			}
 			HEALTH.remove_effect(meta, effects_list, "Tiku High (severe)", swap, block)
 		end
-	end
-
-	if random()<0.04 then
+		
+	elseif random()<0.03 then
 		local swap = {"Tiku Overdose", 1}
 		HEALTH.remove_effect(meta, effects_list, "Tiku High (severe)", swap, nil)
 		meta:set_int("Tiku High (severe)",0)
@@ -767,8 +765,8 @@ end
 
 --name = "Tiku Overdose"
 function HEALTH.tiku_overdose(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate - 20
-	hun_rate = hun_rate - 20
+	r_rate = r_rate - 24
+	hun_rate = hun_rate - 8
 	mov = mov - 5
 	jum = jum - 5
 
@@ -977,3 +975,4 @@ end
 --trench foot/fungal infection
 
 
+-------------------------------------------------------------------

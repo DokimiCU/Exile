@@ -9,7 +9,7 @@ For Minetest 5.3
 ### Installation
 Exile should be in games folder like so:
 
-Minetest > games > Exile > mods/menu/... etc
+Minetest > games > exile > mods/menu/... etc
 
 
 ### Gameplay
@@ -71,6 +71,11 @@ Despite this, Exile does have enough features to be a playable game without too 
 See Doc > Issues_ToDo for a list of known bugs, missing features etc
 See Doc > Development_Process for more details
 
+### Credit
+Thanks is due to all those whose mods have been adapted for use in Exile (see mod folders for details).
+
+Thanks also to all who have given feedback, fixes etc.
+
 ### Changelog:
 
 # 0.1
@@ -115,4 +120,5 @@ See Doc > Development_Process for more details
 - Drugs: Tiku, Tang, metastim
 - megamorph surface airshafts
 - fix clothing infinite tolerance bug
+- iron fittings for crafts
 - misc minor fixes and balancing

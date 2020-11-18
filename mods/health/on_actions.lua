@@ -3,9 +3,9 @@
 --e.g. for eating items, exhaustion from moving etc
 
 -----------------------------
+local random = math.random
 
 -----------------------------
---!!!!!!!!!!!! Still conflicts with Health Effects?? will overide physics
 --Quick physics
 -- update the physics immediately, without going through all of malus_bonus
 --(using malus_bonus itself produces conflicts)
@@ -96,7 +96,11 @@ local function quick_physics(player, name, health, energy, thirst, hunger, tempe
   end
 
   --temp malus..severe..having this happen would make you very ill
-  if temperature > 47 or temperature < 27 then
+  if temperature > 100 or temperature < 0 then
+		--you dead
+		mov = mov - 10000
+		jum = jum - 10000
+  elseif temperature > 47 or temperature < 27 then
     mov = mov - 80
     jum = jum - 80
   elseif temperature > 43 or temperature < 32 then
@@ -213,7 +217,6 @@ end
 --fast interval (cf main update)
 --Moving and digging and building
 --Environmental based, bed rest ...
---also main place for updating hud and formspec
 if minetest.settings:get_bool("enable_damage") then
 
 	local timer = 0
@@ -245,9 +248,19 @@ if minetest.settings:get_bool("enable_damage") then
 				or controls.RMB
 				then
 					energy = energy - 3
+          --thirsty work
+          if random()<0.07 then
+            thirst = thirst - 1
+            hunger = hunger - 2
+          end
 				elseif controls.LMB
 				or controls.jump then
 					energy = energy - 8
+          --thirsty work
+          if random()<0.07 then
+            thirst = thirst - 2
+            hunger = hunger - 4
+          end
 				end
 
 				----------------
@@ -267,14 +280,14 @@ if minetest.settings:get_bool("enable_damage") then
         local danger_low = stress_low - 40
         local danger_high = stress_high +40
         --energy costs (extreme, danger, stress)
-        local costex = 9
-        local costd = 3
+        local costex = 8
+        local costd = 4
         local costs = 1
         --water conducts heat better
         if water then
-          costex = 27
-          costd = 9
-          costs = 3
+          costex = 13
+          costd = 8
+          costs = 4
         end
 
 
@@ -323,34 +336,45 @@ if minetest.settings:get_bool("enable_damage") then
             or enviro_temp < stress_low
             or enviro_temp > stress_high then
               --terrible sleep in the rain etc
-							energy = energy + math.random(1, (5*lvl))
+              if random()>0.1 then
+                energy = energy + (2 * lvl)
+              end
 
             elseif enviro_temp < comfort_low
             or enviro_temp > comfort_high
             or light >= 14 then
               --okay sleep if in uncomfortable temp, exposed
-              energy = energy + (10 * lvl)
+              energy = energy + (4 * lvl)
 
             elseif enviro_temp < comfort_high and enviro_temp > comfort_low and light < 14 then
               --best rest is under shelter, in a non-extreme temperature
-							energy = energy + (20 * lvl)
+							energy = energy + (16 * lvl)
 						end
 					end
 				end
 
+        ------------------
 				--drink a little rain
 				if rain and thirst < 100 then
 					--only sometimes or too easy
-					if math.random()<0.2 then
+					if random()<0.2 then
 						thirst = thirst + 1
-						meta:set_int("thirst", thirst)
 					end
 				end
+
+        --thirsty in heat
+        if random()<0.1 then
+          if enviro_temp > stress_high then
+            thirst = thirst - 2
+          elseif enviro_temp > comfort_high then
+            thirst = thirst - 1
+          end
+        end
 
 				------------------
 				--harmed by damaging weather,
 				--exhausted by rain, snow
-				if math.random()<0.5 then
+				if random()<0.5 then
 					if dam_weather then
             health = health - 1
 						energy = energy - 15
@@ -366,21 +390,44 @@ if minetest.settings:get_bool("enable_damage") then
 				end
 
 
-        --cap energy
+        ------------------
+        --Health effects
+
+        --zoonotic and contagious diseases
+        --in or on node
+        --in biome
+
+
+        ------------------
+        --Final Housekeeping
+
+        --cap energy etc
         if energy < 0 then
           energy = 0
         elseif energy > 1000 then
           energy = 1000
         end
 
+        if thirst < 0 then
+          thirst = 0
+        elseif thirst > 100 then
+          thirst = 100
+        end
+
+        if hunger < 0 then
+          hunger = 0
+        elseif hunger > 1000 then
+          hunger = 1000
+        end
+
 
 				--update
 				meta:set_int("energy", energy)
+        meta:set_int("thirst", thirst)
+        meta:set_int("hunger", hunger)
         player:set_hp(health)
 				--update form so can see change while looking
 				sfinv.set_player_inventory_formspec(player)
-        --update hud (will abort if no hud on)
-        --HEALTH.update_hud(player, thirst, hunger, energy, temperature, enviro_temp, comfort_low, comfort_high, stress_low, stress_high, danger_low, danger_high)
 
 			end
 

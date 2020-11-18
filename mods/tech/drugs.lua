@@ -99,7 +99,7 @@ minetest.register_craftitem("tech:tiku", {
   on_use = function(itemstack, user, pointed_thing)
 
     --begin the bender
-		local c = 0.75
+		local c = 1
 		local block = {
 			{"Tiku High (mild)","Tiku High (moderate)", c},
 			{"Tiku High (moderate)","Tiku High (severe)", c},
@@ -110,7 +110,7 @@ minetest.register_craftitem("tech:tiku", {
 		HEALTH.check_for_effect(user, {"Tiku High (mild)", c}, block)
 
     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 0, -96, 96, 0)
+    return HEALTH.use_item(itemstack, user, 0, 0, -24, 96, 0)
   end,
 })
 
@@ -153,22 +153,28 @@ minetest.register_node("tech:tang", {
     --lets skull an entire vat of booze, what could possibly go wrong...
 		local meta = clicker:get_meta()
 		local thirst = meta:get_int("thirst")
+		local hunger = meta:get_int("hunger")
     local energy = meta:get_int("energy")
 		--only drink if thirsty
 		if thirst < 100 then
 
-			local water = 100 --you're skulling a whole bucket
-			thirst = thirst + water
+			--you're skulling a whole bucket
+			thirst = thirst + 100
 			if thirst > 100 then
 				thirst = 100
 			end
 
-      --all energy and food equivalent of the fruit
+      --all energy and half food equivalent of the fruit
       --gets given as energy
-      energy = energy + 240
+      energy = energy + 180
       if energy > 1000 then
         energy = 1000
       end
+
+			hunger = hunger + 60
+			if hunger > 1000 then
+				hunger = 1000
+			end
 
       --drunkness
       --get drunk from one, chancy how much more you can do before hammered

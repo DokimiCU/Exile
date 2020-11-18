@@ -12,7 +12,7 @@
 crafting.register_recipe({
 	type = "carpentry_bench",
 	output = "tech:wooden_chest",
-	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
+	items = {'tech:iron_fittings 2', 'group:log 4', 'tech:vegetable_oil'},
 	level = 1,
 	always_known = true,
 })

@@ -25,4 +25,5 @@ dofile(modpath .. "/fibreworking.lua")
 dofile(modpath .. "/clothing.lua")
 dofile(modpath .. "/grafitti.lua")
 dofile(modpath .. "/bricks_and_mortar.lua")
+dofile(modpath .. "/cooking_pot.lua")
 -------------------------------

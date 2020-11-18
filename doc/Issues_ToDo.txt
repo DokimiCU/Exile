@@ -128,10 +128,9 @@ to force a migration, rebuild, temporary escape.
 -weildview + register wield effects e.g. burn torch
 
 HEALTH
--speed/jump malus from low hp
--more sophisticated health (e.g. greater thirst in hot weather)
 -setting to display temperature in F
 - Effects: on_node + in_node health check, venom on bite,
+- effects currently handled by low thirst/hunger/low body temp etc could be turned into effects (e.g. malnutrition, hypothermia)
 
 
 --NATURE
@@ -206,6 +205,8 @@ Currently travel is very hard, so all lives get lived at one base. This would ad
 -armor
 -right click to turn torches/lamps off (+require lighting them like with fires)
 
+INFERNO
+-put out fire group (like cools lava. e.g. wet sediment)
 
 --DECO
 -more ambience: rustling leaves, lava

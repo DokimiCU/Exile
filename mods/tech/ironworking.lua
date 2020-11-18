@@ -479,3 +479,24 @@ minetest.register_node("tech:molten_slag_flowing", {
     end
   end,
 })
+
+
+------------------------------------------
+--Iron Fittings
+-- a catch all item to use in crafts
+--e.g. bolts, nails, locks, screws, hinges
+--metal content equivalent to enough hinges for one door
+minetest.register_craftitem("tech:iron_fittings", {
+	description = "Iron Fittings",
+	inventory_image = "tech_iron_fittings.png",
+	stack_max = minimal.stack_max_medium *2,
+})
+
+
+crafting.register_recipe({
+	type = "anvil",
+	output = "tech:iron_fittings 8",
+	items = {'tech:iron_ingot'},
+	level = 1,
+	always_known = true,
+})
