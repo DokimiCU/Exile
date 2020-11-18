@@ -431,9 +431,15 @@ function Geomorph:write_cube(shape, rot, loc)
 				end
 			end
 
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
-			height = height or -33000
-			--local height = -33000
+			--[[
+			if minp.z and minp.x and z and x and self.params.share.surface then
+				local height = self.params.share.surface[minp.z + z][minp.x + x].top or false
+			else
+				height = -33000
+			end}}
+			
+			height = height or -330]]
+			local height = -30000
 
 			local ivm = self.area:index(minp.x + x, minp.y + min.y, minp.z + z)
 			for y = min.y, top_y do
@@ -526,9 +532,9 @@ function Geomorph:write_sphere(shape, rot, loc)
 		local zv = (z - center.z) / proportions.z
 		local zvs = zv * zv
 		for x = min.x, max.x do
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
-			height = height or -33000
-			--local height = -33000
+			--local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			--height = height or -33000
+			local height = -30000
 
 			local ivm = area:index(minp.x + x, minp.y + min.y, minp.z + z)
 			local top_y = max.y
@@ -629,9 +635,9 @@ function Geomorph:write_cylinder(shape, rot, loc)
 			local ivm = area:index(minp.x + x, minp.y + min.y, minp.z + z)
 			local top_y = max.y
 
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
-			height = height or -33000
-			--local height = -33000
+			--local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			--height = height or -33000
+			local height = -30000
 
 			if do_radius.x then
 				xv = (x - center.x) / proportions.x
@@ -725,9 +731,9 @@ function Geomorph:write_stair(shape, rot, loc)
 		for x = min.x, max.x do
 			local top_y = max.y
 
-			local height = self.params.share.surface[minp.z + z][minp.x + x].top
-			height = height or -33000
-			--local height = -33000
+			--local height = self.params.share.surface[minp.z + z][minp.x + x].top
+			--height = height or -33000
+			local height = -30000
 
 			local dy
 			if p2 == 0 then
