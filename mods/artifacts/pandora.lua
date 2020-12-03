@@ -17,7 +17,7 @@ local function inject_metastim(itemstack, player, pointed_thing)
   player:set_hp(1)
   local pos = player:get_pos()
 
-  HEALTH.check_for_effect(player, {"Meta-Stim", 1}, {{"Meta-Stim"}, {"Neurotoxicity", "Meta-Stim", 1},})
+  HEALTH.add_new_effect(player, {"Meta-Stim", 1})
   --I am a GOD!
   minetest.sound_play( {name="health_superpower", gain=1}, {pos=pos, max_hear_distance=20})
   minetest.add_particlespawner({

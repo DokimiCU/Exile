@@ -17,7 +17,7 @@ Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
--settings for season length (longer seasons might be better for servers)
+
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
@@ -106,7 +106,7 @@ Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
 - dynamism and decoration for underground city
 - logic of burning things needs sorting out (e.g. must light fires, but torches always lit)
--help menu
+
 
 Features ideas:
 
@@ -119,7 +119,7 @@ to force a migration, rebuild, temporary escape.
 --INTERFACE
 -remove inventory trash when not creative?
 -nameable bags
-
+-Tutorials, help menus, maybe a set of beginners achievements to work through (very helpful for new players, but should only be done after core content complete)
 
 --PROCESSES
 -punch with torch for firelighter?

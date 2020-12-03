@@ -189,6 +189,8 @@ function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_chang
 	meta:set_int("hunger", hunger)
 	meta:set_int("energy", energy)
 	meta:set_int("temperature", temperature)
+  --update form so can see change while looking
+  sfinv.set_player_inventory_formspec(user)
 
 	--minetest.chat_send_player(name, minetest.registered_items[item].description .." effect = Health: "..hp_change..", Thirst: "..thirst_change.. ", Hunger: "..hunger_change.. ", Energy: "..energy_change.. ", Body Temperature: "..temp_change )
   local pos = user:get_pos()

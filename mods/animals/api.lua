@@ -224,8 +224,8 @@ function animals.hq_roam_dark(self,prty)
 			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
 
 			if height and not liquidflag then
-       local light = minetest.get_node_light(pos, 0.5)
-       local lightn = minetest.get_node_light(tpos, 0.5)
+       local light = minetest.get_node_light(pos, 0.5) or 0
+       local lightn = minetest.get_node_light(tpos, 0.5) or 0
        if lightn <= light then
          mobkit.dumbstep(self,height,tpos,0.3)
        else

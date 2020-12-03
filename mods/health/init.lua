@@ -149,11 +149,10 @@ register_tab()
 -----------------------------
 --Applies Health Effects
 --called by malus_bonus
+--runs through player's current effects, runs the function for that effect
 --takes all the same variables, and outputs as any effect may use them.
 --adjusted outputs feed back into malus_bonus
---when functions are called other effects may happen within them (beyond returned adjustments)
-
-local function do_effects_list(player, name, meta, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
+local function do_effects_list(meta, player, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
 	local effects_list = meta:get_string("effects_list")
 	effects_list = minetest.deserialize(effects_list) or {}
 
@@ -163,84 +162,61 @@ local function do_effects_list(player, name, meta, health, energy, thirst, hunge
 
 	for _, effect in ipairs(effects_list) do
 
-		--look for name in Health Effects
-		--just go through one by one... is there a better way??...
-
-		---------
-		if effect == "Hangover (mild)" then
-			mov, jum = HEALTH.hangover_mild(meta, effects_list, mov, jum)
-		elseif effect == "Hangover (moderate)" then
-			mov, jum = HEALTH.hangover_moderate(meta, effects_list, mov, jum)
-		elseif effect == "Hangover (severe)" then
-			mov, jum = HEALTH.hangover_severe(player, meta, effects_list, mov, jum)
-		end
-
-		---------
-		if effect == "Drunk (mild)" then
-			r_rate, mov, jum = HEALTH.drunk_mild(player, meta, effects_list, r_rate, mov, jum)
-		elseif effect == "Drunk (moderate)" then
-			r_rate, mov, jum = HEALTH.drunk_moderate(player, meta, effects_list, r_rate, mov, jum)
-		elseif effect == "Drunk (severe)" then
-			r_rate, mov, jum = HEALTH.drunk_severe(player, meta, effects_list, r_rate, mov, jum)
-		elseif effect == "Alcohol Poisoning" then
-			r_rate, h_rate, mov, jum, temperature = HEALTH.alcohol_poisoning(player, meta, effects_list, r_rate, h_rate, mov, jum, temperature)
-		end
+		local name = effect[1]
+		local order = effect[2]
 
 
 		----------
-		if effect == "Food Poisoning (mild)" then
-			r_rate, mov, jum = HEALTH.food_poisoning_mild(player, meta, effects_list, r_rate, mov, jum)
-		elseif effect == "Food Poisoning (moderate)" then
-			r_rate, mov, jum = HEALTH.food_poisoning_moderate(player, meta, effects_list, r_rate, mov, jum)
-		elseif effect == "Food Poisoning (severe)" then
-			r_rate, mov, jum, temperature = HEALTH.food_poisoning_severe(player, meta, effects_list, r_rate, mov, jum, temperature)
+		if name == "Food Poisoning" then
+			r_rate, mov, jum, temperature = HEALTH.food_poisoning(order, player, meta, effects_list, r_rate, mov, jum, temperature)
 		end
 
 		----------
-		if effect == "Intestinal Parasites" then
-			r_rate, hun_rate = HEALTH.intestinal_parasites(meta, effects_list, r_rate, hun_rate)
+		if name == "Drunk" then
+			r_rate, mov, jum, h_rate, temperature = HEALTH.drunk(order, player, meta, effects_list, r_rate, mov, jum, h_rate, temperature)
+		end
+
+		----------
+		if name == "Hangover" then
+			mov, jum = HEALTH.hangover(order, player, meta, effects_list, mov, jum)
+		end
+
+		----------
+		if name == "Intestinal Parasites" then
+			r_rate, hun_rate = HEALTH.intestinal_parasites(order, player, meta, effects_list, r_rate, hun_rate)
+		end
+
+		----------
+		if name == "Tiku High" then
+			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_high(order, player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+		end
+
+		----------
+		if name == "Neurotoxicity" then
+			mov, jum = HEALTH.neurotoxicity(order, player, meta, effects_list, mov, jum)
+		end
+
+		----------
+		if name == "Hepatotoxicity" then
+			mov, jum, r_rate, h_rate = HEALTH.hepatotoxicity(order, player, meta, effects_list, mov, jum, r_rate, h_rate)
+		end
+
+		----------
+		if name == "Photosensitivity" then
+			h_rate, r_rate = HEALTH.photosensitivity(order, player, meta, effects_list, h_rate, r_rate)
 		end
 
 		---------
-		if effect == "Tiku High (mild)" then
-			r_rate, hun_rate, mov, jum = HEALTH.tiku_mild(player, meta, effects_list, r_rate, hun_rate, mov, jum)
-		elseif effect == "Tiku High (moderate)" then
-			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_moderate(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-		elseif effect == "Tiku High (severe)" then
-			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_severe(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-		elseif effect == "Tiku Overdose" then
-			r_rate, hun_rate, mov, jum, temperature = HEALTH.tiku_overdose(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+		if name == "Meta-Stim" then
+			h_rate, r_rate, hun_rate, t_rate = HEALTH.meta_stim(order, player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
 		end
-
-		---------
-		if effect == "Neurotoxicity" then
-			mov, jum, h_rate = HEALTH.neurotoxicity(player, meta, effects_list, mov, jum, h_rate)
-		end
-
-		---------
-		if effect == "Hepatotoxicity" then
-			mov, jum, r_rate, h_rate = HEALTH.hepatotoxicity(player, meta, effects_list, mov, jum, r_rate, h_rate)
-		end
-
-		---------
-		if effect == "Photosensitivity" then
-			h_rate, r_rate = HEALTH.photosensitivity(player, meta, effects_list, h_rate, r_rate)
-		end
-
-		---------
-		if effect == "Meta-Stim" then
-			h_rate, r_rate, hun_rate, t_rate = HEALTH.meta_stim(player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
-		end
-
-
-
 
 
 	end
 
 	return h_rate, r_rate, t_rate, hun_rate, mov, jum, health, energy, thirst, hunger, temperature
-end
 
+end
 
 
 
@@ -426,7 +402,7 @@ function HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, 
 	--health effects
 	local HE_mov
 	local HE_jum
-	h_rate, r_rate, t_rate, hun_rate, HE_mov, HE_jum, health, energy, thirst, hunger, temperature = do_effects_list(player, name, meta, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
+	h_rate, r_rate, t_rate, hun_rate, HE_mov, HE_jum, health, energy, thirst, hunger, temperature = do_effects_list(meta, player, health, energy, thirst, hunger, temperature, h_rate, r_rate, t_rate, hun_rate,  mov, jum)
 
 
 	--save adjusted rates for access (e.g. by a medical tab/equipment etc)
@@ -496,7 +472,7 @@ end)
 
 minetest.register_on_respawnplayer(function(player)
 	set_default_attibutes(player)
-	--sfinv.set_player_inventory_formspec(player)
+	sfinv.set_player_inventory_formspec(player)
 end)
 
 

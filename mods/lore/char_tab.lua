@@ -47,8 +47,23 @@ local function sfinv_get(self, player, context)
 
 
   for _, effect in ipairs(effects_list) do
+    --convert into readable
+    -- (this would be better handled more flexibly, these might not suit all)
+    local severity = effect[2] or 0
+    if severity == 0 then
+      severity = ""
+    elseif severity == 1 then
+      severity = "(mild)"
+    elseif severity == 2 then
+      severity = "(moderate)"
+    elseif severity == 3 then
+      severity = "(severe)"
+    elseif severity >= 4 then
+      severity = "(extreme)"
+    end
+
     y = y + 0.4
-    eff_form = eff_form.."label[0.1,"..y.."; "..effect.."]"
+    eff_form = eff_form.."label[0.1,"..y.."; "..effect[1].." "..severity.."]"
   end
 
 	local formspec = "label[0.1,0.1; Name: " .. name .. "]"..

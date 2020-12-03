@@ -21,7 +21,8 @@ leather, Bone, skin, sinews, feathers?
 
 
 
-
+local random = math.random
+local floor = math.floor
 --------------------------------------------------------------------------
 --Carcasses
 
@@ -239,17 +240,15 @@ for i in ipairs(list) do
   	on_use = function(itemstack, user, pointed_thing)
 
 			--food poisoning
-			local c = c_fpoison
-			local block = {
-				{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-				{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-				{"Food Poisoning (severe)", nil, nil, 2}
-			}
-			HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+			if random() < c_fpoison then
+				HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
+			end
 
 			--parasites
-			local c2 = c_fparasite
-			HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+			if random() < c_fparasite then
+				HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+			end
+
 
   		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
   		return HEALTH.use_item(itemstack, user, 0, eat_raw_thirst, eat_raw_hunger, eat_raw_energy, 0)
@@ -281,14 +280,10 @@ for i in ipairs(list) do
     on_use = function(itemstack, user, pointed_thing)
 
 			--food poisoning
-			local c = c_fpoison*0.1
-			local block = {
-				{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-				{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-				{"Food Poisoning (severe)", nil, nil, 2}
-			}
-			HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
-			
+			if random() < c_fpoison*0.1 then
+				HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,2))})
+			end
+
       --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
       return HEALTH.use_item(itemstack, user, 0, eat_cooked_thirst, eat_cooked_hunger, eat_cooked_energy, 0)
     end,

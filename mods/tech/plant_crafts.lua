@@ -240,13 +240,9 @@ minetest.register_node("tech:maraka_cake", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning
-    local c = 0.001
-    local block = {
-      {"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-      {"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-      {"Food Poisoning (severe)", nil, nil, 2}
-    }
-    HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
     return HEALTH.use_item(itemstack, user, 0, 0, 24, 14, 0)
@@ -296,13 +292,9 @@ minetest.register_node("tech:cooked_anperal_tuber", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning
-    local c = 0.005
-    local block = {
-      {"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-      {"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-      {"Food Poisoning (severe)", nil, nil, 2}
-    }
-    HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.002 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
     return HEALTH.use_item(itemstack, user, 0, 4, 24, 14, 0)

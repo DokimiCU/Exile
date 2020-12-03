@@ -157,15 +157,15 @@ minetest.override_item("nodes_nature:freshwater_source",{
 				c2 = 0.1
 			end
 
+			--food poisoning
+			if random() < c then
+				HEALTH.add_new_effect(clicker, {"Food Poisoning", 1})
+			end
 
-			HEALTH.check_for_effect(clicker, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
-
-			local block = {
-				{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-				{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-				{"Food Poisoning (severe)", nil, nil, 2}
-			}
-			HEALTH.check_for_effect(clicker, {"Food Poisoning (mild)", c}, block)
+			--parasites
+			if random() < c2 then
+				HEALTH.add_new_effect(clicker, {"Intestinal Parasites"})
+			end
 
 		end
 	end

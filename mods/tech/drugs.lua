@@ -27,8 +27,8 @@ minetest.register_craftitem("tech:herbal_medicine", {
     effects_list = minetest.deserialize(effects_list) or {}
 
     --remove parasites
-    if random()<0.5 then
-  		HEALTH.remove_effect(meta, effects_list, "Intestinal Parasites")
+    if random()<0.33 then
+  		HEALTH.remove_new_effect(user, {"Intestinal Parasites"})
   	end
 
     --cure/reduce food poisoning
@@ -36,25 +36,13 @@ minetest.register_craftitem("tech:herbal_medicine", {
     local cfp = random()
     if cfp <0.25 then
       --cure up to severe
-      local swap = {"Food Poisoning (mild)", 1}
-      local block = {
-        {"Food Poisoning (mild)", nil, nil, -2},
-        {"Food Poisoning (moderate)", "Food Poisoning (mild)", 1, true},
-        {"Food Poisoning (severe)", "Food Poisoning (mild)", 1, true},
-      }
-      HEALTH.remove_effect(meta, effects_list, "Food Poisoning (severe)", swap, block)
+      HEALTH.remove_new_effect(user, {"Food Poisoning", 3})
     elseif cfp < 0.5 then
       --cure up to moderate
-      local swap = {"Food Poisoning (mild)", 1}
-  		local block = {
-        {"Food Poisoning (mild)", nil, nil, -1},
-        {"Food Poisoning (moderate)", "Food Poisoning (mild)", 1, true},
-        {"Food Poisoning (severe)", "Food Poisoning (mild)", 1, true},
-  		}
-  		HEALTH.remove_effect(meta, effects_list, "Food Poisoning (moderate)", swap, block)
+      HEALTH.remove_new_effect(user, {"Food Poisoning", 2})
     elseif cfp < 0.75 then
       --only cure mild
-      HEALTH.remove_effect(meta, effects_list, "Food Poisoning (mild)")
+      HEALTH.remove_new_effect(user, {"Food Poisoning", 1})
     end
 
 
@@ -99,15 +87,7 @@ minetest.register_craftitem("tech:tiku", {
   on_use = function(itemstack, user, pointed_thing)
 
     --begin the bender
-		local c = 1
-		local block = {
-			{"Tiku High (mild)","Tiku High (moderate)", c},
-			{"Tiku High (moderate)","Tiku High (severe)", c},
-			{"Tiku High (severe)", "Tiku Overdose", c},
-			{"Tiku Overdose"}
-		}
-
-		HEALTH.check_for_effect(user, {"Tiku High (mild)", c}, block)
+		HEALTH.add_new_effect(user, {"Tiku High", 1})
 
     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
     return HEALTH.use_item(itemstack, user, 0, 0, -24, 96, 0)
@@ -177,15 +157,9 @@ minetest.register_node("tech:tang", {
 			end
 
       --drunkness
-      --get drunk from one, chancy how much more you can do before hammered
-  		local c = 0.75
-			local block = {
-				{"Drunk (mild)","Drunk (moderate)", c, true},
-				{"Drunk (moderate)","Drunk (severe)", c, true},
-				{"Drunk (severe)", "Alcohol Poisoning", c, true},
-				{"Alcohol Poisoning", nil, nil, 8}
-			}
-  		HEALTH.check_for_effect(clicker, {"Drunk (mild)", c}, block)
+			if random() < 0.75 then
+				HEALTH.add_new_effect(clicker, {"Drunk", 1})
+			end
 
 
 			meta:set_int("thirst", thirst)

@@ -6,7 +6,7 @@ Bottom of shallow cave food chain
 ]]
 ---------------------------------------------------------------------
 local random = math.random
-
+local floor = math.floor
 
 --energy
 local energy_max = 5000--secs it can survive without food
@@ -147,17 +147,15 @@ minetest.register_node("animals:impethu_eggs", {
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
 
-		local c2 = 0.1
-		HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
-
 		--food poisoning
-		local c = 0.2
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.1 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
+		end
+
+		--parasites
+		if random() < 0.1 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 4, 0, 0)

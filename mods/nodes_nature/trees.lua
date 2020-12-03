@@ -13,7 +13,8 @@ Currently the following meshes are choosable:
 
 
 
-
+local random = math.random
+local floor = math.floor
 ---------------------------------------------------------
 --
 -- Leafdecay
@@ -328,17 +329,18 @@ minetest.override_item("nodes_nature:maraka_nut",{
 	on_use = function(itemstack, user, pointed_thing)
 
 		--food poisoning
-		local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--toxins
-		HEALTH.check_for_effect(user, {"Hepatotoxicity", 0.01}, {{"Hepatotoxicity"}})
-		HEALTH.check_for_effect(user, {"Photosensitivity", 0.25}, {{"Photosensitivity"}})
+		if random() < 0.005 then
+			HEALTH.add_new_effect(user, {"Hepatotoxicity", floor(random(1,4))})
+		end
+		if random() < 0.3 then
+			HEALTH.add_new_effect(user, {"Photosensitivity", 1})
+		end
+
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 5, 5, 0)
@@ -350,23 +352,14 @@ minetest.override_item("nodes_nature:tangkal_fruit",{
 	stack_max = minimal.stack_max_medium/4,
 	on_use = function(itemstack, user, pointed_thing)
 		--food poisoning
-    local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
-		
-		--chance of getting drunk
-		local c2 = 0.005
-		local block2 = {
-			{"Drunk (mild)","Drunk (moderate)", c, true},
-			{"Drunk (moderate)","Drunk (severe)", c, true},
-			{"Drunk (severe)", "Alcohol Poisoning", c, true},
-			{"Alcohol Poisoning", nil, nil, 8}
-		}
-		HEALTH.check_for_effect(clicker, {"Drunk (mild)", c2}, block2)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
+		--drunk
+		if random() < 0.005 then
+			HEALTH.add_new_effect(user, {"Drunk", 1})
+		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 5, 10, 10, 0)

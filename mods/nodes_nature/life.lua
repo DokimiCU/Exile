@@ -14,6 +14,7 @@ Currently the following meshes are choosable:
 
 ---------------------------------------
 local random = math.random
+local floor = math.floor
 
 --how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
 --18000 per season?
@@ -542,13 +543,9 @@ for i in ipairs(plantlist2) do
 			sounds = s,
 			on_use = function(itemstack, user, pointed_thing)
 				--food poisoning
-		    local c = c_food_pois
-				local block = {
-					{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-					{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-					{"Food Poisoning (severe)", nil, nil, 2}
-				}
-				HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+				if random() < c_food_pois then
+					HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+				end
 
 				return HEALTH.use_item(itemstack, user, u_hp, u_th, u_hu, u_en, u_te, u_rep)
 			end,
@@ -967,17 +964,14 @@ minetest.override_item("nodes_nature:sea_lettuce",{
 	on_use = function(itemstack, user, pointed_thing)
 
 		--food poisoning
-		local c = 0.05
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() <  0.05 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--parasites
-		local c2 = 0.05
-		HEALTH.check_for_effect(user, {"Intestinal Parasites", c2}, {{"Intestinal Parasites"}})
+		if random() < 0.01 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 5, -10, 0)
@@ -1014,13 +1008,9 @@ minetest.override_item("nodes_nature:anperla_seed",{
 minetest.override_item("nodes_nature:vansano_seed",{
 	on_use = function(itemstack, user, pointed_thing)
 		--food poisoning
-		local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
@@ -1032,13 +1022,9 @@ minetest.override_item("nodes_nature:vansano_seed",{
 minetest.override_item("nodes_nature:tikusati_seed",{
 	on_use = function(itemstack, user, pointed_thing)
 		--food poisoning
-		local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, -2, 2, 0)
@@ -1046,62 +1032,40 @@ minetest.override_item("nodes_nature:tikusati_seed",{
 })
 
 
---marbhan has a Neurotoxin, and will cause a fever
+--marbhan has a Neurotoxin
 minetest.override_item("nodes_nature:marbhan",{
 	on_use = function(itemstack, user, pointed_thing)
 		--food poisoning
-		local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--toxin
-		local c2 = 0.75
-		HEALTH.check_for_effect(user, {"Neurotoxicity", c2}, {{"Neurotoxicity"}})
-
-
-		local meta = user:get_meta()
-		local temperature = meta:get_int("temperature")
-
-		if temperature <= 42 then
-			meta:set_int("temperature", temperature + 2)
+		if random() < 0.75 then
+			HEALTH.add_new_effect(user, {"Neurotoxicity", floor(random(1,4))})
 		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, -1, 0, 0, -10, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 1, -10, 0)
 	end,
 })
 
 
---nebiyi has a Hepatotoxin, and will cause a hypothermia
+--nebiyi has a Hepatotoxin
 minetest.override_item("nodes_nature:nebiyi",{
 	on_use = function(itemstack, user, pointed_thing)
 		--food poisoning
-		local c = 0.001
-		local block = {
-			{"Food Poisoning (mild)","Food Poisoning (moderate)", c, true},
-			{"Food Poisoning (moderate)","Food Poisoning (severe)", c, true},
-			{"Food Poisoning (severe)", nil, nil, 2}
-		}
-		HEALTH.check_for_effect(user, {"Food Poisoning (mild)", c}, block)
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
 		--toxin
-		local c2 = 0.75
-		HEALTH.check_for_effect(user, {"Hepatotoxicity", c2}, {{"Hepatotoxicity"}})
-
-
-		local meta = user:get_meta()
-		local temperature = meta:get_int("temperature")
-
-		if temperature >= 34 then
-			meta:set_int("temperature", temperature - 2)
+		if random() < 0.75 then
+			HEALTH.add_new_effect(user, {"Hepatotoxicity", floor(random(1,4))})
 		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, -1, 0, 0, -10, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 1, -10, 0)
 	end,
 })
 
@@ -1111,11 +1075,8 @@ minetest.override_item("nodes_nature:hakimi",{
 	on_use = function(itemstack, user, pointed_thing)
 
 		--only cure mild
-		if random()<0.25 then
-			local meta = user:get_meta()
-			local effects_list = meta:get_string("effects_list")
-			effects_list = minetest.deserialize(effects_list) or {}
-			HEALTH.remove_effect(meta, effects_list, "Food Poisoning (mild)")
+		if random()<0.75 then
+			HEALTH.remove_new_effect(user, {"Food Poisoning", 1})
 		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
@@ -1127,11 +1088,8 @@ minetest.override_item("nodes_nature:hakimi",{
 minetest.override_item("nodes_nature:merki",{
 	on_use = function(itemstack, user, pointed_thing)
 
-		if random()<0.25 then
-			local meta = user:get_meta()
-			local effects_list = meta:get_string("effects_list")
-			effects_list = minetest.deserialize(effects_list) or {}
-			HEALTH.remove_effect(meta, effects_list, "Intestinal Parasites")
+		if random()<0.15 then
+			HEALTH.remove_new_effect(user, {"Intestinal Parasites"})
 		end
 
 

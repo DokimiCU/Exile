@@ -106,14 +106,14 @@ Thanks also to all who have given feedback, fixes etc.
 - various minor additions
 - Minetest 5.3 compatibility
 
-#0.2.1
+# 0.2.1
 - fix exile letter crash
 - fix salt water surface sediment crash
 - fix for multiplayer health tab crash
 - balance and bugfix animals
 - adjust ice freezing and thawing
 
-#0.2.2
+# 0.2.2
 - new HUD
 - character page
 - health effects

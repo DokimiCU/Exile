@@ -4,223 +4,58 @@
 --[[
 Persistent changes e.g. disease, drug trips, venom, parasites
 
-
------------------
-
-Effects are called from malus_bonus when called by main Health function.
-This means they are applied slowly.
-
-Can adjust (e.g hunger rate, move speed) and feed these back to malus_bonus
-so that they are applied properly in combination with other factors.
-Other effects can be called within the effect function.
-
-Triggering events apply the health effect. use check_for_effect
-
-Progression, and ending:
-Effects will last forever unless removed or swapped for another
-Use remove_effect to end them (with option to swap rather than remove)
- (e.g. for slowly winding up or down severity )
- meta, and effects_list, need to be given as inputs if the function is to do removals etc
-
 Names
 A string name is used both for checks and is displayed on Char Tab (Lore)
 This string has an associated function.
 
-End probabilities:
-if random < X then ...
-duration drops of linearly e.g. 0.2 = most times it ends after a few minutes,
-but some last up to 20 min
+Effects List:
+Stored as string in the player meta. {{name, order},{name2, order},... }
 
-Timers preferable for most things
-{name, chance, remove old timer(bool), extend new timer(int)}
+Run health function:
+Applies the health effect. Returns modifiers to main helath loop, runs
+other health processes (e.g. vomiting, staggering). Checks for internal means
+of progression or ending (timers, chance).
+Called by malus_bonus (i.e. the players internal metabolism)
 
-default time: 20min = 1 day
-roughly 1 min = 1 hr
+
+Triggers for adding:
+e.g. from eating, getting bitten, ...
+update_list_add_new,
+
+Triggers for swapping or removal
+-Internal:
+	- on_timer:
+	- chance:
+	- conditional:
+-external: something outside the disease process itself e.g eat item.
+
+
+each health effect has its three functions:
+- one for adding symptoms and calls for internal adding, swapping, removing (e.g. due to timers)
+- progression: for adding, worsening effects. Called internally and can be called externally (e.g.  when eating items).
+- regression: for removing, lessening effects. Ditto
+(can use defaults for progress and regress)
+
+Any new effect must be listed in:
+- do_effects_list (so it can be run at all)
+- HEALTH.remove_new_effect (so it can be removed externally - not everything will need this)
+- HEALTH.add_new_effect (so it can be added)
+
+
+component effects:
+various minor effects (symptoms) shared by many diseases (e.g. vomiting). Called by the health effects internal function
+
+
 
 ]]
-------------------------------------------------------------------
+
+
 local random = math.random
 
-
-
-
--------------------------------------------------------------------
---Timers for ending
-
---if not will set the timer, save to meta
---returns true if timer already set
-local function set_timer(meta, t_name, t_min, t_max)
-	--is timer present?
-	if not meta:contains(t_name) then
-		local duration = random(t_min, t_max)
-		meta:set_int(t_name, duration)
-		--minetest.chat_send_all("setting: "..t_name.." "..duration)
-		return false
-	else
-		--minetest.chat_send_all("timer present: "..t_name)
-		return true
-	end
-end
-
---count down the timer
-local function do_timer(meta, t_name)
-	local time = meta:get_int(t_name)
-	time = time - 1
-
-	--minetest.chat_send_all(t_name.." : "..time)
-	if time <= 0 then
-		meta:set_int(t_name,0)
-	else
-		meta:set_int(t_name,time)
-	end
-	return time
-end
-
--------------------------------------------------------------------
---removes matching and updates
-local function remove(meta, effects_list, name)
-	for i, effect in ipairs(effects_list) do
-		if effect == name then
-			table.remove(effects_list, i)
-		end
-	end
-
-	--update HUD number, save
-	local num = #effects_list or 0
-	meta:set_int("effects_num", num )
-
-	meta:set_string("effects_list", minetest.serialize(effects_list))
-
-
-end
--------------------------------------------------------------------
---USE THIS to add effects
---CHECK for an pre-existing effect from the list of active effects
---will add the given effect, or an updgraded version
---(e.g. drink more booze get more drunk)
---If effect found it will cancel, or updgrade so not to apply same effect twice.
---block_names = all effects that are variants of the effect (to be blocked)
---(e.g. mild, moderate, severe)
---triples with name and updgrade and chance, no pair means no updgrade
--- e.g. {{"drunk_mild", "drunk_moderate", 0.2}, {"drunk_moderate", "drunk_severe", 0.3}, {"drunk_severe"}}
--- effect name = {name, chance} e.g. {"drunk_mild", 1} = 100% chance of drunk_mild
--- remove_sender = name, for removing an effect despite having no upgrade
--- e.g. hungover severe has nothing higher, but must remove the effect that sent it (drunk severe)
-
-function HEALTH.check_for_effect(player, effect_name, block_names, savmeta, remove_sender)
-
-	--accept saved meta, or get it from player... depends on what calls it
-	local meta
-	if player then
-		meta = player:get_meta()
-	elseif savmeta then
-		meta = savmeta
-	else
-		return
-	end
-
-	local effects_list = meta:get_string("effects_list")
-	effects_list = minetest.deserialize(effects_list) or {}
-
-	--upgrade or block anything that matches existing
-	if block_names then
-		for i, effect in ipairs(effects_list) do
-			--loop through multiple names
-			for b, name in ipairs(block_names) do
-
-				--found match
-				if effect == name[1] then
-					if name[2] and random() < name[3] then
-						--remove current and add new
-						--effects_list[i] = nil
-						table.remove(effects_list, i)
-						table.insert(effects_list, name[2])
-						--save new list
-						meta:set_string("effects_list", minetest.serialize(effects_list))
-
-						--if old effect had a timer associated then it must be turned off
-						--or extended
-						if name[4] == true then
-							meta:set_int(name[1],0)
-						elseif name[5] then
-							local t = meta:get_int(name[1])
-							meta:set_int(name[1], t + name[5])
-						end
-
-						if remove_sender then
-							remove(meta, effects_list, remove_sender)
-						end
-
-						--matched, and changed it, stop looking
-						return
-
-					else
-
-						--if old effect had a timer associated then it must be turned off
-						--or extended
-						if name[4] == true then
-							meta:set_int(name[1],0)
-						elseif name[5] then
-							local t = meta:get_int(name[1])
-							meta:set_int(name[1], t + name[5])
-						end
-						--remove effect if new already exists?
-						if remove_sender then
-							remove(meta, effects_list, remove_sender)
-							return
-						else
-							return
-						end
-					end
-				end
-			end
-		end
-	end
-
-	--no matches found, so add the effect
-	--chance of applying new effect
-	if random() < effect_name[2] then
-
-		if remove_sender then
-			--e.g. Drunk -> hangover.
-			--not currently hung over so no match.
-			--but must remove drunk
-			remove(meta, effects_list, remove_sender)
-		end
-
-
-		table.insert(effects_list, effect_name[1])
-		--update HUD number, save list
-		local num = #effects_list
-		meta:set_int("effects_num", num )
-		meta:set_string("effects_list", minetest.serialize(effects_list))
-
-		return
-	end
-
-end
-
-
--------------------------------------------------------------------
---REMOVE an effect from the list of active effects
---swap is optional name of another effect to replace it with
---swap will call Check, so needs same input as adding a new effect
---this can mean needing to give it input for situations that ought never happen
---i.e. amounts to telling it to overwrite anything that got doubled up
-function HEALTH.remove_effect(meta, effects_list, name, swap, block_names)
-	--adding a new effect
-	if swap then
-		HEALTH.check_for_effect(nil, swap, block_names, meta, name)
-		return
-	end
-
-	remove(meta, effects_list, name)
-
-end
-
-------------------------------------------------------------------
 ------------------------------------------------------------------
 --COMPONENT EFFECTS
+------------------------------------------------------------------
+
 
 --throw up losing some food and water
 local function vomit(player, meta, repeat_min, repeat_max, delay_min, delay_max, t_min, t_max, h_min, h_max )
@@ -309,6 +144,7 @@ local function organ_failure(player, repeat_min, repeat_max, delay_min, delay_ma
 
 		end)
 	end
+
 end
 
 
@@ -340,623 +176,909 @@ end
 --collapse
 
 
-------------------------------------------------------------------
-------------------------------------------------------------------
---EFFECTS
 
 
-------------------------------
---Hangovers, from drunkeness and drugs
 
---name = "Hangover (mild)"
-function HEALTH.hangover_mild(meta, effects_list, mov, jum)
-	mov = mov - 2
-	jum = jum - 2
 
-	--end chance
-	--see if timer is present, if it is count down, if all the way down end
-	if set_timer(meta, "Hangover (mild)", 5, 10) then
-		if do_timer(meta, "Hangover (mild)") <= 0 then
-			HEALTH.remove_effect(meta, effects_list, "Hangover (mild)")
+
+
+---------------------------------------------------------------------------
+--Timers for ending:
+---------------------------------------------------------------------------
+
+
+--if not set will set the timer, save to meta
+--otherwise it will tick down
+--if zero it will return true so progression can take place
+local function do_timer(meta, t_name, t_min, t_max)
+	--is timer present?
+	if not meta:contains(t_name) then
+		local duration = random(t_min, t_max)
+		meta:set_int(t_name, duration)
+		return false
+	else
+		--count down
+		local time = meta:get_int(t_name)
+		time = time - 1
+		if time <= 0 then
+			meta:set_int(t_name,0)
+			return true
+		else
+			meta:set_int(t_name,time)
+			return false
 		end
 	end
-
-	return mov, jum
 end
 
 
---name = Hangover (moderate)
-function HEALTH.hangover_moderate(meta, effects_list, mov, jum)
-	mov = mov - 4
-	jum = jum - 4
+--add (or subtract) to the value for a timer that already exists
+local function extend_timer(meta, t_name, t_min, t_max)
 
-	--downgrade chance
-	if set_timer(meta, "Hangover (moderate)", 5, 10) then
-		if do_timer(meta, "Hangover (moderate)") <= 0 then
-			local swap = {"Hangover (mild)", 1}
-			HEALTH.remove_effect(meta, effects_list, "Hangover (moderate)", swap, nil)
-		end
+	local time = meta:get_int(t_name)
+	local duration = random(t_min, t_max)
+	time = time + duration
+
+	if time <= 0 then
+		time = 0
 	end
+	meta:set_int(t_name,time)
 
-
-	return mov, jum
 end
 
---name = Hangover (severe)
-function HEALTH.hangover_severe(player, meta, effects_list, mov, jum)
-	mov = mov - 6
-	jum = jum - 6
-
-	--mild staggering
-	stagger(player, 1, 5, 1, 5, 3)
-
-	--downgrade chance
-	if set_timer(meta, "Hangover (severe)", 5, 10) then
-		if do_timer(meta, "Hangover (severe)") <= 0 then
-			local swap = {"Hangover (moderate)", 1}
-			HEALTH.remove_effect(meta, effects_list, "Hangover (severe)", swap, nil)
-		end
-	end
-
-	return mov, jum
+--end timer, e.g. when removing an effect
+local function end_timer(meta, t_name)
+	local time = meta:get_int(t_name)
+	meta:set_int(t_name,0)
 end
 
 
-------------------------------
---Alcohol effects
+---------------------------------------------------------------------------
+--Update Effects List
+---------------------------------------------------------------------------
+--swap an effect that currently exists, including swap to nil
+--finds given effect, removes it and replaces it (optional)
+-- name e.g. "Food Poisoning" (the general type of effect)
+--replace is the table inserted e.g. {"Food Poisoning", 2}
+local function update_list_swap(meta, effects_list, name, replace)
 
---name = "Drunk (mild)"
-function HEALTH.drunk_mild(player, meta, effects_list, r_rate, mov, jum)
-	r_rate = r_rate - 1
-	mov = mov - 2
-	jum = jum - 5
-
-	--mild staggering
-	stagger(player, 1, 5, 1, 5, 3)
-
-	--end chance
-	if set_timer(meta, "Drunk (mild)", 4, 6) == true then
-		if do_timer(meta, "Drunk (mild)") <= 0 then
-			local swap = {"Hangover (mild)", 1}
-			local block = {
-				{"Hangover (mild)", nil, nil, false, 10},
-				{"Hangover (moderate)"},
-				{"Hangover (severe)"},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Drunk (mild)", swap, block)
+	for i, effect in ipairs(effects_list) do
+		if effect[1] == name then
+			table.remove(effects_list, i)
 		end
 	end
 
-	return r_rate, mov, jum
+	--replace
+	if replace then
+		table.insert(effects_list, replace)
+	else
+		--effect removed so update HUD number, save
+		local num = #effects_list or 0
+		meta:set_int("effects_num", num )
+	end
+
+	meta:set_string("effects_list", minetest.serialize(effects_list))
+
 end
 
+---------------------------------------------------------------------------
+--RUN health functions:
+---------------------------------------------------------------------------
+--Default progression and regression, for effects with timers
+local function default_timer_progress(effect_name, t_min, t_max, max_order, c_boost, meta, effects_list, current_order, added_order, internal)
 
---name = "Drunk (moderate)"
-function HEALTH.drunk_moderate(player, meta, effects_list, r_rate, mov, jum)
-	r_rate = r_rate - 2
-	mov = mov - 5
-	jum = jum - 10
+	--was called internally so can skip comparisons (it will be higher)
+	if internal == true then
+		update_list_swap(meta, effects_list, effect_name, {effect_name, added_order})
+		extend_timer(meta, effect_name, t_min, t_max)
+		return
+	end
 
-	--staggering
-	stagger(player, 5, 10, 0.5, 5, 4)
+	--current order vs the order of what we are trying to add
+	--higher replaces lower, and extends the timer.
+	if current_order < added_order then
+		update_list_swap(meta, effects_list, effect_name, {effect_name, added_order})
+		extend_timer(meta, effect_name, t_min, t_max)
 
-	--downgrade chance
-	if set_timer(meta, "Drunk (moderate)", 4, 6) then
-		if do_timer(meta, "Drunk (moderate)") <= 0 then
-			local swap = {"Hangover (moderate)", 1}
-			local block = {
-				{"Hangover (mild)","Hangover (moderate)", 1, true},
-				{"Hangover (moderate)", nil, nil, false, 10},
-				{"Hangover (severe)", nil, nil, false, 10},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Drunk (moderate)", swap, block)
+	else
+		--lower and equal extends the timer
+		extend_timer(meta, effect_name, t_min, t_max)
+		--with chance to increase severity
+		if current_order < max_order and random() < c_boost then
+			current_order = current_order + 1
+			if current_order > max_order then
+				 current_order = max_order
+			 end
+			update_list_swap(meta, effects_list, effect_name, {effect_name, current_order})
 		end
 	end
-
-
-
-	return r_rate, mov, jum
 end
 
---name = "Drunk (severe)"
-function HEALTH.drunk_severe(player, meta, effects_list, r_rate, mov, jum)
-	r_rate = r_rate - 4
-	mov = mov - 10
-	jum = jum - 15
 
-	--vomit chance
-	if random()<0.5 then
-		vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
-	end
+local function default_timer_regress(player, effect_name, t_min, t_max, meta, effects_list, current_order, removed_order, replace_nil, internal)
+	--was called internally so can skip comparisons
+	if internal == true then
+		if current_order <= 0 then
+			--remove from effects list
+			update_list_swap(meta, effects_list, effect_name)
+			end_timer(meta, effect_name)
 
-	--major staggering
-	stagger(player, 30, 60, 0.5, 1, 4)
+			if replace_nil then
+				--swtich to a different effect rather than nothing
+				HEALTH.add_new_effect(player, replace_nil)
+			end
 
-	--downgrade chance
-	if set_timer(meta, "Drunk (severe)", 4, 6) then
-		if do_timer(meta, "Drunk (severe)") <= 0 then
-			local swap = {"Hangover (severe)", 1}
-			local block = {
-				{"Hangover (mild)","Hangover (severe)", 1, true},
-				{"Hangover (moderate)", "Hangover (severe)", 1, true},
-				{"Hangover (severe)", nil, nil, false, 10},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Drunk (severe)", swap, block)
+		else
+			--swap with new lower value
+			update_list_swap(meta, effects_list, effect_name, {effect_name, current_order})
+			extend_timer(meta, effect_name, t_min, t_max)
 		end
+		return
 	end
 
-
-	return r_rate, mov, jum
-end
-
---name = "Alcohol Poisoning"
-function HEALTH.alcohol_poisoning(player, meta, effects_list, r_rate, h_rate, mov, jum, temperature)
-	r_rate = r_rate - 4
-	h_rate = h_rate - 2
-	mov = mov - 20
-	jum = jum - 20
-
-	--vomiting and hypothermia
-	vomit(player, meta, 1, 5, 1, 10, 5, 10, 5, 10 )
-
-	if temperature >= 34 then
-		temperature = temperature - random(1,3)
-	end
-
-	--damage
-	if random()<0.25 then
-		organ_failure(player, 1, 3, 1, 8, 2, 3)
-	end
-
-	--major staggering
-	stagger(player, 30, 60, 0.5, 1, 4)
-
-	--downgrade chance
-	if set_timer(meta, "Alcohol Poisoning", 8, 12) then
-		if do_timer(meta, "Alcohol Poisoning") <= 0 then
-			local swap = {"Hangover (severe)", 1}
-			local block = {
-				{"Hangover (mild)","Hangover (severe)", 1, true},
-				{"Hangover (moderate)", "Hangover (severe)", 1, true},
-				{"Hangover (severe)", nil, nil, false, 10},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Alcohol Poisoning", swap, block)
+	--current order vs the order of what we are trying to remove
+	if current_order > removed_order then
+		--trying to remove lower than current (i.e. not powerful enough)
+		--chance it does some small help
+		if random() <0.1 then
+			extend_timer(meta, effect_name, -t_max, -t_min)
+		end
+	else
+		--removing higher or equal than current (i.e. effective treatment)
+		--lower the order
+		local order = current_order - 1
+		if order <= 0 then
+			--remove from effects list
+			update_list_swap(meta, effects_list, effect_name)
+			end_timer(meta, effect_name)
+			if replace_nil then
+				--swtich to a different effect rather than nothing
+				HEALTH.add_new_effect(player, replace_nil)
+			end
+		else
+			--swap with new lower value
+			update_list_swap(meta, effects_list, effect_name, {effect_name, order})
+			extend_timer(meta, effect_name, t_min, t_max)
 		end
 	end
 
 
-	return r_rate, h_rate, mov, jum, temperature
 end
-
-
 
 
 ----------------------------------
 --Food Poisoning
---vomiting, fever, and aches, and may include diarrhea
+--[[
+effect_name = "Food Poisoning"
 
---name = "Food Poisoning (mild)"
-function HEALTH.food_poisoning_mild(player, meta, effects_list, r_rate, mov, jum)
-	--slow recovery, movement
-	r_rate = r_rate - 1
-	mov = mov - 2
-	jum = jum - 2
+Ate something bad.
+vomiting, fever, etc
 
-	--some vomiting
-	if random()<0.3 then
-		vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
-	end
+]]
 
-	--end vs progression
-	if set_timer(meta, "Food Poisoning (mild)", 3, 6) == true then
-		if do_timer(meta, "Food Poisoning (mild)") <= 0 then
-			HEALTH.remove_effect(meta, effects_list, "Food Poisoning (mild)")
+
+function HEALTH.food_poisoning(order, player, meta, effects_list, r_rate, mov, jum, temperature)
+
+	--APPLY SYMPTOMS
+	if order == 1 then
+		--slow recovery, movement
+		r_rate = r_rate - 1
+		mov = mov - 2
+		jum = jum - 2
+		--some vomiting
+		if random()<0.3 then
+			vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
 		end
-	end
 
-	if random()<0.02 then
-		local swap = {"Food Poisoning (moderate)", 1}
-		HEALTH.remove_effect(meta, effects_list, "Food Poisoning (mild)", swap, nil)
-		meta:set_int("Food Poisoning (mild)",0)
-	end
-
-	return r_rate, mov, jum
-end
-
-
---name = "Food Poisoning (moderate)"
-function HEALTH.food_poisoning_moderate(player, meta, effects_list, r_rate, mov, jum)
-	--slow recovery, movement
-	r_rate = r_rate - 2
-	mov = mov - 4
-	jum = jum - 4
-
-	--some vomiting
-	if random()<0.6 then
-		vomit(player, meta, 1, 4, 1, 10, 1, 10, 1, 10 )
-	end
-
-	--end chance vs progression
-	if set_timer(meta, "Food Poisoning (moderate)", 4, 7) == true then
-		if do_timer(meta, "Food Poisoning (moderate)") <= 0 then
-			HEALTH.remove_effect(meta, effects_list, "Food Poisoning (moderate)")
+	elseif order == 2 then
+		--slow recovery, movement
+		r_rate = r_rate - 2
+		mov = mov - 4
+		jum = jum - 4
+		--some vomiting
+		if random()<0.6 then
+			vomit(player, meta, 1, 4, 1, 10, 1, 10, 1, 10 )
 		end
-	end
 
-	if random()<0.02 then
-		local swap = {"Food Poisoning (severe)", 1}
-		HEALTH.remove_effect(meta, effects_list, "Food Poisoning (moderate)", swap, nil)
-		meta:set_int("Food Poisoning (moderate)",0)
-	end
-
-
-	return r_rate, mov, jum
-end
-
-
---name = "Food Poisoning (severe)"
-function HEALTH.food_poisoning_severe(player, meta, effects_list, r_rate, mov, jum, temperature)
-	--slow recovery, movement
-	r_rate = r_rate - 4
-	mov = mov - 20
-	jum = jum - 20
-
-	--fever
-	if temperature <= 42 then
-		temperature = temperature + random(2,3)
-	end
-
-	--vomiting
-	vomit(player, meta, 1, 5, 1, 10, 5, 10, 5, 10 )
-
-	--mild staggering
-	stagger(player, 1, 5, 1, 5, 3)
-
-
-	--end chance
-	if set_timer(meta, "Food Poisoning (severe)", 5, 12) == true then
-		if do_timer(meta, "Food Poisoning (severe)") <= 0 then
-			HEALTH.remove_effect(meta, effects_list, "Food Poisoning (severe)")
+	elseif order == 3 then
+		--slow recovery, movement
+		r_rate = r_rate - 4
+		mov = mov - 20
+		jum = jum - 20
+		--fever
+		if temperature <= 42 then
+			temperature = temperature + random(2,3)
 		end
+		--vomiting
+		vomit(player, meta, 1, 5, 1, 10, 5, 10, 5, 10 )
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
+
+	elseif order == 4 then
+		--slow recovery, movement
+		r_rate = r_rate - 8
+		mov = mov - 30
+		jum = jum - 30
+		--fever
+		if temperature <= 42 then
+			temperature = temperature + random(2,3)
+		end
+		--vomiting
+		vomit(player, meta, 5, 10, 1, 10, 5, 10, 5, 10 )
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
 	end
 
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Food Poisoning", 3, 6) == true then
+		--small chance of worsening, otherwise recover
+
+		if random()<0.1 then
+			local added_order = order + 1
+			if added_order > 4 then
+				added_order = 4
+			end
+			--food_poisoning_progress(meta, effects_list, order, added_order, true)
+			default_timer_progress("Food Poisoning", 3, 6, 4, 0.2, meta, effects_list, current_order, added_order, true)
+		else
+			--food_poisoning_regress(meta, effects_list, order-1, nil, true)
+			default_timer_regress(player, "Food Poisoning", 3, 6, meta, effects_list, order-1, nil, nil, true)
+		end
+
+	end
+
+	--send back modified values
 	return r_rate, mov, jum, temperature
+
+end
+
+
+----------------------------------
+--Drunkeness
+--[[
+effect_name = "Drunk"
+Alcohol intoxication. Stumble around. Extreme level is alcohol poisoning
+
+]]
+
+
+function HEALTH.drunk(order, player, meta, effects_list, r_rate, mov, jum, h_rate, temperature)
+	local max_drunk = meta:get_int("max_hangover") or 0
+	--APPLY SYMPTOMS
+	if order == 1 then
+		if max_drunk < 1 then
+			max_drunk = 1
+			meta:set_int("max_hangover", max_drunk)
+		end
+
+		r_rate = r_rate - 1
+		mov = mov - 2
+		jum = jum - 5
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
+
+	elseif order == 2 then
+		if max_drunk < 2 then
+			max_drunk = 2
+			meta:set_int("max_hangover", max_drunk)
+		end
+
+		r_rate = r_rate - 2
+		mov = mov - 5
+		jum = jum - 10
+		--staggering
+		stagger(player, 5, 10, 0.5, 5, 4)
+
+	elseif order == 3 then
+		if max_drunk < 3 then
+			max_drunk = 3
+			meta:set_int("max_hangover", max_drunk)
+		end
+
+		r_rate = r_rate - 4
+		mov = mov - 10
+		jum = jum - 15
+		--vomit chance
+		if random()<0.5 then
+			vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
+		end
+		--major staggering
+		stagger(player, 30, 60, 0.5, 1, 4)
+
+	elseif order == 4 then
+		if max_drunk < 4 then
+			max_drunk = 4
+			meta:set_int("max_hangover", max_drunk)
+		end
+
+		r_rate = r_rate - 4
+		h_rate = h_rate - 2
+		mov = mov - 20
+		jum = jum - 20
+
+		--vomiting and hypothermia
+		vomit(player, meta, 1, 5, 1, 10, 5, 10, 5, 10 )
+		if temperature >= 34 then
+			temperature = temperature - random(1,3)
+		end
+		--damage
+		if random()<0.25 then
+			organ_failure(player, 1, 3, 1, 8, 2, 3)
+		end
+		--major staggering
+		stagger(player, 30, 60, 0.5, 1, 4)
+
+	end
+
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Drunk", 3, 6) == true then
+		order = order - 1
+		-- recover with a hangover that matches most extreme point achieved
+		default_timer_regress(player, "Drunk", 3, 6, meta, effects_list, order, nil, {"Hangover", max_drunk}, true)
+
+		--reset to zero
+		if order <= 0 then
+			meta:set_int("max_hangover", 0)
+		end
+	end
+
+	--send back modified values
+	return r_rate, mov, jum, h_rate, temperature
+
+end
+
+----------------------------------
+--Hangover
+--[[
+effect_name = "Hangover"
+After effects of drugs and alcohol
+
+]]
+
+function HEALTH.hangover(order, player, meta, effects_list, mov, jum )
+
+	--APPLY SYMPTOMS
+	if order == 1 then
+		mov = mov - 2
+		jum = jum - 2
+
+	elseif order == 2 then
+		mov = mov - 4
+		jum = jum - 4
+
+	elseif order == 3 then
+		mov = mov - 6
+		jum = jum - 6
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
+
+	elseif order == 4 then
+		mov = mov - 8
+		jum = jum - 8
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
+
+	end
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Hangover", 4, 8) == true then
+		order = order - 1
+		-- recover
+		default_timer_regress(player, "Hangover", 4, 8, meta, effects_list, order, nil, nil, true)
+
+	end
+
+	--send back modified values
+	return mov, jum
+
 end
 
 
 ----------------------------------
 --Intestinal Parasites
+--[[
+effect_name = "Intestinal Parasites"
+Gut worms etc. Increased hunger.
 
---name = "Intestinal Parasites"
-function HEALTH.intestinal_parasites(meta, effects_list, r_rate, hun_rate)
+]]
+
+
+function HEALTH.intestinal_parasites(order, player, meta, effects_list, r_rate, hun_rate)
+	--no orders, or progression.
+	--you get them, then hope they go away (or cure them)
 	--hunger quicker, recover slower
 	r_rate = r_rate - 2
 	hun_rate = hun_rate - 6
 
 	--end chance
 	if random()<0.001 then
-		HEALTH.remove_effect(meta, effects_list, "Intestinal Parasites")
+		update_list_swap(meta, effects_list, "Intestinal Parasites")
 	end
 
+	--send back modified values
 	return r_rate, hun_rate
+
 end
+
 
 
 ----------------------------------
 --Tiku Stimulants
---for a crazy drug fueled bender, with a chance of losing control of it
+--[[
+effect_name = "Tiku High"
+For a crazy drug fueled bender, with a chance of losing control of it.
+Extreme is an overdose
 
---name = "Tiku High (mild)"
-function HEALTH.tiku_mild(player, meta, effects_list, r_rate, hun_rate, mov, jum)
-	r_rate = r_rate + 6
-	hun_rate = hun_rate - 2
-	mov = mov + 24
-	jum = jum + 12
+]]
 
-	if random()<0.1 then
-		auditory_hallucination(player, 1, 3, 3, 10, 0.01, 0.02)
+
+function HEALTH.tiku_high(order, player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
+	local max_drunk = meta:get_int("max_hangover") or 0
+	--APPLY SYMPTOMS
+	if order == 1 then
+		if max_drunk < 1 then
+			max_drunk = 1
+			meta:set_int("max_hangover", max_drunk)
+		end
+
+		r_rate = r_rate + 6
+		hun_rate = hun_rate - 2
+		mov = mov + 24
+		jum = jum + 12
+		if random()<0.1 then
+			auditory_hallucination(player, 1, 3, 3, 10, 0.01, 0.02)
+		end
+
+	elseif order == 2 then
+		if max_drunk < 2 then
+			max_drunk = 2
+			meta:set_int("max_hangover", max_drunk)
+		end
+		r_rate = r_rate + 12
+		hun_rate = hun_rate - 4
+		mov = mov + 36
+		jum = jum + 24
+		-- mild fever
+		if temperature < 38 and random()<0.3 then
+			temperature = temperature + random(2,3)
+		end
+		if random()<0.1 then
+			auditory_hallucination(player, 1, 4, 2, 10, 0.02, 0.08)
+		end
+
+
+	elseif order == 3 then
+		if max_drunk < 3 then
+			max_drunk = 3
+			meta:set_int("max_hangover", max_drunk)
+		end
+		r_rate = r_rate + 24
+		hun_rate = hun_rate - 8
+		mov = mov + 48
+		jum = jum + 45
+		-- mild fever
+		if temperature <= 38 and random()<0.6 then
+			temperature = temperature + random(2,3)
+		end
+		--time to go crazy
+		auditory_hallucination(player, 30, 60, 0.4, 1, 0.5, 4)
+		--mild staggering
+		stagger(player, 1, 5, 1, 5, 3)
+
+
+	elseif order == 4 then
+		if max_drunk < 4 then
+			max_drunk = 4
+			meta:set_int("max_hangover", max_drunk)
+		end
+		r_rate = r_rate - 24
+		hun_rate = hun_rate - 8
+		mov = mov - 5
+		jum = jum - 5
+
+		--  fever
+		if temperature <= 43 then
+			temperature = temperature + random(2,4)
+		end
+		--time to go crazy
+		auditory_hallucination(player, 30, 60, 0.5, 1, 1, 4)
+		--major staggering
+		stagger(player, 30, 60, 0.5, 1, 4)
+		--vomit chance
+		if random()<0.75 then
+			vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
+		end
+		--damage
+		if random()<0.33 then
+			organ_failure(player, 1, 5, 1, 8, 1, 2)
+		end
+
 	end
 
 
-	--end chance vs progression
-	if set_timer(meta, "Tiku High (mild)", 5, 15) == true then
-		if do_timer(meta, "Tiku High (mild)") <= 0 then
-			local swap = {"Hangover (mild)", 1}
-			local block = {
-				{"Hangover (mild)", nil, nil, false, 20},
-				{"Hangover (moderate)"},
-				{"Hangover (severe)"},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Tiku High (mild)", swap, block)
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Tiku High", 6, 12) == true then
+		--small chance of worsening, otherwise recover
+		if random()<0.1 then
+			local added_order = order + 1
+			if added_order > 4 then
+				added_order = 4
+			end
+			default_timer_progress("Tiku High", 3, 6, 3, 0.2, meta, effects_list, current_order, added_order, true)
+		else
+			order = order - 1
+			-- recover with a hangover that matches most extreme point achieved
+			default_timer_regress(player, "Tiku High", 3, 6, meta, effects_list, order, nil, {"Hangover", max_drunk}, true)
+
+			--reset to zero
+			if order <= 0 then
+				meta:set_int("max_hangover", 0)
+			end
 		end
 	end
 
-	if random()<0.02 then
-		local swap = {"Tiku High (moderate)", 1}
-		HEALTH.remove_effect(meta, effects_list, "Tiku High (mild)", swap, nil)
-		meta:set_int("Tiku High (mild)",0)
-	end
-
-	return r_rate, hun_rate, mov, jum
-end
-
-
---name = "Tiku High (moderate)"
-function HEALTH.tiku_moderate(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate + 12
-	hun_rate = hun_rate - 4
-	mov = mov + 36
-	jum = jum + 24
-
-	-- mild fever
-	if temperature < 38 and random()<0.3 then
-		temperature = temperature + random(2,3)
-	end
-
-	if random()<0.1 then
-		auditory_hallucination(player, 1, 4, 2, 10, 0.02, 0.08)
-	end
-
-	--end chance vs progression
-	if set_timer(meta, "Tiku High (moderate)", 5, 15) == true then
-		if do_timer(meta, "Tiku High (moderate)") <= 0 then
-			local swap = {"Hangover (moderate)", 1}
-			local block = {
-				{"Hangover (mild)","Hangover (moderate)", 1, true},
-				{"Hangover (moderate)", nil, nil, false, 20},
-				{"Hangover (severe)", nil, nil, false, 20},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Tiku High (moderate)", swap, block)
-		end
-
-	elseif random()<0.03 then
-		local swap = {"Tiku High (severe)", 1}
-		HEALTH.remove_effect(meta, effects_list, "Tiku High (moderate)", swap, nil)
-		meta:set_int("Tiku High (moderate)",0)
-	end
-
-
+	--send back modified values
 	return r_rate, hun_rate, mov, jum, temperature
+
 end
-
-
---name = "Tiku High (severe)"
-function HEALTH.tiku_severe(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate + 24
-	hun_rate = hun_rate - 8
-	mov = mov + 48
-	jum = jum + 45
-
-	-- mild fever
-	if temperature <= 38 and random()<0.6 then
-		temperature = temperature + random(2,3)
-	end
-
-
-	--time to go crazy
-	auditory_hallucination(player, 30, 60, 0.4, 1, 0.5, 4)
-
-
-	--mild staggering
-	stagger(player, 1, 5, 1, 5, 3)
-
-
-	--downgrade chance vs progression
-	if set_timer(meta, "Tiku High (severe)", 5, 15) == true then
-		if do_timer(meta, "Tiku High (severe)") <= 0 then
-			local swap = {"Hangover (severe)", 1}
-			local block = {
-				{"Hangover (mild)","Hangover (severe)", 1, true},
-				{"Hangover (moderate)", "Hangover (severe)", 1, true},
-				{"Hangover (severe)", nil, nil, false, 10},
-			}
-			HEALTH.remove_effect(meta, effects_list, "Tiku High (severe)", swap, block)
-		end
-		
-	elseif random()<0.03 then
-		local swap = {"Tiku Overdose", 1}
-		HEALTH.remove_effect(meta, effects_list, "Tiku High (severe)", swap, nil)
-		meta:set_int("Tiku High (severe)",0)
-	end
-
-	return r_rate, hun_rate, mov, jum, temperature
-end
-
-
---name = "Tiku Overdose"
-function HEALTH.tiku_overdose(player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
-	r_rate = r_rate - 24
-	hun_rate = hun_rate - 8
-	mov = mov - 5
-	jum = jum - 5
-
-	--  fever
-	if temperature <= 43 then
-		temperature = temperature + random(2,4)
-	end
-
-	--time to go crazy
-	auditory_hallucination(player, 30, 60, 0.5, 1, 1, 4)
-
-
-	--major staggering
-	stagger(player, 30, 60, 0.5, 1, 4)
-
-	--vomit chance
-	if random()<0.75 then
-		vomit(player, meta, 1, 3, 1, 10, 1, 5, 1, 5 )
-	end
-
-	--damage
-	if random()<0.33 then
-		organ_failure(player, 1, 5, 1, 8, 1, 2)
-	end
-
-	--downgrade chance
-	if set_timer(meta, "Tiku Overdose", 5, 15) == true then
-		if do_timer(meta, "Tiku Overdose") <= 0 then
-			local swap = {"Tiku High (mild)", 1}
-			HEALTH.remove_effect(meta, effects_list, "Tiku Overdose", swap, nil)
-		end
-	end
-
-
-	return r_rate, hun_rate, mov, jum, temperature
-end
-
 
 
 ----------------------------------
 --Neurotoxicity (brain)
+--[[
+effect_name = "Neurotoxicity"
+ nerve poison. staggering, movement problems, death
 
---name = "Neurotoxicity"
-function HEALTH.neurotoxicity(player, meta, effects_list, mov, jum, h_rate)
-	--restrict movement
-	mov = mov - 30
-	jum = jum - 30
+]]
 
-	--major staggering
-	stagger(player, 50, 60, 0.3, 1, 4)
+function HEALTH.neurotoxicity(order, player, meta, effects_list, mov, jum)
 
-	--damage
-	if random()<0.25 then
+	--APPLY SYMPTOMS
+	if order == 1 then
+		--restrict movement
+		mov = mov - 7
+		jum = jum - 7
+		--major staggering
+		stagger(player, 10, 15, 0.3, 1, 4)
+
+	elseif order == 2 then
+		--restrict movement
+		mov = mov - 15
+		jum = jum - 15
+		--major staggering
+		stagger(player, 20, 30, 0.3, 1, 4)
+		--damage
+		if random()<0.05 then
+			organ_failure(player, 1, 3, 1, 5, 1, 5)
+		end
+
+	elseif order == 3 then
+		--restrict movement
+		mov = mov - 30
+		jum = jum - 30
+		--major staggering
+		stagger(player, 50, 60, 0.3, 1, 4)
+		--damage
+		if random()<0.25 then
+			organ_failure(player, 1, 3, 1, 5, 1, 5)
+		end
+
+	elseif order == 4 then
+		--restrict movement
+		mov = mov - 30
+		jum = jum - 30
+		--major staggering
+		stagger(player, 50, 60, 0.3, 1, 4)
+		--damage
 		organ_failure(player, 1, 3, 1, 5, 1, 5)
+
 	end
 
-	--end chance
-	if random()<0.1 then
-		HEALTH.remove_effect(meta, effects_list, "Neurotoxicity")
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Neurotoxicity", 6, 12) == true then
+		-- recover
+		default_timer_regress(player, "Neurotoxicity", 3, 6, meta, effects_list, order-1, nil, nil, true)
+
 	end
 
-	return mov, jum, h_rate
+	--send back modified values
+	return mov, jum
+
 end
+
 
 
 ----------------------------------
 --Hepatotoxicity (liver)
+--[[
+effect_name = "Hepatotoxicity"
+liver poison. vomiting, death
 
---name = "Hepatotoxicity"
-function HEALTH.hepatotoxicity(player, meta, effects_list, mov, jum, r_rate, h_rate )
+]]
+function HEALTH.hepatotoxicity(order, player, meta, effects_list, mov, jum, r_rate, h_rate)
 
+	--APPLY SYMPTOMS
 	--you're fine until you really aren't
-	if random()<0.2 then
-		vomit(player, meta, 10, 20, 0.75, 3, 1, 5, 20, 40 )
-		mov = mov - 30
-		jum = jum - 30
-		r_rate = r_rate - 30
-		h_rate = h_rate - 6
-		--damage
-		if random()<0.2 then
+	if random()<0.3 then
+
+		if order == 1 then
+			vomit(player, meta, 2, 6, 0.75, 3, 1, 2, 5, 10 )
+			mov = mov - 7
+			jum = jum - 7
+			r_rate = r_rate - 7
+			h_rate = h_rate - 1
+			--damage
+			if random()<0.05 then
+				organ_failure(player, 1, 2, 1, 5, 5, 8)
+			end
+
+		elseif order == 2 then
+			vomit(player, meta, 5, 10, 0.75, 3, 1, 5, 10, 20 )
+			mov = mov - 15
+			jum = jum - 15
+			r_rate = r_rate - 15
+			h_rate = h_rate - 3
+			--damage
+			if random()<0.25 then
+				organ_failure(player, 1, 2, 1, 5, 5, 8)
+			end
+
+		elseif order == 3 then
+			vomit(player, meta, 10, 20, 0.75, 3, 1, 5, 20, 40 )
+			mov = mov - 30
+			jum = jum - 30
+			r_rate = r_rate - 30
+			h_rate = h_rate - 6
+			--damage
+			if random()<0.5 then
+				organ_failure(player, 1, 2, 1, 5, 5, 8)
+			end
+
+		elseif order == 4 then
+			vomit(player, meta, 10, 20, 0.75, 3, 2, 10, 40, 60 )
+			mov = mov - 30
+			jum = jum - 30
+			r_rate = r_rate - 60
+			h_rate = h_rate - 6
+			--damage
 			organ_failure(player, 1, 2, 1, 5, 5, 8)
+
 		end
+
 	end
 
 
-	--end chance
-	if random()<0.01 then
-		HEALTH.remove_effect(meta, effects_list, "Hepatotoxicity")
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Hepatotoxicity", 6, 12) == true then
+		-- recover
+		default_timer_regress(player, "Hepatotoxicity", 6, 12, meta, effects_list, order-1, nil, nil, true)
+
 	end
 
+	--send back modified values
 	return mov, jum, r_rate, h_rate
+
 end
+
 
 ----------------------------------
 --Phototoxin (light and skin)
+--[[
+effect_name =  "Photosensitivity"
+Light sensitivity
+i.e. you are coming up in blisters if exposed to sun
+]]
 
---name = "Photosensitivity"
-function HEALTH.photosensitivity(player, meta, effects_list, h_rate, r_rate)
+function HEALTH.photosensitivity(order, player, meta, effects_list, h_rate, r_rate )
 
-	--exposure to light causes painful reaction
+	--APPLY SYMPTOMS
+	--you're fine unless in the sun
 	local pos = player:get_pos()
 	pos.y = pos.y + 0.8
 	local light = minetest.get_node_light(pos) or 0
 	if light >= 13 then
-		h_rate = h_rate - 8
-		r_rate = r_rate - 30
+
+		if order == 1 then
+			h_rate = h_rate - 3
+			r_rate = r_rate - 8
+			stagger(player, 1, 2, 1, 5, 1)
+
+		elseif order == 2 then
+			h_rate = h_rate - 6
+			r_rate = r_rate - 12
+			stagger(player, 1, 3, 1, 5, 1)
+
+		elseif order == 3 then
+			h_rate = h_rate - 12
+			r_rate = r_rate - 24
+			stagger(player, 1, 2, 1, 5, 1)
+
+		elseif order == 4 then
+			h_rate = h_rate - 9
+			r_rate = r_rate - 48
+			stagger(player, 1, 4, 1, 5, 1)
+		end
+
 	end
 
-	--end chance
-	if random()<0.01 then
-		HEALTH.remove_effect(meta, effects_list, "Photosensitivity")
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Photosensitivity", 12, 24) == true then
+		-- recover
+		default_timer_regress(player, "Photosensitivity", 12, 24, meta, effects_list, order-1, nil, nil, true)
+
 	end
 
+	--send back modified values
 	return h_rate, r_rate
+
 end
 
-
 ----------------------------------
---Meta-Stim (super powers for a price)
---from artifact
+--Meta-Stim
+--[[
+effect_name =  Meta-Stim
+from artifact. Super powers for a price.
+Increasing powers unlocked the more you inject.
+A slight bit of a techno-vampire vibe
 
---name = "Meta-Stim"
-function HEALTH.meta_stim(player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
+]]
 
-	h_rate = h_rate + 7
-	r_rate = r_rate + 29
-	hun_rate = hun_rate + 5
-	t_rate = t_rate + 5
 
-	local pos = player:get_pos()
-	if pos.y < 200 then
-		player_monoids.fly:add_change(player, true, "health:metastim")
-		player_monoids.gravity:add_change(player, 0.1, "health:metastim")
-		--player_monoids.noclip:add_change(player, true, "health:metastim") --does weird stuff with stagger?
-	else
-		--no flying into space!
-		player_monoids.fly:del_change(player, "health:metastim")
+function HEALTH.meta_stim(order, player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
+	local max_metastim = meta:get_int("max_metastim") or 0
+	--APPLY SYMPTOMS
+	if order == 1 then
+		if max_metastim < 1 then
+			max_metastim = 1
+			meta:set_int("max_metastim", max_metastim)
+		end
+
+		--Get boosters
+		h_rate = h_rate + 8
+		r_rate = r_rate + 32
+		hun_rate = hun_rate + 5
+		t_rate = t_rate + 5
+
+		--develop reaction to light
+		HEALTH.add_new_effect(player, {"Photosensitivity", 1})
+
+
+	elseif order == 2 then
+		if max_metastim < 2 then
+			max_metastim = 2
+			meta:set_int("max_metastim", max_metastim)
+		end
+
+		--Get boosters
+		h_rate = h_rate + 16
+		r_rate = r_rate + 64
+		hun_rate = hun_rate + 10
+		t_rate = t_rate + 10
+
+		--cures mild ailments
+		HEALTH.remove_new_effect(player, {"Food Poisoning", 1})
+		HEALTH.remove_new_effect(player, {"Hangover", 1})
+		HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
+
+		--develop reaction to light
+		HEALTH.add_new_effect(player, {"Photosensitivity", 2})
+
+
+	elseif order == 3 then
+		if max_metastim < 3 then
+			max_metastim = 3
+			meta:set_int("max_metastim", max_metastim)
+		end
+
+		--Get boosters
+		h_rate = h_rate + 32
+		r_rate = r_rate + 128
+		hun_rate = hun_rate + 20
+		t_rate = t_rate + 20
+
+		--cures serious ailments
+		HEALTH.remove_new_effect(player, {"Food Poisoning", 4})
+		HEALTH.remove_new_effect(player, {"Drunk", 4})
+		HEALTH.remove_new_effect(player, {"Hangover", 4})
+		HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
+		HEALTH.remove_new_effect(player, {"Tiku High", 4})
+		HEALTH.remove_new_effect(player, {"Neurotoxicity", 4})
+		HEALTH.remove_new_effect(player, {"Hepatotoxicity", 4})
+
+		--develop reaction to light
+		HEALTH.add_new_effect(player, {"Photosensitivity", 3})
+
+
+	elseif order == 4 then
+		if max_metastim < 4 then
+			max_metastim = 4
+			meta:set_int("max_metastim", max_metastim)
+		end
+
+		--now badly inhibited by bright light
+		local pos = player:get_pos()
+		pos.y = pos.y + 0.8
+		local light = minetest.get_node_light(pos) or 0
+
+		--Get boosters
+		if light <= 14 then
+			h_rate = h_rate + 32
+			r_rate = r_rate + 128
+			hun_rate = hun_rate + 20
+			t_rate = t_rate + 20
+
+			--cures serious ailments
+			HEALTH.remove_new_effect(player, {"Food Poisoning", 4})
+			HEALTH.remove_new_effect(player, {"Drunk", 4})
+			HEALTH.remove_new_effect(player, {"Hangover", 4})
+			HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
+			HEALTH.remove_new_effect(player, {"Tiku High", 4})
+			HEALTH.remove_new_effect(player, {"Neurotoxicity", 4})
+			HEALTH.remove_new_effect(player, {"Hepatotoxicity", 4})
+		end
+
+		--Achieve God like powers
+		if pos.y < 200 and light < 14 then
+			player_monoids.fly:add_change(player, true, "health:metastim")
+			player_monoids.gravity:add_change(player, 0.1, "health:metastim")
+			--player_monoids.noclip:add_change(player, true, "health:metastim") --does weird stuff with stagger?
+		else
+			--no flying into space! or in bright light
+			player_monoids.fly:del_change(player, "health:metastim")
+			player_monoids.gravity:del_change(player, "health:metastim")
+		end
+
+		--I am a GOD!
+		minetest.sound_play( {name="health_superpower", gain=1}, {pos=pos, max_hear_distance=20})
+		minetest.add_particlespawner({
+			amount = 80,
+			time = 18,
+			minpos = {x=pos.x+7, y=pos.y+7, z=pos.z+7},
+			maxpos = {x=pos.x-7, y=pos.y-7, z=pos.z-7},
+			minvel = {x = -5,  y = -5,  z = -5},
+			maxvel = {x = 5, y = 5, z = 5},
+			minacc = {x = -3, y = -3, z = -3},
+			maxacc = {x = 3, y = 3, z = 3},
+			minexptime = 0.2,
+			maxexptime = 1,
+			minsize = 0.5,
+			maxsize = 2,
+			texture = "health_superpower.png",
+			glow = 15,
+		})
+
+		--develop reaction to light
+		HEALTH.add_new_effect(player, {"Photosensitivity", 4})
+
+
 	end
 
-	--I am a GOD!
-	minetest.sound_play( {name="health_superpower", gain=1}, {pos=pos, max_hear_distance=20})
-	minetest.add_particlespawner({
-		amount = 80,
-		time = 18,
-		minpos = {x=pos.x+7, y=pos.y+7, z=pos.z+7},
-		maxpos = {x=pos.x-7, y=pos.y-7, z=pos.z-7},
-		minvel = {x = -5,  y = -5,  z = -5},
-		maxvel = {x = 5, y = 5, z = 5},
-		minacc = {x = -3, y = -3, z = -3},
-		maxacc = {x = 3, y = 3, z = 3},
-		minexptime = 0.2,
-		maxexptime = 1,
-		minsize = 0.5,
-		maxsize = 2,
-		texture = "health_superpower.png",
-		glow = 15,
-	})
 
-	--cures toxins but have to keep using it to avoid fatal outcome
-	HEALTH.remove_effect(meta, effects_list, "Neurotoxicity")
-	HEALTH.remove_effect(meta, effects_list, "Hepatotoxicity")
-	HEALTH.remove_effect(meta, effects_list, "Tiku Overdose")
-	HEALTH.remove_effect(meta, effects_list, "Alcohol Poisoning")
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Meta-Stim", 12, 24) == true then
+		order = order - 1
+		-- end with a toxic hangover that matches most extreme point achieved
+		default_timer_regress(player, "Meta-Stim", 12, 24, meta, effects_list, order, nil, {"Neurotoxicity", max_metastim}, true)
 
-	--risk getting bad reaction
-	--cancels out some of the gains, trapping you in the dark
-	if random()<0.05 then
-		HEALTH.check_for_effect(player, {"Photosensitivity", 1}, {{"Photosensitivity"}})
+		--reset to zero
+		if order <= 0 then
+			meta:set_int("max_metastim", 0)
+			player_monoids.fly:del_change(player, "health:metastim")
+			player_monoids.gravity:del_change(player, "health:metastim")
+			--player_monoids.noclip:del_change(player, "health:metastim")
+		end
 	end
 
-	--end chance, you die now...
-	if random()<0.05 then
-		local swap = {"Neurotoxicity", 1}
-		local block = {
-			{"Neurotoxicity"}
-		}
-
-		HEALTH.remove_effect(meta, effects_list, "Meta-Stim", swap, block)
-
-		player_monoids.fly:del_change(player, "health:metastim")
-		player_monoids.gravity:del_change(player, "health:metastim")
-		--player_monoids.noclip:del_change(player, "health:metastim")
-	end
-
+	--send back modified values
 	return h_rate, r_rate, hun_rate, t_rate
+
 end
 
 ----------------------------------
 --Stimulant addiction, withdrawal
-
 
 
 ----------------------------------
@@ -969,10 +1091,159 @@ end
 ----------------------------------
 --indigestion (eat too much and throw up)?
 --infection
---venom
+--venom (requires duplicating chains of stuff from mobkit just to add one line to attacking??)
 --radiation
 --plague
 --trench foot/fungal infection
 
 
+
 -------------------------------------------------------------------
+--ADD/REMOVE NEW
+-------------------------------------------------------------------
+--add a new effect
+--if it finds the effect currently in place, it must know how to progress it.
+--this is specific to each health effect so must call that function
+function HEALTH.add_new_effect(player, name)
+
+	local meta = player:get_meta()
+	local effects_list = meta:get_string("effects_list")
+	effects_list = minetest.deserialize(effects_list) or {}
+
+	--effect already present. call function to decide how to progress it
+	for i, effect in ipairs(effects_list) do
+
+		if effect[1] == name[1] then
+
+			--min timer, max timer (for extensions), max order, chance of adding an equal or lower boosting to a higher order
+			if name[1] == "Food Poisoning" then
+				default_timer_progress("Food Poisoning", 3, 6, 4, 0.2, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Drunk" then
+				default_timer_progress("Drunk", 3, 6, 4, 0.2, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Hangover" then
+				default_timer_progress("Hangover", 4, 8, 4, 0.4, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Intestinal Parasites" then
+				--no progression, only need to block it
+				return
+			elseif name[1] == "Tiku High" then
+				default_timer_progress("Tiku High", 3, 6, 4, 0.3, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Neurotoxicity" then
+				default_timer_progress("Neurotoxicity", 3, 6, 4, 0.75, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Hepatotoxicity" then
+				default_timer_progress("Hepatotoxicity", 6, 12, 4, 0.75, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Photosensitivity" then
+				default_timer_progress("Photosensitivity", 12, 24, 4, 0.1, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Meta-Stim" then
+				default_timer_progress("Meta-Stim", 12, 24, 4, 1, meta, effects_list, effect[2], name[2])
+			end
+
+
+			return
+		end
+	end
+
+
+	--doesn't currently exist, so add and update HUD, list
+	table.insert(effects_list, name)
+	local num = #effects_list or 0
+	meta:set_int("effects_num", num )
+	meta:set_string("effects_list", minetest.serialize(effects_list))
+
+end
+
+
+
+--Remove a new effect
+--(new in the sense that we don't know if it is actually on or not)
+--if it finds the effect currently in place, it must know how to regress it.
+--this is specific to each health effect so must call that function
+function HEALTH.remove_new_effect(player, name)
+
+	local meta = player:get_meta()
+	local effects_list = meta:get_string("effects_list")
+	effects_list = minetest.deserialize(effects_list) or {}
+
+	--effect is present. call function to decide how to regress it
+	for i, effect in ipairs(effects_list) do
+
+		if effect[1] == name[1] then
+			--min timer, max timer,
+			if name[1] == "Food Poisoning" then
+				default_timer_regress(player, "Food Poisoning", 3, 6, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Drunk" then
+				default_timer_regress(player, "Drunk", 3, 6, meta, effects_list, effect[2], name[2], {"Hangover", meta:get_int("max_hangover") or 1})
+			elseif name[1] == "Hangover" then
+				default_timer_regress(player, "Hangover", 4, 8, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Intestinal Parasites" then
+				update_list_swap(meta, effects_list, "Intestinal Parasites")
+			elseif name[1] == "Tiku High" then
+				default_timer_regress(player, "Tiku High", 3, 6, meta, effects_list, effect[2], name[2], {"Hangover", meta:get_int("max_hangover") or 1})
+			elseif name[1] == "Neurotoxicity" then
+				default_timer_regress(player, "Neurotoxicity", 3, 6, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Hepatotoxicity" then
+				default_timer_regress(player, "Hepatotoxicity", 6, 12, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Photosensitivity" then
+				default_timer_regress(player, "Photosensitivity", 12, 24, meta, effects_list, effect[2], name[2])
+			--elseif name[1] == "Meta-Stim" then
+			--note, this wont remove flying effects. Not needed at this point,
+			-- but will need something better if want to have an item that removes meta-stim
+			--	default_timer_regress(player, "Meta-Stim", 12, 24, meta, effects_list, effect[2], name[2], {"Neurotoxicity", meta:get_int("max_metastim") or 1})
+
+			end
+
+		end
+	end
+
+
+	--Otherwise doesn't currently exist, so nothing to do...
+
+end
+
+
+-------------------------------------------------------------------
+--TEST!!!!
+-------------------------------------------------------------------
+--[[
+minetest.register_craftitem("health:bug_test_food", {
+	description = "Bug TESTING FOOD",
+	inventory_image = "tech_vegetable_oil.png",
+	stack_max = 500,
+	groups = {flammable = 1},
+
+
+  on_use = function(itemstack, user, pointed_thing)
+
+		--HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		--HEALTH.add_new_effect(user, {"Drunk", 1})
+		--HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		--HEALTH.add_new_effect(user, {"Tiku High", 1})
+		--HEALTH.add_new_effect(user, {"Neurotoxicity", 1})
+		--HEALTH.add_new_effect(user, {"Hepatotoxicity", 1})
+		--HEALTH.add_new_effect(user, {"Photosensitivity", 1})
+		--HEALTH.add_new_effect(user, {"Meta-Stim", 1})
+
+  end,
+})
+
+minetest.register_craftitem("health:bug_test_food2", {
+	description = "Bug TESTING FOOD 2",
+	inventory_image = "tech_vegetable_oil.png",
+	stack_max = 500,
+	groups = {flammable = 1},
+
+
+  on_use = function(itemstack, user, pointed_thing)
+
+		--HEALTH.remove_new_effect(user, {"Food Poisoning", 3})
+		--HEALTH.remove_new_effect(user, {"Drunk", 4})
+		--HEALTH.remove_new_effect(user, {"Hangover", 4})
+		--HEALTH.remove_new_effect(user, {"Intestinal Parasites"})
+		--HEALTH.remove_new_effect(user, {"Tiku High", 4})
+		--HEALTH.remove_new_effect(user, {"Neurotoxicity", 4})
+		--HEALTH.remove_new_effect(user, {"Hepatotoxicity", 4})
+		--HEALTH.remove_new_effect(user, {"Photosensitivity", 4})
+		--HEALTH.remove_new_effect(user, {"Meta-Stim", 4})
+
+  end,
+})
+]]
