@@ -69,7 +69,7 @@ Plant groups
 `seed`: a plant seed or spore. Will grow into a seedling.
 `seedling`: unused?
 `flora`: wild plants, will spread
-
+`bioluminescent`: a living thing that glows.
 
 pottery groups
 --------------

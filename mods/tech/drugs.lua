@@ -115,7 +115,7 @@ minetest.register_node("tech:tang", {
 		"tech_pottery.png"
 	},
 	drawtype = "nodebox",
-	stack_max = minimal.stack_max_bulky,
+	stack_max = 1,--minimal.stack_max_bulky,
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
@@ -220,7 +220,7 @@ minetest.register_node("tech:tang_unfermented", {
 		"tech_pottery.png"
 	},
 	drawtype = "nodebox",
-	stack_max = minimal.stack_max_bulky,
+	stack_max = 1,--minimal.stack_max_bulky,
 	paramtype = "light",
 	node_box = {
 		type = "fixed",

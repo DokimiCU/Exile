@@ -121,4 +121,7 @@ Thanks also to all who have given feedback, fixes etc.
 - megamorph surface airshafts
 - fix clothing infinite tolerance bug
 - iron fittings for crafts
+- old and young Tangkal trees
+- Tiken woody cane
+- cave sediments and mushrooms
 - misc minor fixes and balancing

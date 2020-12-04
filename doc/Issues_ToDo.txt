@@ -37,7 +37,6 @@ Nature:
 -ocean flora lacks spreading (barely matters at this point)
 -Tangkal tree schem has grass in it.
 -freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
--a gemedi cane was spotted on top of moss (flora spread?)
 -snow should turn into block when placed on top of self. (instead of vanishing due to buildable_to = true,)
 -bottom texture on wet sediment should be the sediment (is top)
 
@@ -134,7 +133,6 @@ HEALTH
 
 
 --NATURE
--bamboo like thing (like canes but for sticks)
 -shellfish
 -mangroves
 -unique environ tolerances for each plant species

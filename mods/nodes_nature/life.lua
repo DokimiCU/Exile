@@ -799,6 +799,33 @@ minetest.register_node("nodes_nature:cana", {
 	end,
 })
 
+minetest.register_node("nodes_nature:tiken", {
+	description = "Tiken",
+	drawtype = "plantlike",
+	tiles = {"nodes_nature_tiken.png"},
+	inventory_image = "nodes_nature_tiken.png",
+	wield_image = "nodes_nature_tiken.png",
+	stack_max = minimal.stack_max_medium,
+	paramtype = "light",
+	paramtype2 = "meshoptions",
+	place_param2 = 2,
+	sunlight_propagates = true,
+	walkable = false,
+	damage_per_second = 1,
+	climbable = true,
+	--floodable = true,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
+	},
+	groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+
+	after_dig_node = function(pos, node, metadata, digger)
+		dig_up(pos, node, digger)
+	end,
+})
+
 
 ----------------------------------------------------------------------
 --SEA LIFE
@@ -984,7 +1011,8 @@ minetest.override_item("nodes_nature:sea_lettuce",{
 
 --glowing mushroom
 minetest.override_item("nodes_nature:merki",{
-	light_source = 2
+	light_source = 2,
+	groups = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, temp_pass = 1, bioluminescent= 1}
 })
 
 
@@ -1105,7 +1133,7 @@ minetest.override_item("nodes_nature:merki",{
 --lambakap. is also a mushroom.
 --slow growing food and water source, main crop for longterm underground living.
 minetest.override_item("nodes_nature:lambakap",{
-	--light_source = 2,
+	light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1117,13 +1145,13 @@ minetest.override_item("nodes_nature:lambakap",{
 			{-0.0625, -0.1875, 0.0625, 0.0625, 0, 0.1875},
 		}
 	},
-	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })
 
 --reshedaar.  is also a mushroom.
 --slow growing fibre mushroom, main fibre crop for longterm underground living.
 minetest.override_item("nodes_nature:reshedaar",{
-	--light_source = 2,
+	light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1138,13 +1166,13 @@ minetest.override_item("nodes_nature:reshedaar",{
 			{0.0625, -0.25, 0.0625, 0.125, 0.4375, 0.125}, -- NodeBox12
 		}
 	},
-	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })
 
 --Mahal. is also a mushroom.
 --slow growing woody mushroom, main stick crop for longterm underground living.
 minetest.override_item("nodes_nature:mahal",{
-	--light_source = 2,
+	light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1154,5 +1182,5 @@ minetest.override_item("nodes_nature:mahal",{
 			{-0.1875, 0.3125, -0.1875, 0.1875, 0.375, 0.1875}, -- NodeBox4
 		}
 	},
-	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })
