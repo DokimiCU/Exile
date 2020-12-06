@@ -73,8 +73,8 @@ minetest.register_node("inferno:basic_flame", {
 			minetest.remove_node(pos)
 			return
 		end
-		--rain puts it out
-		if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+		--rain, water etc puts it out
+		if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:puts_out_fire"}) then
 			minetest.remove_node(pos)
 			return
 		end

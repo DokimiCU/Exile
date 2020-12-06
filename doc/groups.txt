@@ -23,6 +23,7 @@ Fire:
 `flammable`: can catch fire. Value = 1.  Use, on_burn = function(pos) for custom post fire results.
 `igniter`: can ignite flammable.
 `cools_lava`: will cool neighboring lava to basalt
+`puts_out_fire`: will extinguish neighboring flames and fires
 
 
 Liquids:

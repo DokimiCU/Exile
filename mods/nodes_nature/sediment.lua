@@ -84,35 +84,35 @@ local function property_by_type(type, hardness, special)
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 1, spreading = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 1, spreading = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 1, spreading = 1}
 			return s, sw, g, g2
 
 		elseif type == "clay" then
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 2, spreading = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 2, spreading = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 2, spreading = 1}
 			return s, sw, g, g2
 
 		elseif type == "silt" then
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 3, spreading = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 3, spreading = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 3, spreading = 1}
 			return s, sw, g, g2
 
 		elseif type == "sand" then
 			s = s_sand
 			sw = s_sand_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 4, spreading = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 4, spreading = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 4, spreading = 1}
 			return s, sw, g, g2
 
 		elseif type == "gravel" then
 			s = s_gravel
 			sw = s_gravel_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 5, spreading = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 5, spreading = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 5, spreading = 1}
 			return s, sw, g, g2
 		end
 	elseif special == "agricultural" then
@@ -121,45 +121,45 @@ local function property_by_type(type, hardness, special)
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 1, agricultural_soil = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 1, agricultural_soil = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 1, agricultural_soil = 1}
 			g3 = {falling_node = 1, crumbly = hardness, sediment = 1, depleted_agricultural_soil = 1}
-			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 1, depleted_agricultural_soil = 1}
+			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 1, depleted_agricultural_soil = 1}
 			return s, sw, g, g2, g3, g4
 
 		elseif type == "clay" then
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 2, agricultural_soil = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 2, agricultural_soil = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 2, agricultural_soil = 1}
 			g3 = {falling_node = 1, crumbly = hardness, sediment = 2, depleted_agricultural_soil = 1}
-			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 2, depleted_agricultural_soil = 1}
+			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 2, depleted_agricultural_soil = 1}
 			return s, sw, g, g2, g3, g4
 
 		elseif type == "silt" then
 			s = s_dirt
 			sw = s_dirt_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 3, agricultural_soil = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 3, agricultural_soil = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 3, agricultural_soil = 1}
 			g3 = {falling_node = 1, crumbly = hardness, sediment = 3, depleted_agricultural_soil = 1}
-			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 3, depleted_agricultural_soil = 1}
+			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 3, depleted_agricultural_soil = 1}
 			return s, sw, g, g2, g3, g4
 
 		elseif type == "sand" then
 			s = s_sand
 			sw = s_sand_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 4, agricultural_soil = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 4, agricultural_soil = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 4, agricultural_soil = 1}
 			g3 = {falling_node = 1, crumbly = hardness, sediment = 4, depleted_agricultural_soil = 1}
-			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 4, depleted_agricultural_soil = 1}
+			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 4, depleted_agricultural_soil = 1}
 			return s, sw, g, g2, g3, g4
 
 		elseif type == "gravel" then
 			s = s_gravel
 			sw = s_gravel_w
 			g = {falling_node = 1, crumbly = hardness, sediment = 5, agricultural_soil = 1}
-			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 5, agricultural_soil = 1}
+			g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 5, agricultural_soil = 1}
 			g3 = {falling_node = 1, crumbly = hardness, sediment = 5, depleted_agricultural_soil = 1}
-			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 5, depleted_agricultural_soil = 1}
+			g4 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 5, depleted_agricultural_soil = 1}
 			return s, sw, g, g2, g3, g4
 		end
 
@@ -171,40 +171,40 @@ local function property_by_type(type, hardness, special)
 		s = s_dirt
 		sw = s_dirt_w
 		g = {falling_node = 1, crumbly = hardness, sediment = 1}
-		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 1}
-		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, sediment = 1}
+		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 1}
+		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, puts_out_fire = 1, sediment = 1}
 		return s, sw, g, g2, g3
 
 	elseif type == "clay" then
 		s = s_dirt
 		sw = s_dirt_w
 		g = {falling_node = 1, crumbly = hardness, sediment = 2}
-		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 2}
-		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, sediment = 2}
+		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 2}
+		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, puts_out_fire = 1, sediment = 2}
 		return s, sw, g, g2, g3
 
 	elseif type == "silt" then
 		s = s_dirt
 		sw = s_dirt_w
 		g = {falling_node = 1, crumbly = hardness, sediment = 3}
-		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 3}
-		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, sediment = 3}
+		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 3}
+		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, puts_out_fire = 1, sediment = 3}
 		return s, sw, g, g2, g3
 
 	elseif type == "sand" then
 		s = s_sand
 		sw = s_sand_w
 		g = {falling_node = 1, crumbly = hardness, sediment = 4}
-		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 4}
-		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, sediment = 4}
+		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 4}
+		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, puts_out_fire = 1, sediment = 4}
 		return s, sw, g, g2, g3
 
 	elseif type == "gravel" then
 		s = s_gravel
 		sw = s_gravel_w
 		g = {falling_node = 1, crumbly = hardness, sediment = 5}
-		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, sediment = 5}
-		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, sediment = 5}
+		g2 = {falling_node = 1, crumbly = hardness, wet_sediment = 1, puts_out_fire = 1, sediment = 5}
+		g3 = {falling_node = 1, crumbly = hardness, wet_sediment = 2, puts_out_fire = 1, sediment = 5}
 		return s, sw, g, g2, g3
 	end
 end
@@ -363,11 +363,11 @@ local function erode_deplete_ag_soil(pos, depleted_name)
 	local c = math.random()
 	--rain makes this more likely (erosive, washes nutrient out)
 	if climate.get_rain(pos) then
-		c = c + 0.1
+		c = c + 0.25
 	end
 
 	--chance
-	if c > 0.9 then
+	if c < 0.05 then
 		--erode if exposed, and near water or raining
 		local positions = minetest.find_nodes_in_area(
 			{x = pos.x - 1, y = pos.y, z = pos.z - 1},
@@ -380,7 +380,7 @@ local function erode_deplete_ag_soil(pos, depleted_name)
 			return false
 		end
 
-	elseif c > 0.99 then
+	elseif c < 0.01 then
 		--depleted via neglect
 		minetest.set_node(pos, {name = depleted_name})
 		return false
@@ -439,7 +439,7 @@ for i in ipairs(list3) do
 		_wet_salty_name = "nodes_nature:"..type.."_wet_salty",
 		on_construct = function(pos)
 			--speed of erosion, degrade to depleted
-			minetest.get_node_timer(pos):start(math.random(60, 300))
+			minetest.get_node_timer(pos):start(math.random(90, 300))
 		end,
 		on_timer = function(pos,elapsed)
 			return erode_deplete_ag_soil(pos, "nodes_nature:"..name.."_depleted")

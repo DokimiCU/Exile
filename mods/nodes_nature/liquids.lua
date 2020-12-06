@@ -66,7 +66,7 @@ for i in ipairs(list) do
 		liquid_range = 2,
 		liquid_renewable = renew,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = water_g, cools_lava = 1},
+  	groups = {water = water_g, cools_lava = 1, puts_out_fire = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
@@ -114,8 +114,7 @@ for i in ipairs(list) do
   	liquid_viscosity = 1,
 		liquid_renewable = renew,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = water_g, not_in_creative_inventory = 1,
-  		cools_lava = 1},
+  	groups = {water = water_g, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
@@ -190,7 +189,7 @@ minetest.register_node("nodes_nature:snow", {
 	},
 	temp_effect = -2,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, fall_damage_add_percent = -25},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, puts_out_fire = 1, fall_damage_add_percent = -25},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 
@@ -200,7 +199,7 @@ minetest.register_node("nodes_nature:snow_block", {
 	stack_max = minimal.stack_max_bulky,
 	temp_effect = -4,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, fall_damage_add_percent = -50},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, puts_out_fire = 1, cools_lava = 1, fall_damage_add_percent = -50},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 
 })
@@ -247,7 +246,7 @@ minetest.register_node("nodes_nature:ice", {
 	use_texture_alpha = true,
 	temp_effect = -8,
 	temp_effect_max = 0,
-	groups = {cracky = 3, crumbly = 1, cools_lava = 1, slippery = 3, temp_effect = 1},
+	groups = {cracky = 3, crumbly = 1, cools_lava = 1, puts_out_fire = 1, slippery = 3, temp_effect = 1},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 
@@ -262,7 +261,7 @@ minetest.register_node("nodes_nature:sea_ice", {
 	use_texture_alpha = true,
 	temp_effect = -8,
 	temp_effect_max = 0,
-	groups = {cracky = 3, crumbly = 1, cools_lava = 1, slippery = 3, temp_effect = 1},
+	groups = {cracky = 3, crumbly = 1, cools_lava = 1, puts_out_fire = 1, slippery = 3, temp_effect = 1},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 

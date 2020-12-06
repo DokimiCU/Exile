@@ -200,7 +200,7 @@ local adjust_for_heatable = function(pos, name, temp)
 	return temp
 end
 
---averaging based on daytime light
+--Shelter. 
 local adjust_for_shelter = function(pos, temp, av_temp)
 	--Shelter. Brings temp closer to average
 	--daytime dark is the closest proxy for shelter.

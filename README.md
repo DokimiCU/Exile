@@ -124,4 +124,5 @@ Thanks also to all who have given feedback, fixes etc.
 - old and young Tangkal trees
 - Tiken woody cane
 - cave sediments and mushrooms
+- puts_out_fire group (e.g. mud now puts out fire)
 - misc minor fixes and balancing

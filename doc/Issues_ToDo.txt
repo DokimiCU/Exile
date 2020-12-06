@@ -17,7 +17,7 @@ Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
-
+-heavy rain was able to go through a roof (the rain texture, did not put out fire)
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
@@ -128,7 +128,7 @@ to force a migration, rebuild, temporary escape.
 
 HEALTH
 -setting to display temperature in F
-- Effects: on_node + in_node health check, venom on bite,
+- Effects: on_node + in_node health check, biome check, venom on bite, more components (e.g. HUDs e.g. tunnel vision)
 - effects currently handled by low thirst/hunger/low body temp etc could be turned into effects (e.g. malnutrition, hypothermia)
 
 
@@ -142,7 +142,8 @@ HEALTH
 
 --CLIMATE
 -humidity, wet bulb temperatures
-
+-more sophisticated shelter adjustment using lines of sight as a wall detector
+ (requires something better than minetest.line_of_sight as that doesn't include temp_pass group - too easy to game it without that)
 
 --MOBS
 -more mobs: land predator, and more of everything in general
@@ -179,7 +180,7 @@ Currently travel is very hard, so all lives get lived at one base. This would ad
 
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
--more graffiti in more colors
+-more graffiti in more colors (old health symbols can be reused here)
 -inventory on canoe
 -wood shingle roof, wood walls, beams etc
 -cooking: bulk cooking method (cauldron - add food and water to it, take out by bowlful)
@@ -202,13 +203,14 @@ Currently travel is very hard, so all lives get lived at one base. This would ad
 -ranged weapons
 -armor
 -right click to turn torches/lamps off (+require lighting them like with fires)
+-fires: water, rain etc should turn them to extinguished form instead of ash (requires reworking code a bit)
 
 INFERNO
--put out fire group (like cools lava. e.g. wet sediment)
+
 
 --DECO
 -more ambience: rustling leaves, lava
--cave flora (mud with mushrooms)
+
 
 --MULTIPLAYER
 -various standard server tools (e.g. protection, chat, etc)?
