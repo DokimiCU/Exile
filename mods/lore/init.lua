@@ -14,6 +14,4 @@ dofile(modpath..'/char_tab.lua')
 dofile(modpath..'/exile_letter.lua')
 
 
-
-
 -------------------------------

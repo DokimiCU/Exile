@@ -1098,13 +1098,15 @@ minetest.override_item("nodes_nature:nebiyi",{
 })
 
 
---hakimi is antibacterial
+--hakimi is antibacterial, antifungal
 minetest.override_item("nodes_nature:hakimi",{
 	on_use = function(itemstack, user, pointed_thing)
 
 		--only cure mild
 		if random()<0.75 then
 			HEALTH.remove_new_effect(user, {"Food Poisoning", 1})
+			HEALTH.remove_new_effect(user, {"Fungal Infection", 1})
+			HEALTH.remove_new_effect(user, {"Dust Fever", 1})
 		end
 
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item

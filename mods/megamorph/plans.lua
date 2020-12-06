@@ -154,7 +154,7 @@ local lower_stair = {
 --links to upper_cross
 local upper_stair = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 3, loc = vn(30, 51, 27), size = vn(9, 9, 2)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(22, 60, 22), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(22, 60, 22), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(27, 60, 30), size = vn(2, 21, 20)},
 }
 

@@ -153,17 +153,17 @@ minetest.override_item("nodes_nature:freshwater_source",{
 			--disease chance worse if water in a bad place (e.g. a muddy hole)
 			local bad = minetest.find_node_near(pos, 1, {"group:sediment"})
 			if bad then
-				c = 0.1
-				c2 = 0.1
+				c = 0.15
+				c2 = 0.15
 			end
 
 			--food poisoning
-			if random() < c then
+			if ran() < c then
 				HEALTH.add_new_effect(clicker, {"Food Poisoning", 1})
 			end
 
 			--parasites
-			if random() < c2 then
+			if ran() < c2 then
 				HEALTH.add_new_effect(clicker, {"Intestinal Parasites"})
 			end
 

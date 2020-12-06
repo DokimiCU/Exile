@@ -31,18 +31,24 @@ minetest.register_craftitem("tech:herbal_medicine", {
   		HEALTH.remove_new_effect(user, {"Intestinal Parasites"})
   	end
 
-    --cure/reduce food poisoning
+    --cure/reduce food poisoning and infections
     --see how effective the dose is
     local cfp = random()
     if cfp <0.25 then
       --cure up to severe
       HEALTH.remove_new_effect(user, {"Food Poisoning", 3})
+			HEALTH.remove_new_effect(user, {"Fungal Infection", 3})
+			HEALTH.remove_new_effect(user, {"Dust Fever", 3})
     elseif cfp < 0.5 then
       --cure up to moderate
       HEALTH.remove_new_effect(user, {"Food Poisoning", 2})
+			HEALTH.remove_new_effect(user, {"Fungal Infection", 2})
+			HEALTH.remove_new_effect(user, {"Dust Fever", 2})
     elseif cfp < 0.75 then
       --only cure mild
       HEALTH.remove_new_effect(user, {"Food Poisoning", 1})
+			HEALTH.remove_new_effect(user, {"Fungal Infection", 1})
+			HEALTH.remove_new_effect(user, {"Dust Fever", 1})
     end
 
 

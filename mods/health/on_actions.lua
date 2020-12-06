@@ -377,12 +377,21 @@ if minetest.settings:get_bool("enable_damage") then
 				--harmed by damaging weather,
 				--exhausted by rain, snow
 				if random()<0.5 then
+
 					if dam_weather then
             health = health - 1
 						energy = energy - 15
 						if energy < 0 then
 							energy = 0
 						end
+
+            --dust fever
+            if random() < 0.008 then
+              if climate.active_weather.name == 'duststorm' then
+                HEALTH.add_new_effect(player, {"Dust Fever", 1})
+              end
+            end
+
 					elseif rain or snow then
 						energy = energy - 2
 						if energy < 0 then
@@ -396,8 +405,22 @@ if minetest.settings:get_bool("enable_damage") then
         --Health effects
 
         --zoonotic and contagious diseases
-        --in or on node
         --in biome
+         --in node
+
+        -- Fungal Infection from standing on wet soil
+        if random() < 0.003 then
+          local posu = player_pos
+          posu.y = posu.y - 1.6
+
+          local s_name = minetest.get_node(posu).name
+      		if minetest.get_item_group(s_name, "wet_sediment") > 0 then
+            HEALTH.add_new_effect(player, {"Fungal Infection", 1})
+          end
+        end
+
+
+
 
 
         ------------------

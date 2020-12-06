@@ -250,11 +250,11 @@ local function update_list_swap(meta, effects_list, name, replace)
 	--replace
 	if replace then
 		table.insert(effects_list, replace)
-	else
-		--effect removed so update HUD number, save
-		local num = #effects_list or 0
-		meta:set_int("effects_num", num )
 	end
+
+	-- update HUD number, save
+	local num = #effects_list or 0
+	meta:set_int("effects_num", num )
 
 	meta:set_string("effects_list", minetest.serialize(effects_list))
 
@@ -423,6 +423,142 @@ function HEALTH.food_poisoning(order, player, meta, effects_list, r_rate, mov, j
 		else
 			--food_poisoning_regress(meta, effects_list, order-1, nil, true)
 			default_timer_regress(player, "Food Poisoning", 3, 6, meta, effects_list, order-1, nil, nil, true)
+		end
+
+	end
+
+	--send back modified values
+	return r_rate, mov, jum, temperature
+
+end
+
+
+----------------------------------
+--Fungal Infection
+--[[
+effect_name = "Fungal Infection"
+Soil fungus got into your skin. Something vaguely like Mycetoma.
+For Exile, you get it from wet soil, a reason not to live in a mud hole.
+]]
+
+function HEALTH.fungal_infection(order, player, meta, effects_list, r_rate, mov, jum, temperature)
+
+	--APPLY SYMPTOMS
+	if order == 1 then
+		--slow recovery, movement
+		r_rate = r_rate - 1
+		mov = mov - 1
+		jum = jum - 1
+
+	elseif order == 2 then
+		--slow recovery, movement
+		r_rate = r_rate - 2
+		mov = mov - 2
+		jum = jum - 2
+
+	elseif order == 3 then
+		--slow recovery, movement
+		r_rate = r_rate - 4
+		mov = mov - 8
+		jum = jum - 8
+
+	elseif order == 4 then
+		--slow recovery, movement
+		r_rate = r_rate - 8
+		mov = mov - 16
+		jum = jum - 16
+		--fever
+		if temperature <= 39 then
+			temperature = temperature + 1
+		end
+
+	end
+
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Fungal Infection", 6, 12) == true then
+		--small chance of worsening, otherwise recover
+		if random()<0.1 then
+			local added_order = order + 1
+			if added_order > 4 then
+				added_order = 4
+			end
+			default_timer_progress("Fungal Infection", 6, 12, 4, 0.2, meta, effects_list, current_order, added_order, true)
+		else
+			default_timer_regress(player, "Fungal Infection", 6, 12, meta, effects_list, order-1, nil, nil, true)
+		end
+
+	end
+
+	--send back modified values
+	return r_rate, mov, jum, temperature
+
+end
+
+----------------------------------
+--Dust Fever
+--[[
+effect_name = "Dust Fever"
+Dust storm born soil fungus got into your lungs. Something vaguely like Valley Fever.
+
+]]
+
+function HEALTH.dust_fever(order, player, meta, effects_list, r_rate, mov, jum, temperature)
+
+	--APPLY SYMPTOMS
+	if order == 1 then
+		--slow recovery, movement
+		r_rate = r_rate - 4
+		jum = jum - 1
+		--fever
+		if temperature <= 39 then
+			temperature = temperature + 1
+		end
+
+	elseif order == 2 then
+		--slow recovery, movement
+		r_rate = r_rate - 8
+		mov = mov - 1
+		jum = jum - 2
+		--fever
+		if temperature <= 39 then
+			temperature = temperature + 1
+		end
+
+	elseif order == 3 then
+		--slow recovery, movement
+		r_rate = r_rate - 16
+		mov = mov - 2
+		jum = jum - 4
+		--fever
+		if temperature <= 40 then
+			temperature = temperature + 1
+		end
+
+	elseif order == 4 then
+		--slow recovery, movement
+		r_rate = r_rate - 32
+		mov = mov - 4
+		jum = jum - 8
+		--fever
+		if temperature <= 41 then
+			temperature = temperature + 1
+		end
+
+	end
+
+
+	--PROGRESSION (timers, conditionals, chance)
+	if do_timer(meta, "Dust Fever", 6, 12) == true then
+		--small chance of worsening, otherwise recover
+		if random()<0.1 then
+			local added_order = order + 1
+			if added_order > 4 then
+				added_order = 4
+			end
+			default_timer_progress("Dust Fever", 6, 12, 4, 0.2, meta, effects_list, current_order, added_order, true)
+		else
+			default_timer_regress(player, "Dust Fever", 6, 12, meta, effects_list, order-1, nil, nil, true)
 		end
 
 	end
@@ -1094,7 +1230,8 @@ end
 --venom (requires duplicating chains of stuff from mobkit just to add one line to attacking??)
 --radiation
 --plague
---trench foot/fungal infection
+--trench foot
+--frost bite
 
 
 
@@ -1118,6 +1255,10 @@ function HEALTH.add_new_effect(player, name)
 			--min timer, max timer (for extensions), max order, chance of adding an equal or lower boosting to a higher order
 			if name[1] == "Food Poisoning" then
 				default_timer_progress("Food Poisoning", 3, 6, 4, 0.2, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Fungal Infection" then
+				default_timer_progress("Fungal Infection", 6, 12, 4, 0.2, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Dust Fever" then
+				default_timer_progress("Dust Fever", 6, 12, 4, 0.2, meta, effects_list, effect[2], name[2])
 			elseif name[1] == "Drunk" then
 				default_timer_progress("Drunk", 3, 6, 4, 0.2, meta, effects_list, effect[2], name[2])
 			elseif name[1] == "Hangover" then
@@ -1170,6 +1311,10 @@ function HEALTH.remove_new_effect(player, name)
 			--min timer, max timer,
 			if name[1] == "Food Poisoning" then
 				default_timer_regress(player, "Food Poisoning", 3, 6, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Fungal Infection" then
+				default_timer_regress(player, "Fungal Infection", 6, 12, meta, effects_list, effect[2], name[2])
+			elseif name[1] == "Dust Fever" then
+				default_timer_regress(player, "Dust Fever", 6, 12, meta, effects_list, effect[2], name[2])
 			elseif name[1] == "Drunk" then
 				default_timer_regress(player, "Drunk", 3, 6, meta, effects_list, effect[2], name[2], {"Hangover", meta:get_int("max_hangover") or 1})
 			elseif name[1] == "Hangover" then

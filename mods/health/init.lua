@@ -172,6 +172,16 @@ local function do_effects_list(meta, player, health, energy, thirst, hunger, tem
 		end
 
 		----------
+		if name == "Fungal Infection" then
+			r_rate, mov, jum, temperature = HEALTH.fungal_infection(order, player, meta, effects_list, r_rate, mov, jum, temperature)
+		end
+
+		----------
+		if name == "Dust Fever" then
+			r_rate, mov, jum, temperature = HEALTH.dust_fever(order, player, meta, effects_list, r_rate, mov, jum, temperature)
+		end
+
+		----------
 		if name == "Drunk" then
 			r_rate, mov, jum, h_rate, temperature = HEALTH.drunk(order, player, meta, effects_list, r_rate, mov, jum, h_rate, temperature)
 		end
