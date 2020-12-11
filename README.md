@@ -1,6 +1,5 @@
 # Exile
 Version 0.2.2
-Development Branch
 
 by Dokimi
 
@@ -25,6 +24,8 @@ Building matters: make shelters from the rain, kilns, smelters,...
 CAUTION: some people may find parts of this game difficult or disturbing.
 
 ### Gameplay Guide
+Check out doc > walkthrough for a more detailed guide.
+
 Many different strategies might work, and part of the fun is figuring out what does,
 and catastrophically does not, work.
 
@@ -126,3 +127,4 @@ Thanks also to all who have given feedback, fixes etc.
 - cave sediments and mushrooms
 - puts_out_fire group (e.g. mud now puts out fire)
 - misc minor fixes and balancing
+- walkthrough doc
