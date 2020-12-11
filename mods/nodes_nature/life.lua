@@ -179,8 +179,8 @@ local plantlist = {
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, base_growth * 1.2},
 	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 2},
 	--artifact
-	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *4},
-	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *4},
+	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *3},
+	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *3},
 
 
 }
@@ -462,7 +462,7 @@ local plantlist2 = {
 	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,2,0,0, nil, nil, nil, base_growth * 2, 0.01},
 	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, base_growth *0.8, 0.008},
 	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *5, 0.001},
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *3, 0.001},
 
 }
 
@@ -1152,8 +1152,9 @@ minetest.override_item("nodes_nature:lambakap",{
 
 --reshedaar.  is also a mushroom.
 --slow growing fibre mushroom, main fibre crop for longterm underground living.
+--(can't be bioluminescent or conflicts with recipe)
 minetest.override_item("nodes_nature:reshedaar",{
-	light_source = 2,
+	--light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1168,7 +1169,7 @@ minetest.override_item("nodes_nature:reshedaar",{
 			{0.0625, -0.25, 0.0625, 0.125, 0.4375, 0.125}, -- NodeBox12
 		}
 	},
-	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
+	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 })
 
 --Mahal. is also a mushroom.

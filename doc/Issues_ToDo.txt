@@ -39,6 +39,7 @@ Nature:
 -freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
 -snow should turn into block when placed on top of self. (instead of vanishing due to buildable_to = true,)
 -bottom texture on wet sediment should be the sediment (is top)
+-puddle detect might need some "impermeable" group, or just add more things (e.g. so it will work with bricks, logs)
 
 Volcano:
 -occassional dark spots
@@ -204,6 +205,8 @@ Currently travel is very hard, so all lives get lived at one base. This would ad
 -armor
 -right click to turn torches/lamps off (+require lighting them like with fires)
 -fires: water, rain etc should turn them to extinguished form instead of ash (requires reworking code a bit)
+-degradation of rottable building materials (e.g. mudbrick -> clay, log -> rotten). Gives an advantage to sophisticated building materials.
+-grinding stone crafts out of more stone types (m&p from limestone, basalt/jade club)
 
 INFERNO
 

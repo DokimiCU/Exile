@@ -68,7 +68,7 @@ overcast_light_rain.sound_loop = 'light_rain_loop'
 overcast_light_rain.chain = {
 	--name, p_cold, p_mid , p_hot
 	{'light_rain', 0.01, 0.25, 0.5, 0.75},
-	{'overcast', 0.5, 0.5, 0.5, 0.5},
+	{'overcast', 0.5, 0.5, 0.5, 0.75},
 	{'overcast_rain', 0.01, 0.6, 0.4, 0.2},
 	{'overcast_light_snow', 0.25, 0, 0, 0}
 

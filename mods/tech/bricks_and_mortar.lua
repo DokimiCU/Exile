@@ -776,6 +776,7 @@ crafting.register_recipe({
 --------------------------------------------------------------------
 --MASONARY WITH MORTAR
 --made at masonary bench,
+--(except mortared blocks can also be done by brick maker)
 --added mortar binds them so not diggable by hand or falling.
 --drop unmortared stone.
 
@@ -828,6 +829,14 @@ for i in ipairs(list) do
 
 	crafting.register_recipe({
 		type = "masonry_bench",
+		output = "tech:"..name.."_block_mortar 4",
+		items = {"nodes_nature:"..name.."_block 3", "tech:lime_mortar"},
+		level = 1,
+		always_known = true,
+	})
+
+	crafting.register_recipe({
+		type = "brick_makers_bench",
 		output = "tech:"..name.."_block_mortar 4",
 		items = {"nodes_nature:"..name.."_block 3", "tech:lime_mortar"},
 		level = 1,

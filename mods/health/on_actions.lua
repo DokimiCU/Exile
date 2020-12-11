@@ -409,7 +409,7 @@ if minetest.settings:get_bool("enable_damage") then
          --in node
 
         -- Fungal Infection from standing on wet soil
-        if random() < 0.003 then
+        if random() < 0.002 then
           local posu = player_pos
           posu.y = posu.y - 1.6
 

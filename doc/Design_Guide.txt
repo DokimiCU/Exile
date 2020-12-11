@@ -122,12 +122,24 @@ e.g. grasslands are yellow, dunelands orange etc
 The Ancients (artifacts) tend to go for blue.
 
 Naming:
-Many of the names for plants and animals were picked out of foreign languages so
+Many of the names for plants and animals were adapted from foreign languages so
 they feel natural.
 Some biomes tended to focus on different languages.
 e.g. African names for grasslands, Celtic for marshlands, SE Asian for forests,
 India for underground, ...
 
+"Realms"
+===============================
+Surface world: mostly complete. the ordinary wilderness. Harsh to the unwise, abundant to the experienced.
+
+Ancient city: partly incomplete. A mysterious, awe inspiring and dangerous place.
+Should feel like "the Zone" from "Roadside Picnic" by the Strugatsky brothers,
+or like Chernobyl if explored by a cave man. A place of high risks and high rewards,
+of follies and greed, of madness, of darkness, and of grandeur.
+
+Something could also be done with...
+Deep underground: Extremely hot. The map gets deep enough to reach the edge of the Earth's mantle.
+High altitude: Very cold. High enough to reach the edge of the atmosphere, but not space proper.
 
 
 Lore and Story
@@ -135,7 +147,7 @@ Lore and Story
 
 -The story:
 You have been thrown into exile for your crimes. You have been sent to a cursed land.
-A place were every nation sends their worst offenders. It is seen as
+A place were every nation sends the condemned, the unwanted, and the politically inconvenient. It is seen as
 execution by other means.
 
 You task is to cheat fate and live.
