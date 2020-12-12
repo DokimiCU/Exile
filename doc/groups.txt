@@ -77,7 +77,11 @@ pottery groups
 `pottery`: can be broken into broken pottery
 
 
+construction material groups
+--------------
+`masonry`: solid bricks, blocks etc (e.g. can collect puddles)
+
+
 Tool groups:
 --------------
 `club`: 1= blunt weapon. can stun catch mobs on right click
-`axe`: 1 = chopping tool (not used? removed need for it?)

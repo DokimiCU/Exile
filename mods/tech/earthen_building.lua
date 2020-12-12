@@ -111,7 +111,19 @@ minetest.register_node('tech:wattle', {
 		connect_back = {{-1/8, -1/2,  1/8,  1/8, 1/2,  1/2}},
 		connect_right = {{ 1/8, -1/2, -1/8,  1/2, 1/2,  1/8}},
 	},
-	connects_to = { "group:crumbly", "group:tree", "group:log", "group:stone", "group:soft_stone", 'tech:wattle', 'tech:thatch'},
+	connects_to = {
+		"group:sediment",
+		"group:tree",
+		"group:log",
+		"group:stone",
+		"group:masonry",
+		"group:soft_stone",
+		'tech:mudbrick',
+		'tech:rammed_earth',
+		'tech:wattle_loose',
+		'tech:wattle',
+		'tech:thatch'
+	},
 	paramtype = "light",
 	tiles = {"tech_wattle_top.png",
 	 				"tech_wattle_top.png",
@@ -121,11 +133,50 @@ minetest.register_node('tech:wattle', {
 					"tech_wattle.png" },
 	inventory_image = "tech_wattle.png",
 	wield_image = "tech_wattle.png",
-	stack_max = minimal.stack_max_bulky * 2,
+	stack_max = minimal.stack_max_bulky * 3,
 	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
 	sounds = nodes_nature.node_sound_wood_defaults(),
 })
 
+--a crude window... or for resource saving
+minetest.register_node('tech:wattle_loose', {
+	description = 'Loose Wattle',
+	drawtype = "nodebox",
+	node_box = {
+		type = "connected",
+		fixed = {{-1/8, -1/2, -1/8, 1/8, 1/2, 1/8}},
+		-- connect_bottom =
+		connect_front = {{-1/8, -1/2, -1/2,  1/8, 1/2, -1/8}},
+		connect_left = {{-1/2, -1/2, -1/8, -1/8, 1/2,  1/8}},
+		connect_back = {{-1/8, -1/2,  1/8,  1/8, 1/2,  1/2}},
+		connect_right = {{ 1/8, -1/2, -1/8,  1/2, 1/2,  1/8}},
+	},
+	connects_to = {
+		"group:sediment",
+		"group:tree",
+		"group:log",
+		"group:stone",
+		"group:masonry",
+		"group:soft_stone",
+		'tech:mudbrick',
+		'tech:rammed_earth',
+		'tech:wattle_loose',
+		'tech:wattle',
+		'tech:thatch'
+	},
+	paramtype = "light",
+	tiles = {"tech_wattle_top.png",
+	 				"tech_wattle_top.png",
+					"tech_wattle_loose.png",
+					"tech_wattle_loose.png",
+					"tech_wattle_loose.png",
+					"tech_wattle_loose.png" },
+	inventory_image = "tech_wattle_loose.png",
+	wield_image = "tech_wattle_loose.png",
+	stack_max = minimal.stack_max_bulky * 3,
+	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+})
 
 
 
@@ -236,6 +287,42 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "mixing_spot",
 	output = "tech:stick 4",
+	items = {"tech:wattle"},
+	level = 1,
+	always_known = true,
+})
+
+----Loose Wattle from sticks
+crafting.register_recipe({
+	type = "crafting_spot",
+	output = "tech:wattle_loose",
+	items = {"tech:stick 3"},
+	level = 1,
+	always_known = true,
+})
+
+--recycle loose wattle with some loss
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "tech:stick 2",
+	items = {"tech:wattle_loose"},
+	level = 1,
+	always_known = true,
+})
+
+--convert loose wattle to wattle
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "tech:wattle",
+	items = {"tech:wattle_loose 2"},
+	level = 1,
+	always_known = true,
+})
+
+--convert wattle to loose wattle
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "tech:wattle_loose 2",
 	items = {"tech:wattle"},
 	level = 1,
 	always_known = true,

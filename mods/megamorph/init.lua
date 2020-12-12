@@ -404,6 +404,7 @@ minetest.after(0, function()
   --medium processed materials, cheap tools (rarity 3)
   options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
   options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
+  options['tech:mortar_pestle_limestone'] =  { 1, 3, nil }
   options['tech:clay_water_pot'] =  { 1, 3, nil }
   options['tech:clay_storage_pot'] =  { 1, 3, nil }
   options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }

@@ -434,7 +434,7 @@ minetest.register_entity("animals:pegasun_male",{
 	timeout = 0,
 
 	--damage
-	max_hp = 120,
+	max_hp = 45,
 	lung_capacity = 25,
 	min_temp = -20,
 	max_temp = 45,
@@ -550,7 +550,7 @@ minetest.register_entity("animals:pegasun",{
 	timeout = 0,
 
 	--damage
-	max_hp = 100,
+	max_hp = 40,
 	lung_capacity = 20,
 	min_temp = -20,
 	max_temp = 45,

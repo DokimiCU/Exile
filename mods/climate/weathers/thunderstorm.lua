@@ -82,7 +82,7 @@ thunderstorm.particle_function = function()
 	local vel = -10
 	local acc = -10
 	local ext = 6
-	local size = 40
+	local size = 20
 	local tex = "heavy_rain_drops.png"
 	local sound = ""
 

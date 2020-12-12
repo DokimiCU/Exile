@@ -192,6 +192,7 @@ local function puddle_detect(pos)
 		local s_name = minetest.get_node(v).name
 		if minetest.get_item_group(s_name, "wet_sediment") == 0
 		and minetest.get_item_group(s_name, "soft_stone") == 0
+		and minetest.get_item_group(s_name, "masonry") == 0
 		and minetest.get_item_group(s_name, "stone") == 0  then
 			puddle = false
 			break

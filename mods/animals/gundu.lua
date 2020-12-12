@@ -205,7 +205,7 @@ minetest.register_entity("animals:gundu",{
 	timeout = 0,
 
 	--damage
-	max_hp = 100,
+	max_hp = 40,
 	lung_capacity = 20,
 	min_temp = -2,
 	max_temp = 35,
