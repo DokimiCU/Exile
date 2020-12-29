@@ -23,6 +23,7 @@ Fire:
 `flammable`: can catch fire. Value = 1.  Use, on_burn = function(pos) for custom post fire results.
 `igniter`: can ignite flammable.
 `cools_lava`: will cool neighboring lava to basalt
+`puts_out_fire`: will extinguish neighboring flames and fires
 
 
 Liquids:
@@ -69,14 +70,18 @@ Plant groups
 `seed`: a plant seed or spore. Will grow into a seedling.
 `seedling`: unused?
 `flora`: wild plants, will spread
-
+`bioluminescent`: a living thing that glows.
 
 pottery groups
 --------------
 `pottery`: can be broken into broken pottery
 
 
+construction material groups
+--------------
+`masonry`: solid bricks, blocks etc (e.g. can collect puddles)
+
+
 Tool groups:
 --------------
 `club`: 1= blunt weapon. can stun catch mobs on right click
-`axe`: 1 = chopping tool (not used? removed need for it?)

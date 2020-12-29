@@ -28,7 +28,7 @@ local char_air_c = 0.45
 --converts smoldering fire into full fire if air is present
 local function can_smolder(pos, meta, fire_name, ash_name)
 	--extinguish in water
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:puts_out_fire"}) then
 		minetest.set_node(pos, {name = ash_name})
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
@@ -49,7 +49,7 @@ end
 --converts fire into smoldering fire if air not present
 local function can_burn_air(pos, meta, smolder_name, ash_name)
 	--extinguish
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:puts_out_fire"}) then
 		minetest.set_node(pos, {name = ash_name})
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
@@ -759,6 +759,14 @@ crafting.register_recipe({
 	type = "chopping_block",
 	output = "tech:large_wood_fire_unlit",
 	items = {"tech:stick 12", "group:fibrous_plant 2"},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:large_wood_fire_unlit 2",
+	items = {"group:log", "group:fibrous_plant 4"},
 	level = 1,
 	always_known = true,
 })

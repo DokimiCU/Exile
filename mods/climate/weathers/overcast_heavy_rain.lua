@@ -68,9 +68,9 @@ overcast_heavy_rain.sound_loop = 'heavy_rain_loop'
 --probabilities in each temp class
 overcast_heavy_rain.chain = {
 	--name, p_cold, p_mid , p_hot
-	{'overcast_rain', 0, 0.25, 0.5, 0.75},
+	{'overcast_rain', 0, 0.75, 0.75, 0.85},
 	{'overcast_heavy_snow', 1, 0, 0, 0},
-	{'thunderstorm', 0, 0.01, 0.25, 0.75}
+	{'thunderstorm', 0, 0.05, 0.25, 0.5}
 
 }
 
@@ -83,7 +83,7 @@ overcast_heavy_rain.particle_function = function()
 	local vel = -10
 	local acc = -10
 	local ext = 6
-	local size = 30
+	local size = 20
 	local tex = "heavy_rain_drops.png"
 	local sound = ""
 

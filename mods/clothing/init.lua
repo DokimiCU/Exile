@@ -137,18 +137,28 @@ function player_api.init_on_joinplayer(player)
 
 			local item = stack:get_name()
 
+			--stop not clothes
 			local element = get_element(item)
 			if not element then
 				return 0
 			end
 
+			--stop same groups
 			for i = 1, 6 do
 				local stack = inv:get_stack("clothing", i)
 				local def = stack:get_definition() or {}
-				if def.groups and def.groups["clothing_"..element]	and i ~= index then
+				if def.groups and def.groups["clothing_"..element] then --and i ~= index then
 					return 0
 				end
 			end
+
+			--stop putting in filled spot
+			local orig_stack = inv:get_stack("clothing", index)
+			if orig_stack:get_count() > 0 then
+				return 0
+			end
+
+
 			return 1
 		end,
 

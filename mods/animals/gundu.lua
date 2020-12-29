@@ -7,13 +7,13 @@ filter feeds in sunlit waters
 ---------------------------------------------------------------------
 
 local random = math.random
-
+local floor = math.floor
 
 --energy
 local energy_max = 8000--secs it can survive without food
-local energy_egg = energy_max/2 --energy that goes to egg
-local egg_timer  = 60*15
-local young_per_egg = 8		--will get this/energy_egg starting energy
+local energy_egg = energy_max/8 --energy that goes to egg
+local egg_timer  = 60*45
+local young_per_egg = 5		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 6
 
@@ -60,35 +60,52 @@ local function brain(self)
 		--Low priority actions
 		if prty < 20 then
 
-			--feeding
-			local light = minetest.get_node_light(pos, 0.5) or 0
-			if light >= 8 then
-				--much light much food
-				if energy < energy_max then
-					energy = energy + 8
-				end
+			--social behaviour
+			local rival
+			if pred then
+				animals.flock(self, 21, 1, self.max_speed)
+			elseif random() <0.25 then
+				rival = animals.territorial_water(self, energy, false)
+			elseif random() <0.01 then
+				rival = animals.territorial_water(self, energy, true)
+			elseif random() <0.25 then
+				animals.flock(self, 15, 2, self.max_speed/2)
+			end
 
-			elseif light >= 1 then
-				--some light
-				if energy < energy_max then
-					energy = energy + 1
+			--feeding
+			--in bright light, when no threats
+			local light = minetest.get_node_light(pos) or 0
+			local lightm = minetest.get_node_light(pos, 0.5) or 0
+			if not pred and not rival then
+
+				if light >= 9 then
+					--much light much food
+					if energy < energy_max then
+						energy = energy + 4
+					end
+
+				elseif light >= 5 then
+					--some light
+					if energy < energy_max then
+						energy = energy + 1
+					end
 				end
 			end
 
 			--movement
 			local tod = minetest.get_timeofday()
 
-			if tod <0.05 or tod >0.95 then
+			if tod <0.06 or tod >0.94 then
 				--sink at night to lay eggs
 				local vel = self.object:get_velocity()
-				vel.y = vel.y-0.3
+				vel.y = vel.y-0.2
 				self.object:set_velocity(vel)
 				mobkit.hq_aqua_roam(self,10,0.2)
 
-			elseif light <= 8 then
+			elseif light <= 9 then
 				--rise during day if not in best light
 				local vel = self.object:get_velocity()
-				vel.y = vel.y+0.3
+				vel.y = vel.y+0.2
 				self.object:set_velocity(vel)
 				mobkit.hq_aqua_roam(self,10, random(1, self.max_speed))
 
@@ -99,24 +116,15 @@ local function brain(self)
 			end
 
 
-			--social behaviour
-			local rival
-			if pred then
-				animals.flock(self, 21, 1, self.max_speed)
-			elseif random() <0.12 then
-				animals.flock(self, 15, 2, self.max_speed/2)
-			elseif random() <0.08 then
-				rival = animals.territorial_water(self, energy, false)
-			end
-
-
 			--reproduction
 			--asexual parthogenesis, eggs
-			if random() < 0.07
+			--no threats, darkness, peak condition
+			if random() < 0.02
 			and not rival
 			and not pred
+			and lightm <= 11
 			and self.hp >= self.max_hp
-			and energy >= energy_egg + 100 then
+			and energy >= energy_max - 100 then
 				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
@@ -156,8 +164,19 @@ minetest.register_node("animals:gundu_eggs", {
 	groups = {snappy = 3},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		if random() < 0.05 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
+		end
+
+		--parasites
+		if random() < 0.1 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 12, 120, -60, 0)
+		return HEALTH.use_item(itemstack, user, 0, 10, 40, 0, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
@@ -177,16 +196,16 @@ minetest.register_entity("animals:gundu",{
 	--core
 	physical = true,
 	collide_with_objects = true,
-	collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
+	collisionbox = {-0.1, -0.1, -0.1, 0.1, 0.1, 0.1},
 	visual = "mesh",
 	mesh = "animals_gundu.b3d",
 	textures = {"animals_gundu.png"},
-	visual_size = {x = 9, y = 9},
+	visual_size = {x = 5, y = 5},
 	makes_footstep_sound = false,
 	timeout = 0,
 
 	--damage
-	max_hp = 100,
+	max_hp = 40,
 	lung_capacity = 20,
 	min_temp = -2,
 	max_temp = 35,

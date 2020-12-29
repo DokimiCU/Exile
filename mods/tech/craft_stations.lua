@@ -233,6 +233,29 @@ minetest.register_node("tech:mortar_pestle_granite",{
 	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
 })
 
+minetest.register_node("tech:mortar_pestle_limestone",{
+	description = "Limestone Mortar and Pestle",
+	drawtype = "nodebox",
+	tiles = {"nodes_nature_limestone.png"},
+	stack_max = minimal.stack_max_bulky *2,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {falling_node = 1, dig_immediate=3},
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.375, -0.5, -0.375, 0.375, -0.4375, 0.375},
+			{-0.4375, -0.4375, -0.4375, 0.4375, -0.3125, 0.4375},
+			{-0.4375, -0.3125, -0.4375, 0.4375, 0.25, -0.3125},
+			{-0.4375, -0.3125, 0.3125, 0.4375, 0.25, 0.4375},
+			{-0.4375, -0.3125, -0.3125, -0.3125, 0.25, 0.3125},
+			{0.3125, -0.3125, -0.3125, 0.4375, 0.25, 0.3125},
+			{-0.25, -0.3125, 0.125, -0.0625, 0.4375, 0.3125},
+		}
+	},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
+})
 
 --chopping_block
 --crude wood crafts,
@@ -527,6 +550,14 @@ crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:mortar_pestle_granite",
 	items = {'nodes_nature:granite_boulder 2'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "grinding_stone",
+	output = "tech:mortar_pestle_limestone",
+	items = {'nodes_nature:limestone_boulder 2'},
 	level = 1,
 	always_known = true,
 })

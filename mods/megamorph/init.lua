@@ -62,6 +62,9 @@ local hwy_w = 60
 --city sections
 mod.registered_realms = {
 
+  {name = 'ns_air_shaft', realm_minp = {x = -hwy_w+30, y = ymax+80, z = -xzmax+30}, realm_maxp = {x = hwy_w-30, y = 250, z = xzmax-30}},
+  {name = 'ew_air_shaft', realm_minp = {x = -xzmax+30, y = ymax+80, z = -hwy_w+30}, realm_maxp = {x = xzmax-30, y = 250, z = hwy_w-30}},
+
   {name = 'ns_highway', realm_minp = {x = -hwy_w, y = -1200, z = -xzmax}, realm_maxp = {x = hwy_w, y = ymax, z = xzmax}},
   {name = 'ew_highway', realm_minp = {x = -xzmax, y = -1200, z = -hwy_w}, realm_maxp = {x = xzmax, y = ymax, z = hwy_w}},
 
@@ -401,6 +404,7 @@ minetest.after(0, function()
   --medium processed materials, cheap tools (rarity 3)
   options['tech:mortar_pestle_basalt'] =  { 1, 3, nil }
   options['tech:mortar_pestle_granite'] =  { 1, 3, nil }
+  options['tech:mortar_pestle_limestone'] =  { 1, 3, nil }
   options['tech:clay_water_pot'] =  { 1, 3, nil }
   options['tech:clay_storage_pot'] =  { 1, 3, nil }
   options['tech:clay_oil_lamp_empty'] =  { 1, 3, nil }
@@ -419,17 +423,17 @@ minetest.after(0, function()
   options['nodes_nature:jade_block'] =  { 1, 4, 2 }
   options['nodes_nature:jade_brick'] =  { 1, 4, 2 }
 
-  options['nodes_nature:zufani_seed'] =  { 1, 4, 4 }
+  --options['nodes_nature:zufani_seed'] =  { 1, 4, 4 }
 
 
   --low level artifacts (rarity 5), non-durables
   options['artifacts:conveyor'] =  { 1, 5, 24 }
   options['artifacts:trampoline'] =  { 1, 5, nil }
 
-  options['nodes_nature:merki_seed'] =  { 1, 5, 4 }
+  --options['nodes_nature:merki_seed'] =  { 1, 5, 4 }
 
   options['artifacts:light_meter'] =  { 1, 5, nil }
-  options['artifacts:thermometer'] =  { 1, 5, nil }
+  --options['artifacts:thermometer'] =  { 1, 5, nil }
   options['artifacts:temp_probe'] =  { 1, 5, nil }
   options['artifacts:fuel_probe'] =  { 1, 5, nil }
   options['artifacts:smelter_probe'] =  { 1, 5, nil }
@@ -498,6 +502,8 @@ minetest.after(0, function()
   options['artifacts:sculpture_g_arch_beast'] =  { 1, 6, nil }
   options['artifacts:sculpture_g_arch_trickster'] =  { 1, 6, nil }
   options['artifacts:sculpture_g_arch_mother'] =  { 1, 6, nil }
+
+  options['artifacts:metastim'] =  { 1, 6, nil }
 
 
 	for name, d in pairs(options) do

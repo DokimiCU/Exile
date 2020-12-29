@@ -82,8 +82,9 @@ local quote_list = {
 	"'They say I'm old-fashioned, and live in the past, but sometimes I think progress progresses too fast!'\n- Dr. Seuss",
 	"'He who has a strong enough why can bear any how.'\n- Friedrich Nietzsche",
 	"'The greatest threat to our planet is the belief that someone else will save it.'\n- Robert Swan",
-	"'Life is a struggle and wandering in a foreign country.'\n- Marcus Aurelius"
-
+	"'Life is a struggle and wandering in a foreign country.'\n- Marcus Aurelius",
+	"'It will be a sinister day when computers start to laugh,\nbecause that will mean they are capable of a lot of other things as well'\n- Edward de Bono",
+	"'Po converts what might otherwise be taken as madness into a perfectly reasonable illogical procedure.'\n- Edward de Bono"
 
 
 
@@ -215,6 +216,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		--clear physics
 		player_monoids.speed:del_change(player, "health:physics")
 		player_monoids.jump:del_change(player, "health:physics")
+		player_monoids.speed:del_change(player, "health:physics_HE")
+		player_monoids.jump:del_change(player, "health:physics_HE")
 		player:set_physics_override(0, 0, 0)
 		player:set_pos(p)
 		player_api.player_attached[name] = true
@@ -261,14 +264,14 @@ end
 
 --------------------------------------------
 --clear attachment etc
-
+--[[
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
 	lay_down(player, nil, nil, false, true)
 	bed_rest.player[name] = nil
 	bed_rest.join_time[name] = nil
 end)
-
+]]
 
 minetest.register_on_dieplayer(function(player)
 	local name = player:get_player_name()

@@ -5,7 +5,7 @@ local base_burn_rate = 6
 --how much to burn
 local base_fuel = 60
 --brightness
-local light_power = 9
+local light_power = 8
 local temp = 2
 local heat = 450
 
@@ -15,6 +15,9 @@ local heat = 450
 -------------------------------------------
 --save usage into inventory, to prevent infinite torch supply
 local on_dig = function(pos, node, digger)
+	
+	if not digger then return false end
+
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
 	end
@@ -321,4 +324,3 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
-

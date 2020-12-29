@@ -54,8 +54,10 @@ local special_stone = 'artifacts:antiquorium'
 local freshwater = 'nodes_nature:freshwater_source'
 local soil = 'nodes_nature:loam'
 local lava = 'nodes_nature:lava_source'
-local edible_mushroom = 'nodes_nature:zufani'
-local medicinal_mushroom = 'nodes_nature:merki'
+local edible_mushroom = 'nodes_nature:lambakap'
+--local medicinal_mushroom = 'nodes_nature:merki'
+local fibre_mushroom = 'nodes_nature:reshedaar'
+local woody_mushroom = 'nodes_nature:mahal'
 
 -----------------------------------------------------------------------
 local ground = 20
@@ -152,7 +154,7 @@ local lower_stair = {
 --links to upper_cross
 local upper_stair = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 3, loc = vn(30, 51, 27), size = vn(9, 9, 2)},
-	{act = 'cube', node = 'air', treasure = 3, loc = vn(22, 60, 22), size = vn(8, 4, 8)},
+	{act = 'cube', node = 'air', floor = stone_block_main, treasure = 3, loc = vn(22, 60, 22), size = vn(8, 4, 8)},
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 0, loc = vn(27, 60, 30), size = vn(2, 21, 20)},
 }
 
@@ -165,6 +167,18 @@ local central_stairwell = {
 	{act = 'stair', node = stone_stairs_main, height = 4, depth = 2, param2 = 2, loc = vn(44, 41, 41), size = vn(2, 10, 10)},
 }
 
+--for air shafts, to help prevent flooding, so only 1x1 areas of water gets down
+local shaft_filter = {
+	{act = 'cube', node = 'air', loc = vn(38, 79, 38), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 79, 41), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 79, 41), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 79, 38), size = vn(1, 1, 1)},
+
+	{act = 'cube', node = 'air', loc = vn(38, 0, 38), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 0, 41), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 41), size = vn(1, 1, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 38), size = vn(1, 1, 1)},
+}
 
 -----------------------------------------------------
 --REUSABLE MORPHS
@@ -244,6 +258,58 @@ end
 
 
 
+-----------------------------------------------------
+--Air Shaft
+--vertical shaft to the surface to link with central highways
+
+------
+local air_shaft = {
+
+	--cross horizontal
+--	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 38, 38), size = vn(80, 4, 4)},
+--	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(38, 38, 0), size = vn(4, 4, 80)},
+	--shaft
+	{act = 'cylinder', node = 'air', axis = 'y', loc = vn(36, 1, 36), size = vn(8, 78, 8)},
+	--cross horizontal low
+--	{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 1, 40), size = vn(80, 2, 1)},
+--	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(40, 1, 0), size = vn(1, 2, 80)},
+}
+
+for _, item in pairs(shaft_filter) do
+	table.insert(air_shaft, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(air_shaft, 1, table.copy(seal_box))
+end
+
+------
+local air_shaft_thin = {
+	--shaft
+	--{act = 'cube', node = 'air', loc = vn(39, 1, 39), size = vn(2, 78, 2)},
+	{act = 'cube', node = 'air', loc = vn(38, 0, 38), size = vn(1, 79, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 0, 41), size = vn(1, 79, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 41), size = vn(1, 79, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 38), size = vn(1, 79, 1)},
+	--cross horizontal low
+	--{act = 'cylinder', node = 'air', axis = 'x', loc = vn(0, 1, 40), size = vn(80, 2, 1)},
+	--{act = 'cylinder', node = 'air', axis = 'z', loc = vn(40, 1, 0), size = vn(1, 2, 80)},
+	--pit
+	{act = 'sphere', node = 'air', loc = vn(34, 7, 34), size = vn(12, 12, 12)},
+	--pit
+	{act = 'sphere', node = 'air', loc = vn(34, 34, 34), size = vn(12, 12, 12)},
+
+}
+
+for _, item in pairs(shaft_filter) do
+	table.insert(air_shaft_thin, 2, table.copy(item))
+end
+
+if seal_underground then
+	table.insert(air_shaft_thin, 1, table.copy(seal_box))
+end
+
+
 
 -----------------------------------------------------
 --Highway
@@ -280,6 +346,7 @@ local highway_no_shaft = {
 	{act = 'cylinder', node = 'air', axis = 'z', loc = vn(32, 32, 0), size = vn(16, 16, 80)},
 
 }
+
 
 for _, item in pairs(lower_stair_room) do
 	table.insert(highway_no_shaft, 2, table.copy(item))
@@ -374,7 +441,7 @@ local highway_no_shaft_linked = {
 	{act = 'cube', node = 'air', loc = vn(39, 21, 0), size = vn(2, 3, 80)},
 
 	--ladder access
-	{act = 'ladder', node = ladder, param2 = 3, loc = vn(39, 21, 41), size = vn(1, 12, 1)},
+	{act = 'ladder', node = ladder, param2 = 3, loc = vn(39, 21, 42), size = vn(1, 12, 1)},
 
 	--exit rooms
 	{act = 'cube', node = 'air', treasure = 20, loc = vn(0, 51, 37), size = vn(6, 3, 6)},
@@ -397,6 +464,18 @@ local highway_no_shaft_linked = {
 	-- link corridor
 	{act = 'cube', node = 'air', loc = vn(41, 51, 51), size = vn(4, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(75, 21, 41), size = vn(2, 3, 12)},
+
+	--mini shafts
+	--{act = 'cube', node = 'air', loc = vn(39, 53, 39), size = vn(2, 27, 2)},
+	{act = 'cube', node = 'air', loc = vn(38, 52, 38), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 52, 41), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 52, 41), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 52, 38), size = vn(1, 28, 1)},
+
+	{act = 'cube', node = 'air', loc = vn(38, 0, 38), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(38, 0, 41), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 41), size = vn(1, 28, 1)},
+	{act = 'cube', node = 'air', loc = vn(41, 0, 38), size = vn(1, 28, 1)},
 
 
 }
@@ -627,7 +706,7 @@ local mushroom_garden = {
 	{act = 'cube', node = soil, loc = vn(5, 29, 5), size = vn(70, 2, 70)},
 	{act = 'cube', node = soil, loc = vn(5, 29, 5), size = vn(70, 1, 70), treasure = 2},
 	{act = 'cube', node = 'air', loc = vn(5, 31, 5), size = vn(70, 7, 70)},
-	{act = 'cube', node = medicinal_mushroom, random = 30, loc = vn(5, 31, 5), size = vn(70, 1, 70)},
+	{act = 'cube', node = fibre_mushroom, random = 30, loc = vn(5, 31, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(71, 31, 75), size = vn(6, 3, 2)},
 	{act = 'cube', node = 'air', loc = vn(3, 31, 3), size = vn(6, 3, 2)},
 
@@ -637,7 +716,7 @@ local mushroom_garden = {
 	{act = 'cube', node = soil, loc = vn(5, 39, 5), size = vn(70, 2, 70)},
 	{act = 'cube', node = soil, loc = vn(5, 39, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(5, 41, 5), size = vn(70, 7, 70)},
-	{act = 'cube', node = edible_mushroom, random = 30, loc = vn(5, 41, 5), size = vn(70, 1, 70)},
+	{act = 'cube', node = woody_mushroom, random = 30, loc = vn(5, 41, 5), size = vn(70, 1, 70)},
 	{act = 'cube', node = 'air', loc = vn(75, 41, 60), size = vn(2, 3, 5)},
 	{act = 'cube', node = 'air', loc = vn(3, 41, 15), size = vn(2, 3, 5)},
 
@@ -2893,7 +2972,26 @@ end
 -----------------------------------------------------
 --CITY SECTORS
 -----------------------------------------------------
+-----------------------------------------------------
+--shafts
+--surface access, if you have a rope
+-----------------------------------------------------
+for _, n in pairs({"ns", "ew"}) do
 
+	register_geomorph({
+		name = n..'_air_shaft',
+		areas = n..'_air_shaft',
+		data = air_shaft,
+	})
+
+	register_geomorph({
+		name = n..'_air_shaft_thin',
+		areas = n..'_air_shaft',
+		data = air_shaft_thin,
+	})
+
+
+end
 
 -----------------------------------------------------
 --highways

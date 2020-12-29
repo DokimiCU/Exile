@@ -12,14 +12,14 @@
 --because that is annoying to code e.g. quenching and hammering hot metal
 
 --1: Get ore
---2: crush ore into 'tech:crushed_iron_ore' at chopping_block
+--2: crush ore into 'tech:crushed_iron_ore'
 --3: roast 'tech:crushed_iron_ore' at wood fire heat into 'tech:roasted_iron_ore'
---4. powder into 'tech:roasted_iron_ore_powder' at chopping_block (same as crushing)
+--4. powder into 'tech:roasted_iron_ore_powder'
 --5. mix with x charcoal for 'tech:iron_smelting_mix'
 --6. heat to smelt temp to create iron_slag_mix
 --7. keep hot enough for X minutes (and a drainage space), for molten slag to run off.
 --8. leaves behind small iron bloom (plus cooling slag nearby)
---9. hammer bloom into ingots at ? (same as crushing)
+--9. hammer bloom into ingots
 --10. make iron anvil out of many ingots
 --11. make iron tools at anvil
 
@@ -228,6 +228,39 @@ crafting.register_recipe({
 })
 
 ---------------------
+--save usage into inventory, to prevent infinite supply
+local on_dig_iron_and_slag = function(pos, node, digger)
+	if minetest.is_protected(pos, digger:get_player_name()) then
+		return false
+	end
+
+	local meta = minetest.get_meta(pos)
+	local roast = meta:get_int("roast")
+
+	local new_stack = ItemStack("tech:iron_and_slag")
+	local stack_meta = new_stack:get_meta()
+	stack_meta:set_int("roast", roast)
+
+
+	minetest.remove_node(pos)
+	local player_inv = digger:get_inventory()
+	if player_inv:room_for_item("main", new_stack) then
+		player_inv:add_item("main", new_stack)
+	else
+		minetest.add_item(pos, new_stack)
+	end
+end
+
+--set saved
+local after_place_iron_and_slag = function(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local stack_meta = itemstack:get_meta()
+	local roast = stack_meta:get_int("roast")
+	if roast >0 then
+		meta:set_int("roast", roast)
+	end
+end
+
 --iron and slag
 --unseperated iron and impurities
 minetest.register_node("tech:iron_and_slag", {
@@ -245,8 +278,17 @@ minetest.register_node("tech:iron_and_slag", {
     --finished product, length, heat, smelt
     return roast(pos, "tech:iron_and_slag", "tech:iron_bloom", 50, 1350, true)
   end,
+
+	on_dig = function(pos, node, digger)
+		on_dig_iron_and_slag(pos, node, digger)
+	end,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		after_place_iron_and_slag(pos, placer, itemstack, pointed_thing)
+	end,
 })
 
+
+--------------------
 --iron bloom
 --smelted iron seperated from bulk of slag, but still not useable
 minetest.register_node("tech:iron_bloom", {
@@ -263,6 +305,8 @@ minetest.register_node("tech:iron_bloom", {
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })
 
+
+----------------
 --iron ingot
 --iron seperated from remainder of slag, finished product
 minetest.register_node("tech:iron_ingot", {
@@ -434,4 +478,25 @@ minetest.register_node("tech:molten_slag_flowing", {
       return true
     end
   end,
+})
+
+
+------------------------------------------
+--Iron Fittings
+-- a catch all item to use in crafts
+--e.g. bolts, nails, locks, screws, hinges
+--metal content equivalent to enough hinges for one door
+minetest.register_craftitem("tech:iron_fittings", {
+	description = "Iron Fittings",
+	inventory_image = "tech_iron_fittings.png",
+	stack_max = minimal.stack_max_medium *2,
+})
+
+
+crafting.register_recipe({
+	type = "anvil",
+	output = "tech:iron_fittings 8",
+	items = {'tech:iron_ingot'},
+	level = 1,
+	always_known = true,
 })

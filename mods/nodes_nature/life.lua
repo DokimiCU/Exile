@@ -13,11 +13,12 @@ Currently the following meshes are choosable:
 
 
 ---------------------------------------
-
+local random = math.random
+local floor = math.floor
 
 --how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
 --18000 per season?
-local base_growth = 400
+local base_growth = 600
 
 ---------------------------
 -- Dig upwards
@@ -78,7 +79,7 @@ local function seed_soil_response(pos)
 		timer_min = timer_min - (timer_min * 0.2)
 	end
 
-	local timer_max = timer_min * 1.3
+	local timer_max = timer_min * 1.1
 	return timer_min, timer_max
 end
 
@@ -176,10 +177,10 @@ local plantlist = {
 	{"alaf", "Alaf", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth * 2},
 	{"damo", "Damo", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth},
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, base_growth * 1.2},
-	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 1.5},
+	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 2},
 	--artifact
-	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *4},
-	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *4},
+	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *3},
+	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *3},
 
 
 }
@@ -433,7 +434,7 @@ for i in ipairs(plantlist) do
 	--extract seeds
 	crafting.register_recipe({
 		type = "threshing_spot",
-		output = "nodes_nature:"..plantname.."_seed 4",
+		output = "nodes_nature:"..plantname.."_seed 6",
 		items = {"nodes_nature:"..plantname},
 		level = 1,
 		always_known = true,
@@ -447,22 +448,21 @@ end
 
 --Consummables
 --Use: hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
---most raw food items have some malus and are mostly realitively ineffective
 local plantlist2 = {
   --drugs
-	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,20,1, nil, nil, nil, base_growth},
-	--evil
-	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, -5,-5,-500,-5,-5, nil, nil, nil, base_growth},
-	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 20,-95,-995,-995,0, nil, nil, nil, base_growth*2},
+	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,2,0, nil, nil, nil, base_growth, 0.001},
+	--toxic
+	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, 0,0,0,0,0, nil, nil, nil, base_growth, 0.001},
+	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 0, 0, 0, 0,0, nil, nil, nil, base_growth*2, 0.001},
   --medicine
-  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 3, 1,0,0,-100,0, nil, nil, nil, base_growth * 2},
-	{"merki", "Merki", nil, 1, "mushroom", nil, 2, 4,0,0,-500,0, nil, nil, nil, base_growth * 2},
+  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
+	{"merki", "Merki", nil, 1, "mushroom", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
 	--food and water
-	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,4,0,-8,0, nil, nil, nil, base_growth * 2 },
-	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,-8,0, nil, nil, nil, base_growth * 2},
-	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,2,2,-8,0, nil, nil, nil, base_growth *0.8},
+	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,3,1,0,0, nil, nil, nil, base_growth * 2, 0.005},
+	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,2,0,0, nil, nil, nil, base_growth * 2, 0.01},
+	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, base_growth *0.8, 0.008},
 	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *5},
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *3, 0.001},
 
 }
 
@@ -484,6 +484,7 @@ for i in ipairs(plantlist2) do
 	local seed_desc = plantlist2[i][14]
 	local seed_image = plantlist2[i][15]
 	local growth = plantlist2[i][16] --for seeds
+	local c_food_pois = plantlist2[i][17]
 
 	if not growth then
 		growth = base_growth
@@ -541,6 +542,11 @@ for i in ipairs(plantlist2) do
 			groups = g,
 			sounds = s,
 			on_use = function(itemstack, user, pointed_thing)
+				--food poisoning
+				if random() < c_food_pois then
+					HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+				end
+
 				return HEALTH.use_item(itemstack, user, u_hp, u_th, u_hu, u_en, u_te, u_rep)
 			end,
 		})
@@ -730,7 +736,7 @@ for i in ipairs(plantlist2) do
 		--extract seeds
 		crafting.register_recipe({
 			type = "threshing_spot",
-			output = "nodes_nature:"..plantname.."_seed 4",
+			output = "nodes_nature:"..plantname.."_seed 6",
 			items = {"nodes_nature:"..plantname},
 			level = 1,
 			always_known = true,
@@ -787,6 +793,33 @@ minetest.register_node("nodes_nature:cana", {
 	},
 	groups = {snappy = 3, fibrous_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
+
+	after_dig_node = function(pos, node, metadata, digger)
+		dig_up(pos, node, digger)
+	end,
+})
+
+minetest.register_node("nodes_nature:tiken", {
+	description = "Tiken",
+	drawtype = "plantlike",
+	tiles = {"nodes_nature_tiken.png"},
+	inventory_image = "nodes_nature_tiken.png",
+	wield_image = "nodes_nature_tiken.png",
+	stack_max = minimal.stack_max_medium,
+	paramtype = "light",
+	paramtype2 = "meshoptions",
+	place_param2 = 2,
+	sunlight_propagates = true,
+	walkable = false,
+	damage_per_second = 1,
+	climbable = true,
+	--floodable = true,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
+	},
+	groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
 
 	after_dig_node = function(pos, node, metadata, digger)
 		dig_up(pos, node, digger)
@@ -956,6 +989,17 @@ end
 --edible sea_lettuce
 minetest.override_item("nodes_nature:sea_lettuce",{
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		if random() <  0.05 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
+		--parasites
+		if random() < 0.01 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 5, -10, 0)
 	end,
@@ -967,7 +1011,8 @@ minetest.override_item("nodes_nature:sea_lettuce",{
 
 --glowing mushroom
 minetest.override_item("nodes_nature:merki",{
-	light_source = 3
+	light_source = 2,
+	groups = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, temp_pass = 1, bioluminescent= 1}
 })
 
 
@@ -990,20 +1035,104 @@ minetest.override_item("nodes_nature:anperla_seed",{
 --oil seed crop
 minetest.override_item("nodes_nature:vansano_seed",{
 	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
 		return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
 	end,
 })
 
---tikusati's real power is in the seeds
+---------------------------------------
+--tikusati's stimulant in the seeds too
 minetest.override_item("nodes_nature:tikusati_seed",{
 	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, -10, math.random(50, 300), math.random(1, 3))
+		return HEALTH.use_item(itemstack, user, 0, 0, -2, 2, 0)
 	end,
 })
 
---lambakap. Glows, is also a mushroom.
+
+--marbhan has a Neurotoxin
+minetest.override_item("nodes_nature:marbhan",{
+	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
+		--toxin
+		if random() < 0.75 then
+			HEALTH.add_new_effect(user, {"Neurotoxicity", floor(random(1,4))})
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 0, 0, 1, -10, 0)
+	end,
+})
+
+
+--nebiyi has a Hepatotoxin
+minetest.override_item("nodes_nature:nebiyi",{
+	on_use = function(itemstack, user, pointed_thing)
+		--food poisoning
+		if random() < 0.001 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
+		--toxin
+		if random() < 0.75 then
+			HEALTH.add_new_effect(user, {"Hepatotoxicity", floor(random(1,4))})
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 0, 0, 1, -10, 0)
+	end,
+})
+
+
+--hakimi is antibacterial, antifungal
+minetest.override_item("nodes_nature:hakimi",{
+	on_use = function(itemstack, user, pointed_thing)
+
+		--only cure mild
+		if random()<0.75 then
+			HEALTH.remove_new_effect(user, {"Food Poisoning", 1})
+			HEALTH.remove_new_effect(user, {"Fungal Infection", 1})
+			HEALTH.remove_new_effect(user, {"Dust Fever", 1})
+		end
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 1, 0, 0, -10, 0)
+	end,
+})
+
+--merki is anti-parasitic
+minetest.override_item("nodes_nature:merki",{
+	on_use = function(itemstack, user, pointed_thing)
+
+		if random()<0.15 then
+			HEALTH.remove_new_effect(user, {"Intestinal Parasites"})
+		end
+
+
+		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+		return HEALTH.use_item(itemstack, user, 1, 0, 0, -10, 0)
+	end,
+})
+
+
+
+
+--------------------------------------
+--lambakap. is also a mushroom.
 --slow growing food and water source, main crop for longterm underground living.
 minetest.override_item("nodes_nature:lambakap",{
 	light_source = 2,
@@ -1018,13 +1147,14 @@ minetest.override_item("nodes_nature:lambakap",{
 			{-0.0625, -0.1875, 0.0625, 0.0625, 0, 0.1875},
 		}
 	},
-	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+	groups = {crumbly = 3, mushroom = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })
 
---reshedaar. Glows, is also a mushroom.
+--reshedaar.  is also a mushroom.
 --slow growing fibre mushroom, main fibre crop for longterm underground living.
+--(can't be bioluminescent or conflicts with recipe)
 minetest.override_item("nodes_nature:reshedaar",{
-	light_source = 2,
+	--light_source = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1042,7 +1172,7 @@ minetest.override_item("nodes_nature:reshedaar",{
 	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 })
 
---Mahal. Glows, is also a mushroom.
+--Mahal. is also a mushroom.
 --slow growing woody mushroom, main stick crop for longterm underground living.
 minetest.override_item("nodes_nature:mahal",{
 	light_source = 2,
@@ -1055,5 +1185,5 @@ minetest.override_item("nodes_nature:mahal",{
 			{-0.1875, 0.3125, -0.1875, 0.1875, 0.375, 0.1875}, -- NodeBox4
 		}
 	},
-	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })

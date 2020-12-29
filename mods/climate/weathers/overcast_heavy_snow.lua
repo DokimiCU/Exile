@@ -82,7 +82,7 @@ overcast_heavy_snow.chain = {
 	{'overcast_heavy_rain', 0, 1, 1, 1},
 	{'thunderstorm', 0, 0, 0, 1},
 	{'overcast_snow', 0.15, 0, 0, 0},
-	{'snowstorm', 0.15, 0, 0, 0}
+	{'snowstorm', 0.05, 0, 0, 0}
 
 }
 

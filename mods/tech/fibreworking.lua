@@ -202,7 +202,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "loom",
 	output = "tech:coarse_fabric",
-	items = {'tech:coarse_fibre 12'},
+	items = {'tech:coarse_fibre 6'},
 	level = 1,
 	always_known = true,
 })
@@ -212,7 +212,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "loom",
 	output = "tech:fine_fabric",
-	items = {'tech:fine_fibre 12'},
+	items = {'tech:fine_fibre 6'},
 	level = 1,
 	always_known = true,
 })

@@ -80,7 +80,7 @@ for i in ipairs(list) do
 			description = desc.." Brick",
 			tiles = {"nodes_nature_"..name.."_brick.png"},
 			stack_max = minimal.stack_max_bulky *3,
-			groups = {cracky = hardness, falling_node = 1,  oddly_breakable_by_hand = 1},
+			groups = {cracky = hardness, falling_node = 1,  oddly_breakable_by_hand = 1, masonry = 1},
 			sounds = nodes_nature.node_sound_stone_defaults(),
 		})
 
@@ -106,7 +106,7 @@ for i in ipairs(list) do
 				}
 			},]]
 			stack_max = minimal.stack_max_bulky *2,
-			groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
+			groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1, masonry = 1},
 			sounds = nodes_nature.node_sound_stone_defaults(),
 		})
 

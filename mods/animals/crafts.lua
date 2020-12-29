@@ -21,7 +21,8 @@ leather, Bone, skin, sinews, feathers?
 
 
 
-
+local random = math.random
+local floor = math.floor
 --------------------------------------------------------------------------
 --Carcasses
 
@@ -141,8 +142,8 @@ local box_large_fish = {
 
 
 
-
-
+local chance_food_poison = 0.05
+local chance_food_parasite = 0.01
 
 local list = {
 	{
@@ -153,7 +154,8 @@ local list = {
     80,
     0, 1, -2,
     1, 100,
-    0, 2, 1
+    0, 2, 1,
+		chance_food_poison*2, chance_food_parasite
   },
   {
     "invert_large",
@@ -162,8 +164,9 @@ local list = {
     minimal.stack_max_medium/4,
     70,
     1, 3, -6,
-    3, 110,
-    1, 6, 3
+    3, 100,
+    1, 6, 3,
+		chance_food_poison*4, chance_food_parasite*2
   },
   {
     "bird_small",
@@ -172,8 +175,9 @@ local list = {
     minimal.stack_max_medium/4,
     70,
     1, 5, -4,
-    6, 110,
-    1, 10, 2
+    6, 100,
+    1, 10, 2,
+		chance_food_poison, chance_food_parasite*2
   },
   {
     "fish_small",
@@ -182,8 +186,9 @@ local list = {
     minimal.stack_max_medium/4,
     70,
     1, 5, -4,
-    6, 110,
-    1, 10, 2
+    6, 100,
+    1, 10, 2,
+		chance_food_poison, chance_food_parasite*2
   },
   {
     "fish_large",
@@ -192,8 +197,9 @@ local list = {
     minimal.stack_max_bulky,
     65,
     3, 15, -12,
-    18, 120,
-    3, 30, 6
+    18, 100,
+    3, 30, 6,
+		chance_food_poison*2, chance_food_parasite*4
   },
 
 }
@@ -213,6 +219,8 @@ for i in ipairs(list) do
   local eat_cooked_thirst = list[i][11]
   local eat_cooked_hunger = list[i][12]
   local eat_cooked_energy = list[i][13]
+	local c_fpoison = list[i][14]
+	local c_fparasite = list[i][15]
 
 
 
@@ -230,6 +238,18 @@ for i in ipairs(list) do
   	groups = {snappy = 3, dig_immediate = 3, falling_node = 1, temp_pass = 1, heatable = heat},
   	sounds = nodes_nature.node_sound_defaults(),
   	on_use = function(itemstack, user, pointed_thing)
+
+			--food poisoning
+			if random() < c_fpoison then
+				HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
+			end
+
+			--parasites
+			if random() < c_fparasite then
+				HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+			end
+
+
   		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
   		return HEALTH.use_item(itemstack, user, 0, eat_raw_thirst, eat_raw_hunger, eat_raw_energy, 0)
   	end,
@@ -258,6 +278,12 @@ for i in ipairs(list) do
     groups = {snappy = 3, dig_immediate = 3, falling_node = 1, temp_pass = 1},
     sounds = nodes_nature.node_sound_defaults(),
     on_use = function(itemstack, user, pointed_thing)
+
+			--food poisoning
+			if random() < c_fpoison*0.1 then
+				HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,2))})
+			end
+
       --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
       return HEALTH.use_item(itemstack, user, 0, eat_cooked_thirst, eat_cooked_hunger, eat_cooked_energy, 0)
     end,

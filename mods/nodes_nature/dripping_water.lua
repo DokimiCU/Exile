@@ -2,7 +2,7 @@
 --Dripping Water
 --underground drinkable water drops
 -------------------------------------------------------------------------
-
+local random = math.random
 
 --Drop entities
 minetest.register_entity("nodes_nature:drop_water", {
@@ -55,6 +55,17 @@ minetest.register_entity("nodes_nature:drop_water", {
 			meta:set_int("thirst", thirst)
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.1})
 			self.object:remove()
+
+			--food poisoning
+			if random() < 0.005 then
+				HEALTH.add_new_effect(clicker, {"Food Poisoning", 1})
+			end
+
+			--parasites
+			if random() < 0.001 then
+				HEALTH.add_new_effect(clicker, {"Intestinal Parasites"})
+			end
+
 		end
 	end,
 })

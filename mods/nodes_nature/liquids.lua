@@ -66,7 +66,7 @@ for i in ipairs(list) do
 		liquid_range = 2,
 		liquid_renewable = renew,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = water_g, cools_lava = 1},
+  	groups = {water = water_g, cools_lava = 1, puts_out_fire = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
@@ -114,8 +114,7 @@ for i in ipairs(list) do
   	liquid_viscosity = 1,
 		liquid_renewable = renew,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = water_g, not_in_creative_inventory = 1,
-  		cools_lava = 1},
+  	groups = {water = water_g, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
@@ -145,6 +144,28 @@ minetest.override_item("nodes_nature:freshwater_source",{
 			minetest.set_node(pos, {name = "air"})
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
 
+			--food poisoning
+			local c = 0.005
+			--parasites
+			local c2 = 0.005
+
+			--disease chance worse if water in a bad place (e.g. a muddy hole)
+			local bad = minetest.find_node_near(pos, 1, {"group:sediment"})
+			if bad then
+				c = 0.15
+				c2 = 0.15
+			end
+
+			--food poisoning
+			if ran() < c then
+				HEALTH.add_new_effect(clicker, {"Food Poisoning", 1})
+			end
+
+			--parasites
+			if ran() < c2 then
+				HEALTH.add_new_effect(clicker, {"Intestinal Parasites"})
+			end
+
 		end
 	end
 })
@@ -168,7 +189,7 @@ minetest.register_node("nodes_nature:snow", {
 	},
 	temp_effect = -2,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, fall_damage_add_percent = -25},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, puts_out_fire = 1, fall_damage_add_percent = -25},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 
@@ -178,7 +199,7 @@ minetest.register_node("nodes_nature:snow_block", {
 	stack_max = minimal.stack_max_bulky,
 	temp_effect = -4,
 	temp_effect_max = 0,
-	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, fall_damage_add_percent = -50},
+	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, puts_out_fire = 1, cools_lava = 1, fall_damage_add_percent = -50},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 
 })
@@ -208,6 +229,14 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:ice",
+	items = {"nodes_nature:snow_block 4"},
+	level = 1,
+	always_known = true,
+})
+
 --ice
 minetest.register_node("nodes_nature:ice", {
 	description = "Ice",
@@ -217,7 +246,7 @@ minetest.register_node("nodes_nature:ice", {
 	use_texture_alpha = true,
 	temp_effect = -8,
 	temp_effect_max = 0,
-	groups = {cracky = 3, crumbly = 1, cools_lava = 1, slippery = 3, temp_effect = 1},
+	groups = {cracky = 3, crumbly = 1, cools_lava = 1, puts_out_fire = 1, slippery = 3, temp_effect = 1},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 
@@ -232,7 +261,7 @@ minetest.register_node("nodes_nature:sea_ice", {
 	use_texture_alpha = true,
 	temp_effect = -8,
 	temp_effect_max = 0,
-	groups = {cracky = 3, crumbly = 1, cools_lava = 1, slippery = 3, temp_effect = 1},
+	groups = {cracky = 3, crumbly = 1, cools_lava = 1, puts_out_fire = 1, slippery = 3, temp_effect = 1},
 	sounds = nodes_nature.node_sound_snow_defaults(),
 })
 

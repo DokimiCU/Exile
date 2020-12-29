@@ -64,7 +64,7 @@ dofile(modpath .. "/weathers/fog.lua")
 
 
 --setting...for random intervals
-local base_interval = 60
+local base_interval = 90
 local base_int_range = 30
 
 --temp classes for probabilities
@@ -329,11 +329,11 @@ minetest.register_globalstep(function(dtime)
 		--get seasonal wave
 		local dc = minetest.get_day_count()
 		--diff +/- from yearly mean (seasonal variation)
-		local dc_amp = 23
-		--~56 day year, 14 day seasons
-		local dc_period = 0.11
+		local dc_amp = 17
+		--~80 day year, 20 day seasons
+		local dc_period = 0.08
 		--yearly average,
-		local dc_mean = 10
+		local dc_mean = 13
 		local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
 		--random walk...an incremental fluctuation that is capped
 		ran_walk = ran_walk + math.random(-2, 2)

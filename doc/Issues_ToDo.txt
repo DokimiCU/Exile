@@ -11,35 +11,36 @@ This also lists various ideas, planned, and possible features.
 #ISSUES
 -------------------------------------------------------------------
 Urgent Fixes needed:
--occassional function animals.hq_attack_eat(self,prty,tgtobj) crash . api.lua:387: attempt to perform arithmetic on field 'height' (a nil value).
-
 
 Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
 -sound effects cut off underground is too abrupt (should fade)
--values on inventory page don't update instantly (e.g. when using chat commands)
--settings for season length (longer seasons might be better for servers)
+
 
 Bed:
 -bed rest wipes physics effects (almost a feature...)
--multiplayer bug caused by breaktaker?
 -need something to stop beds getting destroyed while a player is one them (a problem for punchable/floodable/buildable sleeping spot)
 
 Health:
--energy can go negative (needs to cap at 0)
+-Char Tab (lore) might need a scroll bar.
+-minetest.after effects (e.g. staggering) linger into respawn after death. (for now recommended to wait a while on the death screen)
 
 Animals:
 -some spiders were getting nil energy (from egg spawning? maybe only in dev, not happening now?)
 -mobs_chicken_white.png is being called by something (the chicken model itself? Isn't in the code anywhere...)
 -stability of animal populations over time unknown
 -some animals can be a bit too unintelligent (e.g. hunting)
+-predators don't do well (perhaps swap out for generalists)
+-letting cave animals spawn on cave sediments also puts them on the beaches.
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
 -Tangkal tree schem has grass in it.
 -freshwater is bad for reservoirs bc of evaporation + nonrenewable, but making it renewable allows infinite water.
--a gemedi cane was spotted on top of moss (flora spread?)
+-snow should turn into block when placed on top of self. (instead of vanishing due to buildable_to = true,)
+-bottom texture on wet sediment should be the sediment (is top)
+
 
 Volcano:
 -occassional dark spots
@@ -53,17 +54,19 @@ Megamorph:
 
 Tech:
 -doors ought to toggle temp_pass group on open and close
+- temp_pass should probably act like air temp, allow air temp to move through them. (e.g. an open door should let air out)
 -torches/oil lamp should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
 -ropes don't go through air temp
--partly cooked/smelted etc should save progress in meta for inventory (otherwise they can be reset)
+-partly cooked etc should save progress in meta for inventory (otherwise they can be reset) (maraka, retting, cooking)
+
 
 illumination:
 -Node 'light_source' value exceeds maximum, limiting to maximum: illumination:light_full
 -Doesn't illuminate invisible functional non-air nodes (e.g. tree markers)
 
 Artifacts:
--airboat collision allows going into things, dig pointer is out of line with crosshairs, can jump off inside blocks
+-airboat collision allows going into things, dig pointer is out of line with crosshairs, can jump off inside blocks (exists because wanted to be able to dig while attached)
 
 Crafting (Rubenwardy)
 -crafting when full inventory should drop crafts that don't fit inventory.
@@ -73,19 +76,18 @@ Crafting (Rubenwardy)
 -sound effects would be nice
 
 Canoe:
--rare: canoe vanished and teleported player a few hundred meters away (while pushing W repeatedly)
+-rare: canoe vanished and teleported player a few hundred meters away (while pushing W repeatedly, again while view full range)
 
 Backpacks:
 -uses deprecated meta
 
 
 Multiplayer:
--odd stuck walking in place glitch (when player dying, raining)
 -add protection (i.e. locks) to wooden chest and doors
 
 
 Misc:
--various bits of code could be tidied up (e.g. duplicated code pulled into functions)
+-various bits of code could be tidied up e.g. duplicated code pulled into functions (cooking/smelting, saving to inventory all very similar)
 -might be missing credit for some textures etc (mostly from Minetest game? plus some plants?)
 -a lot of cluttering nodes could be removed from creative inventory
 -performance testing etc etc... (can get slow, all the dynamic nature stuff might be a bit much, also large numbers of mobs)
@@ -104,14 +106,21 @@ IDEAS AND TO DO LIST
 Features needed:
 -Rimworld style story-teller (for events, dynamic and unexpected challenges)
 - dynamism and decoration for underground city
+- logic of burning things needs sorting out (e.g. must light fires, but torches always lit)
 
 
 Features ideas:
 
+--MISC:
+-Easy start option (start with axe, bag, clothes, water pot, mattress, food)
+-Once a sophisticated camp has been built it is too easy to just stay there and
+live the good life. Needs something to be able to go horribly wrong, big enough
+to force a migration, rebuild, temporary escape. (story teller)
+
 --INTERFACE
 -remove inventory trash when not creative?
 -nameable bags
--help menu
+-Tutorials, help menus, maybe a set of beginners achievements to work through (very helpful for new players, but should only be done after core content complete)
 
 --PROCESSES
 -punch with torch for firelighter?
@@ -120,22 +129,28 @@ Features ideas:
 -weildview + register wield effects e.g. burn torch
 
 HEALTH
--disease and other player effects
--speed/jump malus from low hp
--more sophisticated health: energy drawn from Hunger.
+-setting to display temperature in F
+- Effects: on_node + in_node health check, biome check, venom on bite, more components (e.g. HUDs e.g. tunnel vision)
+- effects currently handled by low thirst/hunger/low body temp etc could be turned into effects (e.g. malnutrition, hypothermia)
+
 
 --NATURE
--bamboo like thing (like canes but for sticks)
 -shellfish
+-mangroves
 -unique environ tolerances for each plant species
 -frozen wet ground (cracky)
 -fire tolerance for trees (on_burn to charred tree, regenerates)
 -seasonal fruit
 
+--CLIMATE
+-humidity, wet bulb temperatures
+-more sophisticated shelter adjustment using lines of sight as a wall detector
+ (requires something better than minetest.line_of_sight as that doesn't include temp_pass group - too easy to game it without that)
 
 --MOBS
--more mobs: land predator
+-more mobs: land predator, and more of everything in general
 -catch chance based on weild item (can catch with hand)
+-seasonal behavior
 -Rimworld style colonists
 
 
@@ -152,27 +167,32 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -dangerous contaminants, traps etc
 
 --SOFT PERMA-DEATH i.e. new life = new character
--random (re)spawn location. With settings (e.g. multiplayer spawn needs to be same place)
+-more stuff for character page with: achievements?, earnable nickname?, Character skin image (when random skin done)
+-random (re)spawn location: based on the faction that exiled you there (e.g. Empire of X all spawn at same place - needs some hard coded factions).
+Thus players get mixed around to diff places, but do sometimes return to old place. (balance variety and build).
+Currently travel is very hard, so all lives get lived at one base. This would add some variation. Develop separate towns.
 -random character skins for each life
 -acquired character traits (see each life becomes meaningfully unique)
 -Death screen - name and days survived (also put in Breaktaker, maybe a Highscores page?). Give name to bones meta.
 -multiplayer protection that allows protection to fade after death?? might get abused?
--character page with: days survived, character biography, achievements, nickname
+
 
 --CLOTHING:
 -speed effects (likely to cause issues with bed physics)
 
 --TECH
 -more sophisticated fires: heat and output controlled by airflow
--more graffiti in more colors
+-more graffiti in more colors (old health symbols can be reused here)
 -inventory on canoe
 -wood shingle roof, wood walls, beams etc
--cooking: e.g  juice (fermented)? soup? Stim drug
+-cooking: bulk cooking method (cauldron - add food and water to it, take out by bowlful)
+-water pots: drink a bit at a time (e.g. tooltip displays units, drink 1 per click)
 -tool repair and modifiers
 -climbing pick?
 -chair (small bed rest effect, but better for crafting)
 -sailing
 -glassware (windows, bottles, distillery, solar still)
+-more sophisticated medicines e.g. needing a chemistry kit, can heal for toxins
 -compost
 -bellows that displaces air_temp nodes
 -Scyth
@@ -184,13 +204,20 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -automation (via cogs, gears, windmills etc)
 -ranged weapons
 -armor
+-right click to turn torches/lamps off (+require lighting them like with fires)
+-fires: water, rain etc should turn them to extinguished form instead of ash (requires reworking code a bit)
+-degradation of rottable building materials (e.g. mudbrick -> clay, log -> rotten). Gives an advantage to sophisticated building materials.
+-grinding stone crafts out of more stone types ( basalt/jade club)
+
+INFERNO
+
 
 --DECO
 -more ambience: rustling leaves, lava
--cave flora (mud with mushrooms)
+
 
 --MULTIPLAYER
--various standard server tools (e.g. protection, chat, etc)
+-various standard server tools (e.g. protection, chat, etc)?
 -signs, letters, etc (graffiti could have an alphabet paint kit, but servers need more detailed signage)
-- intro page (optional - off in single player)
-- multiplayer only crafts (e.g. for trade). (optional - off in single player)
+- intro page (optional - off in single player) (or just help menu)
+- multiplayer only crafts (e.g. for trade). (optional - off in single player)?

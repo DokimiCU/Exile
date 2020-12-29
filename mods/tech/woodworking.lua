@@ -12,7 +12,7 @@
 crafting.register_recipe({
 	type = "carpentry_bench",
 	output = "tech:wooden_chest",
-	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
+	items = {'tech:iron_fittings 2', 'group:log 4', 'tech:vegetable_oil'},
 	level = 1,
 	always_known = true,
 })
@@ -58,6 +58,7 @@ crafting.register_recipe({
 --Floor boards
 --good flooring for large multi-story buildings
 
+
 minetest.register_node("tech:wooden_floor_boards", {
  description = "Wooden Floor Boards",
  drawtype = "nodebox",
@@ -80,7 +81,6 @@ minetest.register_node("tech:wooden_floor_boards", {
  stack_max = minimal.stack_max_medium,
  paramtype = "light",
  paramtype2 = "facedir",
- sunlight_propagates = true,
  groups = {choppy=2, flammable=1},
  sounds = nodes_nature.node_sound_wood_defaults(),
 

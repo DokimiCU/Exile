@@ -15,7 +15,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "carpentry_bench",
 	output = "ropes:wood1rope_block",
-	items = {"group:log", "tech:coarse_fibre 144"},
+	items = {"group:log", "tech:coarse_fibre 96"},
 	level = 1,
 	always_known = true,
 })

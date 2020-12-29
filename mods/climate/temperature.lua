@@ -200,7 +200,7 @@ local adjust_for_heatable = function(pos, name, temp)
 	return temp
 end
 
---averaging based on daytime light
+--Shelter. 
 local adjust_for_shelter = function(pos, temp, av_temp)
 	--Shelter. Brings temp closer to average
 	--daytime dark is the closest proxy for shelter.
@@ -375,8 +375,16 @@ function climate.heat_transfer(pos, nodename, replace)
 	end
 
 	--heat transfers (exchange heat with other 'heatable')
-	local neighbor = minetest.find_node_near(pos, 1, 'group:heatable')
-	if neighbor then
+
+	local pos_neighs = minetest.find_nodes_in_area(
+		{x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
+		{x = pos.x + 1, y = pos.y - 1, z = pos.z + 1},
+		{"group:heatable"})
+
+	if #pos_neighs > 0 then
+		--doing this instead of minetest.find_node_near due to directional bias
+		local neighbor = pos_neighs[math.random(#pos_neighs)]
+
 		--heat flows down a gradient
 		local meta_new = minetest.get_meta(neighbor)
 		local temp_new = meta_new:get_float("temp")

@@ -59,6 +59,23 @@ local cana = {
   },
 }
 
+local s3 = { name = "nodes_nature:tiken", param2 = 2 }
+local tiken = {
+  size = {y = 7, x = 1, z = 1},
+  data = {
+    s3, s3, s3, s3, s3, s3, s3
+    },
+  yslice_prob = {
+    {ypos = 0, prob = 255},
+		{ypos = 1, prob = 255},
+		{ypos = 2, prob = 255},
+    {ypos = 3, prob = 255},
+    {ypos = 4, prob = 230},
+    {ypos = 5, prob = 155},
+    {ypos = 6, prob = 105},
+  },
+}
+
 
 -----------------------------------------------------
 --OCEANS
@@ -165,7 +182,7 @@ minetest.register_decoration({
 	deco_type = "schematic",
 	place_on =woodland_on,
   sidelen = 80,
-	fill_ratio = 0.005,
+	fill_ratio = 0.006,
   y_max = 40,
   y_min = lowland_ymin,
 	schematic = minetest.get_modpath("mapgen") .. "/schematics/maraka_tree.mts",
@@ -175,24 +192,15 @@ minetest.register_decoration({
 })
 
 
-
---tangkal in grassland
 minetest.register_decoration({
-	name = "nodes_nature:tangkal_tree",
+	name = "nodes_nature:tangkal_tree_old",
 	deco_type = "schematic",
-	place_on = grassland_on,
-	sidelen = 16,
-	noise_params = {
-		offset = 0,
-		scale = 0.000001,
-		spread = {x = 250, y = 250, z = 250},
-		seed = 3322,
-		octaves = 3,
-		persist = 0.7
-	},
+	place_on =woodland_on,
+  sidelen = 80,
+	fill_ratio = 0.0009,
   y_max = 25,
   y_min = lowland_ymin,
-	schematic = minetest.get_modpath("mapgen") .. "/schematics/tangkal_tree.mts",
+	schematic = minetest.get_modpath("mapgen") .. "/schematics/tangkal_old.mts",
   place_offset_y = -5,
 	flags = "place_center_x, place_center_z",
 	rotation = "random",
@@ -200,11 +208,11 @@ minetest.register_decoration({
 
 --tangkal in woodland
 minetest.register_decoration({
-	name = "nodes_nature:tangkal_tree2",
+	name = "nodes_nature:tangkal_tree",
 	deco_type = "schematic",
 	place_on =woodland_on,
   sidelen = 80,
-	fill_ratio = 0.0018,
+	fill_ratio = 0.0007,
   y_max = 25,
   y_min = lowland_ymin,
 	schematic = minetest.get_modpath("mapgen") .. "/schematics/tangkal_tree.mts",
@@ -212,6 +220,22 @@ minetest.register_decoration({
 	flags = "place_center_x, place_center_z",
 	rotation = "random",
 })
+
+minetest.register_decoration({
+	name = "nodes_nature:tangkal_tree_young",
+	deco_type = "schematic",
+	place_on =woodland_on,
+  sidelen = 80,
+	fill_ratio = 0.0005,
+  y_max = 25,
+  y_min = lowland_ymin,
+	schematic = minetest.get_modpath("mapgen") .. "/schematics/tangkal_young.mts",
+  place_offset_y = -3,
+	flags = "place_center_x, place_center_z",
+	rotation = "random",
+})
+
+
 
 -------------------------------
 --Fills
@@ -344,52 +368,6 @@ minetest.register_decoration({
 
 
 
-------------------------------
---Multiple biomes
-
-minetest.register_decoration({
-  name = "nodes_nature:moss",
-	deco_type = "simple",
-	place_on = all_soils_on,
-	sidelen = 16,
-	noise_params = {
-		offset = 0,
-		scale = 0.005,
-		spread = {x = 100, y = 100, z = 100},
-		seed = 1000,
-		octaves = 3,
-		persist = 0.9
-	},
-	y_max = lowland_ymax,
-	y_min = lowland_ymin,
-	decoration = "nodes_nature:moss",
-})
-
---denser moss in marsh
-minetest.register_decoration({
-  name = "nodes_nature:moss",
-	deco_type = "simple",
-	place_on =  {
-    "nodes_nature:marshland_soil",
-    "nodes_nature:marshland_soil_wet",
-    "nodes_nature:highland_soil",
-    "nodes_nature:highland_soil_wet",
-    "nodes_nature:woodland_soil",
-    "nodes_nature:woodland_soil_wet"
-  },
-	sidelen = 16,
-	noise_params = {
-		offset = 0,
-		scale = 0.09,
-		spread = {x = 16, y = 16, z = 16},
-		seed = 1640,
-		octaves = 3,
-		persist = 0.8
-	},
-	y_max = 31000,
-	y_min = 1,
-	decoration = "nodes_nature:moss",
-})
 
 
 
@@ -642,7 +620,23 @@ minetest.register_decoration({
 
 ------------------------------
 --duneland
-
+minetest.register_decoration({
+	name = "nodes_nature:tiken",
+	deco_type = "schematic",
+	place_on = duneland_on,
+	sidelen = 16,
+	noise_params = {
+		offset = 0,
+		scale = 1,
+		spread = {x = 64, y = 64, z = 64},
+		seed = 998,
+		octaves = 3,
+		persist = 0.9
+	},
+  y_max = 7,
+  y_min = lowland_ymin,
+	schematic = tiken,
+})
 
 minetest.register_decoration({
 	name = "nodes_nature:alaf",
@@ -674,6 +668,7 @@ minetest.register_decoration({
 	decoration = "nodes_nature:anperla",
   param2 = 3,
 })
+
 
 ------------------------------
 --Highland
@@ -816,6 +811,163 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+
+------------------------------
+--Cave sediments
+minetest.register_decoration({
+	name = "cave_gravel",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:limestone",
+    "nodes_nature:gneiss",
+    "nodes_nature:conglomerate",
+  },
+  sidelen = 4,
+  noise_params = {
+    offset = -0.4,
+    scale = 3.0,
+    spread = {x = 32, y = 32, z = 32},
+    seed = 873515,
+    octaves = 2,
+    persist = 0.9
+  },
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:gravel",
+  place_offset_y = -1,
+  flags = "all_floors, force_placement",
+})
+
+minetest.register_decoration({
+	name = "cave_sand",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:limestone",
+    "nodes_nature:gneiss",
+    "nodes_nature:sandstone",
+  },
+  sidelen = 4,
+  noise_params = {
+    offset = -0.4,
+    scale = 3.0,
+    spread = {x = 32, y = 32, z = 32},
+    seed = 795515,
+    octaves = 2,
+    persist = 0.9
+  },
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:sand",
+  place_offset_y = -1,
+  flags = "all_floors, force_placement",
+})
+
+minetest.register_decoration({
+	name = "cave_clay",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:limestone",
+    "nodes_nature:gneiss",
+    "nodes_nature:claystone",
+  },
+  sidelen = 4,
+  noise_params = {
+    offset = -0.4,
+    scale = 3.0,
+    spread = {x = 32, y = 32, z = 32},
+    seed = 87005,
+    octaves = 2,
+    persist = 0.9
+  },
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:clay",
+  place_offset_y = -1,
+  flags = "all_floors, force_placement",
+})
+
+minetest.register_decoration({
+	name = "cave_silt",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:granite",
+    "nodes_nature:limestone",
+    "nodes_nature:gneiss",
+    "nodes_nature:siltstone",
+  },
+  sidelen = 4,
+  noise_params = {
+    offset = -0.4,
+    scale = 3.0,
+    spread = {x = 32, y = 32, z = 32},
+    seed = 87005,
+    octaves = 2,
+    persist = 0.9
+  },
+  y_max = 31000,
+  y_min = -31000,
+	decoration = "nodes_nature:silt",
+  place_offset_y = -1,
+  flags = "all_floors, force_placement",
+})
+
+
+------------------------------
+--Cave mushrooms.. artifact species escaped from cultivation
+minetest.register_decoration({
+	name = "nodes_nature:lambakap",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"
+  },
+  sidelen = 80,
+	fill_ratio = 0.01,
+  y_max = -80,
+  y_min = -950,
+	decoration = "nodes_nature:lambakap",
+  flags = "all_floors",
+})
+
+minetest.register_decoration({
+	name = "nodes_nature:reshedaar",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"
+  },
+  sidelen = 80,
+	fill_ratio = 0.01,
+  y_max = -80,
+  y_min = -950,
+	decoration = "nodes_nature:reshedaar",
+  flags = "all_floors",
+})
+
+minetest.register_decoration({
+	name = "nodes_nature:mahal",
+	deco_type = "simple",
+	place_on = {
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"
+  },
+  sidelen = 80,
+	fill_ratio = 0.01,
+  y_max = -80,
+  y_min = -950,
+	decoration = "nodes_nature:mahal",
+  flags = "all_floors",
+})
+
 -----------------------------------------------------
 --Animal eggs
 --gundu_eggs
@@ -855,7 +1007,11 @@ minetest.register_decoration({
     "nodes_nature:limestone",
     "nodes_nature:sandstone",
     "nodes_nature:siltstone",
-    "nodes_nature:claystone"},
+    "nodes_nature:claystone",
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"},
   sidelen = 80,
 	fill_ratio = 0.005,
   y_max = lowland_ymax,
@@ -875,7 +1031,11 @@ minetest.register_decoration({
     "nodes_nature:limestone",
     "nodes_nature:sandstone",
     "nodes_nature:siltstone",
-    "nodes_nature:claystone"},
+    "nodes_nature:claystone",
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"},
   sidelen = 80,
 	fill_ratio = 0.0015,
 	y_max = lowland_ymax,
@@ -884,6 +1044,17 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+minetest.register_decoration({
+	name = "animals:kubwakubwa_eggs_land",
+	deco_type = "simple",
+	place_on = all_soils_on,
+  sidelen = 80,
+	fill_ratio = 0.0001,
+	y_max = lowland_ymax,
+	y_min = 2,
+	decoration = "animals:kubwakubwa_eggs",
+  flags = "all_floors",
+})
 
 --darkasthaan_eggs
 minetest.register_decoration({
@@ -891,7 +1062,11 @@ minetest.register_decoration({
 	deco_type = "simple",
 	place_on = {
     "nodes_nature:granite",
-    "nodes_nature:basalt"},
+    "nodes_nature:basalt",
+    "nodes_nature:silt",
+    "nodes_nature:clay",
+    "nodes_nature:sand",
+    "nodes_nature:gravel"},
   sidelen = 80,
 	fill_ratio = 0.002,
 	y_max = -130,
@@ -935,6 +1110,55 @@ minetest.register_decoration({
   flags = "all_floors",
 })
 
+------------------------------
+--Multiple biomes
+
+minetest.register_decoration({
+  name = "nodes_nature:moss",
+	deco_type = "simple",
+	place_on = all_soils_on,
+	sidelen = 16,
+	noise_params = {
+		offset = 0,
+		scale = 0.005,
+		spread = {x = 100, y = 100, z = 100},
+		seed = 1000,
+		octaves = 3,
+		persist = 0.9
+	},
+	y_max = lowland_ymax,
+	y_min = lowland_ymin,
+	decoration = "nodes_nature:moss",
+})
+
+--denser moss in marsh
+minetest.register_decoration({
+  name = "nodes_nature:moss",
+	deco_type = "simple",
+	place_on =  {
+    "nodes_nature:marshland_soil",
+    "nodes_nature:marshland_soil_wet",
+    "nodes_nature:highland_soil",
+    "nodes_nature:highland_soil_wet",
+    "nodes_nature:woodland_soil",
+    "nodes_nature:woodland_soil_wet"
+  },
+	sidelen = 16,
+	noise_params = {
+		offset = 0,
+		scale = 0.09,
+		spread = {x = 16, y = 16, z = 16},
+		seed = 1640,
+		octaves = 3,
+		persist = 0.8
+	},
+	y_max = 31000,
+	y_min = 1,
+	decoration = "nodes_nature:moss",
+})
+
+
+
 -----------------------------------
 --Start node timers
 -- get decoration IDs
@@ -942,6 +1166,7 @@ local gundu_eggs = minetest.get_decoration_id("animals:gundu_eggs")
 local sarkamos_eggs = minetest.get_decoration_id("animals:sarkamos_eggs")
 local impethu_eggs = minetest.get_decoration_id("animals:impethu_eggs")
 local kubwakubwa_eggs = minetest.get_decoration_id("animals:kubwakubwa_eggs")
+local kubwakubwa_eggs_land = minetest.get_decoration_id("animals:kubwakubwa_eggs_land")
 local darkasthaan_eggs = minetest.get_decoration_id("animals:darkasthaan_eggs")
 local pegasun_eggs = minetest.get_decoration_id("animals:pegasun_eggs")
 local sneachan_eggs = minetest.get_decoration_id("animals:sneachan_eggs")
@@ -953,6 +1178,7 @@ minetest.set_gen_notify(
     sarkamos_eggs,
     impethu_eggs,
     kubwakubwa_eggs,
+    kubwakubwa_eggs_land,
     darkasthaan_eggs,
     pegasun_eggs,
     sneachan_eggs
@@ -980,6 +1206,11 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
   end
 
   for _, pos in ipairs(gennotify["decoration#"..kubwakubwa_eggs] or {}) do
+    local kubwakubwa_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+    table.insert(poslist, kubwakubwa_eggs_pos)
+  end
+
+  for _, pos in ipairs(gennotify["decoration#"..kubwakubwa_eggs_land] or {}) do
     local kubwakubwa_eggs_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
     table.insert(poslist, kubwakubwa_eggs_pos)
   end

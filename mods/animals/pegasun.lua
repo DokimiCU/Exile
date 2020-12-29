@@ -7,16 +7,16 @@ lives off flora, spreading surface and insects
 ]]
 ---------------------------------------------------------------------
 local random = math.random
-
+local floor = math.floor
 
 --energy
 local energy_max = 8000--secs it can survive without food
 local energy_egg = energy_max/2 --energy that goes to egg
-local egg_timer  = 60*25
+local egg_timer  = 60*60
 local young_per_egg = 1		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 10
-
+local lifespan_male = lifespan * 1.2 --if the flock male dies they go extinct
 
 
 -----------------------------------
@@ -106,7 +106,7 @@ local function brain(self)
 					animals.flock(self, 25, 3)
 				elseif random()< 0.01 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.1 then
+				elseif random() < 0.05 then
 
 					--reproduction
 					if self.hp >= self.max_hp
@@ -116,7 +116,7 @@ local function brain(self)
 						local preg = mobkit.recall(self,'pregnant') or false
 						if preg == true then
 							mobkit.lq_idle(self,3)
-							if random() < 0.1 then
+							if random() < 0.05 then
 								energy = animals.place_egg(pos, "animals:pegasun_eggs", energy, energy_egg, 'air')
 								mobkit.remember(self,'pregnant',false)
 							end
@@ -129,7 +129,9 @@ local function brain(self)
 							if mate then
 								--go get him!
 								mobkit.make_sound(self,'mating')
-								animals.hq_mate(self, 25, mate)
+								if random() < 0.5 then
+									animals.hq_mate(self, 25, mate)
+								end
 							end
 						end
 					else
@@ -144,7 +146,7 @@ local function brain(self)
 				if random()< 0.85 then
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.001) == true then
-						energy = energy + 15
+						energy = energy + 6
 					else
 						--wander to food source
 						mobkit.animate(self,'walk')
@@ -207,7 +209,7 @@ local function brain_male(self)
 
 		local pos = mobkit.get_stand_pos(self)
 
-		local age, energy = animals.core_life(self, lifespan, pos)
+		local age, energy = animals.core_life(self, lifespan_male, pos)
 		--die from exhaustion or age
 		if not age then
 			return
@@ -281,13 +283,13 @@ local function brain_male(self)
 				--social
 				if random()< 0.5 then
 					animals.flock(self, 25, 1)
-				elseif random()< 0.5 then
+				elseif random()< 0.85 then
 					animals.territorial(self, energy, false)
-				elseif random() < 0.5 then
+				elseif random() < 0.1 then
 
 					--reproduction
 					if self.hp >= self.max_hp
-					and energy >= energy_max/10 then
+					and energy >= energy_max/2 then
 
 						--set status as randy
 						--find nearby prospect and try to mate
@@ -297,7 +299,9 @@ local function brain_male(self)
 						if mate then
 							--go get her!
 							mobkit.make_sound(self,'mating')
-							animals.hq_mate(self, 25, mate)
+							if random() < 0.5 then
+								animals.hq_mate(self, 25, mate)
+							end
 						end
 
 					else
@@ -312,7 +316,7 @@ local function brain_male(self)
 				if random()< 0.75 then
 					--scratch dirt
 					if animals.eat_spreading_under(pos, 0.001) == true then
-						energy = energy + 15
+						energy = energy + 6
 					else
 						--wander random
 						mobkit.animate(self,'walk')
@@ -379,8 +383,19 @@ minetest.register_node("animals:pegasun_eggs", {
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		if random() < 0.02 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,2))})
+		end
+
+		--parasites
+		if random() < 0.005 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 8, -4, 0)
+		return HEALTH.use_item(itemstack, user, 0, 0, 10, 0, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
@@ -419,7 +434,7 @@ minetest.register_entity("animals:pegasun_male",{
 	timeout = 0,
 
 	--damage
-	max_hp = 120,
+	max_hp = 45,
 	lung_capacity = 25,
 	min_temp = -20,
 	max_temp = 45,
@@ -535,7 +550,7 @@ minetest.register_entity("animals:pegasun",{
 	timeout = 0,
 
 	--damage
-	max_hp = 100,
+	max_hp = 40,
 	lung_capacity = 20,
 	min_temp = -20,
 	max_temp = 45,

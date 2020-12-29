@@ -7,10 +7,16 @@
 ----------------------------------------------------------------
 --freeze water
 local function water_freeze(pos, node)
+	local n_name = node.name
+
+	--don't freeze flows, allows infinite ice generators
+	if string.match(n_name, "flowing") then
+		return
+	end
 
 	if climate.can_freeze(pos) then
 
-		local water_type = minetest.get_item_group(node.name, "water")
+		local water_type = minetest.get_item_group(n_name, "water")
 		if water_type == 1 then
 			minetest.set_node(pos, {name = "nodes_nature:ice"})
 		elseif water_type == 2 then
@@ -71,8 +77,12 @@ local function thaw_frozen(pos, node)
 
 		local name = node.name
 
-		if name == "nodes_nature:ice" or name == "nodes_nature:snow_block" then
+		if name == "nodes_nature:ice" then
 			minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+			minetest.check_for_falling(p)
+
+		elseif name == "nodes_nature:snow_block" then
+			minetest.set_node(p, {name = "nodes_nature:freshwater_flowing"})
 			minetest.check_for_falling(p)
 
 		elseif name == "nodes_nature:snow" then
@@ -182,6 +192,7 @@ local function puddle_detect(pos)
 		local s_name = minetest.get_node(v).name
 		if minetest.get_item_group(s_name, "wet_sediment") == 0
 		and minetest.get_item_group(s_name, "soft_stone") == 0
+		and minetest.get_item_group(s_name, "masonry") == 0
 		and minetest.get_item_group(s_name, "stone") == 0  then
 			puddle = false
 			break
@@ -514,6 +525,14 @@ local function fall_water(pos,node)
 	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local under_name = minetest.get_node(pos_under).name
 
+	if under_name == "nodes_nature:freshwater_flowing" and under_name ~= "nodes_nature:salt_water_flowing" then
+		minetest.remove_node(pos)
+		minetest.set_node(pos_under, {name = node.name})
+		return
+	end
+
+	--[[
+
 	if minetest.get_item_group(under_name, "water") > 0 or under_name == "air"  then
 
 		--don't collapse sources
@@ -523,14 +542,15 @@ local function fall_water(pos,node)
 			return
 		end
 	end
+	]]
 
 end
 
 minetest.register_abm({
 	label = "Water Fall",
 	nodenames = {"nodes_nature:freshwater_source", "nodes_nature:salt_water_source"},
-	interval = 190,
-	chance = 10,
+	interval = 41,
+	chance = 5,
 	action = function(...)
 		fall_water(...)
 	end

@@ -97,16 +97,16 @@ crafting.register_recipe({
 --------------------
 crafting.register_recipe({
 	type = "carpentry_bench",
-	output = "doors:door_wooden 4",
-	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
+	output = "doors:door_wooden",
+	items = {'tech:iron_fittings 2', 'group:log 2', 'tech:vegetable_oil'},
 	level = 1,
 	always_known = true,
 })
 
 crafting.register_recipe({
 	type = "carpentry_bench",
-	output = "tech:trapdoor_wooden 8",
-	items = {'tech:iron_ingot 1', 'group:log 4', 'tech:vegetable_oil'},
+	output = "tech:trapdoor_wooden",
+	items = {'tech:iron_fittings', 'group:log', 'tech:vegetable_oil'},
 	level = 1,
 	always_known = true,
 })

@@ -6,11 +6,12 @@ predator fish
 ---------------------------------------------------------------------
 
 local random = math.random
+local floor = math.floor
 
 --energy
 local energy_max = 14000--secs it can survive without food
 local energy_egg = energy_max/8 --energy that goes to egg
-local egg_timer  = 60*30
+local egg_timer  = 60*45
 local young_per_egg = 2		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 8
@@ -76,10 +77,14 @@ local function brain(self)
 			--reproduction
 			--asexual parthogenesis, eggs
 			--when in prime condition
+			--in dark
+			local light = minetest.get_node_light(pos, 0.5) or 0
+
 			if random() < 0.01
 			and not rival
+			and light < 10
 			and self.hp >= self.max_hp
-			and energy >= energy_egg *2 then
+			and energy >= energy_max then
 				energy = animals.place_egg(pos, "animals:sarkamos_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
@@ -119,8 +124,19 @@ minetest.register_node("animals:sarkamos_eggs", {
 	groups = {snappy = 3},
 	sounds = nodes_nature.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
+
+		--food poisoning
+		if random() < 0.3 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
+		end
+
+		--parasites
+		if random() < 0.05 then
+			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
+		end
+
 		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 12, 120, -60, 0)
+		return HEALTH.use_item(itemstack, user, 0, 10, 40, 0, 0)
 	end,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))

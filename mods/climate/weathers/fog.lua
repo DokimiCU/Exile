@@ -68,8 +68,8 @@ fog.chain = {
 	--name, p_froz, p_cold, p_mid , p_hot
 	{'overcast_light_rain', 0, 0.01, 0.01, 0.05},
 	{'overcast_light_snow', 0.05, 0, 0, 0},
-	{'overcast', 0.02, 0.02, 0.02, 0.02},
-
+	{'overcast', 0.02, 0.02, 0.02, 0.05},
+	{'clear', 0, 0, 0.01, 0.05}
 
 }
 
