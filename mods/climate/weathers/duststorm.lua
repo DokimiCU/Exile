@@ -71,7 +71,7 @@ duststorm.damage = true
 --probabilities in each temp class
 duststorm.chain = {
 	--name, p_froz, p_cold, p_mid , p_hot
-	{'haze', 1, 0.75, 0.5, 0.25}
+	{'haze', 1, 1, 0.8, 0.2}
 
 }
 
@@ -83,7 +83,7 @@ duststorm.particle_function = function()
 	local accxz = math.random(-3,2)
 	local accy = math.random(-2, 2)
 	local ext = 10
-	local size = 35
+	local size = 20
 	local tex = "duststorm.png"
 
 	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size, tex)

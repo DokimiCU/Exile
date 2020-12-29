@@ -128,4 +128,5 @@ Thanks also to all who have given feedback, fixes etc.
 - puts_out_fire group (e.g. mud now puts out fire), masonry group
 - walkthrough doc
 - loose wattle
+- mashed anperla
 - misc minor fixes and balancing

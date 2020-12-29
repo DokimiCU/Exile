@@ -386,7 +386,7 @@ if minetest.settings:get_bool("enable_damage") then
 						end
 
             --dust fever
-            if random() < 0.008 then
+            if random() < 0.02 then
               if climate.active_weather.name == 'duststorm' then
                 HEALTH.add_new_effect(player, {"Dust Fever", 1})
               end

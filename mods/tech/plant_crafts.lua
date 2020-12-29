@@ -302,8 +302,53 @@ minetest.register_node("tech:cooked_anperal_tuber", {
 })
 
 
+--mash (a way to bulk cook tubers - 6 at once)
+minetest.register_node("tech:mashed_anperal", {
+	description = "Mashed Anperla (uncooked)",
+	tiles = {"tech_flour.png"},
+	stack_max = minimal.stack_max_medium/6,
+  paramtype = "light",
+  --sunlight_propagates = true,
+	drawtype = "nodebox",
+  node_box = {
+    type = "fixed",
+    fixed = {-6/16, -0.5, -6/16, 6/16, 1/16, 6/16},
+  },
+	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 68},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+  on_construct = function(pos)
+    --length(i.e. difficulty), interval for checks (speed)
+    set_bake_bread(pos, 35, 6)
+  end,
+  on_timer = function(pos, elapsed)
+    --self, finished product, length, heat
+    return bake_bread(pos, "tech:mashed_anperal", "tech:mashed_anperal_cooked", 35, 100)
+  end,
+})
 
+minetest.register_node("tech:mashed_anperal_cooked", {
+	description = "Mashed Anperla",
+	tiles = {"tech_flour_bitter.png"},
+	stack_max = minimal.stack_max_medium/3,
+  paramtype = "light",
+  --sunlight_propagates = true,
+	drawtype = "nodebox",
+  node_box = {
+    type = "fixed",
+    fixed = {-5/16, -0.5, -5/16, 5/16, -1/16, 5/16},
+  },
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+  on_use = function(itemstack, user, pointed_thing)
+    --food poisoning
+		if random() < 0.002 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
 
+    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+    return HEALTH.use_item(itemstack, user, 0, 24, 144, 84, 0)
+  end,
+})
 
 ------------------------------------------
 --Vegetable Oils
@@ -352,6 +397,14 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:peeled_anperal_tuber",
+	items = {"nodes_nature:anperla_seed"},
+	level = 1,
+	always_known = true,
+})
+
 
 crafting.register_recipe({
 	type = "mortar_and_pestle",
@@ -361,7 +414,14 @@ crafting.register_recipe({
 	always_known = true,
 })
 
-
+--mash
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:mashed_anperal",
+	items = {"tech:peeled_anperal_tuber 6"},
+	level = 1,
+	always_known = true,
+})
 
 --
 --mortar and pestle

@@ -58,6 +58,7 @@ crafting.register_recipe({
 --Floor boards
 --good flooring for large multi-story buildings
 
+
 minetest.register_node("tech:wooden_floor_boards", {
  description = "Wooden Floor Boards",
  drawtype = "nodebox",
@@ -80,7 +81,6 @@ minetest.register_node("tech:wooden_floor_boards", {
  stack_max = minimal.stack_max_medium,
  paramtype = "light",
  paramtype2 = "facedir",
- sunlight_propagates = true,
  groups = {choppy=2, flammable=1},
  sounds = nodes_nature.node_sound_wood_defaults(),
 

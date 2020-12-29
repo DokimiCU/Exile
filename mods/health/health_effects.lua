@@ -1065,82 +1065,57 @@ A slight bit of a techno-vampire vibe
 
 function HEALTH.meta_stim(order, player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
 	local max_metastim = meta:get_int("max_metastim") or 0
-	--APPLY SYMPTOMS
-	if order == 1 then
-		if max_metastim < 1 then
-			max_metastim = 1
-			meta:set_int("max_metastim", max_metastim)
-		end
-
-		--Get boosters
-		h_rate = h_rate + 8
-		r_rate = r_rate + 32
-		hun_rate = hun_rate + 5
-		t_rate = t_rate + 5
-
-		--develop reaction to light
-		HEALTH.add_new_effect(player, {"Photosensitivity", 1})
 
 
-	elseif order == 2 then
-		if max_metastim < 2 then
-			max_metastim = 2
-			meta:set_int("max_metastim", max_metastim)
-		end
-
-		--Get boosters
-		h_rate = h_rate + 16
-		r_rate = r_rate + 64
-		hun_rate = hun_rate + 10
-		t_rate = t_rate + 10
-
-		--cures mild ailments
-		HEALTH.remove_new_effect(player, {"Food Poisoning", 1})
-		HEALTH.remove_new_effect(player, {"Hangover", 1})
-		HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
-
-		--develop reaction to light
-		HEALTH.add_new_effect(player, {"Photosensitivity", 2})
+	--only applies effect if not in bright light
+	local pos = player:get_pos()
+	pos.y = pos.y + 0.8
+	local light = minetest.get_node_light(pos) or 0
+	if light <= 14 then
 
 
-	elseif order == 3 then
-		if max_metastim < 3 then
-			max_metastim = 3
-			meta:set_int("max_metastim", max_metastim)
-		end
+		--APPLY SYMPTOMS
+		if order == 1 then
+			if max_metastim < 1 then
+				max_metastim = 1
+				meta:set_int("max_metastim", max_metastim)
+			end
 
-		--Get boosters
-		h_rate = h_rate + 32
-		r_rate = r_rate + 128
-		hun_rate = hun_rate + 20
-		t_rate = t_rate + 20
-
-		--cures serious ailments
-		HEALTH.remove_new_effect(player, {"Food Poisoning", 4})
-		HEALTH.remove_new_effect(player, {"Drunk", 4})
-		HEALTH.remove_new_effect(player, {"Hangover", 4})
-		HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
-		HEALTH.remove_new_effect(player, {"Tiku High", 4})
-		HEALTH.remove_new_effect(player, {"Neurotoxicity", 4})
-		HEALTH.remove_new_effect(player, {"Hepatotoxicity", 4})
-
-		--develop reaction to light
-		HEALTH.add_new_effect(player, {"Photosensitivity", 3})
+			--Get boosters
+			h_rate = h_rate + 8
+			r_rate = r_rate + 32
+			hun_rate = hun_rate + 5
+			t_rate = t_rate + 5
 
 
-	elseif order == 4 then
-		if max_metastim < 4 then
-			max_metastim = 4
-			meta:set_int("max_metastim", max_metastim)
-		end
+		elseif order == 2 then
+			if max_metastim < 2 then
+				max_metastim = 2
+				meta:set_int("max_metastim", max_metastim)
+			end
 
-		--now badly inhibited by bright light
-		local pos = player:get_pos()
-		pos.y = pos.y + 0.8
-		local light = minetest.get_node_light(pos) or 0
+			--Get boosters
+			h_rate = h_rate + 16
+			r_rate = r_rate + 64
+			hun_rate = hun_rate + 10
+			t_rate = t_rate + 10
 
-		--Get boosters
-		if light <= 14 then
+			--cures mild ailments
+			HEALTH.remove_new_effect(player, {"Food Poisoning", 2})
+			HEALTH.remove_new_effect(player, {"Dust Fever", 2})
+			HEALTH.remove_new_effect(player, {"Fungal Infection", 2})
+			HEALTH.remove_new_effect(player, {"Hangover", 2})
+			HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
+
+
+
+		elseif order == 3 then
+			if max_metastim < 3 then
+				max_metastim = 3
+				meta:set_int("max_metastim", max_metastim)
+			end
+
+			--Get boosters
 			h_rate = h_rate + 32
 			r_rate = r_rate + 128
 			hun_rate = hun_rate + 20
@@ -1148,46 +1123,92 @@ function HEALTH.meta_stim(order, player, meta, effects_list, h_rate, r_rate, hun
 
 			--cures serious ailments
 			HEALTH.remove_new_effect(player, {"Food Poisoning", 4})
+			HEALTH.remove_new_effect(player, {"Dust Fever", 4})
+			HEALTH.remove_new_effect(player, {"Fungal Infection", 4})
 			HEALTH.remove_new_effect(player, {"Drunk", 4})
 			HEALTH.remove_new_effect(player, {"Hangover", 4})
 			HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
 			HEALTH.remove_new_effect(player, {"Tiku High", 4})
 			HEALTH.remove_new_effect(player, {"Neurotoxicity", 4})
 			HEALTH.remove_new_effect(player, {"Hepatotoxicity", 4})
+
+
+		elseif order == 4 then
+			if max_metastim < 4 then
+				max_metastim = 4
+				meta:set_int("max_metastim", max_metastim)
+			end
+
+
+			--Get boosters
+			h_rate = h_rate + 32
+			r_rate = r_rate + 128
+			hun_rate = hun_rate + 20
+			t_rate = t_rate + 20
+
+			--cures serious ailments
+			HEALTH.remove_new_effect(player, {"Food Poisoning", 4})
+			HEALTH.remove_new_effect(player, {"Dust Fever", 4})
+			HEALTH.remove_new_effect(player, {"Fungal Infection", 4})
+			HEALTH.remove_new_effect(player, {"Drunk", 4})
+			HEALTH.remove_new_effect(player, {"Hangover", 4})
+			HEALTH.remove_new_effect(player, {"Intestinal Parasites"})
+			HEALTH.remove_new_effect(player, {"Tiku High", 4})
+			HEALTH.remove_new_effect(player, {"Neurotoxicity", 4})
+			HEALTH.remove_new_effect(player, {"Hepatotoxicity", 4})
+
+
+			--Achieve God like powers
+			if pos.y < 200 then
+				player_monoids.fly:add_change(player, true, "health:metastim")
+				player_monoids.gravity:add_change(player, 0.1, "health:metastim")
+				--player_monoids.noclip:add_change(player, true, "health:metastim") --does weird stuff with stagger?
+			else
+				--no flying into space!
+				player_monoids.fly:del_change(player, "health:metastim")
+				player_monoids.gravity:del_change(player, "health:metastim")
+			end
+
+			--I am a GOD!
+			minetest.sound_play( {name="health_superpower", gain=1}, {pos=pos, max_hear_distance=20})
+			minetest.add_particlespawner({
+				amount = 80,
+				time = 18,
+				minpos = {x=pos.x+7, y=pos.y+7, z=pos.z+7},
+				maxpos = {x=pos.x-7, y=pos.y-7, z=pos.z-7},
+				minvel = {x = -5,  y = -5,  z = -5},
+				maxvel = {x = 5, y = 5, z = 5},
+				minacc = {x = -3, y = -3, z = -3},
+				maxacc = {x = 3, y = 3, z = 3},
+				minexptime = 0.2,
+				maxexptime = 1,
+				minsize = 0.5,
+				maxsize = 2,
+				texture = "health_superpower.png",
+				glow = 15,
+			})
+
+
 		end
 
-		--Achieve God like powers
-		if pos.y < 200 and light < 14 then
-			player_monoids.fly:add_change(player, true, "health:metastim")
-			player_monoids.gravity:add_change(player, 0.1, "health:metastim")
-			--player_monoids.noclip:add_change(player, true, "health:metastim") --does weird stuff with stagger?
-		else
-			--no flying into space! or in bright light
-			player_monoids.fly:del_change(player, "health:metastim")
-			player_monoids.gravity:del_change(player, "health:metastim")
+	else
+		--in bright light
+
+		--can't fly
+		player_monoids.fly:del_change(player, "health:metastim")
+		player_monoids.gravity:del_change(player, "health:metastim")
+
+		--get photosensitivity
+		if order == 1 then
+			HEALTH.add_new_effect(player, {"Photosensitivity", 1})
+		elseif order == 2 then
+			HEALTH.add_new_effect(player, {"Photosensitivity", 2})
+		elseif order == 3 then
+			HEALTH.add_new_effect(player, {"Photosensitivity", 3})
+		elseif order == 4 then
+			HEALTH.add_new_effect(player, {"Photosensitivity", 4})
 		end
 
-		--I am a GOD!
-		minetest.sound_play( {name="health_superpower", gain=1}, {pos=pos, max_hear_distance=20})
-		minetest.add_particlespawner({
-			amount = 80,
-			time = 18,
-			minpos = {x=pos.x+7, y=pos.y+7, z=pos.z+7},
-			maxpos = {x=pos.x-7, y=pos.y-7, z=pos.z-7},
-			minvel = {x = -5,  y = -5,  z = -5},
-			maxvel = {x = 5, y = 5, z = 5},
-			minacc = {x = -3, y = -3, z = -3},
-			maxacc = {x = 3, y = 3, z = 3},
-			minexptime = 0.2,
-			maxexptime = 1,
-			minsize = 0.5,
-			maxsize = 2,
-			texture = "health_superpower.png",
-			glow = 15,
-		})
-
-		--develop reaction to light
-		HEALTH.add_new_effect(player, {"Photosensitivity", 4})
 
 
 	end

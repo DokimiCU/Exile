@@ -71,7 +71,7 @@ sun_shower.sound_loop = 'light_rain_loop'
 sun_shower.chain = {
 	--name, p_cold, p_mid , p_hot
 	{'medium_cloud',0.25, 0.25, 0.5, 0.75},
-	{'light_rain', 0, 0.5, 0.5, 0.5},
+	{'light_rain', 0, 0.5, 0.5, 0.05},
 	{'snow_flurry', 1, 0, 0, 0}
 
 }

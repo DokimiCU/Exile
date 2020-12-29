@@ -12,7 +12,6 @@ This also lists various ideas, planned, and possible features.
 -------------------------------------------------------------------
 Urgent Fixes needed:
 
-
 Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
@@ -32,6 +31,8 @@ Animals:
 -mobs_chicken_white.png is being called by something (the chicken model itself? Isn't in the code anywhere...)
 -stability of animal populations over time unknown
 -some animals can be a bit too unintelligent (e.g. hunting)
+-predators don't do well (perhaps swap out for generalists)
+-letting cave animals spawn on cave sediments also puts them on the beaches.
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
@@ -114,7 +115,7 @@ Features ideas:
 -Easy start option (start with axe, bag, clothes, water pot, mattress, food)
 -Once a sophisticated camp has been built it is too easy to just stay there and
 live the good life. Needs something to be able to go horribly wrong, big enough
-to force a migration, rebuild, temporary escape.
+to force a migration, rebuild, temporary escape. (story teller)
 
 --INTERFACE
 -remove inventory trash when not creative?

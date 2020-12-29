@@ -763,6 +763,14 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:large_wood_fire_unlit 2",
+	items = {"group:log", "group:fibrous_plant 4"},
+	level = 1,
+	always_known = true,
+})
+
 
 --
 --Hand crafts (Mixing spot)

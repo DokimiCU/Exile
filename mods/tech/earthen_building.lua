@@ -174,7 +174,7 @@ minetest.register_node('tech:wattle_loose', {
 	inventory_image = "tech_wattle_loose.png",
 	wield_image = "tech_wattle_loose.png",
 	stack_max = minimal.stack_max_bulky * 3,
-	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_wood_defaults(),
 })
 

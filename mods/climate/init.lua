@@ -64,7 +64,7 @@ dofile(modpath .. "/weathers/fog.lua")
 
 
 --setting...for random intervals
-local base_interval = 60
+local base_interval = 90
 local base_int_range = 30
 
 --temp classes for probabilities
