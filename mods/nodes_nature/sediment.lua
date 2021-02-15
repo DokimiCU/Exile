@@ -363,11 +363,14 @@ local function erode_deplete_ag_soil(pos, depleted_name)
 	local c = math.random()
 	--rain makes this more likely (erosive, washes nutrient out)
 	if climate.get_rain(pos) then
-		c = c + 0.25
+		c = c - 0.25
 	end
 
+	if c > 0.05 then
+	   return true
+	end
 	--chance
-	if c < 0.05 then
+	if c > 0.01 then
 		--erode if exposed, and near water or raining
 		local positions = minetest.find_nodes_in_area(
 			{x = pos.x - 1, y = pos.y, z = pos.z - 1},
@@ -380,12 +383,11 @@ local function erode_deplete_ag_soil(pos, depleted_name)
 			return false
 		end
 
-	elseif c < 0.01 then
+	elseif minetest.get_node({x=pos.x, y=(pos.y+1), z=pos.z}) == 'air' then
+	        -- ^ don't deplete a planted node; already handled in life.lua
 		--depleted via neglect
 		minetest.set_node(pos, {name = depleted_name})
 		return false
-	else
-		return true
 	end
 end
 
