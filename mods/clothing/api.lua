@@ -56,7 +56,29 @@ clothing.run_callbacks = function(self, callback, player, index, stack)
 end
 
 clothing.set_player_clothing = function(self, player)
-	if not player then
+-- set clothing and update comfortable temperature range
+--[[
+clothing temp_min: subtracted from minimum temperature tolerance
+clothing temp_max: added to maximum temperature tolerance
+
+e.g. if current comfort range is 21 to 35 then...
+temp_min: 6
+temp_max: -8
+new range = 15 to 28 (e.g. you put on a warm coat)
+
+note: ranges are
+-comfort zone: no energy drain
+-stress zone: some energy drain
+-danger zone: large energy drain
+-extreme zone: direct damage
+
+]]
+
+-- default range, no clothes yet
+local temp_min = 20
+local temp_max = 30
+
+   if not player then
 		return
 	end
 	local name = player:get_player_name()
@@ -81,8 +103,14 @@ clothing.set_player_clothing = function(self, player)
 					table.insert(layer.cape, def.uv_image)
 				end
 			end
+			-- set comfortable temperature range
+			temp_min = temp_min - def.temp_min
+			temp_max = temp_max + def.temp_max
 		end
 	end
+	-- apply new temperature comfort range
+	meta:set_int("clothing_temp_min", temp_min)
+	meta:set_int("clothing_temp_max", temp_max )
 	local clothing_out = table.concat(layer.clothing, "^")
 	local cape_out = table.concat(layer.cape, "^")
 	if clothing_out == "" then
@@ -111,37 +139,8 @@ end)
 
 ------------------------------------------------------
 --default calls for equipping
---[[
-temp_min: subtracted from minimum temperature tolerance
-temp_max: added to maximum temperature tolerance
-
-e.g. if current comfort range is 21 to 35 then...
-temp_min: 6
-temp_max: -8
-new range = 15 to 28 (e.g. you put on a warm coat)
-
-note: ranges are
--comfort zone: no energy drain
--stress zone: some energy drain
--danger zone: large energy drain
--extreme zone: direct damage
-
-]]
 
 clothing.default_equip = function(player, index, stack)
-
-	--get current range then include this item's effect
-	local meta = player:get_meta()
-	local cur_tmin = meta:get_int("clothing_temp_min")
-	local cur_tmax = meta:get_int("clothing_temp_max")
-
-	local def = stack:get_definition()
-	local temp_min = def.temp_min
-	local temp_max = def.temp_max
-
-	--max adds, min subtracts
-	meta:set_int("clothing_temp_min", cur_tmin - temp_min)
-	meta:set_int("clothing_temp_max", cur_tmax + temp_max )
 
 	--sound effect
 	--minetest.sound_play("health_eat", {pos = pos, gain = 0.5, max_hear_distance = 2}
@@ -154,19 +153,6 @@ end
 
 
 clothing.default_unequip = function(player, index, stack)
-	--get current range then undo this item's effect
-	local meta = player:get_meta()
-	local cur_tmin = meta:get_int("clothing_temp_min")
-	local cur_tmax = meta:get_int("clothing_temp_max")
-
-	local def = stack:get_definition()
-	local temp_min = def.temp_min
-	local temp_max = def.temp_max
-
-	--max is subtracted, min is added back on
-	meta:set_int("clothing_temp_min", cur_tmin + temp_min)
-	meta:set_int("clothing_temp_max", cur_tmax - temp_max )
-
 	--sound effect
 	--minetest.sound_play("health_eat", {pos = pos, gain = 0.5, max_hear_distance = 2}
 
