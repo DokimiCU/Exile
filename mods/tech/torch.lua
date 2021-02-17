@@ -115,11 +115,6 @@ local function on_throw(itemstack, dropper, pos)
 		     y = vectors.y * velocity,
 		     z = vectors.z * velocity})
    obj:set_acceleration({ x = vectors.x * -5, y = -10, z = vectors.z * -5})
-   local pname = dropper:get_player_name()
-   if not minetest.check_player_privs(pname, {creative = true}) then
-      itemstack:take_item()
-      return itemstack
-   end
 end
 
 
@@ -207,6 +202,11 @@ minetest.register_node("tech:torch", {
 	drop = "tech:torch",
 	on_drop = function(itemstack, dropper, pos)
 	   on_throw(itemstack, dropper, pos)
+	   local pname = dropper:get_player_name()
+	   if not minetest.check_player_privs(pname, {creative = true}) then
+	      itemstack:take_item()
+	      return itemstack
+	   end
 	end,
 	selection_box = {
 		type = "wallmounted",
