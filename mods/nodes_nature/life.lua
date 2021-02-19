@@ -66,17 +66,23 @@ local function seed_soil_response(pos)
 	if sediment == 1 then
 		--loam is best
 		timer_min = timer_min - (timer_min * 0.15)
+	elseif sediment == 3 then 
+		--silt is nearly as good as loam
+		timer_min = timer_min - (timer_min * 0.20)
+	elseif sediment == 4 then 
+		--clay is poor, needs to be broken up; i.e. into ag_soil
+		timer_min = timer_min - (timer_min * 0.50)
 	elseif sediment == 4 or sediment == 5 then
 		--sand and gravel are terrible
-		timer_min = timer_min + (timer_min * 0.5)
+		timer_min = timer_min + (timer_min * 0.80)
 	end
 
 	if ag_soil == 1 then
 		--cultivation boom
-		timer_min = timer_min - (timer_min * 0.4)
+		timer_min = timer_min - (timer_min * 0.20)
 	elseif dep_ag_soil == 1 then
 		--lesser cultivation boom
-		timer_min = timer_min - (timer_min * 0.2)
+		timer_min = timer_min - (timer_min * 0.40)
 	end
 
 	local timer_max = timer_min * 1.1
