@@ -868,6 +868,7 @@ minetest.register_node('artifacts:transporter_power', {
 	stack_max = minimal.stack_max_bulky *2,
 	drawtype = "nodebox",
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -902,6 +903,7 @@ minetest.register_node('artifacts:transporter_power_dep', {
 	stack_max = minimal.stack_max_bulky *2,
 	drawtype = "nodebox",
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	node_box = {
 		type = "fixed",
 		fixed = {

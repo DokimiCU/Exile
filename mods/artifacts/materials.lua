@@ -14,10 +14,10 @@ minetest.register_node("artifacts:moon_glass", {
 	description = "Moon Glass",
 	drawtype = "glasslike",
 	tiles = {"artifacts_moon_glass.png"},
-  stack_max = minimal.stack_max_bulky *4,
-  light_source = 5,
+	stack_max = minimal.stack_max_bulky *4,
+	light_source = 5,
 	paramtype = "light",
-  use_texture_alpha = true,
+	use_texture_alpha = "clip",
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
 })
@@ -29,7 +29,7 @@ minetest.register_node("artifacts:moon_glass", {
 minetest.register_node("artifacts:sun_stone", {
 	description = "Sun Stone",
 	tiles = {"artifacts_sun_stone.png"},
-  stack_max = 1,
+	stack_max = 1,
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -46,14 +46,14 @@ minetest.register_node("artifacts:sun_stone", {
 			{-0.3125, -0.5, -0.3125, -0.25, -0.4375, -0.25}, -- NodeBox11
 		}
 	},
-  light_source = 13,
+	light_source = 13,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	is_ground_content = false,
 	sunlight_propagates = true,
-  use_texture_alpha = true,
-  temp_effect = 4,
-  temp_effect_max = 40,
+	use_texture_alpha = "clip",
+	temp_effect = 4,
+	temp_effect_max = 40,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 3, oddly_breakable_by_hand = 3, attached_node = 1, temp_effect = 1, temp_pass = 1},
 })
@@ -130,6 +130,7 @@ minetest.register_node("artifacts:star_stone", {
   light_source = 3,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},

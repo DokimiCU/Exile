@@ -120,6 +120,7 @@ minetest.register_node("tech:wooden_chest", {
 			"tech_wooden_chest_front.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	use_texture_alpha = "clip",
 	stack_max = minimal.stack_max_bulky,
 	drawtype = "nodebox",
 	node_box = {
