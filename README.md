@@ -1,5 +1,5 @@
 # Exile
-Version 0.2.2
+Version 0.3.0
 
 by Dokimi
 
@@ -131,13 +131,15 @@ Thanks also to all who have given feedback, fixes etc.
 - mashed anperla
 - misc minor fixes and balancing
 
-# 0.3.0
+# 0.2.3
 - new dependency: naturalslopeslib
 - ability to throw torches for light
 - settings for breaktaker
 - ability to display temperature in Celsius, Fahrenheit, or Kelvin
 - food burns instead of vanishing, thanks to ts
--  farming improvements
+- farming improvements
 - fixes for fire and rain
 - many fixes for crashes and bugs
 
+# 0.3.0
+- Initial release for Minetest 5.4.0, use 0.2 line for 5.3.0
