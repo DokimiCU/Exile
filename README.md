@@ -3,7 +3,7 @@ Version 0.3.0
 
 by Dokimi
 
-For Minetest 5.3
+For Minetest 5.4
 
 ### Installation
 Exile should be in games folder like so:
@@ -142,4 +142,4 @@ Thanks also to all who have given feedback, fixes etc.
 - many fixes for crashes and bugs
 
 # 0.3.0
-- Initial release for Minetest 5.4.0, use 0.2 line for 5.3.0
+- Initial release for Minetest 5.4.0, use v0.2 line for 5.3.0
