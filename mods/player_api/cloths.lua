@@ -26,8 +26,10 @@ function player_api.register_cloth(name, def)
 			tooltip = S("Upper")
 		elseif def.groups["cloth"] == 3 then
 			tooltip = S("Lower")
-		else
+		elseif def.groups["cloth"] == 4 then
 			tooltip = S("Footwear")
+		elseif def.groups["cloth"] == 5 then
+			tooltip = S("Cape")
 		end
 		tooltip = "(" .. tooltip .. ")"
 		if def.gender == "male" then
