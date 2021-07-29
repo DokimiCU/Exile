@@ -386,8 +386,10 @@ local function erode_deplete_ag_soil(pos, depleted_name)
 			{"group:water", "air"})
 
 		if #positions >= 1 then
-			minetest.remove_node(pos)
-			minetest.check_for_falling(pos)
+			local name = minetest.get_node(pos).name
+			local nonag = name:gsub("%_agricultural_soil","")
+			local new = nonag:gsub("%ture:","%ture:slope_pike_")
+			minetest.set_node(pos, {name = new})
 			return false
 		end
 
