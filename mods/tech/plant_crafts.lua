@@ -154,24 +154,22 @@ local function bake_bread(pos, selfname, name_cooked, name_burned, length, heat)
     --exchange accumulated heat
     climate.heat_transfer(pos, selfname)
 
-	--check if above firing temp
-	local temp = climate.get_point_temp(pos)
-	local fire_temp = heat
-	if temp == nil then
-	   return
-	end
-
-	if baking <= 0 then
-		--finished firing
-		minetest.set_node(pos, {name = name_cooked})
-        minetest.check_for_falling(pos)
-		return false
-  elseif temp < fire_temp then
+    --check if above firing temp
+    local temp = climate.get_point_temp(pos)
+    local fire_temp = heat
+    if temp == nil then
+       return
+    elseif baking <= 0 then
+     --finished firing
+     minetest.set_node(pos, {name = name_cooked})
+     minetest.check_for_falling(pos)
+     return false
+    elseif temp < fire_temp then
     --not lit yet
-    return true
-	elseif temp > fire_temp * 2 then
-		--too hot, burn
-		minetest.set_node(pos, {name = name_burned})
+       return true
+    elseif temp > fire_temp * 2 then
+       --too hot, burn
+       minetest.set_node(pos, {name = name_burned})
     --Smoke
     minetest.sound_play("tech_fire_small",{pos=pos, max_hear_distance = 10, loop=false, gain=0.1})
     minetest.add_particlespawner({
