@@ -200,7 +200,22 @@ function liquid_store.register_stored_liquid(source, nodename, nodename_empty, t
 				end
 
 				minetest.set_node(lpos, {name = source})
-				return ItemStack(nodename_empty)
+
+				-- More sophisticated inventory management.
+				-- If original stack has more than one item, return the others to the player instead of destroying them
+				if itemstack:get_count() > 1 then
+					player_inv = user:get_inventory()
+					if player_inv:room_for_item("main", nodename_empty) then
+						player_inv:add_item("main", nodename_empty)
+					else
+						local player_pos = user:get_pos()
+	   					minetest.add_item(pos, nodename_empty)
+					end
+
+					return ItemStack(itemstack:get_name().." "..(itemstack:get_count() - 1))
+				else
+					return ItemStack(nodename_empty)
+				end
 			end,
 		})
 
