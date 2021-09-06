@@ -22,6 +22,7 @@ crafting.register_type("carpentry_bench")
 crafting.register_type("brick_makers_bench")
 crafting.register_type("spinning_wheel")
 crafting.register_type("loom")
+crafting.register_type("glass_furnace")
 
 -------------------------------------------------
 --Stations
@@ -489,6 +490,30 @@ minetest.register_node("tech:loom", {
 	on_rightclick = crafting.make_on_rightclick("loom", 2, { x = 8, y = 3 }),
 })
 
+--Glassworking Furnace
+--Glassblowing and similar
+minetest.register_node("tech:glass_furnace", {
+	description = "Glass furnace",
+	tiles = {
+		"tech_bricks_and_mortar.png",
+		"tech_bricks_and_mortar.png",
+		"tech_bricks_and_mortar.png",
+		"tech_bricks_and_mortar.png",
+		"tech_bricks_and_mortar.png",
+		"tech_glassfurnace_front.png",
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.47, -0.5, -0.47, 0.47, 0.31, 0.47},
+	},
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {dig_immediate=3, falling_node = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+	on_rightclick = crafting.make_on_rightclick("glass_furnace", 2, { x = 8, y = 3 }),
+})
 
 
 ---------------------------------------
@@ -689,3 +714,21 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+-- Glass furnace from bricks for the main structure and iron for the tools
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:glass_furnace",
+	items = {'tech:iron_ingot', 'tech:loose_brick 3', 'tech:lime_mortar'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:glass_furnace",
+	items = {'tech:iron_ingot', 'tech:loose_brick 3', 'tech:lime_mortar'},
+	level = 1,
+	always_known = true,
+})
+
