@@ -494,3 +494,100 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+-- Stuff made from glass
+
+-- Panes - raw, cast from glass with no framing
+minetest.register_node("tech:pane_green",
+{
+	description = "Green Glass Pane",
+	tiles = {"tech_green_glass.png"},
+	inventory_image = "tech_green_pane_icon.png",
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+	},
+	stack_max = minimal.stack_max_medium * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	use_texture_alpha = true,
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+})
+
+minetest.register_node("tech:pane_clear",
+{
+	description = "Clear Glass Pane",
+	tiles = {"tech_clear_glass.png"},
+	inventory_image = "tech_clear_pane_icon.png",
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+	},
+	stack_max = minimal.stack_max_medium * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	use_texture_alpha = true,
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+})
+
+-- Windows - glass panes with framing
+
+minetest.register_node("tech:window_green",
+{
+	description = "Green Glass Window",
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	inventory_image = "tech_green_glass_window.png^[noalpha",
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}		
+	},
+	stack_max = minimal.stack_max_medium * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	use_texture_alpha = true,
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+})
+
+minetest.register_node("tech:window_clear",
+{
+	description = "Clear Glass Window",
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	inventory_image = "tech_clear_glass_window.png^[noalpha",
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}
+	},
+	stack_max = minimal.stack_max_medium * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	use_texture_alpha = true,
+	sunlight_propagates = true,
+	sounds = nodes_nature.node_sound_glass_defaults(),
+})
+
+-- Windows from oiled wood frames and glass panes
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:window_green 4",
+	items = {'group:log', 'tech:vegetable_oil', 'tech:pane_green 4'},
+	level = 1,
+	always_known = true,
+})
+crafting.register_recipe({
+	type = "carpentry_bench",
+	output = "tech:window_clear 4",
+	items = {'group:log', 'tech:vegetable_oil', 'tech:pane_clear 4'},
+	level = 1,
+	always_known = true,
+})
