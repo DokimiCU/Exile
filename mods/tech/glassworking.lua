@@ -366,3 +366,131 @@ crafting.register_recipe({
 	output = "tech:clear_glass_mix 8",
 	items = {'tech:potash 1', 'tech:quicklime 1', 'nodes_nature:sand 6'},
 	level = 1,
+always_known = true,
+})
+
+-- Pane casting tray - heat up a glass ingot above it to cast a pane
+minetest.register_node("tech:pane_tray",
+{
+	description = "Pane Casting Tray",
+	tiles = {"tech_iron.png"},
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.4, 0.5},
+			{-0.5, -0.4, -0.5, -0.4, -0.3, 0.5},
+			{0.5, -0.4, -0.5, 0.4, -0.3, 0.5},
+			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
+			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
+		}
+		
+	},
+	stack_max = minimal.stack_max_bulky * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	sunlight_propagates = true,
+})
+
+-- Trays with glass panes
+minetest.register_node("tech:pane_tray_green",
+{
+	description = "Pane Casting Tray With Green Glass Pane",
+	tiles = {"tech_tray_green.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.3, 0.5},
+			{-0.5, -0.4, -0.5, -0.4, -0.3, 0.5},
+			{0.5, -0.4, -0.5, 0.4, -0.3, 0.5},
+			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
+			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
+		}
+		
+	},
+	stack_max = minimal.stack_max_bulky * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	sunlight_propagates = true,
+	drop = {
+		max_items = 2,
+		items = {
+			{items = {"tech:pane_tray"}},
+			{items = {"tech:pane_green"}},
+		}
+	}
+
+})
+
+minetest.register_node("tech:pane_tray_clear",
+{
+	description = "Pane Casting Tray With Clear Glass Pane",
+	tiles = {"tech_tray_clear.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
+	drawtype = "nodebox",
+	node_box = 
+	{
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -0.3, 0.5},
+			{-0.5, -0.4, -0.5, -0.4, -0.3, 0.5},
+			{0.5, -0.4, -0.5, 0.4, -0.3, 0.5},
+			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
+			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
+		}
+		
+	},
+	stack_max = minimal.stack_max_bulky * 2,
+	paramtype2 = "facedir",
+	groups = {cracky = 3},
+	sunlight_propagates = true,
+	drop = {
+		max_items = 2,
+		items = {
+			{items = {"tech:pane_tray"}},
+			{items = {"tech:pane_clear"}},
+		}
+	}
+
+})
+
+-- Pane Casting ABM
+local function pane_cast_check(pos, node)
+	
+	local pbelow = {x = pos.x, y = pos.y - 1, z = pos.z}
+	if minetest.get_node(pbelow).name == "tech:pane_tray" and climate.get_point_temp(pos) >= 1800 then -- Melting temperature of glass is approx 1800 C
+		local name = minetest.get_node(pos).name
+  		if name == "tech:green_glass_ingot" then
+  			minetest.set_node(pos, {name = "air"})
+        		minetest.set_node(pbelow, {name = "tech:pane_tray_green"})
+        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
+  		elseif name == "tech:clear_glass_ingot" then
+  			minetest.set_node(pos, {name = "air"})
+        		minetest.set_node(pbelow, {name = "tech:pane_tray_clear"})
+        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
+  		end
+	end
+end
+
+minetest.register_abm(
+{
+	label = "Glass Ingot (Green) melt and cast",
+	nodenames = {"tech:green_glass_ingot", "tech:clear_glass_ingot"},
+	neighbours = {"tech:pane_tray"},
+	interval = 10,
+	chance = 1,
+	action = function(...)
+		pane_cast_check(...)
+	end
+})
+
+-- Crafts
+crafting.register_recipe({
+	type = "anvil",
+	output = "tech:pane_tray",
+	items = {'tech:iron_ingot 2'},
+	level = 1,
+	always_known = true,
+})
