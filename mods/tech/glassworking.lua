@@ -319,3 +319,50 @@ minetest.override_item("tech:clay_water_pot_potash",
 	
 })
 
+-- The actual glassmaking... finally
+
+-- Mix - sand, potash and lime
+minetest.register_node("tech:clear_glass_mix",
+{
+	description = "Clear Glass Sand Mix",
+	tiles = {"tech_sand_mix.png"},
+	stack_max = minimal.stack_max_bulky *4,
+	paramtype = "light",
+	groups = {crumbly = 3, falling_node = 1, heatable = 20},
+	sounds = nodes_nature.node_sound_sand_defaults(),
+  	on_construct = function(pos)
+		--length(i.e. difficulty of firing), interval for checks (speed)
+		set_roast(pos, 40, 10)
+	end,
+	on_timer = function(pos, elapsed)
+		--finished product, length, heat, smelt
+		return roast(pos, "tech:clear_glass_mix", "tech:clear_glass_ingot", 40, 1500)
+	end,
+})
+
+-- Finished Products
+-- Glass ingot - 1/4 block
+minetest.register_node("tech:clear_glass_ingot", {
+	description = "Clear Glass Ingot",
+	tiles = {"tech_clear_glass.png"},
+	inventory_image = "tech_glass_ingot_clear_icon.png",
+  	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.3, -0.5, -0.3, 0.3, -0.1, 0.3},
+	},
+	stack_max = minimal.stack_max_bulky * 4,
+	paramtype = "light",
+	groups = {cracky = 3, falling_node = 1, temp_pass = 1, heatable = 20},
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	use_texture_alpha = true,
+	sunlight_propagates = true,
+})
+
+-- Crafts
+-- Mix sand and potash and lime approx 70/15/15 (1/2 + 1/4 sand, 1/8 pearlash, 1/8 lime )
+crafting.register_recipe({
+	type = "hammering_block",
+	output = "tech:clear_glass_mix 8",
+	items = {'tech:potash 1', 'tech:quicklime 1', 'nodes_nature:sand 6'},
+	level = 1,
