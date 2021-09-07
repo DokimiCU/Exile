@@ -47,7 +47,7 @@ end
 
 
 
-local function roast(pos, selfname, name, length, heat)
+local function roast(pos, selfname, name, heat)
 	local meta = minetest.get_meta(pos)
 	local roast = meta:get_int("roast")
 
@@ -97,7 +97,7 @@ minetest.register_node("tech:green_glass_mix",
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length, heat, smelt
-		return roast(pos, "tech:green_glass_mix", "tech:green_glass_ingot", 40, 1500)
+		return roast(pos, "tech:green_glass_mix", "tech:green_glass_ingot", 1500)
 	end,
 })
 
@@ -336,7 +336,7 @@ minetest.register_node("tech:clear_glass_mix",
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length, heat, smelt
-		return roast(pos, "tech:clear_glass_mix", "tech:clear_glass_ingot", 40, 1500)
+		return roast(pos, "tech:clear_glass_mix", "tech:clear_glass_ingot", 1500)
 	end,
 })
 
