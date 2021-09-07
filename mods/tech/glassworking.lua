@@ -130,5 +130,192 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+-- Clear Glass
 
+-- Potash
+
+minetest.register_node("tech:potash_block", {
+	description = "Potash Block",
+	tiles = {"tech_potash.png"},
+	stack_max = minimal.stack_max_bulky,
+	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+})
+
+
+minetest.register_node("tech:potash", {
+	description = "Potash",
+	tiles = {"tech_potash.png"},
+	stack_max = minimal.stack_max_bulky *2,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+	},
+	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+})
+
+-- Potash solution (More like lye in this case)
+minetest.register_node("tech:potash_source", {
+  	description = "Potash Solution Source",
+  	drawtype = "liquid",
+  	tiles = {"tech_potash.png"},
+  	alpha = 0,
+  	paramtype = "light",
+  	walkable = false,
+  	pointable = false,
+  	diggable = false,
+  	buildable_to = true,
+  	is_ground_content = false,
+  	drop = "",
+  	drowning = 1,
+  	liquidtype = "source",
+  	liquid_alternative_flowing = "tech:potash_flowing",
+  	liquid_alternative_source = "tech:potash_source",
+  	liquid_viscosity = 1,
+	liquid_range = 2,
+	liquid_renewable = false,
+  	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
+  	groups = {water = 2, cools_lava = 1, puts_out_fire = 1},
+  	sounds = nodes_nature.node_sound_water_defaults(),
+  })
+
+
+  minetest.register_node("tech:potash_flowing", {
+  	description = "Flowing Potash Solution",
+  	drawtype = "flowingliquid",
+  	tiles = {"tech_potash.png"},
+  	special_tiles = {"tech_potash.png"},
+  	alpha = alpha,
+  	paramtype = "light",
+  	paramtype2 = "flowingliquid",
+  	walkable = false,
+  	pointable = false,
+  	diggable = false,
+  	buildable_to = true,
+  	is_ground_content = false,
+  	drop = "",
+  	drowning = 1,
+  	liquidtype = "flowing",
+		liquid_range = 2,
+  	liquid_alternative_flowing = "tech:potash_flowing",
+  	liquid_alternative_source = "tech:potash_source",
+  	liquid_viscosity = 1,
+		liquid_renewable = renew,
+  	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
+  	groups = {water = 2, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
+  	sounds = nodes_nature.node_sound_water_defaults(),
+  })
+
+-- Solution in pot
+liquid_store.register_stored_liquid(
+	"tech:potash_source",
+	"tech:clay_water_pot_potash",
+	"tech:clay_water_pot",
+	{
+		"tech_water_pot_water.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png"
+	},
+	{
+		type = "fixed",
+		fixed = {
+			{-0.25, 0.375, -0.25, 0.25, 0.5, 0.25}, -- NodeBox1
+			{-0.375, -0.25, -0.375, 0.375, 0.3125, 0.375}, -- NodeBox2
+			{-0.3125, -0.375, -0.3125, 0.3125, -0.25, 0.3125}, -- NodeBox3
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- NodeBox4
+			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
+		}
+	},
+	"Clay Water Pot with Potash Solution",
+	{dig_immediate = 2})
+
+liquid_store.register_liquid("tech:potash_source", "tech:potash_flowing", false)
+
+-- Soak Ash
+local function potash_soak_check(pos, node)
+
+	local p_water = minetest.find_node_near(pos, 1, {"nodes_nature:freshwater_source"})
+	if p_water then
+		local p_name = minetest.get_node(p_water).name
+		--check water type. Salt wouldn't work probably
+		local water_type = minetest.get_item_group(p_name, "water")
+  		if water_type == 1 then
+  			minetest.set_node(pos, {name = "tech:potash_source"})
+        		minetest.set_node(p_water, {name = "air"})
+        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
+  		elseif water_type == 2 then
+  			return false
+  		end
+	end
+end
+
+minetest.register_abm(
+{
+	label = "Ash Dissolve",
+	nodenames = {"tech:wood_ash_block"},
+	neighbours = {"nodes_nature:freshwater_source"},
+	interval = 15,
+	chance = 1,
+	action = function(...)
+		potash_soak_check(...)
+	end
+})
+
+-- Evaporation result; water is gone, just potash left
+
+minetest.register_node("tech:dry_potash_pot", {
+	description = "Clay Water Pot With Potash",
+	tiles = {
+		"tech_water_pot_empty.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png",
+		"tech_pottery.png"
+	},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25, 0.375, -0.25, 0.25, 0.5, 0.25}, -- NodeBox1
+			{-0.375, -0.25, -0.375, 0.375, 0.3125, 0.375}, -- NodeBox2
+			{-0.3125, -0.375, -0.3125, 0.3125, -0.25, 0.3125}, -- NodeBox3
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- NodeBox4
+			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
+		}
+	},
+	groups = {dig_immediate = 3, pottery = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+	drop = {
+		max_items = 2,
+		items = {
+			{items = {"tech:potash"}},
+			{items = {"tech:clay_water_pot"}},
+		}
+	}
+
+})
+
+
+-- Potash evaporation
+minetest.override_item("tech:clay_water_pot_potash",
+{
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(10,20))
+	end,
+	on_timer = function(pos, elapsed)
+		if climate.get_point_temp(pos) > 100 then
+			minetest.set_node(pos, {name = "tech:dry_potash_pot"})
+		return
+	end
+	end,
+	
+})
 
