@@ -509,7 +509,7 @@ minetest.register_node("tech:pane_green",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
@@ -528,7 +528,7 @@ minetest.register_node("tech:pane_clear",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes	
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
@@ -543,13 +543,13 @@ minetest.register_node("tech:pane_clear",
 minetest.register_node("tech:window_green",
 {
 	description = "Green Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png"},
 	inventory_image = "tech_green_glass_window.png^[noalpha",
 	drawtype = "nodebox",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}		
+		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
@@ -562,13 +562,13 @@ minetest.register_node("tech:window_green",
 minetest.register_node("tech:window_clear",
 {
 	description = "Clear Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png"},
 	inventory_image = "tech_clear_glass_window.png^[noalpha",
 	drawtype = "nodebox",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}
+		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
