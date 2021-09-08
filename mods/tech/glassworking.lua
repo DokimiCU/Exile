@@ -114,7 +114,7 @@ minetest.register_node("tech:green_glass_ingot", {
 	},
 	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
-	groups = {cracky = 3, falling_node = 1, temp_pass = 1, heatable = 20},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, falling_node = 1, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	sunlight_propagates = true,
@@ -214,7 +214,7 @@ liquid_store.register_stored_liquid(
 	"tech:clay_water_pot_potash",
 	"tech:clay_water_pot",
 	{
-		"tech_water_pot_water.png",
+		"tech_water_pot_potash.png",
 		"tech_pottery.png",
 		"tech_pottery.png",
 		"tech_pottery.png",
@@ -313,8 +313,10 @@ minetest.override_item("tech:clay_water_pot_potash",
 	on_timer = function(pos, elapsed)
 		if climate.get_point_temp(pos) > 100 then
 			minetest.set_node(pos, {name = "tech:dry_potash_pot"})
-		return
-	end
+			return false
+		end
+
+		return true
 	end,
 	
 })
