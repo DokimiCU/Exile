@@ -114,7 +114,7 @@ minetest.register_node("tech:green_glass_ingot", {
 	},
 	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
-	groups = {cracky = 3, falling_node = 1, temp_pass = 1, heatable = 20},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, falling_node = 1, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	sunlight_propagates = true,
@@ -214,7 +214,7 @@ liquid_store.register_stored_liquid(
 	"tech:clay_water_pot_potash",
 	"tech:clay_water_pot",
 	{
-		"tech_water_pot_water.png",
+		"tech_water_pot_potash.png",
 		"tech_pottery.png",
 		"tech_pottery.png",
 		"tech_pottery.png",
@@ -313,8 +313,10 @@ minetest.override_item("tech:clay_water_pot_potash",
 	on_timer = function(pos, elapsed)
 		if climate.get_point_temp(pos) > 100 then
 			minetest.set_node(pos, {name = "tech:dry_potash_pot"})
-		return
-	end
+			return false
+		end
+
+		return true
 	end,
 	
 })
@@ -353,7 +355,7 @@ minetest.register_node("tech:clear_glass_ingot", {
 	},
 	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
-	groups = {cracky = 3, falling_node = 1, temp_pass = 1, heatable = 20},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, falling_node = 1, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	sunlight_propagates = true,
@@ -389,7 +391,7 @@ minetest.register_node("tech:pane_tray",
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sunlight_propagates = true,
 })
 
@@ -413,7 +415,7 @@ minetest.register_node("tech:pane_tray_green",
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sunlight_propagates = true,
 	drop = {
 		max_items = 2,
@@ -444,7 +446,7 @@ minetest.register_node("tech:pane_tray_clear",
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sunlight_propagates = true,
 	drop = {
 		max_items = 2,
@@ -507,11 +509,11 @@ minetest.register_node("tech:pane_green",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	use_texture_alpha = true,
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
@@ -526,11 +528,11 @@ minetest.register_node("tech:pane_clear",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.4, 0.05, 0.3, 0.4}		
+		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes	
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	use_texture_alpha = true,
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
@@ -541,17 +543,17 @@ minetest.register_node("tech:pane_clear",
 minetest.register_node("tech:window_green",
 {
 	description = "Green Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png"},
 	inventory_image = "tech_green_glass_window.png^[noalpha",
 	drawtype = "nodebox",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}		
+		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	use_texture_alpha = true,
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
@@ -560,17 +562,17 @@ minetest.register_node("tech:window_green",
 minetest.register_node("tech:window_clear",
 {
 	description = "Clear Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png", "tech_oiled_wood.png", "tech_oiled_wood.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png"},
 	inventory_image = "tech_clear_glass_window.png^[noalpha",
 	drawtype = "nodebox",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {-0.05, -0.5, -0.5, 0.05, 0.5, 0.5}
+		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	use_texture_alpha = true,
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),

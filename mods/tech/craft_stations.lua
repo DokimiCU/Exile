@@ -717,18 +717,9 @@ crafting.register_recipe({
 
 -- Glass furnace from bricks for the main structure and iron for the tools
 crafting.register_recipe({
-	type = "carpentry_bench",
+	type = "brick_makers_bench",
 	output = "tech:glass_furnace",
 	items = {'tech:iron_ingot', 'tech:loose_brick 3', 'tech:lime_mortar'},
 	level = 1,
 	always_known = true,
 })
-
-crafting.register_recipe({
-	type = "chopping_block",
-	output = "tech:glass_furnace",
-	items = {'tech:iron_ingot', 'tech:loose_brick 3', 'tech:lime_mortar'},
-	level = 1,
-	always_known = true,
-})
-
