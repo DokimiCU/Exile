@@ -116,7 +116,7 @@ minetest.register_node("tech:green_glass_ingot", {
 	paramtype = "light",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3, falling_node = 1, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 })
 
@@ -161,7 +161,7 @@ minetest.register_node("tech:potash_source", {
   	description = "Potash Solution Source",
   	drawtype = "liquid",
   	tiles = {"tech_potash.png"},
-  	alpha = 0,
+	use_texture_alpha = "blend",
   	paramtype = "light",
   	walkable = false,
   	pointable = false,
@@ -176,7 +176,7 @@ minetest.register_node("tech:potash_source", {
   	liquid_viscosity = 1,
 	liquid_range = 2,
 	liquid_renewable = false,
-  	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
+	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
   	groups = {water = 2, cools_lava = 1, puts_out_fire = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
@@ -187,7 +187,7 @@ minetest.register_node("tech:potash_source", {
   	drawtype = "flowingliquid",
   	tiles = {"tech_potash.png"},
   	special_tiles = {"tech_potash.png"},
-  	alpha = alpha,
+	use_texture_alpha = "blend",
   	paramtype = "light",
   	paramtype2 = "flowingliquid",
   	walkable = false,
@@ -357,7 +357,7 @@ minetest.register_node("tech:clear_glass_ingot", {
 	paramtype = "light",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3, falling_node = 1, temp_pass = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 })
 
@@ -514,7 +514,7 @@ minetest.register_node("tech:pane_green",
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
@@ -533,7 +533,7 @@ minetest.register_node("tech:pane_clear",
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
@@ -554,7 +554,7 @@ minetest.register_node("tech:window_green",
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
@@ -573,7 +573,7 @@ minetest.register_node("tech:window_clear",
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
@@ -617,7 +617,7 @@ minetest.register_node("tech:glass_bottle_green", {
 	end,
 	groups = {dig_immediate = 2, pottery = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	selection_box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 })
 
@@ -640,7 +640,7 @@ minetest.register_node("tech:glass_bottle_clear", {
 	end,
 	groups = {dig_immediate = 2, pottery = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	selection_box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 
 })
@@ -700,7 +700,7 @@ liquid_store.register_stored_liquid(
 
 minetest.override_item("tech:glass_bottle_green_saltwater",
 {
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	stack_max = minimal.stack_max_bulky * 2,
 	drawtype = "mesh",
@@ -741,7 +741,7 @@ liquid_store.register_stored_liquid(
 
 minetest.override_item("tech:glass_bottle_clear_saltwater",
 {
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	stack_max = minimal.stack_max_bulky * 2,
 	drawtype = "mesh",
@@ -785,7 +785,7 @@ minetest.override_item("tech:glass_bottle_green_freshwater",
 {
 	drawtype = "mesh",
 	mesh = "tech_bottle_liquid.obj",
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	stack_max = minimal.stack_max_bulky * 2,
 	selection_box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
@@ -848,7 +848,7 @@ minetest.override_item("tech:glass_bottle_clear_freshwater",
 {
 	drawtype = "mesh",
 	mesh = "tech_bottle_liquid.obj",
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	stack_max = minimal.stack_max_bulky * 2,
 	selection_box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
