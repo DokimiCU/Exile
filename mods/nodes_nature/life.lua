@@ -49,42 +49,42 @@ local function seed_soil_response(pos)
 		return false
 	end
 
-	local wettness = minetest.get_item_group(node_under, "wet_sediment")
+	local wetness = minetest.get_item_group(node_under, "wet_sediment")
 	local ag_soil = minetest.get_item_group(node_under, "agricultural_soil")
 	local dep_ag_soil = minetest.get_item_group(node_under, "depleted_agricultural_soil")
 
 	local timer_min = base_timer
 
 
-	--apply bonus malus by by soil type and wet
-	if wettness == 1 then
+	--apply bonus or penalty by by soil type and wetness
+	if wetness == 1 then
 		--moisture is good
-		timer_min = timer_min - (timer_min * 0.25)
-	elseif wettness == 2 then
+		timer_min = timer_min * 0.75
+	elseif wetness == 2 then
 		--salt water is very bad
 		timer_min = timer_min * 1000
 	end
 
 	if sediment == 1 then
 		--loam is best
-		timer_min = timer_min - (timer_min * 0.15)
+		timer_min = timer_min * .80
 	elseif sediment == 3 then 
 		--silt is nearly as good as loam
-		timer_min = timer_min - (timer_min * 0.20)
-	elseif sediment == 4 then 
+		timer_min = timer_min * .90
+	elseif sediment == 2 then 
 		--clay is poor, needs to be broken up; i.e. into ag_soil
-		timer_min = timer_min - (timer_min * 0.50)
+		timer_min = timer_min * 1.50
 	elseif sediment == 4 or sediment == 5 then
 		--sand and gravel are terrible
-		timer_min = timer_min + (timer_min * 0.80)
+		timer_min = timer_min * 1.80
 	end
 
 	if ag_soil == 1 then
 		--cultivation boom
-		timer_min = timer_min - (timer_min * 0.20)
+		timer_min = timer_min * 0.60
 	elseif dep_ag_soil == 1 then
 		--lesser cultivation boom
-		timer_min = timer_min - (timer_min * 0.40)
+		timer_min = timer_min * 0.80
 	end
 
 	local timer_max = timer_min * 1.1
