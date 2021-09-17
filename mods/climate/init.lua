@@ -185,78 +185,7 @@ minetest.register_on_joinplayer(function(player)
 
 end)
 
-
---------------------------
--- Main step
---------------------------
-
-local timer = 0
-local timer_p = 0
-
-minetest.register_globalstep(function(dtime)
-
-	--check if anyone is above ground to bother doing this for
-	local ag_c = 0
-	for _,player in ipairs(minetest.get_connected_players()) do
-		local pos = player:get_pos()
-		if pos.y > -12 then
-			ag_c = ag_c + 1
-		else
-			--underground so remove sounds
-			local p_name = player:get_player_name()
-			local sound = sound_handlers[p_name]
-			if sound ~= nil then
-				minetest.sound_stop(sound)
-				sound_handlers[p_name] = nil
-			end
-		end
-	end
-	if ag_c == 0 then
-		--no one will experience any weather!
-		--temperature doesn't get changed by seasons etc
-		return
-	end
-
-
-  timer = timer + dtime
-  timer_p = timer_p + dtime
-
-	--fast weather effects
-  if (climate.active_weather.particle_interval and timer_p > climate.active_weather.particle_interval) then
-    -- do particle effects for current weather
-    climate.active_weather.particle_function()
-	end
-
-	if climate.active_weather.sound_loop or climate.active_weather.sky_color_day then
-
-    --update sky during transitions, and reset sounds
-    for _,player in ipairs(minetest.get_connected_players()) do
-
-			--add missing sounds (e.g. if turned off by going underground)
-			if climate.active_weather.sound_loop  then
-				local p_name = player:get_player_name()
-				local sound = sound_handlers[p_name]
-				if sound == nil  then
-					sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
-				end
-			end
-
-    end
-
-    timer_p = 0
-	end
-
-	--update weather state
-  if timer > active_weather_interval then
-    --timer has expired, switch to a new weather state
-
-    --reset timer and interval
-    timer = 0
-    active_weather_interval = set_active_interval()
-    --save interval
-    --mod_storage:set_float('active_weather_interval', active_weather_interval)
-
-
+local function select_new_active_weather()
     --select a new active_weather from probabilities
     --it will loop through and try to change the weather
     local new_weather_name
@@ -292,67 +221,137 @@ minetest.register_globalstep(function(dtime)
 
       --we need to update the sky and set the new
       climate.active_weather = get_weather_table(new_weather_name, registered_weathers)
+    end
+end	 
+
+local function set_world_temperature()
+    --this is a universal temperature for the whole map
+    --we are treating the whole map as one coherent region, with a single climate
+    --specific player temp adjusted from this (e.g. by altitude)
+    
+    --get day night wave
+    local tod = minetest.get_timeofday()
+    --diff between day and night is this x2
+    local dn_amp = -8
+    local dn_period = 6.283 ---match day length
+    local dn_wav = dn_amp * math.cos(tod * dn_period)
+
+    --get seasonal wave
+    local dc = minetest.get_day_count()
+    --diff +/- from yearly mean (seasonal variation)
+    local dc_amp = 17
+    --~80 day year, 20 day seasons
+    local dc_period = 0.08
+    --yearly average,
+    local dc_mean = 13
+    local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
+    --random walk...an incremental fluctuation that is capped
+    ran_walk = ran_walk + math.random(-2, 2)
+    if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
+       ran_walk = ran_walk/1.04
+    end
+
+    --sum waves plus some random noise
+    climate.active_temp = dc_wav + dn_wav + ran_walk
+
+
+
+    --save state so can be reloaded.
+    --only actually needed on log out,... but that doesn't work
+    store:set_string("weather", climate.active_weather.name)
+    store:set_float("temp", climate.active_temp)
+    store:set_float("ran_walk", ran_walk)
+end
+
+--------------------------
+-- Main step
+--------------------------
+
+local timer = 0
+local timer_p = 0
+local lastrecord
+
+minetest.register_globalstep(function(dtime)
+      timer = timer + dtime
+      --update weather state
+      if timer > active_weather_interval then
+	 --timer has expired, switch to a new weather state
+	 --print(" Updating weather at "..minetest.get_gametime())
+	 --reset timer and interval
+	 timer = 0
+	 active_weather_interval = set_active_interval()
+	 --save interval
+	 --mod_storage:set_float('active_weather_interval', active_weather_interval)
+	 set_world_temperature()
+	 select_new_active_weather()
+	 
+      end
+      --check if anyone is above ground to bother doing effects for
+      local ag_c = 0
+      for _,player in ipairs(minetest.get_connected_players()) do
+	 local pos = player:get_pos()
+	 if pos.y > -12 then
+	    ag_c = ag_c + 1
+	 else
+	    --underground so remove sounds
+	    local p_name = player:get_player_name()
+	    local sound = sound_handlers[p_name]
+	    if sound ~= nil then
+	       minetest.sound_fade(sound, 1, 0)
+	       sound_handlers[p_name] = nil
+	    end
+	 end
+      end
+
+      
+      if ag_c == 0 then
+	 --no one will experience any weather!
+	 return
+      end
+
+      --fast weather effects
+      timer_p = timer_p + dtime
+      if (climate.active_weather.particle_interval and timer_p > climate.active_weather.particle_interval) then
+	 -- do particle effects for current weather
+	 climate.active_weather.particle_function()
+      end
+
+      if climate.active_weather.sound_loop or climate.active_weather.sky_color_day then
+
+	 --update sky during transitions, and reset sounds
+	 for _,player in ipairs(minetest.get_connected_players()) do
+
+	    --add missing sounds (e.g. if turned off by going underground)
+	    if climate.active_weather.sound_loop  then
+	       local p_name = player:get_player_name()
+	       local sound = sound_handlers[p_name]
+	       if sound == nil  then
+		  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+	       end
+	    end
+
+	 end
+
+	 timer_p = 0
+      end
 
       --do for each player
       for _,player in ipairs(minetest.get_connected_players()) do
-        --set sky and clouds for new state using the new active_weather
-        set_sky_clouds(player)
+	 --set sky and clouds for new state using the new active_weather
+	 set_sky_clouds(player)
 
-        --remove old sounds
-        local p_name = player:get_player_name()
-        local sound = sound_handlers[p_name]
-      	if sound ~= nil then
-      		minetest.sound_stop(sound)
-      		sound_handlers[p_name] = nil
-      	end
-        --add new loop
-        if climate.active_weather.sound_loop then
-          sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
-        end
-
+	 --remove old sounds
+	 local p_name = player:get_player_name()
+	 local sound = sound_handlers[p_name]
+	 if sound ~= nil then
+	    minetest.sound_stop(sound)
+	    sound_handlers[p_name] = nil
+	 end
+	 --add new loop
+	 if climate.active_weather.sound_loop then
+	    sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+	 end
       end
-
-    end
-
-
-		--this is a universal temperature for the whole map
-		--we are treating the whole map as one coherent region, with a single climate
-		--specific player temp adjusted from this (e.g. by altitude)
-
-		--get day night wave
-		local tod = minetest.get_timeofday()
-		--diff between day and night is this x2
-		local dn_amp = -8
-		local dn_period = 6.283 ---match day length
-		local dn_wav = dn_amp * math.cos(tod * dn_period)
-
-		--get seasonal wave
-		local dc = minetest.get_day_count()
-		--diff +/- from yearly mean (seasonal variation)
-		local dc_amp = 17
-		--~80 day year, 20 day seasons
-		local dc_period = 0.08
-		--yearly average,
-		local dc_mean = 13
-		local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
-		--random walk...an incremental fluctuation that is capped
-		ran_walk = ran_walk + math.random(-2, 2)
-		if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
-			ran_walk = ran_walk/1.04
-		end
-
-		--sum waves plus some random noise
-		climate.active_temp = dc_wav + dn_wav + ran_walk
-
-
-
-		--save state so can be reloaded.
-		--only actually needed on log out,... but that doesn't work
-		store:set_string("weather", climate.active_weather.name)
-		store:set_float("temp", climate.active_temp)
-		store:set_float("ran_walk", ran_walk)
-
-	end
 end)
 
 
