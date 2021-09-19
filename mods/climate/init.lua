@@ -38,6 +38,7 @@ end
 
 dofile(modpath .. "/particles.lua")
 dofile(modpath .. "/temperature.lua")
+dofile(modpath .. "/history.lua")
 --weathers
 dofile(modpath .. "/weathers/clear.lua")
 dofile(modpath .. "/weathers/light_cloud.lua")
@@ -174,6 +175,12 @@ minetest.register_on_joinplayer(function(player)
 			ran_walk = ranw
 		end
 
+		--load climate_history
+		local ch = store:get_string("climate_history")
+		if ch ~= nil then
+		        load_climate_history(ch)
+		end
+
 	end
 
 	--set weather effects for this player
@@ -254,8 +261,6 @@ local function set_world_temperature()
     --sum waves plus some random noise
     climate.active_temp = dc_wav + dn_wav + ran_walk
 
-
-
     --save state so can be reloaded.
     --only actually needed on log out,... but that doesn't work
     store:set_string("weather", climate.active_weather.name)
@@ -269,10 +274,12 @@ end
 
 local timer = 0
 local timer_p = 0
+local timer_r = 0
 local lastrecord
 
 minetest.register_globalstep(function(dtime)
       timer = timer + dtime
+      timer_r = timer_r + dtime
       --update weather state
       if timer > active_weather_interval then
 	 --timer has expired, switch to a new weather state
@@ -285,6 +292,11 @@ minetest.register_globalstep(function(dtime)
 	 set_world_temperature()
 	 select_new_active_weather()
 	 
+      end
+      if timer_r >= 60 then -- it's time to record changes
+	 record_climate_history(climate)
+	 store:set_string("climate_history", get_climate_history())
+	 timer_r = 0
       end
       --check if anyone is above ground to bother doing effects for
       local ag_c = 0
