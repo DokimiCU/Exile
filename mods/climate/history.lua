@@ -5,7 +5,6 @@
 --History is kept in a hexadecimal string for relatively compact storage
 --We have to record four things: sunlight, rainfall, growing temperatures
 -- and crop killing temperatures
---This record is only valid for the surface, underground crops are separate
 
 --We only store data once every 600 ticks (60 seconds), it changes every
 --60-120 seconds anyway. In-game days take 20 minutes so that's
@@ -89,9 +88,10 @@ end
 ------------------------------
 -- checks the climate record, and returns how much growth to simulate
 -- a -1 indicates killing temperatures were reached, and the crop is dead
+--This function is only valid for the surface, underground crops are separate
 function crop_rewind(duration, timer_avg, mushroom)
-   -- TODO: timer_avg needs to be taken into account, but dude it's late
    local growth_ticks
+   timeradjust = 60/timer_avg -- how many growth ticks per 60 second chunk
    chunks = floor(duration / 600)
    for i = 0,chunks,1
    do
@@ -106,12 +106,12 @@ function crop_rewind(duration, timer_avg, mushroom)
 	 break
       end
       if ( conditions.sun == true or mushroom == true )
-        and conditions.grow == true then
-	 growth_ticks = growth_ticks + 1
+      and conditions.grow == true then
+	 growth_ticks = growth_ticks + ( 1 * timeradjust )
 	 if conditions.rain == true then
-	    growth_ticks = growth_ticks + 1
+	    growth_ticks = growth_ticks + ( 4 * timeradjust )
 	 end
       end
    end
-   return growth_ticks
+   return floor(growth_ticks)
 end
