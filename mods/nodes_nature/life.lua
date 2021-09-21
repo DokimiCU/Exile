@@ -93,10 +93,11 @@ end
 
 
 -- Seeds growth
-local function grow_seed(pos, seed_name, plant_name, place_p2)
+local function grow_seed(pos, seed_name, plant_name, place_p2, timer_avg, elapsed)
 
 	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local node_under = minetest.get_node(pos_under)
+	local mushroom = false
 
 	--if not on sediment abort
 	if minetest.get_item_group(node_under.name, "sediment") == 0 then
@@ -109,15 +110,16 @@ local function grow_seed(pos, seed_name, plant_name, place_p2)
 		if not light or light < 13 then
 			return
 		end
+	else mushroom = true
 	end
-
 
 	--extreme temps will kill, semi-extreme stop growth
 	local temp = climate.get_point_temp(pos)
 	if temp < -30 or temp > 60 then
-		minetest.remove_node(pos)
+	   minetest.remove_node(pos)
+	   return true -- this plant's done
 	elseif temp < 0 or temp > 40 then
-		return
+	   return
 	end
 
 
@@ -136,6 +138,18 @@ local function grow_seed(pos, seed_name, plant_name, place_p2)
 			meta:set_int("growth", growth)
 			return
 		end
+	end
+
+	--We've been away, let's catch up on missing growth
+	if elapsed and elapsed > timer_avg then
+	   local change = crop_rewind(elapsed, timer_avg, mushroom)
+	   if change == -1 then
+	      --Exteme heat or cold killed the plant
+	      minetest.remove_node(pos)
+	      return true
+	   else
+	      growth = growth - change
+	   end
 	end
 
 	-- new plant, or grow
@@ -671,16 +685,22 @@ for i in ipairs(plantlist2) do
 			end,
 
 			on_timer = function(pos,elapsed)
-				if grow_seed(pos, nil, "nodes_nature:"..plantname) then
-					return
-				else
-					local timer_min, timer_max = seed_soil_response(pos)
-					if timer_min then
-						minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
-					else
-					   minetest.get_node_timer(pos):start(base_timer)
-					end
-				end
+			   local timer_min, timer_max = seed_soil_response(pos)
+			   local timer_avg = timer_min + timer_max / 2
+			   if timer_max then
+			      elapsed = elapsed - timer_max
+			   else
+			      elapsed = elapsed - 40
+			   end
+			   if grow_seed(pos, nil, "nodes_nature:"..plantname, nil, timer_avg, elapsed) then
+			      return
+			   else
+			      if timer_min then
+				 minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
+			      else
+				 minetest.get_node_timer(pos):start(base_timer)
+			      end
+			   end
 			end,
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
 			   after_place_seedling(pos, placer, itemstack, pointed_thing)
@@ -755,16 +775,22 @@ for i in ipairs(plantlist2) do
 			end,
 
 			on_timer = function(pos,elapsed)
-				if grow_seed(pos, nil, "nodes_nature:"..plantname, p2) then
-					return
-				else
-					local timer_min, timer_max = seed_soil_response(pos)
-					if timer_min then
-						minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
-					else
-					   minetest.get_node_timer(pos):start(base_timer)
-					end
-				end
+			   local timer_min, timer_max = seed_soil_response(pos)
+			   local timer_avg = timer_min + timer_max / 2
+			   if timer_max then
+			      elapsed = elapsed - timer_max
+			   else
+			      elapsed = elapsed - 40
+			   end
+			   if grow_seed(pos, nil, "nodes_nature:"..plantname, nil, timer_avg, elapsed) then
+			      return
+			   else
+			      if timer_min then
+				 minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
+			      else
+				 minetest.get_node_timer(pos):start(base_timer)
+			      end
+			   end
 			end,
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
 			   after_place_seedling(pos, placer, itemstack, pointed_thing)

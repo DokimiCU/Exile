@@ -26,7 +26,6 @@ function load_climate_history(chist)
 end
 
 function get_climate_history()
-   print("got climate history",climate_history)
    return climate_history
 end
 
@@ -58,27 +57,29 @@ end
 --read out a specified chunk from the history
 local function history(age)
    local chunk = {sun=false,grow=false,rain=false,kill=false}
-   len = #climate_history
+   local len = #climate_history
    if len == 0 then
       return -- No history? Why did we get called then?
    end
-   len = len + 1 -- modulo will skip the last character otherwise
    --age%len: if we run out of history, loop back and fake it from what we have
-   x = tonumber("0x"..climate_history.sub(age%len, 1))
+   age = age%(len + 1) -- modulo will skip the last character unless we add 1
+   local x = tonumber("0x"..string.sub(climate_history, age+1, age+1))
+   -- age+1, strings don't start counting at 0 in lua because someone hates programmers
+
    --Wish I had lua 5.3 bit operators, but some distros (mine) have old lua
-   if x > 8 then
+   if x >= 8 then
       chunk.kill = true
       return chunk
    end
-   if x > 4 then
+   if x >= 4 then
       chunk.rain = true
       x = x - 4
    end
-   if x > 2 then
+   if x >= 2 then
       chunk.grow = true
       x = x - 2
    end
-   if x > 1 then
+   if x >= 1 then
       chunk.sun = true
    end
    return chunk
@@ -90,20 +91,18 @@ end
 -- a -1 indicates killing temperatures were reached, and the crop is dead
 --This function is only valid for the surface, underground crops are separate
 function crop_rewind(duration, timer_avg, mushroom)
-   local growth_ticks
-   timeradjust = 60/timer_avg -- how many growth ticks per 60 second chunk
-   chunks = floor(duration / 600)
-   for i = 0,chunks,1
-   do
+   local growth_ticks = 0
+   local timeradjust = 60/timer_avg -- how many growth ticks per 60 second chunk
+   local chunks = floor(duration / 60)
+   for i = 0,chunks,1 do
       local conditions = history(i)
       if conditions == nil then -- we don't have any history!
-	 print("Warning! No climate history was found, but we tried anyway")
 	 growth_ticks = 0
-	 break
+	 return growth_ticks
       end
       if conditions.kill == true then
 	 growth_ticks = -1
-	 break
+	 return growth_ticks
       end
       if ( conditions.sun == true or mushroom == true )
       and conditions.grow == true then
