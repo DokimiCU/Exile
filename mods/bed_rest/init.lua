@@ -20,3 +20,11 @@ local modpath = minetest.get_modpath("bed_rest")
 
 dofile(modpath .. "/functions.lua")
 dofile(modpath .. "/api.lua")
+
+local temp = load_bedrest()
+if temp then
+   bed_rest.level = temp["level"]
+   bed_rest.player = temp["player"]
+   bed_rest.pos = temp["pos"]
+   bed_rest.bed_position = temp["bed_position"]
+end
