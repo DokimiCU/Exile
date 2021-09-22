@@ -52,6 +52,7 @@ Some tips and tricks:
 - Weather: extremes sap your energy. Like real life, walking around in a snowstorm is a bad idea!
 - Temperature. Build a shelter, with a fire place or lots of torches. You can also go underground.
 - Go deep enough underground and you might find something....
+- Hardwood trees are more difficult to cut than soft wood, you will need better tools.
 - Water: you can drink cave drips (click them). Water pots collect rain water. Some plants, food has water.
 - Keep an eye on "health effects". You may have eaten something bad, or have a terrible disease.
 - Ovens, kilns, furnaces: build them like you would for real. A fire with access to air, and a chamber that gets heated up.
