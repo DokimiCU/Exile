@@ -108,7 +108,7 @@ local lvl_1_chop2 = (minimal.hand_chop * minimal.t_scale2) * lvl_1
 
 --a crude chipped stone: 1.snap. 2. chop 3.crum
 minetest.register_tool("tech:stone_chopper", {
-	description = "Stone Chopper",
+	description = "Stone Knife",
 	inventory_image = "tech_tool_stone_chopper.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int,
