@@ -142,6 +142,7 @@ minetest.register_abm({
 	nodenames = {"group:mushroom"},
 	interval = 260,
 	chance = 60,
+	catch_up = true,
 	action = function(...)
 		mushroom_spread(...)
 	end,
@@ -194,6 +195,7 @@ minetest.register_abm({
 	neighbors = {"group:sediment"},
 	interval = 220,
 	chance = 3,
+	catch_up = true,
 	action = function(...)
 		grow_cane(...)
 	end
