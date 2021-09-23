@@ -240,7 +240,7 @@ local function set_world_temperature()
     local tod = minetest.get_timeofday()
     --diff between day and night is this x2
     local dn_amp = -8
-    local dn_period = 6.283 ---match day length
+    local dn_period = (2*math.pi)/1 ---match day length
     local dn_wav = dn_amp * math.cos(tod * dn_period)
 
     --get seasonal wave
@@ -248,7 +248,7 @@ local function set_world_temperature()
     --diff +/- from yearly mean (seasonal variation)
     local dc_amp = 17
     --~80 day year, 20 day seasons
-    local dc_period = 0.08
+    local dc_period = (2*math.pi)/80
     --yearly average,
     local dc_mean = 13
     local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
