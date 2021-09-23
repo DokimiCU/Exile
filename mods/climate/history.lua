@@ -62,7 +62,7 @@ local function history(age)
       return -- No history? Why did we get called then?
    end
    --age%len: if we run out of history, loop back and fake it from what we have
-   age = age%(len + 1) -- modulo will skip the last character unless we add 1
+   age = age%(len)
    local x = tonumber("0x"..string.sub(climate_history, age+1, age+1))
    -- age+1, strings don't start counting at 0 in lua because someone hates programmers
 
