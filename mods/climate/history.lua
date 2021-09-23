@@ -32,7 +32,7 @@ end
 --record a chunk of climate history
 function record_climate_history(climate)
    local ch = 0
-   dtime = minetest.get_timeofday()
+   local dtime = minetest.get_timeofday()
    if dtime >= 0.25 and dtime <= 0.75 then
       ch = ch + 1 -- sunlight: 0001
    end
@@ -43,13 +43,13 @@ function record_climate_history(climate)
        or w == 'superstorm') then
       ch = ch + 4 -- rain: 0100
    end
-   t = climate.active_temp
+   local t = climate.active_temp
    if t < -30 or t > 60 then
       ch = ch + 8 -- kill: 1000
    elseif t >= 0 and t <= 40 then
       ch = ch + 2 -- grow: 0010
    end
-   cstring=string.format("%x", ch)
+   local cstring=string.format("%x", ch)
    climate_history = cstring..climate_history
 end
 
