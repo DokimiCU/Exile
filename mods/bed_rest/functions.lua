@@ -301,7 +301,6 @@ end)
 
 --get start time of session
 minetest.register_on_joinplayer(function(player)
-      print(dump(bed_rest))
       local name = player:get_player_name()
         if bed_rest.player[name] then
 	 lay_down(player, nil, nil, nil, false)
