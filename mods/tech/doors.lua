@@ -52,6 +52,28 @@ doors.register_trapdoor("tech:trapdoor_wooden", {
 })
 
 
+------------------------------------
+-- Iron - nonflammable, good for furnaces
+
+doors.register("door_iron", {
+		tiles = {{ name = "tech_iron_door.png", backface_culling = true }},
+		description = "Iron Door",
+		stack_max = minimal.stack_max_bulky *2,
+		inventory_image = "tech_iron_door_item.png",
+		groups = {cracky = 3, oddly_breakable_by_hand = 1},
+		sounds = nodes_nature.node_sound_stone_defaults(),
+})
+
+doors.register_trapdoor("tech:trapdoor_iron", {
+	description = "Iron Trapdoor",
+	stack_max = minimal.stack_max_bulky *2,
+	inventory_image = "tech_trapdoor_iron.png",
+	wield_image = "tech_trapdoor_iron.png",
+	tile_front = "tech_trapdoor_iron.png",
+	tile_side = "tech_trapdoor_iron_side.png",
+	groups = {cracky = 3, oddly_breakable_by_hand = 1},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+})
 
 
 ------------------------------------
@@ -107,6 +129,23 @@ crafting.register_recipe({
 	type = "carpentry_bench",
 	output = "tech:trapdoor_wooden",
 	items = {'tech:iron_fittings', 'group:log', 'tech:vegetable_oil'},
+	level = 1,
+	always_known = true,
+})
+
+-- Iron
+crafting.register_recipe({
+	type = "anvil",
+	output = "doors:door_iron",
+	items = {'tech:iron_fittings 2', 'tech:iron_ingot 4'},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "anvil",
+	output = "tech:trapdoor_iron",
+	items = {'tech:iron_fittings', 'tech:iron_ingot 2'},
 	level = 1,
 	always_known = true,
 })
