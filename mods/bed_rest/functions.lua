@@ -123,7 +123,7 @@ local function break_taker(name)
 		--show form
 		minetest.show_formspec(name, "bed_rest:break_taker", get_formspec())
 
-		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 1})
+		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 0.8})
 
 
 		--reset clock, with a diminishing limit
