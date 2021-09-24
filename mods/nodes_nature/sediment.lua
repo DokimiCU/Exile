@@ -12,6 +12,13 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:loam_wet 3",
+	items = {"nodes_nature:clay_wet 1","nodes_nature:silt_wet 1","nodes_nature:sand_wet 1"},
+	level = 1,
+	always_known = true,
+})
 
 
 --Ag soils from raw and fertilizer
@@ -23,11 +30,25 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:loam_agricultural_soil_wet",
+	items = {"nodes_nature:loam_wet 1","group:fertilizer 1"},
+	level = 1,
+	always_known = true,
+})
 
 crafting.register_recipe({
 	type = "mixing_spot",
 	output = "nodes_nature:clay_agricultural_soil",
 	items = {"nodes_nature:clay 1","group:fertilizer 1"},
+	level = 1,
+	always_known = true,
+})
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:clay_agricultural_soil_wet",
+	items = {"nodes_nature:clay_wet 1","group:fertilizer 1"},
 	level = 1,
 	always_known = true,
 })
@@ -39,6 +60,13 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:silt_agricultural_soil_wet",
+	items = {"nodes_nature:silt_wet 1","group:fertilizer 1"},
+	level = 1,
+	always_known = true,
+})
 
 crafting.register_recipe({
 	type = "mixing_spot",
@@ -47,11 +75,25 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:sand_agricultural_soil_wet",
+	items = {"nodes_nature:sand_wet 1","group:fertilizer 1"},
+	level = 1,
+	always_known = true,
+})
 
 crafting.register_recipe({
 	type = "mixing_spot",
 	output = "nodes_nature:gravel_agricultural_soil",
 	items = {"nodes_nature:gravel 1","group:fertilizer 1"},
+	level = 1,
+	always_known = true,
+})
+crafting.register_recipe({
+	type = "mixing_spot",
+	output = "nodes_nature:gravel_agricultural_soil_wet",
+	items = {"nodes_nature:gravel_wet 1","group:fertilizer 1"},
 	level = 1,
 	always_known = true,
 })
