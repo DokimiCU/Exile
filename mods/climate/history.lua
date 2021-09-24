@@ -106,9 +106,10 @@ function crop_rewind(duration, timer_avg, mushroom)
       end
       if ( conditions.sun == true or mushroom == true )
       and conditions.grow == true then
-	 growth_ticks = growth_ticks + ( 1 * timeradjust )
 	 if conditions.rain == true then
 	    growth_ticks = growth_ticks + ( 4 * timeradjust )
+	 else
+	    growth_ticks = growth_ticks + ( 1 * timeradjust )
 	 end
       end
    end
