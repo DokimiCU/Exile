@@ -69,7 +69,7 @@ end
 
 minetest.register_node("crafting:work_bench", {
 	description = "Work Bench",
-	groups = { snappy = 1 },
+	groups = { snappy = 1, not_in_creative_inventory=1 },
 	on_rightclick = crafting.make_on_rightclick("inv", 2, { x = 8, y = 3 }),
 })
 
@@ -81,7 +81,7 @@ crafting.create_async_station("crafting:furnace", "furnace", 1, {
 		"crafting_furnace_side.png", "crafting_furnace_front.png"
 	},
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	is_ground_content = false,
 }, {

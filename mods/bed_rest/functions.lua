@@ -4,24 +4,18 @@
 -----------------------------------------------------------------
 
 local pi = math.pi
+local store = minetest.get_mod_storage()
 
 
-
-
+function load_bedrest()
+   local loaded = minetest.deserialize(store:get_string("bedrest"), true)
+   return loaded
+end
 
 ----------------------------------------------------
 --Break taker
 --
 
---get start time of session
-minetest.register_on_joinplayer(function(player)
-	local name = player:get_player_name()
-  bed_rest.session_start[name] = os.time()
-  -- 30 minutes is 1800 ticks, so multiply by 60
-  bed_rest.session_limit[name] = minetest.settings:get('exile_breaktime') * 60
-
-end
-)
 
 
 
@@ -129,7 +123,7 @@ local function break_taker(name)
 		--show form
 		minetest.show_formspec(name, "bed_rest:break_taker", get_formspec())
 
-		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 1})
+		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 0.8})
 
 
 		--reset clock, with a diminishing limit
@@ -252,12 +246,12 @@ function bed_rest.on_rightclick(pos, player, level)
 
   --
 	if bed_rest.player[name] then
-    lay_down(player, nil, nil, nil, false)
+	   lay_down(player, nil, nil, nil, false)
 	else
-		-- move to bed
-		lay_down(player, level, ppos, pos)
+	   -- move to bed
+	   lay_down(player, level, ppos, pos)
 	end
-
+	store:set_string("bedrest", minetest.serialize(bed_rest))
 end
 
 
@@ -304,3 +298,16 @@ minetest.register_on_dieplayer(function(player)
 	player_api.set_animation(player, "stand")
 
 end)
+
+--get start time of session
+minetest.register_on_joinplayer(function(player)
+      local name = player:get_player_name()
+        if bed_rest.player[name] then
+	 lay_down(player, nil, nil, nil, false)
+      end
+  bed_rest.session_start[name] = os.time()
+  -- 30 minutes is 1800 ticks, so multiply by 60
+  bed_rest.session_limit[name] = minetest.settings:get('exile_breaktime') * 60
+
+end
+)

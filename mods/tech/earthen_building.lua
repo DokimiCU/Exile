@@ -24,7 +24,7 @@ stairs.register_stair_and_slab(
 	"tech:drystack",
 	"mixing_spot",
 	"true",
-	{cracky = 3, crumbly = 1, oddly_breakable_by_hand = 1},
+	{cracky = 3, crumbly = 1, oddly_breakable_by_hand = 1, falling_node = 1},
 	{"tech_drystack.png"},
 	"Drystack Stair",
 	"Drystack Slab",
