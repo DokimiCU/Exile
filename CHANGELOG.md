@@ -3,8 +3,9 @@
 
 # 0.3.3 and 0.2.6
 - Plants now grow even when the player is away
-- Renamed stone chopper to stone knife for clarity
+- Fireproof Iron doors and trapdoors
 - Ability to mix wet loam and agricultural soil
+- Renamed stone chopper to stone knife for clarity
 - More bug fixes and improvements
 
 # 0.3.2 and 0.2.5
