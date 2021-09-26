@@ -229,6 +229,25 @@ local function select_new_active_weather()
       --we need to update the sky and set the new
       climate.active_weather = get_weather_table(new_weather_name, registered_weathers)
     end
+    --do for each player
+    for _,player in ipairs(minetest.get_connected_players()) do
+       --set sky and clouds for new state using the new active_weather
+       set_sky_clouds(player)
+
+       --remove old sounds
+       local p_name = player:get_player_name()
+       local sound = sound_handlers[p_name]
+       if sound ~= nil then
+	  print("Stopping old sound")
+	  minetest.sound_stop(sound)
+	  sound_handlers[p_name] = nil
+       end
+       --add new loop
+       if climate.active_weather.sound_loop then
+	  print("Adding new loop")
+	  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+       end
+    end
 end	 
 
 local function set_world_temperature()
@@ -291,7 +310,6 @@ minetest.register_globalstep(function(dtime)
 	 --mod_storage:set_float('active_weather_interval', active_weather_interval)
 	 set_world_temperature()
 	 select_new_active_weather()
-	 
       end
       if timer_r >= 60 then -- it's time to record changes
 	 record_climate_history(climate)
@@ -315,7 +333,7 @@ minetest.register_globalstep(function(dtime)
 	 end
       end
 
-      
+
       if ag_c == 0 then
 	 --no one will experience any weather!
 	 return
@@ -338,31 +356,12 @@ minetest.register_globalstep(function(dtime)
 	       local p_name = player:get_player_name()
 	       local sound = sound_handlers[p_name]
 	       if sound == nil  then
+		  print("Sound = nil, playing")
 		  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
 	       end
 	    end
-
 	 end
-
 	 timer_p = 0
-
-	 --do for each player
-	 for _,player in ipairs(minetest.get_connected_players()) do
-	    --set sky and clouds for new state using the new active_weather
-	    set_sky_clouds(player)
-
-	    --remove old sounds
-	    local p_name = player:get_player_name()
-	    local sound = sound_handlers[p_name]
-	    if sound ~= nil then
-	       minetest.sound_stop(sound)
-	       sound_handlers[p_name] = nil
-	    end
-	    --add new loop
-	    if climate.active_weather.sound_loop then
-	       sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
-	    end
-	 end
       end
 end)
 
