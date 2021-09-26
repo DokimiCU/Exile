@@ -345,23 +345,23 @@ minetest.register_globalstep(function(dtime)
 	 end
 
 	 timer_p = 0
-      end
 
-      --do for each player
-      for _,player in ipairs(minetest.get_connected_players()) do
-	 --set sky and clouds for new state using the new active_weather
-	 set_sky_clouds(player)
+	 --do for each player
+	 for _,player in ipairs(minetest.get_connected_players()) do
+	    --set sky and clouds for new state using the new active_weather
+	    set_sky_clouds(player)
 
-	 --remove old sounds
-	 local p_name = player:get_player_name()
-	 local sound = sound_handlers[p_name]
-	 if sound ~= nil then
-	    minetest.sound_stop(sound)
-	    sound_handlers[p_name] = nil
-	 end
-	 --add new loop
-	 if climate.active_weather.sound_loop then
-	    sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+	    --remove old sounds
+	    local p_name = player:get_player_name()
+	    local sound = sound_handlers[p_name]
+	    if sound ~= nil then
+	       minetest.sound_stop(sound)
+	       sound_handlers[p_name] = nil
+	    end
+	    --add new loop
+	    if climate.active_weather.sound_loop then
+	       sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+	    end
 	 end
       end
 end)
