@@ -129,13 +129,13 @@ local function grow_seed(pos, seed_name, plant_name, place_p2, timer_avg, elapse
 
 	--We've been away, let's catch up on missing growth
 	if elapsed and elapsed > timer_avg then
-	   if pos.y < -15 then
-	      --edge case: player crops under -15 that are yet open to the sky get nothing
-	      --alternately: y<-15 and mushroom = they proc fine, but use surface temps
-	      -- and may freeze/cook to death when they shouldn't
+	   if pos.y < -15 and  temp >= 0 or temp <= 40 then
 	      if mushroom then
-		 --This is an underground shroom, just assume darkness and steady temp
+		 --This is an underground shroom, assume steady temp
 		 growth = growth - ( duration / timer_avg )
+	      else
+		 -- underground plant, but we've got light so give it 50%
+		 growth = growth - ( duration / timer_avg / 2)
 	      end
 	   else
 	      local change = crop_rewind(elapsed, timer_avg, mushroom)
