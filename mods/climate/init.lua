@@ -238,13 +238,11 @@ local function select_new_active_weather()
        local p_name = player:get_player_name()
        local sound = sound_handlers[p_name]
        if sound ~= nil then
-	  print("Stopping old sound")
 	  minetest.sound_stop(sound)
 	  sound_handlers[p_name] = nil
        end
        --add new loop
        if climate.active_weather.sound_loop then
-	  print("Adding new loop")
 	  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
        end
     end
@@ -356,7 +354,6 @@ minetest.register_globalstep(function(dtime)
 	       local p_name = player:get_player_name()
 	       local sound = sound_handlers[p_name]
 	       if sound == nil  then
-		  print("Sound = nil, playing")
 		  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
 	       end
 	    end
