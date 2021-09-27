@@ -132,10 +132,10 @@ local function grow_seed(pos, seed_name, plant_name, place_p2, timer_avg, elapse
 	   if pos.y < -15 and  temp >= 0 or temp <= 40 then
 	      if mushroom then
 		 --This is an underground shroom, assume steady temp
-		 growth = growth - ( duration / timer_avg )
+		 growth = growth - ( elapsed / timer_avg )
 	      else
 		 -- underground plant, but we've got light so give it 50%
-		 growth = growth - ( duration / timer_avg / 2)
+		 growth = growth - ( elapsed / timer_avg / 2)
 	      end
 	   else
 	      local change = crop_rewind(elapsed, timer_avg, mushroom)
