@@ -325,7 +325,7 @@ minetest.register_globalstep(function(dtime)
 	    local p_name = player:get_player_name()
 	    local sound = sound_handlers[p_name]
 	    if sound ~= nil then
-	       minetest.sound_fade(sound, 1, 0)
+	       minetest.sound_stop(sound)
 	       sound_handlers[p_name] = nil
 	    end
 	 end
