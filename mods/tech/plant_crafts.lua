@@ -168,8 +168,12 @@ local function bake_bread(pos, selfname, name_cooked, name_burned, length, heat)
     --not lit yet
        return true
     elseif temp > fire_temp * 2 then
-       --too hot, burn
-       minetest.set_node(pos, {name = name_burned})
+       if name_burned then
+	  --too hot, burn
+	  minetest.set_node(pos, {name = name_burned})
+       else
+	  minetest.set_node(pos, {name = "air"})
+       end
     --Smoke
     minetest.sound_play("tech_fire_small",{pos=pos, max_hear_distance = 10, loop=false, gain=0.1})
     minetest.add_particlespawner({
@@ -310,7 +314,8 @@ minetest.register_node("tech:anperla_tuber_peeled", {
   end,
   on_timer = function(pos, elapsed)
     --self, finished product, length, heat
-    return bake_bread(pos, "tech:anperla_tuber_peeled", "tech:anperla_tuber_cooked", 7, 100) 
+    return bake_bread(pos, "tech:anperla_tuber_peeled", "tech:anperla_tuber_cooked", nil, 7, 100)
+    --TODO: Add burned anperla tuber
   end,
 })
 
