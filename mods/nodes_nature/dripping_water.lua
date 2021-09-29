@@ -22,7 +22,7 @@ minetest.register_entity("nodes_nature:drop_water", {
 	end,
 
 	on_step = function(self, dtime)
-		local k = math.random(1,222)
+		local k = math.random(1,444)
 		local ownpos = self.object:get_pos()
 
 		if k==1 then
