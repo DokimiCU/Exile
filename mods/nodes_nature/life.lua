@@ -18,7 +18,7 @@ local floor = math.floor
 
 --how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
 --18000 per season?
-local base_growth = 600
+local base_growth = 500
 local base_timer = 40
 
 ---------------------------
