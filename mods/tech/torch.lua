@@ -220,6 +220,12 @@ minetest.register_node("tech:torch", {
 	on_place = function(itemstack, placer, pointed_thing)
 		local under = pointed_thing.under
 		local node = minetest.get_node(under)
+		local innode = minetest.get_node(pointed_thing.above).name
+		if minetest.get_item_group(innode, "water") > 0 then
+		   on_throw(itemstack, placer, pointed_thing.under)
+		   itemstack:take_item(1)
+		   return itemstack
+		end
 		local def = minetest.registered_nodes[node.name]
 		if def and def.on_rightclick and
 			not (placer and placer:is_player() and
