@@ -71,6 +71,7 @@ doors.register_trapdoor("tech:trapdoor_iron", {
 	wield_image = "tech_trapdoor_iron.png",
 	tile_front = "tech_trapdoor_iron.png",
 	tile_side = "tech_trapdoor_iron_side.png",
+	use_texture_alpha = "clip",
 	groups = {cracky = 3, oddly_breakable_by_hand = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })

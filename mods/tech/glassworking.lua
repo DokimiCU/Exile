@@ -156,12 +156,14 @@ minetest.register_node("tech:potash", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 })
 
+local post_alpha = 140
+
 -- Potash solution (More like lye in this case)
 minetest.register_node("tech:potash_source", {
   	description = "Potash Solution Source",
   	drawtype = "liquid",
   	tiles = {"tech_potash.png"},
-	use_texture_alpha = "blend",
+	--	use_texture_alpha = "blend",
   	paramtype = "light",
   	walkable = false,
   	pointable = false,
@@ -202,7 +204,7 @@ minetest.register_node("tech:potash_source", {
   	liquid_alternative_flowing = "tech:potash_flowing",
   	liquid_alternative_source = "tech:potash_source",
   	liquid_viscosity = 1,
-		liquid_renewable = renew,
+		liquid_renewable = false,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
   	groups = {water = 2, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),

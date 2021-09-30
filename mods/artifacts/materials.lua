@@ -100,7 +100,7 @@ minetest.register_node("artifacts:moon_stone", {
 	paramtype2 = "wallmounted",
 	is_ground_content = false,
 	sunlight_propagates = true,
-  use_texture_alpha = true,
+  use_texture_alpha = "blend",
   temp_effect = -4,
   temp_effect_max = 0,
 	sounds = nodes_nature.node_sound_glass_defaults(),
