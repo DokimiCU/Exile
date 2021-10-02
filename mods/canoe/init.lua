@@ -148,7 +148,7 @@ end
 
 function canoe.on_step(self, dtime)
 	self.v = get_v(self.object:get_velocity()) * get_sign(self.v)
-
+	local pos = self.object:get_pos()
 	--paddle canoe
 	if self.driver then
 		local driver_objref = minetest.get_player_by_name(self.driver)
