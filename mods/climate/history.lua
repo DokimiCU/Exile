@@ -18,8 +18,6 @@
 local floor = math.floor
 climate_history = ""
 
---text = text:sub(1, -2) remove last character
-
 function load_climate_history(chist)
    --get history from storage
    climate_history = chist or ""
@@ -115,3 +113,29 @@ function crop_rewind(duration, timer_avg, mushroom)
    end
    return floor(growth_ticks)
 end
+
+function exiledatestring()
+   local days = minetest.get_day_count()
+   local time = minetest.get_timeofday()
+   local cdays = (days)%80+1 -- shift it to 0-79 days temporarily
+   local year = floor((days)/80)+1
+   local seasonnumber = floor((cdays-1)/20)+1
+   local timestr = "small hours"
+   if time >= 0.75 then
+      timestr = "evening"
+   elseif time >= 0.5 then
+      timestr = "afternoon"
+   elseif time >= 0.25 then
+      timestr = "morning"
+   end
+   return ("It is the "..timestr.." of day "..cdays.." of the year of our exile "..year)
+end
+
+minetest.register_chatcommand("date", {
+	params = "",
+	description = "Shows the current date and year of exile.",
+	privs = {},
+	func = function(name, param)
+	   minetest.chat_send_player(name, exiledatestring())
+	end,
+})

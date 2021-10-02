@@ -185,11 +185,11 @@ minetest.register_on_joinplayer(function(player)
 
 	--set weather effects for this player
   set_sky_clouds(player)
+  local p_name = player:get_player_name()
   if climate.active_weather.sound_loop then
-    local p_name = player:get_player_name()
     sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
   end
-
+  minetest.chat_send_player(p_name, exiledatestring())
 end)
 
 local function select_new_active_weather()
