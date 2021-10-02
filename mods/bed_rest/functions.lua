@@ -169,9 +169,6 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	if not player or not name then
 		return
 	end
-	local velo = player:get_player_velocity()
-	if velo.x ~= 0 then return end
-	if velo.z ~= 0 then return end
 
 	-- stand up
 	if state ~= nil and not state then
@@ -199,6 +196,9 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 
 	-- lay down
 	else
+	   local velo = player:get_player_velocity()
+	   if velo.x ~= 0 then return end
+	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
 		for _, other_pos in pairs(bed_rest.bed_position) do
 			if vector.distance(bed_pos, other_pos) < 0.1 then
