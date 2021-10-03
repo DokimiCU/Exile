@@ -261,7 +261,7 @@ local function set_world_temperature()
     local dn_wav = dn_amp * math.cos(tod * dn_period)
 
     --get seasonal wave
-    local dc = minetest.get_day_count()
+    local dc = minetest.get_day_count() - 10
     --diff +/- from yearly mean (seasonal variation)
     local dc_amp = 17
     --~80 day year, 20 day seasons
