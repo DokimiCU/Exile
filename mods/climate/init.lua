@@ -381,7 +381,10 @@ minetest.register_chatcommand("set_temp", {
 		privs = {privs=true},
     func = function(name, param)
 		newtemp = tonumber(param)
-		if not newtemp or newtemp < -100 or newtemp > 100 then
+		if not newtemp then
+		  return false, ("Unadjusted base temp: "..climate.active_temp)
+		end
+		if newtemp < -100 or newtemp > 100 then
 		   return false, "Invalid temperature"
 		end
 		if minetest.check_player_privs(name, {set_temp = true}) then
@@ -409,12 +412,22 @@ minetest.register_privilege("set_weather", {
 
 
 minetest.register_chatcommand("set_weather", {
-    params = "<weather>",
+    params = "<weather> or help",
     description = "Set the Climate active weather",
 		privs = {privs=true},
     func = function(name, param)
 		if minetest.check_player_privs(name, {set_weather = true}) then
 			--check valid
+			if param == "help" then
+			   local wlist = "Available weather states:\n"
+			   print("regweath: ",#registered_weathers)
+			   for i = 1,#registered_weathers do
+			      print(registered_weathers[i].name)
+			      wlist = wlist..registered_weathers[i].name.."\n"
+			   end
+			   return false, wlist
+			end
+
 			local weather = get_weather_table(param, registered_weathers)
 			if weather then
 				climate.active_weather = weather
@@ -442,7 +455,7 @@ minetest.register_chatcommand("set_weather", {
 
 				return true, "Climate active weather set to: "..param
 			else
-				return false, "Invalid weather name"
+				return false, ("Current weather is "..climate.active_weather.name)
 			end
 
 		else
