@@ -117,9 +117,18 @@ end
 function exiledatestring()
    local days = minetest.get_day_count()
    local time = minetest.get_timeofday()
-   local cdays = (days)%80+1 -- shift it to 0-79 days temporarily
    local year = floor((days)/80)+1
-   local seasonnumber = floor((cdays-1)/20)+1
+   local cdays = (days)%80 -- days into the current year
+   local seasonnumber = floor((cdays)/20)+1
+   local sdays = cdays%20+1 --days into the current season
+   local season = "Birth"
+   if seasonnumber == 2 then
+      season = "Thirst"
+   elseif seasonnumber == 3 then
+      season = "Retreat"
+   elseif seasonnumber == 4 then
+      season = "Hunger"
+   end
    local timestr = "small hours"
    if time >= 0.75 then
       timestr = "evening"
@@ -128,7 +137,7 @@ function exiledatestring()
    elseif time >= 0.25 then
       timestr = "morning"
    end
-   return ("It is the "..timestr.." of day "..cdays.." of the year of our exile "..year)
+   return ("It is the "..timestr.." of day "..sdays.." of the season of "..season..", in the year of our exile "..year)
 end
 
 minetest.register_chatcommand("date", {
