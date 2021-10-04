@@ -4,6 +4,7 @@
 
 ----------------------------------------------------------------------
 local hud = {}
+local hudupdateseconds = tonumber(minetest.settings:get("exile_hud_update"))
 
 local setup_hud = function(player)
 
@@ -267,10 +268,13 @@ local function effects(player, hud_data)
 end
 
 
+local timer = 0
 
+minetest.register_globalstep(function(dtime)
+  timer = timer + dtime
 
-local function _0_(_)
-  for _0, player in ipairs(minetest.get_connected_players()) do
+  if timer > hudupdateseconds then
+   for _0, player in ipairs(minetest.get_connected_players()) do
 
 		local name = player:get_player_name()
 		local hud_data = hud[name]
@@ -286,8 +290,7 @@ local function _0_(_)
 		enviro_temp(player, hud_data)
 		effects(player, hud_data)
 
+   end
+   return nil
   end
-  return nil
-end
-
-return minetest.register_globalstep(_0_)
+end)

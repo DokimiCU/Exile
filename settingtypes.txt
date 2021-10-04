@@ -2,6 +2,11 @@
 exile_temp_scale (Temperature scale) enum Celsius Celsius,Fahrenheit,Kelvin
 exile_nobreaktaker (Disable the notice to take a break) bool false
 
+#For singleplayer or LAN, this can be left at 0.1, but on
+#internet servers, a rate of 1 second per update may help to
+#mitigate HUD lag
+exile_hud_update (Number of seconds before HUD updates) float 0.1 0.1 4
+
 #Set from 30 to 90 minutes for the first notice.
 #
 #After each notice the time before the next is halved.
