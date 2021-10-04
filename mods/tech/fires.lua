@@ -136,6 +136,21 @@ end
 --------------------------------------------------
 --Combustion Products
 
+--on_place
+--players will be using wood ash to punch depleted agricultural soil
+--make sure they can't accidentally right click and crush their crops
+local function on_place_fert(itemstack, placer, pointed_thing)
+   local onnode = minetest.get_node(pointed_thing.under).name
+   if minetest.get_item_group(onnode, "attached_node") > 0 then
+      return itemstack
+   else
+      minetest.item_place(itemstack, placer, pointed_thing)
+      itemstack:take_item(1)
+      return itemstack
+   end
+end
+
+
 --wood_ash
 minetest.register_node("tech:wood_ash_block", {
 	description = "Wood Ash Block",
@@ -143,6 +158,10 @@ minetest.register_node("tech:wood_ash_block", {
 	stack_max = minimal.stack_max_bulky,
 	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+	on_place = function (itemstack, placer, pointed_thing)
+	   on_place_fert(itemstack, placer, pointed_thing)
+	   return itemstack
+	end,
 })
 
 
@@ -157,6 +176,10 @@ minetest.register_node("tech:wood_ash", {
 	},
 	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
+	on_place = function (itemstack, placer, pointed_thing)
+	   on_place_fert(itemstack, placer, pointed_thing)
+	   return itemstack
+	end,
 })
 
 --Charcoal
