@@ -24,6 +24,9 @@ local on_dig = function(pos, node, digger)
 
 	local meta = minetest.get_meta(pos)
 	local fuel = meta:get_int("fuel")
+	--round off fuel numbers for better stacking: 10-15 = 10
+	--16-20 = 20, lean a bit towards reducing fuel for balance
+	fuel = math.floor((fuel+4)/10)*10
 
 	local new_stack = ItemStack("tech:torch")
 	local stack_meta = new_stack:get_meta()
