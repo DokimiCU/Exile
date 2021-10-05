@@ -118,14 +118,14 @@ function player_api.init_on_joinplayer(player)
 
 		on_put = function(inv, listname, index, stack, player)
 			save_clothing_metadata(player, inv)
-			clothing:run_callbacks("on_equip", player, index, stack)
 			clothing:set_player_clothing(player)
+			clothing:run_callbacks("on_equip", player, index, stack)
 		end,
 
 		on_take = function(inv, listname, index, stack, player)
 			save_clothing_metadata(player, inv)
-			clothing:run_callbacks("on_unequip", player, index, stack)
 			clothing:set_player_clothing(player)
+			clothing:run_callbacks("on_unequip", player, index, stack)
 		end,
 
 		on_move = function(inv, from_list, from_index, to_list, to_index, count, player)
