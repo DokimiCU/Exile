@@ -233,18 +233,6 @@ local function select_new_active_weather()
     for _,player in ipairs(minetest.get_connected_players()) do
        --set sky and clouds for new state using the new active_weather
        set_sky_clouds(player)
-
-       --remove old sounds
-       local p_name = player:get_player_name()
-       local sound = sound_handlers[p_name]
-       if sound ~= nil then
-	  minetest.sound_stop(sound)
-	  sound_handlers[p_name] = nil
-       end
-       --add new loop
-       if climate.active_weather.sound_loop then
-	  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
-       end
     end
 end	 
 
@@ -285,6 +273,19 @@ local function set_world_temperature()
     store:set_float("ran_walk", ran_walk)
 end
 
+local function update_player_sounds(p_name)
+   --remove old sounds
+   local sound = sound_handlers[p_name]
+   if sound ~= nil then
+      minetest.sound_stop(sound)
+      sound_handlers[p_name] = nil
+   end
+   --add new loop
+   if climate.active_weather.sound_loop then
+      sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
+   end
+end
+
 --------------------------
 -- Main step
 --------------------------
@@ -292,9 +293,9 @@ end
 local timer = 0
 local timer_p = 0
 local timer_r = 0
-local lastrecord
 
 minetest.register_globalstep(function(dtime)
+      local updatesound = false
       timer = timer + dtime
       timer_r = timer_r + dtime
       --update weather state
@@ -308,6 +309,7 @@ minetest.register_globalstep(function(dtime)
 	 --mod_storage:set_float('active_weather_interval', active_weather_interval)
 	 set_world_temperature()
 	 select_new_active_weather()
+	 updatesound = true
       end
       if timer_r >= 60 then -- it's time to record changes
 	 record_climate_history(climate)
@@ -318,16 +320,25 @@ minetest.register_globalstep(function(dtime)
       local ag_c = 0
       for _,player in ipairs(minetest.get_connected_players()) do
 	 local pos = player:get_pos()
+	 local p_name = player:get_player_name()
+	 local sound = sound_handlers[p_name]
 	 if pos.y > -12 then
 	    ag_c = ag_c + 1
-	 else
-	    --underground so remove sounds
-	    local p_name = player:get_player_name()
-	    local sound = sound_handlers[p_name]
-	    if sound ~= nil then
+	    if updatesound or sound == nil then
+	       update_player_sounds(p_name)
+	    end
+	 elseif pos.y < -11 and sound then
+	    local x = 1-(-1*pos.y-12)/5
+	    if x < 0 then
+	       x = 0
 	       minetest.sound_stop(sound)
 	       sound_handlers[p_name] = nil
+	       sound = nil
+	    else
+	       minetest.sound_fade(sound, 0.5, x)
 	    end
+	 elseif pos.y > -17 and not sound then
+	    sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true, gain = 0.1})
 	 end
       end
 
@@ -337,33 +348,15 @@ minetest.register_globalstep(function(dtime)
 	 return
       end
 
+
       --fast weather effects
       timer_p = timer_p + dtime
       if (climate.active_weather.particle_interval and timer_p > climate.active_weather.particle_interval) then
 	 -- do particle effects for current weather
 	 climate.active_weather.particle_function()
-      end
-
-      if climate.active_weather.sound_loop or climate.active_weather.sky_color_day then
-
-	 --update sky during transitions, and reset sounds
-	 for _,player in ipairs(minetest.get_connected_players()) do
-
-	    --add missing sounds (e.g. if turned off by going underground)
-	    if climate.active_weather.sound_loop  then
-	       local p_name = player:get_player_name()
-	       local sound = sound_handlers[p_name]
-	       if sound == nil  then
-		  sound_handlers[p_name] = minetest.sound_play(climate.active_weather.sound_loop, {to_player = p_name, loop = true})
-	       end
-	    end
-	 end
 	 timer_p = 0
       end
 end)
-
-
-
 
 --------------------------------------------------------------------
 --CHAT COMMANDS
@@ -420,9 +413,7 @@ minetest.register_chatcommand("set_weather", {
 			--check valid
 			if param == "help" then
 			   local wlist = "Available weather states:\n"
-			   print("regweath: ",#registered_weathers)
 			   for i = 1,#registered_weathers do
-			      print(registered_weathers[i].name)
 			      wlist = wlist..registered_weathers[i].name.."\n"
 			   end
 			   return false, wlist
