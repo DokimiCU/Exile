@@ -140,8 +140,10 @@ end
 --players will be using wood ash to punch depleted agricultural soil
 --make sure they can't accidentally right click and crush their crops
 local function on_place_fert(itemstack, placer, pointed_thing)
-   local onnode = minetest.get_node(pointed_thing.under).name
-   if minetest.get_item_group(onnode, "attached_node") > 0 then
+   local onnode = minetest.get_node(pointed_thing.under)
+   local innode = minetest.get_node(pointed_thing.above)
+   if minetest.get_item_group(onnode.name, "attached_node") > 0
+   or minetest.get_item_group(innode.name,  "attached_node") > 0 then
       return itemstack
    else
       minetest.item_place(itemstack, placer, pointed_thing)

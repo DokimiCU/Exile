@@ -232,9 +232,12 @@ end
 --
 local on_place_seedling = function(itemstack, placer, pointed_thing)
    local ground = minetest.get_node(pointed_thing.under)
-   if minetest.get_item_group(ground.name,"sediment") == 0 then
+   local above = minetest.get_node(pointed_thing.above)
+   if minetest.get_item_group(ground.name,"sediment") == 0
+   or above.name ~= "air" then
       return itemstack
    end
+
    return minetest.item_place_node(itemstack,placer,pointed_thing)
 end
 
