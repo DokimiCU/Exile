@@ -1344,3 +1344,75 @@ minetest.override_item("nodes_nature:mahal",{
 	},
 	groups = {choppy = 3, mushroom = 1, woody_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1, bioluminescent = 1}
 })
+
+--------------------------------
+--Bulk recipes
+
+--page spacing
+for i = 1,3,1 do
+crafting.register_recipe({
+	type = "threshing_spot",
+	output = "",
+	items = {},
+	level = 1,
+	always_known = true,
+})
+end
+
+
+--bulk recipes x6
+for i in ipairs(plantlist) do
+	local plantname = plantlist[i][1]
+	crafting.register_recipe({
+		type = "threshing_spot",
+		output = "nodes_nature:"..plantname.."_seed 36",
+		items = {"nodes_nature:"..plantname.." 6"},
+		level = 1,
+		always_known = true,
+	})
+end
+for i in ipairs(plantlist2) do
+	local plantname = plantlist2[i][1]
+	crafting.register_recipe({
+		type = "threshing_spot",
+		output = "nodes_nature:"..plantname.."_seed 36",
+		items = {"nodes_nature:"..plantname.." 6"},
+		level = 1,
+		always_known = true,
+	})
+end
+
+
+--page spacing
+for i = 1,3,1 do
+crafting.register_recipe({
+	type = "threshing_spot",
+	output = "",
+	items = {},
+	level = 1,
+	always_known = true,
+})
+end
+
+
+--bulk recipes x24
+for i in ipairs(plantlist) do
+	local plantname = plantlist[i][1]
+	crafting.register_recipe({
+		type = "threshing_spot",
+		output = "nodes_nature:"..plantname.."_seed 144",
+		items = {"nodes_nature:"..plantname.." 24"},
+		level = 1,
+		always_known = true,
+	})
+end
+for i in ipairs(plantlist2) do
+	local plantname = plantlist2[i][1]
+	crafting.register_recipe({
+		type = "threshing_spot",
+		output = "nodes_nature:"..plantname.."_seed 144",
+		items = {"nodes_nature:"..plantname.." 24"},
+		level = 1,
+		always_known = true,
+	})
+end
