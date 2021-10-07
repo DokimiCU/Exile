@@ -291,6 +291,7 @@ minetest.register_globalstep(function(dtime)
 		effects(player, hud_data)
 
    end
+   timer = 0
    return nil
   end
 end)
