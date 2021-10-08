@@ -451,6 +451,10 @@ minetest.register_on_newplayer(function(player)
 	set_default_attibutes(player)
 end)
 
+function reset_attributes(player)
+   set_default_attibutes(player)
+end
+
 minetest.register_on_joinplayer(function(player)
 	sfinv.set_player_inventory_formspec(player)
 
