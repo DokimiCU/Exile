@@ -40,10 +40,19 @@ minetest.register_node("tech:wooden_ladder", {
  paramtype2 = "facedir",
  climbable = true,
  sunlight_propagates = true,
- groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1},
+ groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1, ladder = 1},
  drop = "tech:wooden_ladder",
  sounds = nodes_nature.node_sound_wood_defaults(),
 
+ after_place_node = function(pos, placer, itemstack, pointed_thing)
+    local node = minetest.get_node(pos)
+    local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
+    local under = minetest.get_node(pos_under)
+    if minetest.get_item_group(under.name, "ladder") > 0 then
+       minetest.set_node(pos, {name = node.name, param1 = node.param1,
+			       param2 = under.param2})
+    end
+ end
 })
 
 crafting.register_recipe({

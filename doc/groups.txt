@@ -9,7 +9,7 @@ falling_node
 attached_node
 
 
-Diggging:
+Digging:
 ---------
 Values from 1 - 3, with 1 being hardest
 `cracky`: brittle, hard things. e.g. stone
@@ -80,7 +80,7 @@ pottery groups
 construction material groups
 --------------
 `masonry`: solid bricks, blocks etc (e.g. can collect puddles)
-
+`ladder`: A solid ladder that needs support underneath
 
 Tool groups:
 --------------
