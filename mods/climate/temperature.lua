@@ -507,10 +507,10 @@ function climate.air_temp_source(pos, temp_effect, temp_max, chance, timer)
 				local meta = minetest.get_meta(node)
 				local temp = meta:get_float("temp")
 
-				temp_effect = temp_effect*(1-(temp/temp_max))
+				local temp_apply = temp_effect*(1-(temp/temp_max))
 
 				--apply temp caps
-				local temp_new =  temp + temp_effect
+				local temp_new =  temp + temp_apply
 				--heaters
 				if temp_effect > 0 then
 					if temp_new < temp_max then
