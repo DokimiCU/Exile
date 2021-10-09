@@ -135,7 +135,7 @@ minetest.register_globalstep(function(dtime)
 					nodeName = "illumination:light_full"
 				end
 				if nodeName then
-					minetest.set_node(pos, {name=nodeName})
+					minetest.swap_node(pos, {name=nodeName})
 				end
 			end
 			
