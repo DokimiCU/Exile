@@ -147,7 +147,6 @@ local function on_place_fert(itemstack, placer, pointed_thing)
       return itemstack
    else
       minetest.item_place(itemstack, placer, pointed_thing)
-      itemstack:take_item(1)
       return itemstack
    end
 end
