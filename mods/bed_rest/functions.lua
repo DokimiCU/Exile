@@ -194,13 +194,14 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		po.speed = 1
 		po.jump = 1
 		po.sneak = true
+		po.gravity = 1
 		player:set_physics_override(po)
 		hud_flags.wielditem = true
 		player_api.set_animation(player, "stand")
 
 	-- lay down
 	else
-	   local velo = player:get_player_velocity()
+	   local velo = player:get_velocity()
 	   if velo.x ~= 0 then return end
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
@@ -233,6 +234,7 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		po.speed = 0
 		po.jump = 0
 		po.sneak = false
+		po.gravity = 0
 		player:set_physics_override(po)
 		player:set_pos(p)
 		player_api.player_attached[name] = true
