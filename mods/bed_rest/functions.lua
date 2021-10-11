@@ -277,6 +277,24 @@ function bed_rest.can_dig(bed_pos)
 	return true
 end
 
+jtimer = 0
+--------------------------------------------
+--Jump out of bed
+
+minetest.register_globalstep(function(dtime)
+      jtimer = jtimer + dtime
+      if jtimer > 0.2 then
+	 for _, player in ipairs(minetest.get_connected_players()) do
+	    name = player:get_player_name()
+	    if bed_rest.player[name] then
+	       if math.floor(player:get_player_control_bits() / 16) % 2 == 1 then
+		  lay_down(player, nil, nil, nil, false)
+	       end
+	    end
+	 end
+	 jtimer = 0
+      end
+end)
 
 
 --------------------------------------------
