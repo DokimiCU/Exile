@@ -102,7 +102,7 @@ end
 minetest.register_node('tech:maraka_flour_bitter', {
 	description = 'Bitter Maraka Flour',
   tiles = {"tech_flour_bitter.png"},
-	stack_max = minimal.stack_max_bulky,
+	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
 	groups = {crumbly = 3, dig_immediate = 3, falling_node = 1, flammable = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
@@ -121,7 +121,7 @@ minetest.register_node('tech:maraka_flour_bitter', {
 minetest.register_node('tech:maraka_flour', {
 	description = 'Maraka Flour',
   tiles = {"tech_flour.png"},
-	stack_max = minimal.stack_max_bulky,
+	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
 	groups = {crumbly = 3, dig_immediate = 3, falling_node = 1, flammable = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
@@ -463,6 +463,10 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+--
+--mortar and pestle
+--
+
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:anperla_tuber_peeled",
@@ -479,6 +483,13 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:anperla_tuber_peeled 36",
+	items = {"nodes_nature:anperla_seed 36"},
+	level = 1,
+	always_known = true,
+})
 
 --mash
 crafting.register_recipe({
@@ -488,15 +499,28 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+--bulk mash
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:mashed_anperla 6",
+	items = {"tech:anperla_tuber_peeled 36"},
+	level = 1,
+	always_known = true,
+})
 
---
---mortar and pestle
---
 
 --grind maraka flour
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:maraka_flour_bitter",
+	items = {'nodes_nature:maraka_nut 12'},
+	level = 1,
+	always_known = true,
+})
+--bulk maraka flour
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:maraka_flour_bitter 4",
 	items = {'nodes_nature:maraka_nut 48'},
 	level = 1,
 	always_known = true,
@@ -505,8 +529,16 @@ crafting.register_recipe({
 --make maraka cakes
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:maraka_cake_unbaked 24",
+	output = "tech:maraka_cake_unbaked 6",
 	items = {'tech:maraka_flour'},
+	level = 1,
+	always_known = true,
+})
+--bulk maraka cakes
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:maraka_cake_unbaked 24",
+	items = {'tech:maraka_flour 4'},
 	level = 1,
 	always_known = true,
 })
@@ -521,6 +553,15 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+--bulk oil
+crafting.register_recipe({
+	type = "mortar_and_pestle",
+	output = "tech:vegetable_oil 6",
+	items = {'nodes_nature:vansano_seed 72'},
+	level = 1,
+	always_known = true,
+})
+
 
 --
 --chopping_block

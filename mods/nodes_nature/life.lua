@@ -1381,38 +1381,3 @@ for i in ipairs(plantlist2) do
 		always_known = true,
 	})
 end
-
-
---page spacing
-for i = 1,3,1 do
-crafting.register_recipe({
-	type = "threshing_spot",
-	output = "",
-	items = {},
-	level = 1,
-	always_known = true,
-})
-end
-
-
---bulk recipes x24
-for i in ipairs(plantlist) do
-	local plantname = plantlist[i][1]
-	crafting.register_recipe({
-		type = "threshing_spot",
-		output = "nodes_nature:"..plantname.."_seed 144",
-		items = {"nodes_nature:"..plantname.." 24"},
-		level = 1,
-		always_known = true,
-	})
-end
-for i in ipairs(plantlist2) do
-	local plantname = plantlist2[i][1]
-	crafting.register_recipe({
-		type = "threshing_spot",
-		output = "nodes_nature:"..plantname.."_seed 144",
-		items = {"nodes_nature:"..plantname.." 24"},
-		level = 1,
-		always_known = true,
-	})
-end
