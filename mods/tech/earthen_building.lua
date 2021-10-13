@@ -121,6 +121,7 @@ minetest.register_node('tech:wattle', {
 		'tech:mudbrick',
 		'tech:rammed_earth',
 		'tech:wattle_loose',
+		'tech:wattle_door_frame',
 		'tech:wattle',
 		'tech:thatch'
 	},
@@ -177,6 +178,33 @@ minetest.register_node('tech:wattle_loose', {
 	wield_image = "tech_wattle_loose.png",
 	stack_max = minimal.stack_max_bulky * 3,
 	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+})
+
+--A frame to let wattle walls connect to wattle doors
+--TODO: Make it detect wattle or doors and rotate itself to match
+minetest.register_node('tech:wattle_door_frame', {
+	description = 'Wattle Door Frame',
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {{-1/2, -1/2, -1/8,  1/2, 1/2, 1/8},
+		         {-4/8, -1/2, 1/8,  -3/8, 1/2, 1/2}},
+	},
+	paramtype = "light",
+	paramtype2 = "facedir",
+	use_texture_alpha = "clip",
+	tiles = {"tech_wattle_top.png",
+	 				"tech_wattle_top.png",
+					"tech_wattle.png",
+					"tech_wattle.png",
+					"tech_wattle.png",
+					"tech_wattle.png",
+},
+	inventory_image = "tech_wattle_door_frame.png",
+	wield_image = "tech_wattle_door_frame.png",
+	stack_max = minimal.stack_max_bulky * 3,
+	groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
 	sounds = nodes_nature.node_sound_wood_defaults(),
 })
 
