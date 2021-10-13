@@ -808,7 +808,7 @@ minetest.override_item("tech:glass_bottle_green_freshwater",
 			--e.g. rain vs mud puddle
 
 			meta:set_int("thirst", thirst)
-			minetest.set_node(pos, {name = "tech:clay_water_pot"})
+			minetest.set_node(pos, {name = "tech:glass_bottle_green"})
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
 		end
 	end
@@ -871,7 +871,7 @@ minetest.override_item("tech:glass_bottle_clear_freshwater",
 			--e.g. rain vs mud puddle
 
 			meta:set_int("thirst", thirst)
-			minetest.set_node(pos, {name = "tech:clay_water_pot"})
+			minetest.set_node(pos, {name = "tech:glass_bottle_clear"})
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
 		end
 	end
