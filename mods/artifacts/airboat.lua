@@ -206,8 +206,8 @@ function airboat.on_step(self, dtime)
 	if s ~= get_sign(self.v) then
 		self.v = 0
 	end
-	if math.abs(self.v) > 2 then
-		self.v = 2 * get_sign(self.v)
+	if math.abs(self.v) > 4 then
+		self.v = 4 * get_sign(self.v)
 	end
 
 	-- Reduction and limiting of rotation
@@ -226,8 +226,8 @@ function airboat.on_step(self, dtime)
 	if sy ~= get_sign(self.vy) then
 		self.vy = 0
 	end
-	if math.abs(self.vy) > 1 then
-		self.vy = 1 * get_sign(self.vy)
+	if math.abs(self.vy) > 2 then
+		self.vy = 2 * get_sign(self.vy)
 	end
 
 	local new_acce = {x = 0, y = 0, z = 0}
