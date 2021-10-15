@@ -373,7 +373,7 @@ minetest.register_chatcommand("set_temp", {
     description = "Set the Climate active temperature",
 		privs = {privs=true},
     func = function(name, param)
-		newtemp = tonumber(param)
+		local newtemp = tonumber(param)
 		if not newtemp then
 		  return false, ("Unadjusted base temp: "..climate.active_temp)
 		end
