@@ -173,10 +173,14 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 
 	-- stand up
 	if state ~= nil and not state then
-		local p = bed_rest.pos[name] or nil
-		bed_rest.player[name] = nil
-		bed_rest.bed_position[name] = nil
-		bed_rest.level[name] = nil
+	   local p = bed_rest.pos[name] or nil
+	   local bedp = bed_rest.bed_position[name] or nil
+	   if bedp ~= nil then
+	      minetest.get_meta(bedp):set_string("infotext", "")
+	   end
+	   bed_rest.player[name] = nil
+	   bed_rest.bed_position[name] = nil
+	   bed_rest.level[name] = nil
 
 		-- skip here to prevent sending player specific changes (used for leaving players)
 		if skip then
@@ -205,16 +209,23 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	   if velo.x ~= 0 then return end
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
-		for _, other_pos in pairs(bed_rest.bed_position) do
+		for nm, other_pos in pairs(bed_rest.bed_position) do
 			if vector.distance(bed_pos, other_pos) < 0.1 then
-				minetest.chat_send_player(name, ("This bed is already occupied!"))
-				return false
+			   minetest.chat_send_player(name, ("This bed is already occupied!"))
+			   local meta = minetest.get_meta(bed_pos)
+			   if meta:get_string("infotext") == "" then
+			      meta:set_string("infotext",
+					      nm.."'s bed")
+			   end
+			   return false
 			end
 		end
 		bed_rest.pos[name] = pos
 		bed_rest.bed_position[name] = bed_pos
 		bed_rest.player[name] = 1
 		bed_rest.level[name] = level
+		minetest.get_meta(bed_pos):set_string("infotext",
+						      name.."'s bed")
 
 		--check with break taker
 		break_taker(name)
@@ -302,9 +313,8 @@ end)
 --[[
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
-	lay_down(player, nil, nil, false, true)
+	lay_down(player, nil, nil, nil, false)
 	bed_rest.player[name] = nil
-	bed_rest.join_time[name] = nil
 end)
 ]]
 
