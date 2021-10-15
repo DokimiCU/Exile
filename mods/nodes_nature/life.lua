@@ -576,7 +576,7 @@ local plantlist2 = {
 	{"merki", "Merki", nil, 1, "mushroom", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
 	--food and water
 	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,3,1,0,0, nil, nil, nil, base_growth * 2, 0.005},
-	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,2,0,0, nil, nil, nil, base_growth * 2, 0.01},
+	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,0,0, nil, nil, nil, base_growth * 2, 0.01},
 	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, base_growth *0.8, 0.008},
 	--artifact
 	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *3, 0.001},
