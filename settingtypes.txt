@@ -7,6 +7,12 @@ exile_nobreaktaker (Disable the notice to take a break) bool false
 #mitigate HUD lag
 exile_hud_update (Number of seconds before HUD updates) float 0.1 0.1 4
 
+#If your map has busted half beds that can't be interacted with,
+#enabling this LBM will remove them at the cost of a bit of performance.
+#
+#If you know how it happened, please let me know so I can prevent it
+exile_bed_clear (Fix broken beds *press edit for details*) bool false
+
 #Set from 30 to 90 minutes for the first notice.
 #
 #After each notice the time before the next is halved.

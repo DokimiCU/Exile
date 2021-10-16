@@ -20,6 +20,7 @@ local modpath = minetest.get_modpath("bed_rest")
 
 dofile(modpath .. "/functions.lua")
 dofile(modpath .. "/api.lua")
+dofile(modpath .. "/bed_clear.lua")
 
 local temp = load_bedrest()
 if temp then
