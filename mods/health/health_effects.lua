@@ -71,8 +71,8 @@ local function vomit(player, meta, repeat_min, repeat_max, delay_min, delay_max,
 			local pos = player:get_pos()
 			minetest.sound_play("health_vomit", {pos = pos, gain = 0.5, max_hear_distance = 2})
 
-			rant =  random(t_min, t_max)
-			ranh = random(h_min, h_max)
+			local rant =  random(t_min, t_max)
+			local ranh = random(h_min, h_max)
 
 			--must directly set them, as time delay means it isn't feeding into main health loop
 			local thirst = meta:get_int("thirst")
@@ -129,7 +129,7 @@ local function organ_failure(player, repeat_min, repeat_max, delay_min, delay_ma
 		randel = randel + random(delay_min, delay_max)
 		minetest.after(randel, function()
 
-			ran_dam =  random(dam_min, dam_max)
+			local ran_dam =  random(dam_min, dam_max)
 
 			local health = player:get_hp()
 			health = health - ran_dam
