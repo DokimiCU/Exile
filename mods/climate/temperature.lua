@@ -152,7 +152,7 @@ climate.can_thaw = function(pos)
 	end
 
 	if minetest.get_item_group(node, "water") > 0 then
-		c = c/3
+	   c = math.floor(c/3)
 	end
 
 	if climate.get_point_temp(posa) > c then

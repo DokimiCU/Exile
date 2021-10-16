@@ -18,9 +18,9 @@ local function water_freeze(pos, node)
 
 		local water_type = minetest.get_item_group(n_name, "water")
 		if water_type == 1 then
-			minetest.set_node(pos, {name = "nodes_nature:ice"})
+		   minetest.set_node(pos, {name = "nodes_nature:ice"})
 		elseif water_type == 2 then
-			minetest.set_node(pos, {name = "nodes_nature:sea_ice"})
+		   minetest.set_node(pos, {name = "nodes_nature:sea_ice"})
 		end
 
 	end
@@ -69,33 +69,25 @@ minetest.register_abm({
 --Thaw snow and ice
 
 local function thaw_frozen(pos, node)
-	--position gets overwritten by climate function otherwise,
-	--not clear why
-	local p = pos
+   --position gets overwritten by climate function otherwise,
+   --not clear why
+   local p = pos
+   if climate.can_thaw(p) then
 
-	if climate.can_thaw(pos) then
-
-		local name = node.name
-
-		if name == "nodes_nature:ice" then
-			minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
-			minetest.check_for_falling(p)
-
-		elseif name == "nodes_nature:snow_block" then
-			minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
-			minetest.check_for_falling(p)
-
-		elseif name == "nodes_nature:snow" then
-			minetest.remove_node(p)
-			minetest.check_for_falling(p)
-
-		elseif name == "nodes_nature:sea_ice" then
-			minetest.set_node(p, {name = "nodes_nature:salt_water_source"})
-		end
-
-		return
-	end
-
+      local name = node.name
+      if name == "nodes_nature:snow_block" then
+	 minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+      elseif name == "nodes_nature:snow" then
+	 minetest.remove_node(p)
+      elseif name == "nodes_nature:ice" then
+	 minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+      elseif name == "nodes_nature:sea_ice" then
+	 minetest.set_node(p, {name = "nodes_nature:salt_water_source"})
+	 return
+      end
+      minetest.check_for_falling(p)
+      return
+   end
 end
 
 
