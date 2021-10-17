@@ -22,8 +22,8 @@ sfinv.register_page("clothing:clothing", {
 		local name = player:get_player_name()
 
 		local meta = player:get_meta()
-		local cur_tmin = climate.get_temp_string(meta:get_int("clothing_temp_min"))
-		local cur_tmax = climate.get_temp_string(meta:get_int("clothing_temp_max"))
+		local cur_tmin = climate.get_temp_string(meta:get_int("clothing_temp_min"), meta)
+		local cur_tmax = climate.get_temp_string(meta:get_int("clothing_temp_max"), meta)
 		
 		local formspec = clothing_formspec..
 		"label[3,0.4; Min Temperature Tolerance: " .. cur_tmin .. " ]"..

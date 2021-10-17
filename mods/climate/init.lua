@@ -454,3 +454,34 @@ minetest.register_chatcommand("set_weather", {
 		end
 	end,
 })
+
+-------------
+
+minetest.register_chatcommand("set_tempscale", {
+    params = "f, c, or k",
+    description = "Sets the temperature scale used for your own display\n"..
+       "Currently, clothing will need to be added/removed to update its display",
+    func = function(name, param)
+       if param == "" or param == "help" then
+	  wlist = "/set_tempscale:\n"..
+	  "Sets the temperature scale used for your own display.\n" ..
+	  "Valid settings are f for Fahrenheit, c for Celsius, and "..
+	  "k for Kelvin.\n"..
+	  "\nCurrently, clothing will need to be added/removed to update "..
+	  "its comfort range display."
+	  return false, wlist
+       end
+       if param ~= "f" and param ~= "c" and param ~= "k" then
+	  return false, "Invalid scale. Use f, c, or k."
+       end
+       local player = minetest.get_player_by_name(name)
+       meta = player:get_meta()
+       if param == "f" then
+	  meta:set_string("TempScalePref", "Fahrenheit")
+       elseif param == "k" then
+	  meta:set_string("TempScalePref", "Kelvin")
+       else
+	  meta:set_string("TempScalePref", "Celsius")
+       end
+    end,
+})

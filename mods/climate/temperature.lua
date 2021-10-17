@@ -734,8 +734,14 @@ climate.get_point_temp = function(pos)
 end
 
 --function for getting a temperature string set to the user's chosen scale
-climate.get_temp_string = function(v)
+climate.get_temp_string = function(v, meta)
    local scale = minetest.settings:get('exile_temp_scale')
+   if meta then
+      local tempscalepref = meta:get_string("TempScalePref")
+      if tempscalepref then -- override the sitewide temp scale
+	 scale = tempscalepref
+      end
+   end
    local t = v .." °C"
    if scale == "Fahrenheit" then
       v = v / 5 * 9 + 32
