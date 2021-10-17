@@ -211,11 +211,6 @@ function g.register_brush(brush_name, def)
             local player_name = user:get_player_name()
             local meta = itemstack:get_meta()
 
-            if pointed_thing.type == "nothing" or meta:get_string("grafitti") == "" then
-                --show_palette(user, def.palette)
-                return nil
-            end
-
             if pointed_thing.type ~= "node" then
                 return nil
             end
@@ -248,6 +243,12 @@ function g.register_brush(brush_name, def)
                 return nil
             end
 
+            if ( pointed_thing.type == "nothing" or
+		 meta:get_string("grafitti") == "" ) then
+                show_palette(user, def.palette)
+                return nil
+            end
+	    
             _placers[minetest.pos_to_string(pointed_thing.above)] = player_name
             local dir = vector.direction(pointed_thing.above, pointed_thing.under)
             local wallmounted = minetest.dir_to_wallmounted(dir)
