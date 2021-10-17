@@ -278,7 +278,10 @@ end
 
 --------------------------------------------
 
-function bed_rest.can_dig(bed_pos)
+function bed_rest.can_dig(bed_pos, player)
+   if minetest.check_player_privs(player, "protection_bypass") then
+      return true
+   end
 	-- Check all players in bed which one is at the expected position
 	for _, player_bed_pos in pairs(bed_rest.bed_position) do
 		if vector.equals(bed_pos, player_bed_pos) then

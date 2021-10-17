@@ -152,7 +152,7 @@ function bed_rest.register_bed(name, def)
 			return true
 		end,
 		can_dig = function(pos, player)
-			return bed_rest.can_dig(pos)
+			return bed_rest.can_dig(pos, player)
 		end,
 	})
 
@@ -178,7 +178,7 @@ function bed_rest.register_bed(name, def)
 			local node = minetest.get_node(pos)
 			local dir = minetest.facedir_to_dir(node.param2)
 			local p = vector.add(pos, dir)
-			return bed_rest.can_dig(p)
+			return bed_rest.can_dig(p, player)
 		end,
 
 		walkable = def.walkable or true,
