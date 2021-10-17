@@ -435,6 +435,7 @@ minetest.register_node("tech:bricks_and_mortar", {
 	description = "Brick and Mortar",
 	tiles = {"tech_bricks_and_mortar.png"},
 	stack_max = minimal.stack_max_medium/2,
+	paramtype2 = "facedir",
 	drop = "tech:loose_brick",
 	groups = {cracky = 2, masonry = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
@@ -803,6 +804,7 @@ for i in ipairs(list) do
 		description = desc.." Brick with Mortar",
 		tiles = {"nodes_nature_"..name.."_brick.png^tech_mortar_brick.png"},
 		drop = "nodes_nature:"..name.."_brick",
+		paramtype2 = "facedir",
 		stack_max = minimal.stack_max_bulky *3,
 		groups = {cracky = hardness, masonry = 1},
 		sounds = nodes_nature.node_sound_stone_defaults(),
@@ -812,6 +814,7 @@ for i in ipairs(list) do
 	minetest.register_node("tech:"..name.."_block_mortar", {
 		description = desc.. " Block with Mortar",
 		tiles = {"nodes_nature_"..name.."_block.png^tech_mortar_block.png"},
+		paramtype2 = "facedir",
 		drop = "nodes_nature:"..name.."_block",
 		stack_max = minimal.stack_max_bulky *2,
 		groups = {cracky = hardness, masonry = 1},

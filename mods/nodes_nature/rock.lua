@@ -79,6 +79,7 @@ for i in ipairs(list) do
 		minetest.register_node("nodes_nature:"..name.."_brick", {
 			description = desc.." Brick",
 			tiles = {"nodes_nature_"..name.."_brick.png"},
+			paramtype2 = "facedir",
 			stack_max = minimal.stack_max_bulky *3,
 			groups = {cracky = hardness, falling_node = 1,  oddly_breakable_by_hand = 1, masonry = 1},
 			sounds = nodes_nature.node_sound_stone_defaults(),
