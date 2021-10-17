@@ -252,7 +252,7 @@ for i in ipairs(treelist) do
 				minetest.set_node(pos, {name = "nodes_nature:tree_mark"})
 				local meta = minetest.get_meta(pos)
 				meta:set_string("saved_name", "nodes_nature:"..treename.."_leaves")
-				meta:set_string("saved_param2", p2_leaves)
+				meta:set_string("saved_param2", place_param2)
 				meta:set_string("leaf_name", "nodes_nature:"..treename.."_leaves")
 				meta:set_string("tree_name", "nodes_nature:"..treename.."_tree")
 				minetest.get_node_timer(pos):start(math.random(base_leaf_growth/2, base_leaf_growth))
