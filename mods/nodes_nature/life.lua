@@ -1220,6 +1220,9 @@ minetest.override_item("nodes_nature:tikusati_seed",{
 --marbhan has a Neurotoxin
 minetest.override_item("nodes_nature:marbhan",{
 	on_use = function(itemstack, user, pointed_thing)
+	   --Similar to hemlock, which tastes musty or like mouse urine
+	   minetest.chat_send_player(user:get_player_name(),
+				     "This plant has a foul musty flavor.")
 		--food poisoning
 		if random() < 0.001 then
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
@@ -1239,6 +1242,9 @@ minetest.override_item("nodes_nature:marbhan",{
 --nebiyi has a Hepatotoxin
 minetest.override_item("nodes_nature:nebiyi",{
 	on_use = function(itemstack, user, pointed_thing)
+	   --Flowers look a bit like oleander; it causes intense stomach pain
+	   minetest.chat_send_player(user:get_player_name(),
+				     "Your stomach hurts terribly.")
 		--food poisoning
 		if random() < 0.001 then
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})

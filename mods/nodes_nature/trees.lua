@@ -327,7 +327,8 @@ minetest.override_item("nodes_nature:maraka_leaves",{damage_per_second = 1})
 --you can eat it raw if you want to take the risk... famine food for the desperate
 minetest.override_item("nodes_nature:maraka_nut",{
 	on_use = function(itemstack, user, pointed_thing)
-
+	   minetest.chat_send_player(user:get_player_name(),
+				     "This nut is terribly bitter and hurts your stomach.")
 		--food poisoning
 		if random() < 0.001 then
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
