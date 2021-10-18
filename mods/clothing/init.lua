@@ -81,7 +81,7 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 						if player_inv:room_for_item("main", cloth_name) then
 							player_inv:remove_item("cloths", cloth_name)
 							player_inv:add_item("main", cloth_name)
-							update_temp(player)
+							clothing:update_temp(player)
 							return 1
 						end
 					end
@@ -147,27 +147,21 @@ minetest.register_on_dieplayer(function(player)
 
 	local drop = {}
 
-	local meta = player:get_meta()
-	local clothing_meta = meta:get_string("clothing:inventory")
-	local clothes = clothing_meta and minetest.deserialize(clothing_meta) or {}
+	local player_inv = player:get_inventory()
+	local clothes = player_inv:get_list("cloths") or {}
 
-	local name = player:get_player_name()
-	local clothing_inv = minetest.get_inventory({type="detached", name = name.."_clothing"})
-
-	for i=1, 6 do
-		local stack = ItemStack(clothes[i])
+	for i=1, #clothes do
+		local stack = clothes[i]
 		--queue to drop, remove effects, remove item
 		if stack:get_count() > 0 then
-			table.insert(drop, stack)
-			clothing:run_callbacks("on_unequip", player, i, stack)
-			clothing_inv:set_stack("clothing", i, nil)
+		   table.insert(drop, stack)
+		   player_inv:remove_item("cloths", stack:get_name())
 		end
 	end
 
-	--wipe meta, reset appearance
-	meta:set_string("clothing:inventory", "")
+	--reset appearance, reset comfort range
 	clothing:set_player_clothing(player)
-
+	clothing:update_temp(player)
 
 
 
