@@ -81,7 +81,6 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 						if player_inv:room_for_item("main", cloth_name) then
 							player_inv:remove_item("cloths", cloth_name)
 							player_inv:add_item("main", cloth_name)
-							print("Added clothing, updating temp")
 							update_temp(player)
 							return 1
 						end
@@ -107,133 +106,28 @@ local function get_element(item_name)
 end
 
 
-
-local function save_clothing_metadata(player, clothing_inv)
-	local player_inv = player:get_inventory()
-	local is_empty = true
-	local clothes = {}
-
-	for i = 1, 6 do
-		local stack = clothing_inv:get_stack("clothing", i)
-		-- Move all non-clothes back to the player inventory
-		if not stack:is_empty() and not get_element(stack:get_name()) then
-			player_inv:add_item("main", clothing_inv:remove_item("clothing", stack))
-			stack:clear()
-		end
-		if not stack:is_empty() then
-			clothes[i] = stack:to_string()
-			is_empty = false
-		end
-	end
-
-	local meta = player:get_meta()
-	if is_empty then
-		meta:set_string("clothing:inventory", "")
-	else
-		meta:set_string("clothing:inventory", minetest.serialize(clothes))
-	end
-end
-
-local function load_clothing_metadata(player, clothing_inv)
+local function load_clothing_metadata(player)
+   -- Exile clothing was stored as a metadata string, migrate to new inv
 	local player_inv = player:get_inventory()
 	local meta = player:get_meta()
 	local clothing_meta = meta:get_string("clothing:inventory")
 	local clothes = clothing_meta and minetest.deserialize(clothing_meta) or {}
-	local dirty_meta = false
-	if not clothing_meta then
-		-- Backwards compatiblity
-		for i = 1, 6 do
-			local stack = player_inv:get_stack("clothing", i)
-			if not stack:is_empty() then
-				clothes[i] = stack:to_string()
-				dirty_meta = true
-			end
-		end
+	if clothing_meta == "" then
+	   return
 	end
 	-- Fill detached slots
-	clothing_inv:set_size("clothing", 6)
+	--clothing_inv:set_size("clothing", 6)
 	for i = 1, 6 do
-		clothing_inv:set_stack("clothing", i, clothes[i] or "")
+	   player_inv:set_stack("cloths", i, clothes[i] or "")
+	   --overwrite current clothes, but it will be empty on first migration
 	end
-
-	if dirty_meta then
-		-- Requires detached inventory to be set up
-		save_clothing_metadata(player, clothing_inv)
-	end
-
-	-- Clean up deprecated garbage after saving
-	player_inv:set_size("clothing", 0)
+	meta:set_string("clothing:inventory", "")
 end
 
-local orig_init_on_joinplayer = player_api.init_on_joinplayer
-function player_api.init_on_joinplayer(player)
-	local name = player:get_player_name()
-	local player_inv = player:get_inventory()
-	local clothing_inv = minetest.create_detached_inventory(name.."_clothing",{
-
-		on_put = function(inv, listname, index, stack, player)
-			save_clothing_metadata(player, inv)
-			clothing:set_player_clothing(player)
-			clothing:run_callbacks("on_equip", player, index, stack)
-		end,
-
-		on_take = function(inv, listname, index, stack, player)
-			save_clothing_metadata(player, inv)
-			clothing:set_player_clothing(player)
-			clothing:run_callbacks("on_unequip", player, index, stack)
-		end,
-
-		on_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-			save_clothing_metadata(player, inv)
-			clothing:set_player_clothing(player)
-		end,
-
-		allow_put = function(inv, listname, index, stack, player)
-
-			local item = stack:get_name()
-
-			--stop not clothes
-			local element = get_element(item)
-			if not element then
-				return 0
-			end
-
-			--stop same groups
-			for i = 1, 6 do
-				local stack = inv:get_stack("clothing", i)
-				local def = stack:get_definition() or {}
-				if def.groups and def.groups["clothing_"..element] then --and i ~= index then
-					return 0
-				end
-			end
-
-			--stop putting in filled spot
-			local orig_stack = inv:get_stack("clothing", index)
-			if orig_stack:get_count() > 0 then
-				return 0
-			end
-
-
-			return 1
-		end,
-
-		allow_take = function(inv, listname, index, stack, player)
-			return stack:get_count()
-		end,
-
-		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-			return count
-		end,
-
-	}, name)
-
-
-
-	load_clothing_metadata(player, clothing_inv)
-	orig_init_on_joinplayer(player)
-	clothing:set_player_clothing(player)
-end
-
+minetest.register_on_joinplayer(function(player)
+      --import old clothing
+      load_clothing_metadata(player)
+end)
 
 ---------------------------------------------------------
 --Player death
