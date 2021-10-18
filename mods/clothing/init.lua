@@ -160,10 +160,8 @@ minetest.register_on_dieplayer(function(player)
 	end
 
 	--reset appearance, reset comfort range
-	clothing:set_player_clothing(player)
+	player_api.set_texture(player)
 	clothing:update_temp(player)
-
-
 
 	local pos = player:get_pos()
 	local name = player:get_player_name()
