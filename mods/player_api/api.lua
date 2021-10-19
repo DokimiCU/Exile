@@ -71,7 +71,7 @@ function player_api.get_gender_model(gender)
 		if minetest.get_modpath("3d_armor")~=nil then
 			model =  "3d_armor_female.b3d"
 		else
-			model = "female.b3d"
+			model = "character.b3d"
 		end
 	end
 	return model

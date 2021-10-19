@@ -45,7 +45,7 @@ function player_api.register_cloth(name, def)
 		tooltip = tooltip.."\n".. minetest.colorize(gender_color, gender)
 		description = def.description .. "\n" .. tooltip
 	end
-	newdef = {
+	local newdef = {
 		description = description or nil,
 		inventory_image = def.inventory_image or nil,
 		wield_image = def.wield_image or nil,
@@ -143,12 +143,13 @@ local cloth_pos = {
 	"32,32",
 	"0,32",
 	"0,32",
+	"0,0",
 }
 
 function player_api.compose_cloth(player)
 	local inv = player:get_inventory()
 	local inv_list = inv:get_list("cloths") 
-	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack
+	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack, cape_ItemStack
 	local underwear = false
 	local attached_cloth = {}
 	for i = 1, #inv_list do
@@ -166,6 +167,8 @@ function player_api.compose_cloth(player)
 			underwear = true
 		elseif cloth_type == 4 then
 			footwear_ItemStack = cloth_itemstack._cloth_texture
+		elseif cloth_type == 5 then
+			cape_ItemStack = cloth_itemstack._cloth_texture
 		end
 		if cloth_itemstack and cloth_itemstack._cloth_attach then
 			attached_cloth[#attached_cloth+1] = cloth_itemstack._cloth_attach
@@ -196,6 +199,9 @@ function player_api.compose_cloth(player)
 	end
 	if footwear_ItemStack then
 		cloth = cloth .. ":"..cloth_pos[4].."="..footwear_ItemStack
+	end
+	if cape_ItemStack then
+		cloth = cloth .. ":"..cloth_pos[5].."="..cape_ItemStack
 	end
 	--Now attached cloth
 	if not(next(attached_cloth) == nil) then

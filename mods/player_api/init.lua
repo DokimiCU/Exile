@@ -21,11 +21,14 @@ player_api.register_model("character.b3d", {
 		swin_and_mine = {x = 306, y = 330},
 		swin_stand = {x = 232, y = 232},
 	},
-	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+	collisionbox = {-0.3, -1.0, -0.3, 0.3, 0.7, 0.3},
 	stepheight = 0.6,
-	eye_height = 1.47,
+	eye_height = 0.57,
 })
 
+--Runs' female model, unused currently because she wears the cape as a beard
+--enable in api.lua's get_gender_model for a laugh
+--TODO: Find/make better models
 player_api.register_model("female.b3d", {
 	animation_speed = 30,
 	textures = {
@@ -54,7 +57,6 @@ player_api.register_model("female.b3d", {
 -- Update appearance when the player joins
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
-	print("Player joined: ",player_name)
 	player_api.player_attached[player_name] = false
 	local gender = player_api.get_gender(player)
 	if gender == "" then
