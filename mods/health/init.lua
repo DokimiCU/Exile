@@ -487,6 +487,7 @@ end)
 minetest.register_on_respawnplayer(function(player)
 	set_default_attibutes(player)
 	sfinv.set_player_inventory_formspec(player)
+	clothing:update_temp(player)
 end)
 
 
