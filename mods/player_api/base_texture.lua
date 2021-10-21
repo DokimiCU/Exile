@@ -51,12 +51,12 @@ function player_api.set_base_textures(player)
 	local base_texture = {}
 	local gender = meta:get_string("gender")
 	if gender == "male" then
-		base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
+		--base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
 		base_texture["eye"] = "player_brown_eye.png"
 		base_texture["mouth"] = {texture = "player_male_mouth_default.png", color = nil}
 		base_texture["hair"] = {texture = "player_male_hair_default.png", color = "brown"}
 	else
-		base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
+		--base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
 		base_texture["eye"] = "player_blue_eye.png"
 		base_texture["mouth"] = {texture = "player_female_mouth_default.png", color = nil}
 		base_texture["hair"] = {texture = "player_female_hair_default.png", color = "brown"}
@@ -99,11 +99,10 @@ function player_api.compose_base_texture(player, def)
 	for i = 1, #ordered_keys do
 		local key, value = ordered_keys[i], base_texture[ordered_keys[i]]
 		if key == "eyebrowns" then
-			value.texture = player_api.colorize_texture(player, "eyebrowns", value.texture)
-			texture = texture .. ":"..def.eyebrowns_pos.."="..value.texture
+			--value.texture = player_api.colorize_texture(player, "eyebrowns", value.texture)
+			--texture = texture .. ":"..def.eyebrowns_pos.."="..value.texture
 		elseif key == "eye" then
-			texture = texture .. ":"..def.eye_right_pos.."="..value
-			texture = texture .. ":"..def.eye_left_pos.."="..value
+		       texture = texture .. ":"..def.eye_right_pos.."="..value
 		elseif key == "mouth" then
 			texture = texture .. ":"..def.mouth_pos.."="..value.texture
 		elseif key == "hair" then
