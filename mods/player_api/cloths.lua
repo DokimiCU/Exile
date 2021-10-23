@@ -181,7 +181,7 @@ function player_api.compose_cloth(player)
 		canvas_size ="128x64",
 		skin_texture = "player_skin.png",
 		eyebrowns_pos = "16,16",
-		eye_right_pos = "18,23",
+		eye_right_pos = "18,20",
 		eye_left_pos = "26,24",
 		mouth_pos = "16,28",
 		hair_preview = false,
