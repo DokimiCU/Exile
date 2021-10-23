@@ -80,11 +80,11 @@ function airboat.on_rightclick(self, clicker)
 		end
 		self.driver = name
 		clicker:set_attach(self.object, "",
-			{x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
+			{x = 1, y = 0.5, z = 0}, {x = 0, y = 0, z = 0})
 		player_api.player_attached[name] = true
 		minetest.after(0.2, function()
 			player_api.set_animation(clicker, "sit" , 30)
-			clicker:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})
+			clicker:set_eye_offset({x = 0, y = -5, z = 0}, {x = 0, y = 0, z = 0})
 		end)
 		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
 		clicker:set_look_horizontal(self.object:getyaw())

@@ -236,7 +236,7 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		local yaw, param2 = get_look_yaw(bed_pos)
 		player:set_look_horizontal(yaw)
 		local dir = minetest.facedir_to_dir(param2)
-		local p = {x = bed_pos.x + dir.x / 2, y = bed_pos.y, z = bed_pos.z + dir.z / 2}
+		local p = {x = bed_pos.x + dir.x / 2, y = bed_pos.y + 1, z = bed_pos.z + dir.z / 2}
 		--clear physics
 		player_monoids.speed:del_change(player, "health:physics")
 		player_monoids.jump:del_change(player, "health:physics")
