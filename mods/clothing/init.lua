@@ -97,15 +97,6 @@ end)
 --functions
 
 
-local function get_element(item_name)
-	for _, element in pairs(clothing.elements) do
-		if minetest.get_item_group(item_name, "clothing_"..element) > 0 then
-			return element
-		end
-	end
-end
-
-
 local function load_clothing_metadata(player)
    -- Exile clothing was stored as a metadata string, migrate to new inv
 	local player_inv = player:get_inventory()
