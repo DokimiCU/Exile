@@ -30,7 +30,7 @@ player_api.skin_colors = {
 	},
 }
 
-function player_api.get_base_texture_table(player)
+function player_api.load_base_texture_table(player)
 	local meta = player:get_meta()
 	local base_texture_str = meta:get_string("base_texture")
 	if base_texture_str == nil or base_texture_str == "" then
@@ -41,7 +41,7 @@ function player_api.get_base_texture_table(player)
 	return base_texture
 end
 
-function player_api.set_base_texture(player, base_texture)
+function player_api.save_base_texture(player, base_texture)
 	local meta = player:get_meta()
 	meta:set_string("base_texture", minetest.serialize(base_texture))
 end
@@ -62,11 +62,11 @@ function player_api.set_base_textures(player)
 		base_texture["hair"] = {texture = "player_female_hair_default.png", color = "brown"}
 	end
 	base_texture["skin"] = {texture = "player_skin.png", color = "normal"}
-	player_api.set_base_texture(player, base_texture)
+	player_api.save_base_texture(player, base_texture)
 end
 
 function player_api.colorize_texture(player, what, texture)
-	local base_texture = player_api.get_base_texture_table(player)
+	local base_texture = player_api.load_base_texture_table(player)
 	if base_texture[what]["color"] then
 		local value
 		if what == "skin" then
@@ -85,7 +85,7 @@ function player_api.colorize_texture(player, what, texture)
 end
 
 function player_api.compose_base_texture(player, def)
-	local base_texture = player_api.get_base_texture_table(player)
+	local base_texture = player_api.load_base_texture_table(player)
 	local texture = player_api.colorize_texture(player, "skin", "[combine:"..def.canvas_size..":0,0="..def.skin_texture)
 
 	local ordered_keys = {}
