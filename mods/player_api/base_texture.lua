@@ -13,21 +13,50 @@ player_api.hair_colors = {
 		ratio = 140,
 	},
 	blonde = {
-		color = "#a7ad06",
-		ratio = 112,
+		color = "#a79d46",
+		ratio = 150,
 	},
 }
 
 player_api.skin_colors = {
-	normal = nil,
-	brown = {
-		color = "#a56d40",
-		ratio = 150,
-	},
-	black = {
-		color = "#462409",
-		ratio = 127,
-	},
+   tan = nil, -- #e1bc9e
+   pale = {
+      color = "#ddeded",
+      ratio = 150,
+   },
+   red = {
+      color = "#b04d20",
+      ratio = 150,
+   },
+   yellow = {
+      color = "#ada540",
+      ratio = 150,
+   },
+   brown = {
+      color = "#a56d40",
+      ratio = 220,
+   },
+   black = {
+      color = "#462409",
+      ratio = 240,
+   },
+   --unnatural colors
+   greenmen = {
+      color = "#21b31e",
+      ratio = 160,
+   },
+   bluemen = {
+      color = "#0031c3",
+      ratio = 140,
+   },
+   graymen = {
+      color = "#909090",
+      ratio = 250,
+   },
+   redmen = {
+      color = "#ff1010",
+      ratio = 250,
+   },
 }
 
 function player_api.load_base_texture_table(player)
