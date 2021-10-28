@@ -137,7 +137,9 @@ end
 minetest.register_on_dieplayer(function(player)
 
 	local drop = {}
-
+	if minetest.check_player_privs(player, "creative") then
+	   return -- Creative mode players keep their inv & leave no bones
+	end
 	local player_inv = player:get_inventory()
 	local clothes = player_inv:get_list("cloths") or {}
 
