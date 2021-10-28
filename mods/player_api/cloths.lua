@@ -127,15 +127,9 @@ player_api.register_cloth("player_api:cloth_male_lower_default", {
 })
 
 function player_api.set_cloths(player)
-	local gender = player_api.get_gender(player)
 	--Create the "cloths" inventory
 	local inv = player:get_inventory()
 	inv:set_size("cloths", 8)
-
-	if gender == "female" then
-		--inv:add_item("cloths", 'player_api:cloth_lower_underwear_default')
-		--TODO: Add a bra for female characters
-	end
 end
 
 local cloth_pos = {
@@ -147,10 +141,12 @@ local cloth_pos = {
 }
 
 function player_api.compose_cloth(player)
+	local gender = player_api.get_gender(player)
 	local inv = player:get_inventory()
 	local inv_list = inv:get_list("cloths") 
 	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack, cape_ItemStack
 	local underwear = false
+	local bra = false
 	local attached_cloth = {}
 	for i = 1, #inv_list do
 		local item_name = inv_list[i]:get_name()
@@ -162,6 +158,7 @@ function player_api.compose_cloth(player)
 			head_ItemStack = cloth_itemstack._cloth_texture
 		elseif cloth_type == 2 then
 			upper_ItemStack = cloth_itemstack._cloth_texture
+			bra = true
 		elseif cloth_type == 3 then
 			lower_ItemStack = cloth_itemstack._cloth_texture
 			underwear = true
@@ -173,6 +170,9 @@ function player_api.compose_cloth(player)
 		if cloth_itemstack and cloth_itemstack._cloth_attach then
 			attached_cloth[#attached_cloth+1] = cloth_itemstack._cloth_attach
 		end
+	end
+	if not(bra) and gender == "female" then
+		upper_ItemStack = "cloth_upper_underwear_default.png"
 	end
 	if not(underwear) then
 		lower_ItemStack = "cloth_lower_underwear_default.png"
