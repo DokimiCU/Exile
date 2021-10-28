@@ -76,9 +76,8 @@ function player_api.save_base_texture(player, base_texture)
 end
 
 function player_api.set_base_textures(player)
-	local meta = player:get_meta()
 	local base_texture = {}
-	local gender = meta:get_string("gender")
+	local gender = player_api.get_gender(player)
 	if gender == "male" then
 		--base_texture["eyebrowns"] = {texture = "player_eyebrowns_default.png", color = nil}
 		base_texture["eye"] = "player_brown_eye.png"

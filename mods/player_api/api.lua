@@ -79,7 +79,7 @@ end
 
 
 minetest.register_chatcommand("toggle_gender", {
-	description = S("Change the gender, from male to female or viceversa"),
+    description = S("Change the gender, from male to female or viceversa"),
     func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		local meta = player:get_meta()
