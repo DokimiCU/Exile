@@ -23,13 +23,13 @@ player_api.register_model("character.b3d", {
 	},
 	collisionbox = {-0.3, -1.0, -0.3, 0.3, 0.7, 0.3},
 	stepheight = 0.6,
-	eye_height = 0.57,
+	eye_height = 0.50,
 })
 
---Runs' female model, unused currently because she wears the cape as a beard
---enable in api.lua's get_gender_model for a laugh
+--Just a copy of the male model, but with a smaller visual_size applied
+--Minetest doesn't allow you to register one model two ways
 --TODO: Find/make better models
-player_api.register_model("female.b3d", {
+player_api.register_model("character-f.b3d", {
 	animation_speed = 30,
 	textures = {
 		"female.png",
@@ -49,18 +49,19 @@ player_api.register_model("female.b3d", {
 		swin_and_mine = {x = 306, y = 330},
 		swin_stand = {x = 232, y = 232},
 	},
-	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+	collisionbox = {-0.3, -1.0, -0.3, 0.3, 0.7, 0.3},
+	visual_size = { x =.8, y = .9, z = .9 },
 	stepheight = 0.6,
-	eye_height = 1.47,
+	eye_height = 0.45,
 })
 
 -- Update appearance when the player joins
 minetest.register_on_joinplayer(function(player)
-	local player_name = player:get_player_name()
+        local player_name = player:get_player_name()
 	player_api.player_attached[player_name] = false
 	local gender = player_api.get_gender(player)
 	if gender == "" then
-		player_api.set_gender(player, "random") --set random gender
+	   player_api.set_gender(player, "random") --set random gender
 	end
 	if not player_api.has_cloths(player) then
 	   player_api.set_cloths(player)
