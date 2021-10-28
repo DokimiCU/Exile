@@ -77,10 +77,6 @@ function player_api.get_gender_model(gender)
 	return model
 end
 
-function player_api.set_base_texture(player, gender)
-	local meta = player:get_meta()
-	meta:set_string("base_texture", gender)
-end
 
 minetest.register_chatcommand("toggle_gender", {
 	description = S("Change the gender, from male to female or viceversa"),
