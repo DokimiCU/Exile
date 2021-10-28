@@ -248,7 +248,7 @@ minetest.register_globalstep(function(dtime)
 			--minetest.chat_send_all(tostring(player:get_fov()))
 			--if not(minetest.is_singleplayer() and (player:get_fov() == 0)) then
 				--minetest.chat_send_all("test")
-				move_head(player, on_water)
+				move_head(player, false)
 			--end
 
 			-- Apply animations based on what the player is doing
@@ -261,30 +261,14 @@ minetest.register_globalstep(function(dtime)
 					player_sneak[name] = controls.sneak
 				end
 				if controls.LMB or controls.RMB then
-					if not(on_water) then
-						player_set_animation(player, "walk_mine", animation_speed_mod)
-					else
-						player_set_animation(player, "swin_and_mine", animation_speed_mod)
-					end
+				   player_set_animation(player, "walk_mine", animation_speed_mod)
 				else
-					if not(on_water) then
-						player_set_animation(player, "walk", animation_speed_mod)
-					else
-						player_set_animation(player, "swin", animation_speed_mod)
-					end
+				   player_set_animation(player, "walk", animation_speed_mod)
 				end
 			elseif controls.LMB or controls.RMB then
-				if not(on_water) then
-					player_set_animation(player, "mine", animation_speed_mod)
-				else
-					player_set_animation(player, "swin_mine", animation_speed_mod)
-				end
+			   player_set_animation(player, "mine", animation_speed_mod)
 			else
-				if not(on_water) then
-					player_set_animation(player, "stand", animation_speed_mod)
-				else
-					player_set_animation(player, "swin_stand", animation_speed_mod)
-				end
+			   player_set_animation(player, "stand", animation_speed_mod)
 			end
 			if on_water and player_pos.y < 0 then
 				timer = timer + dtime
