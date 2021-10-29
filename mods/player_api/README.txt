@@ -19,6 +19,10 @@ stujones11, An0n3m0us (CC BY-SA 3.0):
   character.b3d
   character.blend
 
+stujones11's "offset_1.70" model specifically was used for
+ character.b3d
+ character-f.b3d
+
 Jordach (CC BY-SA 3.0):
   character.png
 

@@ -21,9 +21,9 @@ player_api.register_model("character.b3d", {
 		swin_and_mine = {x = 306, y = 330},
 		swin_stand = {x = 232, y = 232},
 	},
-	collisionbox = {-0.3, -1.0, -0.3, 0.3, 0.7, 0.3},
+	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
 	stepheight = 0.6,
-	eye_height = 0.50,
+	eye_height = 1.45,
 })
 
 --Just a copy of the male model, but with a smaller visual_size applied
@@ -49,10 +49,10 @@ player_api.register_model("character-f.b3d", {
 		swin_and_mine = {x = 306, y = 330},
 		swin_stand = {x = 232, y = 232},
 	},
-	collisionbox = {-0.3, -1.0, -0.3, 0.3, 0.7, 0.3},
-	visual_size = { x =.8, y = .9, z = .9 },
+	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+	visual_size = { x =.8, y = .94, z = .8 },
 	stepheight = 0.6,
-	eye_height = 0.45,
+	eye_height = 1.38,
 })
 
 -- Update appearance when the player joins
