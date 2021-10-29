@@ -41,7 +41,7 @@ local recent_teleports = {}
 --actually move
 local function teleport_effects(target_pos, pos, player, player_name, regulator, power, random)
 	local origin = player:get_pos()
-	target_pos.y = target_pos.y + 1.1
+	target_pos.y = target_pos.y + 0.5
 
 	--effects at source
 	minetest.sound_play( {name="artifacts_transport", gain=1}, {pos=pos, max_hear_distance=100})
