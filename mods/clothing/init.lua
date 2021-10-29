@@ -118,6 +118,8 @@ end
 minetest.register_on_joinplayer(function(player)
       --import old clothing
       load_clothing_metadata(player)
+      clothing:update_temp(player)
+      player_api.set_texture(player)
 end)
 
 ---------------------------------------------------------
