@@ -65,7 +65,7 @@ local is_outdoor = function(pos, offset_y)
 		offset_y = 0
 	end
 
-	if minetest.get_node_light({x=pos.x, y=pos.y + offset_y, z=pos.z}, 0.5) == 15 then
+	if minetest.get_natural_light({x=pos.x, y=pos.y + offset_y, z=pos.z}, 0.5) == 15 then
 		return true
 	end
 	return false

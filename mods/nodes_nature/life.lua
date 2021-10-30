@@ -105,7 +105,7 @@ local function grow_seed(pos, seed_name, plant_name, place_p2, timer_avg, elapse
 
 	--cannot grow indoors (unless a mushroom)
 	if minetest.get_item_group(plant_name, "mushroom") == 0 then
-		local light = minetest.get_node_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
+		local light = minetest.get_natural_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
 		if not light or light < 13 then
 			return
 		end

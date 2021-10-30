@@ -31,7 +31,7 @@ local function flora_spread(pos, node)
 	end
 
 	--cannot grow indoors
-	local light = minetest.get_node_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
+	local light = minetest.get_natural_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
 	if not light or light < 13 then
 		return
 	end
@@ -52,7 +52,7 @@ local function flora_spread(pos, node)
 			local soil = soils[math.random(num_soils)]
 			local soil_name = minetest.get_node(soil).name
 			local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
-			light = minetest.get_node_light(soil_above)
+			light = minetest.get_natural_light(soil_above)
 			if light and light >= 13 and soil_name == under.name then
 				local plant = node.name
 				local seedling_nodedef = minetest.registered_nodes[plant.."_seed"]
@@ -121,8 +121,8 @@ local function mushroom_spread(pos, node)
 
 	local pos2 = positions[math.random(#positions)]
 	pos2.y = pos2.y + 1
-	if minetest.get_node_light(pos, 0.5) <= 14 and
-	minetest.get_node_light(pos2, 0.5) <= 14 then
+	if minetest.get_natural_light(pos, 0.5) <= 14 and
+	minetest.get_natural_light(pos2, 0.5) <= 14 then
 		local plant = node.name
 		local seedling_nodedef = minetest.registered_nodes[plant.."_seed"]
 		if not seedling_nodedef then
@@ -180,7 +180,7 @@ local function grow_cane(pos, node)
 		return
 	end
 
-	if minetest.get_node_light(pos) < 13 then
+	if minetest.get_natural_light(pos) < 13 then
 		return
 	end
 	local nodedef = minetest.registered_nodes[plant_name]
@@ -224,7 +224,7 @@ minetest.register_abm({
 		end
 
 		--remove in dark
-		local light = minetest.get_node_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
+		local light = minetest.get_natural_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
 		if light ~= nil and light < 10 then
 			minetest.set_node(pos, {name = drop})
 			return
@@ -242,8 +242,8 @@ minetest.register_abm({
 
 		local pos2 = positions[math.random(#positions)]
 		local pos2_ab = {x = pos2.x, y = pos2.y + 1, z = pos2.z}
-		if minetest.get_node_light(pos, 0.5) >= 13 and
-		  minetest.get_node_light(pos2_ab, 0.5) >= 13 then
+		if minetest.get_natural_light(pos, 0.5) >= 13 and
+		  minetest.get_natural_light(pos2_ab, 0.5) >= 13 then
 			minetest.set_node(pos2, {name = node.name})
 		end
 

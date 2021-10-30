@@ -81,7 +81,7 @@ end
 
 -------------------------------------------------------------------
 local function water_pot(pos)
-	local light = minetest.get_node_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
+	local light = minetest.get_natural_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
 	--collect rain
 	if light == 15 then
 		if climate.get_rain(pos, light) then
