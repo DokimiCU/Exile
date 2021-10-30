@@ -114,7 +114,9 @@ local function water_pot(pos)
 			minetest.set_node(pos, {name = "tech:clay_water_pot_salt_water"})
 			return
 			]]
-		elseif name_a == "nodes_nature:ice" then
+		elseif (name_a == "nodes_nature:ice" or
+			name_a == "nodes_nature:snow_block" or
+			name_a == "nodes_nature:freshwater_source" ) then
 			if climate.can_thaw(posa) then
 				minetest.set_node(pos, {name = "tech:clay_water_pot_freshwater"})
 				minetest.remove_node(posa)
