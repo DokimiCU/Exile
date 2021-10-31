@@ -104,8 +104,10 @@ local temp_max = 30
 				end
 			end
 			-- set comfortable temperature range
-			temp_min = temp_min - def.temp_min
-			temp_max = temp_max + def.temp_max
+			if def.temp_min and def.temp_max then
+			   temp_min = temp_min - def.temp_min
+			   temp_max = temp_max + def.temp_max
+			end
 		end
 	end
 	-- apply new temperature comfort range
