@@ -53,6 +53,7 @@ function airboat.on_rightclick(self, clicker)
 		return
 	end
 	local name = clicker:get_player_name()
+	local pos = clicker:get_pos()
 	if self.driver and name == self.driver then
 		-- Detach
 		self.driver = nil
@@ -64,9 +65,8 @@ function airboat.on_rightclick(self, clicker)
 			clicker:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
 		end)
 		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-		local pos = clicker:getpos()
 		minetest.after(0.1, function()
-			clicker:setpos(pos)
+			clicker:set_pos(pos)
 		end)
 	elseif not self.driver then
 		-- Attach
@@ -87,7 +87,7 @@ function airboat.on_rightclick(self, clicker)
 			clicker:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})
 		end)
 		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-		clicker:set_look_horizontal(self.object:getyaw())
+		clicker:set_look_horizontal(self.object:get_yaw())
 	end
 end
 
@@ -103,6 +103,7 @@ function airboat.on_punch(self, puncher)
 	end
 
 	local name = puncher:get_player_name()
+        local pos = puncher:get_pos()
 	if self.driver and name == self.driver then
 		-- Detach
 		--only use on_rightclick
@@ -122,7 +123,7 @@ function airboat.on_punch(self, puncher)
 				or not inv:contains_item("main", "artifacts:airboat") then
 			local leftover = inv:add_item("main", "artifacts:airboat")
 			if not leftover:is_empty() then
-				minetest.add_item(self.object:getpos(), leftover)
+				minetest.add_item(self.object:get_pos(), leftover)
 			end
 		end
 		minetest.after(0.1, function()
@@ -134,8 +135,9 @@ end
 
 
 function airboat.on_step(self, dtime)
-	self.v = get_v(self.object:getvelocity()) * get_sign(self.v)
-	self.vy = self.object:getvelocity().y
+	self.v = get_v(self.object:get_velocity()) * get_sign(self.v)
+	self.vy = self.object:get_velocity().y
+	local pos = self.object:get_pos()
 
 	-- Controls
 	if self.driver then
@@ -196,7 +198,7 @@ function airboat.on_step(self, dtime)
 
 	-- Early return for stationary vehicle
 	if self.v == 0 and self.rot == 0 and self.vy == 0 then
-		self.object:setpos(self.object:getpos())
+		self.object:set_pos(self.object:get_pos())
 		return
 	end
 
@@ -232,17 +234,17 @@ function airboat.on_step(self, dtime)
 
 	local new_acce = {x = 0, y = 0, z = 0}
 	-- Bouyancy in liquids
-	local p = self.object:getpos()
+	local p = self.object:get_pos()
 	p.y = p.y - 1.5
 	local def = minetest.registered_nodes[minetest.get_node(p).name]
 	if def and (def.liquidtype == "source" or def.liquidtype == "flowing") then
 		new_acce = {x = 0, y = 10, z = 0}
 	end
 
-	self.object:setpos(self.object:getpos())
-	self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.vy))
-	self.object:setacceleration(new_acce)
-	self.object:setyaw(self.object:getyaw() + (1 + dtime) * self.rot)
+	self.object:set_pos(self.object:get_pos())
+	self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.vy))
+	self.object:set_acceleration(new_acce)
+	self.object:set_yaw(self.object:get_yaw() + (1 + dtime) * self.rot)
 end
 
 
@@ -278,10 +280,10 @@ minetest.register_craftitem("artifacts:airboat", {
 		pointed_thing.under.y = pointed_thing.under.y + 2
 		local airboat = minetest.add_entity(pointed_thing.under,
 			"artifacts:airboat")
-			minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
+			minetest.sound_play("artifacts_airboat_gear", {pos = pointed_thing.under, gain = 1, max_hear_distance = 6})
 		if airboat then
 			if placer then
-				airboat:setyaw(placer:get_look_horizontal())
+				airboat:set_yaw(placer:get_look_horizontal())
 			end
 			local player_name = placer and placer:get_player_name() or ""
 			if not (creative and creative.is_enabled_for and
