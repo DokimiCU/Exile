@@ -14,7 +14,6 @@ minetest.register_on_newplayer(function(player)
   meta:set_string("char_name", lore.generate_name(3))
   meta:set_int("char_start_date", minetest.get_day_count())
   meta:set_string("bio", lore.generate_bio(player))
-
 end)
 
 minetest.register_on_respawnplayer(function(player)
