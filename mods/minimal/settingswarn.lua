@@ -3,8 +3,8 @@
 --Checks configuration and sends a warning if unsupported values are set
 
 local timespeed = minetest.settings:get("time_speed")
-if timespeed and ( timespeed ~= "60" or
-		   timespeed ~= "72" or
+if timespeed and ( timespeed ~= "60" and
+		   timespeed ~= "72" and
 		   timespeed ~= "96") then
    minetest.log("warning", "time_speed should be set to 60, 72, or 96 for intended balance")
 end
