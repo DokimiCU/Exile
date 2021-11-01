@@ -9,11 +9,11 @@
 
 
 -- Woven
-backpacks.register_bacpack("woven_bag", "Woven Bag", "tech_woven.png", 8,2, {snappy = 3, dig_immediate = 3, temp_pass = 1}, nodes_nature.node_sound_leaves_defaults())
+backpacks.register_backpack("woven_bag", "Woven Bag", "tech_woven.png", 8,2, {snappy = 3, dig_immediate = 3, temp_pass = 1}, nodes_nature.node_sound_leaves_defaults())
 
 
 -- fabric
-backpacks.register_bacpack("fabric_bag", "Fabric Bag", "tech_coarse_fabric.png", 8,4, {snappy = 3, dig_immediate = 3, temp_pass = 1}, nodes_nature.node_sound_leaves_defaults())
+backpacks.register_backpack("fabric_bag", "Fabric Bag", "tech_coarse_fabric.png", 8,4, {snappy = 3, dig_immediate = 3, temp_pass = 1}, nodes_nature.node_sound_leaves_defaults())
 
 
 ---------------------------------------

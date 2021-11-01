@@ -3,7 +3,7 @@
 Adds api for Backpacks bags which allow storage in the inventory.
 
 
-`backpacks.register_bacpack(name, desc, texture, size, groups, sounds)`
+`backpacks.register_backpack(name, desc, texture, size, groups, sounds)`
 Will register a standard backpack with:
 name, description, texture, inventory size, groups, sounds
 

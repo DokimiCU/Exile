@@ -79,7 +79,7 @@ local allow_metadata_inventory_put = function(pos, listname, index, stack, playe
 end
 
 -- backpacks
-function backpacks.register_bacpack(name, desc, texture, width, height, groups, sounds)
+function backpacks.register_backpack(name, desc, texture, width, height, groups, sounds)
 
 	minetest.register_node(":backpacks:backpack_"..name, {
 		description = desc,
