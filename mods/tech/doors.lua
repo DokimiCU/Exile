@@ -58,6 +58,7 @@ doors.register_trapdoor("tech:trapdoor_wooden", {
 doors.register("door_iron", {
 		tiles = {{ name = "tech_iron_door.png", backface_culling = true }},
 		description = "Iron Door",
+		protected = true,
 		stack_max = minimal.stack_max_bulky *2,
 		inventory_image = "tech_iron_door_item.png",
 		groups = {cracky = 3, oddly_breakable_by_hand = 1},

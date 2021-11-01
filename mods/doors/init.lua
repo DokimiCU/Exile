@@ -140,6 +140,7 @@ function doors.door_toggle(pos, node, clicker)
 	node = node or minetest.get_node(pos)
 	local def = minetest.registered_nodes[node.name]
 	local name = def.door.name
+	local cname = clicker:get_player_name()
 
 	local state = meta:get_string("state")
 	if state == "" then
@@ -155,12 +156,11 @@ function doors.door_toggle(pos, node, clicker)
 
 	replace_old_owner_information(pos)
 
---[[
-	if clicker and not default.can_interact_with_node(clicker, pos) then
-		return false
-	end
 
-	]]
+	if def.protected and minetest.is_protected(pos, cname) then
+	   minetest.chat_send_player(cname,"You can't open this door, ",cname)
+	   return false
+	end
 
 	-- until Lua-5.2 we have no bitwise operators :(
 	if state % 2 == 1 then
@@ -215,11 +215,6 @@ local function on_place_node(place_to, newnode,
 		callback(place_to_copy, newnode_copy, placer,
 			oldnode_copy, itemstack, pointed_thing_copy)
 	end
-end
-
-local function can_dig_door(pos, digger)
-	replace_old_owner_information(pos)
-	return default.can_interact_with_node(digger, pos)
 end
 
 function doors.register(name, def)
@@ -401,7 +396,6 @@ function doors.register(name, def)
 	end
 
 	if def.protected then
-		def.can_dig = can_dig_door
 		def.on_blast = function() end
 		def.on_key_use = function(pos, player)
 			local door = doors.get(pos)
@@ -580,7 +574,6 @@ function doors.register_trapdoor(name, def)
 	def.is_ground_content = false
 
 	if def.protected then
-		def.can_dig = can_dig_door
 		def.after_place_node = function(pos, placer, itemstack, pointed_thing)
 			local pn = placer:get_player_name()
 			local meta = minetest.get_meta(pos)
