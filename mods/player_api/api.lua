@@ -124,7 +124,6 @@ function player_api.set_model(player, model_name)
 			stepheight = model.stepheight or 0.6,
 			eye_height = model.eye_height or 1.47,
 		})
-		print("Setting model eye height to ",(model.eye_height or 1.47))
 		player_api.set_animation(player, "stand")
 	else
 		player:set_properties({
