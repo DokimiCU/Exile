@@ -224,8 +224,10 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		bed_rest.bed_position[name] = bed_pos
 		bed_rest.player[name] = 1
 		bed_rest.level[name] = level
-		minetest.get_meta(bed_pos):set_string("infotext",
-						      name.."'s bed")
+		if not minetest.is_singleplayer() then
+		   minetest.get_meta(bed_pos):set_string("infotext",
+							 name.."'s bed")
+		end
 
 		--check with break taker
 		break_taker(name)
