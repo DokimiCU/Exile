@@ -1,6 +1,15 @@
 
 ### Changelog:
 
+# 0.3.4 and 0.2.7
+- New player api: head tracking, multiplayer skins, male and female characters
+- An introduction screen for new players, and a display of the day/season/year
+- Place snow/ice/water on top of a clay water pot, it will fill it
+- buffed food value of meat
+- improved torch stacking by rounding burn times off
+- new commands: /set_tempscale, /date
+- better indoors check on MT 5.4.x
+
 # 0.3.3 and 0.2.6
 - Plants now grow even when the player is away
 - Fireproof Iron doors and trapdoors
