@@ -19,6 +19,7 @@ minimal = {
 
 dofile(minetest.get_modpath('minimal')..'/item_names.lua')
 dofile(minetest.get_modpath('minimal')..'/settingswarn.lua')
+dofile(minetest.get_modpath('minimal')..'/protect.lua')
 
 
 -- GUI related stuff
