@@ -481,10 +481,16 @@ minetest.register_node("lore:exile_letter", {
 --------------------------------------
 minetest.register_on_newplayer(function(player)
   local inv = player:get_inventory()
-  inv:add_item("main", "lore:exile_letter")
+  local letter = ItemStack("lore:exile_letter")
+  local stack_meta = letter:get_meta()
+  stack_meta:set_string("lore:letter_text", generate_text(player))
+  inv:add_item("main", letter)
 end)
 
 minetest.register_on_respawnplayer(function(player)
   local inv = player:get_inventory()
-  inv:add_item("main", "lore:exile_letter")
+  local letter = ItemStack("lore:exile_letter")
+  local stack_meta = letter:get_meta()
+  stack_meta:set_string("lore:letter_text", generate_text(player))
+  inv:add_item("main", letter)
 end)
