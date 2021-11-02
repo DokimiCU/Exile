@@ -225,7 +225,7 @@ local function moisture_spread(pos, node)
 	local water_type = minetest.get_item_group(nodename, "wet_sediment")
 
 
-	--move through the soil, with a bais downwards
+	--move through the soil, with a bias downwards
 	local pos_sed = minetest.find_nodes_in_area(
 		{x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
 		{x = pos.x + 1, y = pos.y, z = pos.z + 1},
@@ -517,7 +517,7 @@ local function fall_water(pos,node)
 	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local under_name = minetest.get_node(pos_under).name
 
-	if under_name == "nodes_nature:freshwater_flowing" and under_name ~= "nodes_nature:salt_water_flowing" then
+	if under_name == "nodes_nature:freshwater_flowing" or under_name ~= "nodes_nature:salt_water_flowing" then
 		minetest.remove_node(pos)
 		minetest.set_node(pos_under, {name = node.name})
 		return
