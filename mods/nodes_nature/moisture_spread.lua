@@ -529,19 +529,6 @@ local function fall_water(pos,node)
 	   minetest.remove_node(pos)
 	   return
 	end
-	--[[
-
-	if minetest.get_item_group(under_name, "water") > 0 or under_name == "air"  then
-
-		--don't collapse sources
-		if under_name ~= "nodes_nature:freshwater_source" and under_name ~= "nodes_nature:salt_water_source" then
-			minetest.remove_node(pos)
-			minetest.set_node(pos_under, {name = node.name})
-			return
-		end
-	end
-	]]
-
 end
 
 minetest.register_abm({
