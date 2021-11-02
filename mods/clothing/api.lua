@@ -30,7 +30,7 @@ note: ranges are
 	end
 	local name = player:get_player_name()
 	local inv = player:get_inventory():get_list("cloths")
-	for i=1, 5 do
+	for i=1, #inv do
 		local stack = ItemStack(inv[i])
 		if stack:get_count() == 1 then
 			local def = stack:get_definition()
