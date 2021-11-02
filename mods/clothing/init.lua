@@ -8,6 +8,12 @@ dofile(modpath.."/api.lua")
 --dofile(modpath.."/test_clothing.lua") --bug testing
 
 
+--Not available except through creative
+minetest.override_item("player_api:cloth_unisex_footwear_default", {
+			  temp_min = 50,
+			  temp_max = 50,
+			  adminclothes = true,
+})
 
 ------------------------------------------------------------
 -- Inventory page

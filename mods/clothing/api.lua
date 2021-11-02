@@ -30,6 +30,7 @@ note: ranges are
 	end
 	local name = player:get_player_name()
 	local inv = player:get_inventory():get_list("cloths")
+	local armorgroups = {fleshy = 100}
 	for i=1, #inv do
 		local stack = ItemStack(inv[i])
 		if stack:get_count() == 1 then
@@ -39,6 +40,12 @@ note: ranges are
 			   temp_min = temp_min - def.temp_min
 			   temp_max = temp_max + def.temp_max
 			end
+			if def.adminclothes then
+			   armorgroups.immortal = 1
+			end
+			if def.armor then
+			   armorgroups.fleshy = armorgroups.fleshy - def.armor
+			end
 		end
 	end
 	-- apply new temperature comfort range
@@ -46,4 +53,6 @@ note: ranges are
 	meta:set_int("clothing_temp_min", temp_min)
 	meta:set_int("clothing_temp_max", temp_max )
 	sfinv.set_player_inventory_formspec(player)
+	-- Apply armorgroups changes
+	player:set_armor_groups(armorgroups)
 end
