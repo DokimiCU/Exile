@@ -170,6 +170,15 @@ minetest.override_item("nodes_nature:freshwater_source",{
 	end
 })
 
+minetest.override_item("nodes_nature:salt_water_source",{
+	color = "#a0ffa0",
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+	   minetest.chat_send_player(clicker:get_player_name(),
+				     "Salt water is not safe to drink.")
+	end
+})
+
+
 ----------------------------------------------------------
 --SNOW AND ICE (yes I know this isn't a liquid...in this state)
 
