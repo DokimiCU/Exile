@@ -523,6 +523,12 @@ local function fall_water(pos,node)
 		return
 	end
 
+	--Fresh water should float on top of the ocean
+	if ( under_name == "nodes_nature:salt_water_source" and
+	     node.name == "nodes_nature:freshwater_source" ) then
+	   minetest.remove_node(pos)
+	   return
+	end
 	--[[
 
 	if minetest.get_item_group(under_name, "water") > 0 or under_name == "air"  then
