@@ -517,7 +517,7 @@ local function fall_water(pos,node)
 	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local under_name = minetest.get_node(pos_under).name
 
-	if under_name == "nodes_nature:freshwater_flowing" or under_name ~= "nodes_nature:salt_water_flowing" then
+	if under_name == "nodes_nature:freshwater_flowing" or under_name == "nodes_nature:salt_water_flowing" then
 		minetest.remove_node(pos)
 		minetest.set_node(pos_under, {name = node.name})
 		return
