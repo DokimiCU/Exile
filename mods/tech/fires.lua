@@ -7,6 +7,8 @@
 local base_burn_rate = 4
 --how much to burn (for small fire)
 local base_fuel = 300
+--how much fuel is lost when water touches a fire
+local wet_loss = 75
 
 --temperatures
 --blocks are x 1.5 temp max, 2x temp effect,
@@ -27,16 +29,25 @@ local char_air_c = 0.45
 
 --converts smoldering fire into full fire if air is present
 local function can_smolder(pos, meta, fire_name, ash_name)
+        local f = meta:get_int("fuel")
 	--extinguish in water
 	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:puts_out_fire"}) then
-		minetest.set_node(pos, {name = ash_name})
+	        f = f - wet_loss
+		if f <= 0 then
+		   minetest.set_node(pos, {name = ash_name})
+		else
+		   local ext_name = minetest.get_node(pos).name:gsub(
+		      "_smoldering",
+		      "_ext")
+		   minetest.swap_node(pos, {name = ext_name})
+		   meta:set_int("fuel", f)
+		end
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
 	end
 
 	--check for the presence of air
 	if minetest.find_node_near(pos, 1, {"air"}) then
-		local f = meta:get_int("fuel")
 		--air, roar back to full flame
 		minetest.set_node(pos, {name = fire_name})
 		meta:set_int("fuel", f)
@@ -48,9 +59,17 @@ end
 
 --converts fire into smoldering fire if air not present
 local function can_burn_air(pos, meta, smolder_name, ash_name)
+        local f = meta:get_int("fuel")
 	--extinguish
 	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:puts_out_fire"}) then
-		minetest.set_node(pos, {name = ash_name})
+	        f = f - wet_loss
+		if f <= 0 then
+		   minetest.set_node(pos, {name = ash_name})
+		else
+		   local ext_name = minetest.get_node(pos).name.."_ext"
+		   minetest.swap_node(pos, {name = ext_name})
+		   meta:set_int("fuel", f)
+		end
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
 	end
@@ -59,7 +78,6 @@ local function can_burn_air(pos, meta, smolder_name, ash_name)
 	if minetest.find_node_near(pos, 1, {"air"}) then
 		return true
 	else
-		local f = meta:get_int("fuel")
 		--smolder
 		minetest.set_node(pos, {name = smolder_name})
 		meta:set_int("fuel", f)
