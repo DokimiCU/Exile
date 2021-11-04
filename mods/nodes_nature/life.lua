@@ -235,7 +235,17 @@ local on_place_seedling = function(itemstack, placer, pointed_thing)
    local above = minetest.get_node(pointed_thing.above)
    if minetest.get_item_group(ground.name,"sediment") == 0
    or above.name ~= "air" then
-      return itemstack
+      local udef = minetest.registered_nodes[ground.name]
+      if udef and udef.on_rightclick and
+	 not (placer and placer:is_player() and
+	      placer:get_player_control().sneak) then
+	    print(dump2(udef.on_rightclick))
+	    return udef.on_rightclick(pointed_thing.under, ground,
+				      placer, itemstack,
+				      pointed_thing) or itemstack
+      else
+	 return itemstack
+      end
    end
 
    return minetest.item_place_node(itemstack,placer,pointed_thing)
@@ -718,6 +728,9 @@ for i in ipairs(plantlist2) do
 			on_dig = function(pos, node, digger)
 			   on_dig_seedling(pos, node, digger)
 			end,
+			on_place = function(itemstack, placer, pointed_thing)
+			   return on_place_seedling(itemstack, placer, pointed_thing)
+			end,
 		})
 
 
@@ -802,6 +815,9 @@ for i in ipairs(plantlist2) do
 			end,
 			on_dig = function(pos, node, digger)
 			   on_dig_seedling(pos, node, digger)
+			end,
+			on_place = function(itemstack, placer, pointed_thing)
+			   return on_place_seedling(itemstack, placer, pointed_thing)
 			end,
     })
 	end
