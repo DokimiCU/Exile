@@ -66,8 +66,8 @@ medium_cloud.star_data = {
 
 medium_cloud.chain = {
 	--name, p_froz, p_cold, p_mid , p_hot
-	{'light_cloud', 0.12, 0.25, 0.5, 0.75},
-	{'overcast', 0.05, 0.05, 0.05, 0.01},
+	{'light_cloud', 0.2, 0.2, 0.3, 0.5},
+	{'overcast', 0.06, 0.06, 0.06, 0.06},
 	{'sun_shower', 0, 0.5, 0.3, 0.02},
 	{'snow_flurry', 0.25, 0, 0, 0}
 

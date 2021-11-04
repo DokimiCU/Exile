@@ -71,8 +71,8 @@ haze.sound_loop = 'duststorm_loop_light'
 
 haze.chain = {
 	--name, p_froz, p_cold, p_mid , p_hot
-	{'light_haze', 1, 0.75, 0.25, 0.1},
-	{'duststorm', 0, 0, 0.01, 0.1}
+	{'light_haze', 1, 0.95, 0.5, 0.1},
+	{'duststorm', 0, 0, 0.0, 0.2}
 
 }
 

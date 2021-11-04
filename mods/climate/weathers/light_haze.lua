@@ -67,7 +67,7 @@ light_haze.star_data = {
 --probabilities in each temp class
 light_haze.chain = {
 		--name, p_froz, p_cold, p_mid , p_hot
-		{'clear', 0.75, 0.5, 0.1, 0.1},
+		{'clear', 1, 0.85, 0.4, 0.1},
 		{'haze', 0, 0, 0, 0.25}
 	}
 

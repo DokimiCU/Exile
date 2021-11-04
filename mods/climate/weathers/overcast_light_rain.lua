@@ -69,7 +69,7 @@ overcast_light_rain.chain = {
 	--name, p_cold, p_mid , p_hot
 	{'light_rain', 0.01, 0.25, 0.5, 0.75},
 	{'overcast', 0.5, 0.5, 0.5, 0.75},
-	{'overcast_rain', 0.01, 0.3, 0.2, 0.1},
+	{'overcast_rain', 0.01, 0.3, 0.2, 0.5},
 	{'overcast_light_snow', 0.25, 0, 0, 0}
 
 }

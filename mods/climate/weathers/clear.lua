@@ -66,8 +66,8 @@ clear.star_data = {
 
 clear.chain = {
 	--name, p_forz, p_cold, p_mid , p_hot
-	{'light_cloud', 0.5, 0.3, 0.1, 0.05},
-	{'light_haze', 0.0, 0.0, 0.0, 0.01}
+	{'light_cloud', 0.3, 0.3, 0.3, 0.3},
+	{'light_haze', 0.0, 0.0, 0.0, 0.05}
 
 
 }

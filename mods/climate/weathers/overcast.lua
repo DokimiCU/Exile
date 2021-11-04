@@ -67,7 +67,7 @@ overcast.star_data = {
 --probabilities in each temp class
 overcast.chain = {
 	--name, p_cold, p_mid , p_hot
-	{'overcast_light_rain',0.01, 0.2, 0.1, 0.05},
+	{'overcast_light_rain',0.01, 0.2, 0.1, 0.5},
 	{'light_rain', 0.01, 0.05, 0.15, 0.25},
 	{'medium_cloud', 0.01, 0.01, 0.01, 0.1},
 	{'overcast_light_snow', 0.25, 0, 0, 0},
