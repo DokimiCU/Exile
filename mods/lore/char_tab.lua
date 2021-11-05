@@ -22,7 +22,7 @@ minetest.register_on_respawnplayer(function(player)
   meta:set_string("char_name", lore.generate_name(3))
   meta:set_int("char_start_date", minetest.get_day_count())
   meta:set_string("bio", lore.generate_bio(player))
-  local lives = meta:get_int("lives")
+  local lives = meta:get_int("lives") or 1
   meta:set_int("lives", lives + 1)
 end)
 ------------------------------------
@@ -35,7 +35,7 @@ local function sfinv_get(self, player, context)
 	local meta = player:get_meta()
 	local name = meta:get_string("char_name")
   local days = minetest.get_day_count() - meta:get_int("char_start_date")
-  local lives = meta:get_int("lives") or 1
+  local lives = meta:get_int("lives")
   local effects_list = meta:get_string("effects_list")
   local effects_list = minetest.deserialize(effects_list) or {}
   local bio = meta:get_string("bio")
