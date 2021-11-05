@@ -22,7 +22,7 @@ minetest.register_on_respawnplayer(function(player)
   meta:set_string("char_name", lore.generate_name(3))
   meta:set_int("char_start_date", minetest.get_day_count())
   meta:set_string("bio", lore.generate_bio(player))
-  local lives = meta:get_int("lives") or 1
+  local lives = meta:get_int("lives") or 0
   meta:set_int("lives", lives + 1)
 end)
 ------------------------------------
