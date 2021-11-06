@@ -21,6 +21,24 @@ minetest.register_on_newplayer(function(player)
       minetest.show_formspec(player:get_player_name(),"lore:login",loginspec)
 end)
 
+minetest.register_on_respawnplayer(function(player)
+      --If rspawn is enabled, send new players to the static spawn point
+      -- and later respawning players elsewhere randomly
+      --TODO: Make number of safe-spawned lives configurable
+      if not rspawn then print ("no rspawn") return end
+      local staticspawn = minetest.setting_get_pos("static_spawnpoint")
+      if not staticspawn then return end
+
+      local meta = player:get_meta()
+      local lives = meta:get_int("lives")
+      if lives < 2 then
+	 player:set_pos(staticspawn)
+      else
+	 rspawn:renew_player_spawn(player:get_player_name())
+      end
+end)
+
+
 minetest.register_on_player_receive_fields(function(player, formname, fields)
       --maybe unnecessary, but guarantee they won't be penalized for reading
       if formname == "lore:login" then
