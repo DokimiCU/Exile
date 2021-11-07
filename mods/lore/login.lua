@@ -21,22 +21,24 @@ minetest.register_on_newplayer(function(player)
       minetest.show_formspec(player:get_player_name(),"lore:login",loginspec)
 end)
 
-minetest.register_on_respawnplayer(function(player)
-      --If rspawn is enabled, send new players to the static spawn point
+local function safepoint_and_rspawn(player)
+      --If rspawn is enabled, send new players to the safe point if enabled
       -- and later respawning players elsewhere randomly
-      --TODO: Make number of safe-spawned lives configurable
-      if not rspawn then print ("no rspawn") return end
-      local staticspawn = minetest.setting_get_pos("static_spawnpoint")
-      if not staticspawn then return end
-
+      local safepoint = minetest.setting_get_pos("exile_safe_spawn_pos")
       local meta = player:get_meta()
       local lives = meta:get_int("lives")
-      if lives < 2 then
-	 player:set_pos(staticspawn)
-      else
+      local safespawn = minetest.setting_get_pos("exile_safe_spawn_lives") or 0
+      if lives <= safespawn and safepoint then
+	 player:set_pos(safepoint)
+	 return true -- disable regular respawn
+      elseif rspawn then
 	 rspawn:renew_player_spawn(player:get_player_name())
+	 return true
       end
-end)
+end
+
+minetest.register_on_newplayer(safepoint_and_rspawn)
+minetest.register_on_respawnplayer(safepoint_and_rspawn)
 
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
