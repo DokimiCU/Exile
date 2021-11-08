@@ -126,7 +126,7 @@ local transform = {
 	},
 }
 
-function doors.door_toggle(pos, node, clicker)
+function doors.door_toggle(pos, node, clicker, itemstack)
 	local meta = minetest.get_meta(pos)
 	node = node or minetest.get_node(pos)
 	local def = minetest.registered_nodes[node.name]
@@ -148,6 +148,36 @@ function doors.door_toggle(pos, node, clicker)
 	if def.protected and minetest.is_protected(pos, cname) then
 	   minetest.chat_send_player(cname,"You can't open this door, ",cname)
 	   return false
+	end
+
+	local cdir = minetest.dir_to_facedir(clicker:get_look_dir())
+	cdir = (cdir + 2) % 4 -- < reverse facing to match doors
+	local barred = meta:get_int("barred")
+
+	if barred and barred == 1 then
+	   if cdir == node.param2 and state == 0 then
+	      -- ^^ are we behind a closed, barred door? Unbar it
+	      meta:set_int("barred", 0)
+	      if itemstack and ( itemstack:is_empty() or
+				 itemstack:get_name() == "tech:stick" ) then
+		 itemstack:add_item("tech:stick")
+	      else
+		 minetest.item_drop(ItemStack("tech:stick"), clicker, pos)
+	      end
+	      minetest.chat_send_player(cname, "You unbar the door.")
+	   else
+	      minetest.chat_send_player(cname,
+					"This door is barred from the inside.")
+	   end
+	   return
+	end
+	if itemstack and itemstack:get_name() == "tech:stick" then
+	   if cdir == node.param2 and state == 0 then
+	      meta:set_int("barred", 1)
+	      minetest.chat_send_player(cname, "You bar the door.")
+	      itemstack:take_item()
+	      return
+	   end
 	end
 
 	-- until Lua-5.2 we have no bitwise operators :(
@@ -311,9 +341,7 @@ function doors.register(name, def)
 		})
 	end
 	def.recipe = nil
-	]]
 
---[[
 	if not def.sounds then
 		def.sounds = default.node_sound_wood_defaults()
 	end
@@ -334,10 +362,10 @@ function doors.register(name, def)
 		sounds = { def.sound_close, def.sound_open },
 	}
 	if not def.on_rightclick then
-		def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			doors.door_toggle(pos, node, clicker)
-			return itemstack
-		end
+	   def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+	      doors.door_toggle(pos, node, clicker, itemstack)
+	      return itemstack
+	   end
 	end
 	def.after_dig_node = function(pos, node, meta, digger)
 		minetest.remove_node({x = pos.x, y = pos.y + 1, z = pos.z})
