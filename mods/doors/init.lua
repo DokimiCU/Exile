@@ -10,15 +10,6 @@ doors.registered_trapdoors = {}
 local S = minetest.get_translator("doors")
 
 
-local function replace_old_owner_information(pos)
-	local meta = minetest.get_meta(pos)
-	local owner = meta:get_string("doors_owner")
-	if owner and owner ~= "" then
-		meta:set_string("owner", owner)
-		meta:set_string("doors_owner", "")
-	end
-end
-
 -- returns an object to a door object or nil
 function doors.get(pos)
 	local node_name = minetest.get_node(pos).name
@@ -154,9 +145,6 @@ function doors.door_toggle(pos, node, clicker)
 		state = tonumber(state)
 	end
 
-	replace_old_owner_information(pos)
-
-
 	if def.protected and minetest.is_protected(pos, cname) then
 	   minetest.chat_send_player(cname,"You can't open this door, ",cname)
 	   return false
@@ -221,42 +209,6 @@ function doors.register(name, def)
 	if not name:find(":") then
 		name = "doors:" .. name
 	end
-
-	-- replace old doors of this type automatically
-	minetest.register_lbm({
-		name = ":doors:replace_" .. name:gsub(":", "_"),
-		nodenames = {name.."_b_1", name.."_b_2"},
-		action = function(pos, node)
-			local l = tonumber(node.name:sub(-1))
-			local meta = minetest.get_meta(pos)
-			local h = meta:get_int("right") + 1
-			local p2 = node.param2
-			local replace = {
-				{{type = "a", state = 0}, {type = "a", state = 3}},
-				{{type = "b", state = 1}, {type = "b", state = 2}}
-			}
-			local new = replace[l][h]
-			-- retain infotext and doors_owner fields
-			minetest.swap_node(pos, {name = name .. "_" .. new.type, param2 = p2})
-			meta:set_int("state", new.state)
-			-- properly place doors:hidden at the right spot
-			local p3 = p2
-			if new.state >= 2 then
-				p3 = (p3 + 3) % 4
-			end
-			if new.state % 2 == 1 then
-				if new.state >= 2 then
-					p3 = (p3 + 1) % 4
-				else
-					p3 = (p3 + 3) % 4
-				end
-			end
-			-- wipe meta on top node as it's unused
-			minetest.set_node({x = pos.x, y = pos.y + 1, z = pos.z},
-				{name = "doors:hidden", param2 = p3})
-		end
-	})
-
 
 	minetest.register_craftitem(":" .. name, {
 		description = def.description,
@@ -402,7 +354,6 @@ function doors.register(name, def)
 			door:toggle(player)
 		end
 		def.on_skeleton_key_use = function(pos, player, newsecret)
-			replace_old_owner_information(pos)
 			local meta = minetest.get_meta(pos)
 			local owner = meta:get_string("owner")
 			local pname = player:get_player_name()
@@ -530,7 +481,6 @@ doors.register("door_obsidian_glass", {
 function doors.trapdoor_toggle(pos, node, clicker)
 	node = node or minetest.get_node(pos)
 
-	replace_old_owner_information(pos)
 
 --[[
 	if clicker and not default.can_interact_with_node(clicker, pos) then
@@ -608,7 +558,6 @@ function doors.register_trapdoor(name, def)
 			door:toggle(player)
 		end
 		def.on_skeleton_key_use = function(pos, player, newsecret)
-			replace_old_owner_information(pos)
 			local meta = minetest.get_meta(pos)
 			local owner = meta:get_string("owner")
 			local pname = player:get_player_name()
