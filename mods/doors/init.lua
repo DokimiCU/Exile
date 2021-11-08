@@ -413,69 +413,6 @@ function doors.register(name, def)
 end
 
 
---[[
-doors.register("door_wood", {
-		tiles = {{ name = "doors_door_wood.png", backface_culling = true }},
-		description = S("Wooden Door"),
-		inventory_image = "doors_item_wood.png",
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
-		recipe = {
-			{"group:wood", "group:wood"},
-			{"group:wood", "group:wood"},
-			{"group:wood", "group:wood"},
-		}
-})
-
-doors.register("door_steel", {
-		tiles = {{name = "doors_door_steel.png", backface_culling = true}},
-		description = S("Steel Door"),
-		inventory_image = "doors_item_steel.png",
-		protected = true,
-		groups = {cracky = 1, level = 2},
-		sounds = default.node_sound_metal_defaults(),
-		sound_open = "doors_steel_door_open",
-		sound_close = "doors_steel_door_close",
-		recipe = {
-			{"default:steel_ingot", "default:steel_ingot"},
-			{"default:steel_ingot", "default:steel_ingot"},
-			{"default:steel_ingot", "default:steel_ingot"},
-		}
-})
-
-doors.register("door_glass", {
-		tiles = {"doors_door_glass.png"},
-		description = S("Glass Door"),
-		inventory_image = "doors_item_glass.png",
-		groups = {cracky=3, oddly_breakable_by_hand=3},
-		sounds = default.node_sound_glass_defaults(),
-		sound_open = "doors_glass_door_open",
-		sound_close = "doors_glass_door_close",
-		recipe = {
-			{"default:glass", "default:glass"},
-			{"default:glass", "default:glass"},
-			{"default:glass", "default:glass"},
-		}
-})
-
-doors.register("door_obsidian_glass", {
-		tiles = {"doors_door_obsidian_glass.png"},
-		description = S("Obsidian Glass Door"),
-		inventory_image = "doors_item_obsidian_glass.png",
-		groups = {cracky=3},
-		sounds = default.node_sound_glass_defaults(),
-		sound_open = "doors_glass_door_open",
-		sound_close = "doors_glass_door_close",
-		recipe = {
-			{"default:obsidian_glass", "default:obsidian_glass"},
-			{"default:obsidian_glass", "default:obsidian_glass"},
-			{"default:obsidian_glass", "default:obsidian_glass"},
-		},
-})
-
-]]
-
-
-
 ----trapdoor----
 
 function doors.trapdoor_toggle(pos, node, clicker)
@@ -585,8 +522,7 @@ function doors.register_trapdoor(name, def)
 		end
 	end
 
---[[
-	if not def.sounds then
+--[[	if not def.sounds then
 		def.sounds = default.node_sound_wood_defaults()
 	end
 	]]
@@ -648,46 +584,6 @@ function doors.register_trapdoor(name, def)
 end
 
 
---[[
-doors.register_trapdoor("doors:trapdoor", {
-	description = S("Wooden Trapdoor"),
-	inventory_image = "doors_trapdoor.png",
-	wield_image = "doors_trapdoor.png",
-	tile_front = "doors_trapdoor.png",
-	tile_side = "doors_trapdoor_side.png",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, door = 1},
-})
-
-doors.register_trapdoor("doors:trapdoor_steel", {
-	description = S("Steel Trapdoor"),
-	inventory_image = "doors_trapdoor_steel.png",
-	wield_image = "doors_trapdoor_steel.png",
-	tile_front = "doors_trapdoor_steel.png",
-	tile_side = "doors_trapdoor_steel_side.png",
-	protected = true,
-	sounds = default.node_sound_metal_defaults(),
-	sound_open = "doors_steel_door_open",
-	sound_close = "doors_steel_door_close",
-	groups = {cracky = 1, level = 2, door = 1},
-})
-
-minetest.register_craft({
-	output = "doors:trapdoor 2",
-	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "group:wood", "group:wood"},
-		{"", "", ""},
-	}
-})
-
-minetest.register_craft({
-	output = "doors:trapdoor_steel",
-	recipe = {
-		{"default:steel_ingot", "default:steel_ingot"},
-		{"default:steel_ingot", "default:steel_ingot"},
-	}
-})
-]]
 
 
 --[[--no current need for this
