@@ -459,16 +459,13 @@ minetest.register_chatcommand("set_weather", {
 
 minetest.register_chatcommand("set_tempscale", {
     params = "f, c, or k",
-    description = "Sets the temperature scale used for your own display\n"..
-       "Currently, clothing will need to be added/removed to update its display",
+    description = "Sets the temperature scale used for your own display",
     func = function(name, param)
        if param == "" or param == "help" then
 	  wlist = "/set_tempscale:\n"..
 	  "Sets the temperature scale used for your own display.\n" ..
 	  "Valid settings are f for Fahrenheit, c for Celsius, and "..
-	  "k for Kelvin.\n"..
-	  "\nCurrently, clothing will need to be added/removed to update "..
-	  "its comfort range display."
+	  "k for Kelvin."
 	  return false, wlist
        end
        if param ~= "f" and param ~= "c" and param ~= "k" then
