@@ -207,10 +207,10 @@ local adjust_for_shelter = function(pos, temp, av_temp)
 	--can't do darker than artificial light sources, or it would think it's outside
 	-- ^ not true with get_natural_light, which excludes artificial sources
 	local light = minetest.get_natural_light({x=pos.x, y=pos.y+1, z=pos.z}, 0.5)
-	if light and light <= 13 then
-		if light <= 9 then
+	if light and light <= 14 then
+		if light <= 10 then
 			temp = (temp*0.25)+(av_temp*0.75)
-		elseif light <= 11 then
+		elseif light <= 12 then
 			temp = (temp*0.5)+(av_temp*0.5)
 		else
 			temp = (temp*0.75)+(av_temp*0.25)
@@ -228,7 +228,7 @@ local adjust_active_temp = function(pos, temp)
 	--average temp (make sure it matches climate)
 	local av_temp = 15
 	local name = minetest.get_node(pos).name
-  local water = minetest.get_item_group(name,"water")
+	local water = minetest.get_item_group(name,"water")
 
 
 	--sea water for deep ocean --stratification and density set a constant temperature
@@ -260,7 +260,7 @@ local adjust_active_temp = function(pos, temp)
 	--Above ground and oceans
 
 	--altitude cooling. ~ -2C per 300m
-	if pos.y > 50 then
+	if pos.y > 50 and pos.y <= 9000 then
 		temp = -0.0067*pos.y + temp
 	end
 
@@ -463,7 +463,9 @@ minetest.register_node("climate:air_temp", {
 	on_timer =function(pos, elapsed)
 		return climate.heat_transfer(pos, "climate:air_temp", 'air')
 	end,
-	post_effect_color = {a = 5, r = 254, g = 254, b = 254}
+	post_effect_color = {a = 5, r = 254, g = 254, b = 254},
+	color = {a=0, r=254, g = 254, b = 254},
+	use_texture_alpha = "blend"
 })
 
 --Water
