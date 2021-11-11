@@ -374,7 +374,9 @@ for i in ipairs(plantlist) do
 			on_timer = function(pos,elapsed)
 			   local timer_min, timer_max = seed_soil_response(pos)
 			   if not timer_min then
-			      return true -- the plant's not on soil anymore? Stop the timer
+			      if minetest.get_node(pos).name ~= "ignore" then
+				 return true -- the plant's not on soil anymore? Stop the timer
+			      else return end -- it's unloaded, skip the timer
 			   end
 			   local timer_avg = timer_min + timer_max / 2
 			   elapsed = elapsed - timer_max
