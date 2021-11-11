@@ -79,6 +79,27 @@ local function roast(pos, selfname, name, heat)
 
 end
 
+-- Pane Casting function
+local function pane_cast_check(pos)
+
+	local pbelow = {x = pos.x, y = pos.y - 1, z = pos.z}
+	if minetest.get_node(pbelow).name == "tech:pane_tray" and climate.get_point_temp(pos) >= 1800 then -- Melting temperature of glass is approx 1800 C
+		local name = minetest.get_node(pos).name
+		if name == "tech:green_glass_ingot" then
+			minetest.set_node(pos, {name = "air"})
+			minetest.set_node(pbelow, {name = "tech:pane_tray_green"})
+			minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
+			return true
+		elseif name == "tech:clear_glass_ingot" then
+			minetest.set_node(pos, {name = "air"})
+			minetest.set_node(pbelow, {name = "tech:pane_tray_clear"})
+			minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
+			return true
+		end
+	end
+	return false
+end
+
 
 -- Green glass
 
@@ -118,6 +139,16 @@ minetest.register_node("tech:green_glass_ingot", {
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
+	on_construct = function(pos)
+	   minetest.get_node_timer(pos):start(20)
+	end,
+	on_timer = function(pos)
+	   if pane_cast_check(pos) then
+	      return false -- end the timer
+	   else
+	      return true
+	   end
+	end,
 })
 
 -- Crafts
@@ -361,6 +392,16 @@ minetest.register_node("tech:clear_glass_ingot", {
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
+	on_construct = function(pos)
+	   minetest.get_node_timer(pos):start(20)
+	end,
+	on_timer = function(pos)
+	   if pane_cast_check(pos) then
+	      return false -- end the timer
+	   else
+	      return true
+	   end
+	end,
 })
 
 -- Crafts
@@ -370,7 +411,7 @@ crafting.register_recipe({
 	output = "tech:clear_glass_mix 8",
 	items = {'tech:potash 1', 'tech:quicklime 1', 'nodes_nature:sand 6'},
 	level = 1,
-always_known = true,
+	always_known = true,
 })
 
 -- Pane casting tray - heat up a glass ingot above it to cast a pane
@@ -458,36 +499,6 @@ minetest.register_node("tech:pane_tray_clear",
 		}
 	}
 
-})
-
--- Pane Casting ABM
-local function pane_cast_check(pos, node)
-	
-	local pbelow = {x = pos.x, y = pos.y - 1, z = pos.z}
-	if minetest.get_node(pbelow).name == "tech:pane_tray" and climate.get_point_temp(pos) >= 1800 then -- Melting temperature of glass is approx 1800 C
-		local name = minetest.get_node(pos).name
-  		if name == "tech:green_glass_ingot" then
-  			minetest.set_node(pos, {name = "air"})
-        		minetest.set_node(pbelow, {name = "tech:pane_tray_green"})
-        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
-  		elseif name == "tech:clear_glass_ingot" then
-  			minetest.set_node(pos, {name = "air"})
-        		minetest.set_node(pbelow, {name = "tech:pane_tray_clear"})
-        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
-  		end
-	end
-end
-
-minetest.register_abm(
-{
-	label = "Glass Ingot (Green) melt and cast",
-	nodenames = {"tech:green_glass_ingot", "tech:clear_glass_ingot"},
-	neighbours = {"tech:pane_tray"},
-	interval = 10,
-	chance = 1,
-	action = function(...)
-		pane_cast_check(...)
-	end
 })
 
 -- Crafts
