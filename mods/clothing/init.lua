@@ -72,7 +72,8 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 	if stack then
 		local stack_name = stack:get_name()
 		local item_group = minetest.get_item_group(stack_name , "cloth")
-		if item_group == 0 then --not a cloth
+		if item_group == 0 --not a cloth
+		 or item_group == 6 then -- or it's a blanket
 			return 0
 		end
 		--search for another cloth of the same type

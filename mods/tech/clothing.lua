@@ -83,6 +83,21 @@ crafting.register_recipe({
 	always_known = true,
 })
 
+--Blanket
+player_api.register_cloth("tech:woven_blanket", {
+	description = "Woven Blanket",
+	inventory_image = "tech_woven_blanket.png",
+	texture = "tech_woven_blanket.png",
+	groups = {blanket=1, clothing_blanket=1, cloth=6},
+	customfields = {temp_min = 3, temp_max = -2}
+})
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:woven_blanket",
+	items = {'group:fibrous_plant 60'},
+	level = 1,
+	always_known = true,
+})
 
 
 ----------------------------------------------------------------

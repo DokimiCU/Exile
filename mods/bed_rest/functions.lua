@@ -136,11 +136,39 @@ local function break_taker(name)
 end
 
 
-
-
-
-
-
+--grab_blanket(inv = clothing_inv, list = "clothing") for removal
+-----------------------------------------------------------------
+local function wear_blanket(player, donning)
+   local name = player:get_player_name()
+   local plyrinv = player:get_inventory()
+   local frominvl = "cloths"  local toinvl = "main"
+   if donning then
+      frominvl = "main"
+      toinvl = "cloths"
+   end
+   local cinv = plyrinv:get_list(frominvl)
+   local newstack
+   for i = 1, #cinv do
+      local stack = ItemStack(cinv[i])
+      if stack:get_count() == 1 then
+	 local def = stack:get_definition()
+	 if def.groups.blanket and def.groups.blanket > 0 then
+	    plyrinv:remove_item(frominvl, stack)
+	    newstack = stack
+	    break
+	 end
+      end
+   end
+   if plyrinv:room_for_item(toinvl, newstack) then
+      plyrinv:add_item(toinvl, newstack)
+   elseif donning then -- can't put it on, return it to main inv
+      plyrinv:add_item(frominvl, newstack)
+   else -- or drop it at our feet if there's no room when taking it off
+      minetest.item_drop(newstack, player, player:get_pos())
+   end
+   clothing:update_temp(player)
+   player_api.set_texture(player)
+end
 
 -----------------------------------------------------------------
 local function get_look_yaw(pos)
@@ -191,6 +219,9 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 			player:set_pos(p)
 		end
 
+		--remove blanket
+		wear_blanket(player, false)
+
 		-- physics, eye_offset, etc
 		player:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
 		player:set_look_horizontal(math.random(1, 180) / 100)
@@ -232,6 +263,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		--check with break taker
 		break_taker(name)
 
+		--wear a blanket from inventory
+		wear_blanket(player, true)
 
 		-- physics, eye_offset, etc
 		player:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})

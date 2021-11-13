@@ -1,5 +1,20 @@
 ----------------------------------------------------------
 clothing = {
+	registered_callbacks = {
+		on_update = {},
+		on_equip = {},
+		on_unequip = {},
+	},
+	player_textures = {},
+	elements = {
+		"hat",
+		"shirt",
+		"pants",
+		"cape",
+		"shoes",
+		"gloves",
+		"blanket"
+	},
 }
 
 clothing.update_temp = function(self, player)

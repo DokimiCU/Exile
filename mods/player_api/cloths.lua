@@ -30,6 +30,8 @@ function player_api.register_cloth(name, def)
 			tooltip = S("Footwear")
 		elseif def.groups["cloth"] == 5 then
 			tooltip = S("Cape")
+		elseif def.groups["cloth"] == 6 then
+			tooltip = S("Keeps you warm in bed")
 		end
 		tooltip = "(" .. tooltip .. ")"
 		if def.gender == "male" then
@@ -138,13 +140,14 @@ local cloth_pos = {
 	"0,32",
 	"0,32",
 	"0,0",
+	"0,32",
 }
 
 function player_api.compose_cloth(player)
 	local gender = player_api.get_gender(player)
 	local inv = player:get_inventory()
 	local inv_list = inv:get_list("cloths") 
-	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack, cape_ItemStack
+	local upper_ItemStack, lower_ItemStack, footwear_ItemStack, head_ItemStack, cape_ItemStack, blanket_ItemStack
 	local underwear = false
 	local bra = false
 	local attached_cloth = {}
@@ -166,6 +169,8 @@ function player_api.compose_cloth(player)
 			footwear_ItemStack = cloth_itemstack._cloth_texture
 		elseif cloth_type == 5 then
 			cape_ItemStack = cloth_itemstack._cloth_texture
+		elseif cloth_type == 6 then
+			blanket_ItemStack = cloth_itemstack._cloth_texture
 		end
 		if cloth_itemstack and cloth_itemstack._cloth_attach then
 			attached_cloth[#attached_cloth+1] = cloth_itemstack._cloth_attach
@@ -202,6 +207,9 @@ function player_api.compose_cloth(player)
 	end
 	if cape_ItemStack then
 		cloth = cloth .. ":"..cloth_pos[5].."="..cape_ItemStack
+	end
+	if blanket_ItemStack then
+		cloth = cloth .. ":"..cloth_pos[6].."="..blanket_ItemStack
 	end
 	--Now attached cloth
 	if not(next(attached_cloth) == nil) then
