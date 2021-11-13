@@ -18,6 +18,8 @@
 crafting.register_type("inv")
 crafting.register_type("furnace")
 
+local player_inv_hashes = {}
+
 local function check_for_changes()
    for _, player in pairs(minetest.get_connected_players() or {}) do
       if sfinv.get_or_create_context(player).page == "sfinv:crafting" then
@@ -34,7 +36,6 @@ end
 
 
 if minetest.global_exists("sfinv") then
-	local player_inv_hashes = {}
 
 	local trash = minetest.create_detached_inventory("crafting_trash", {
 		-- Allow the stack to be placed and remove it in on_put()
