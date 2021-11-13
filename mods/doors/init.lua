@@ -468,12 +468,13 @@ function doors.trapdoor_toggle(pos, node, clicker)
 	end
 end
 
-local function SeekTD(pos, node, transform)
-   local npos = vector.add(pos, transform)
+local function Seek(pos, node, transform, func, skip)
+   local npos = pos
+   if skip == true then npos = vector.add(pos, transform) end
    local newnode = minetest.get_node(npos)
    while ( newnode.param2 == node.param2 and
 	   newnode.name == node.name ) do
-      doors.trapdoor_toggle(npos)
+      func(npos)
       npos = vector.add(npos, transform)
       newnode = minetest.get_node(npos)
    end
@@ -488,14 +489,17 @@ function doors.register_trapdoor(name, def)
 	local name_opened = name.."_open"
 
 	def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		doors.trapdoor_toggle(pos, node, clicker)
 		--0,2,6, 8 = X;  1,3,15,17 Z
 		if node.param2 % 2 == 1 then -- Z
-		   SeekTD(pos, node, { x = 0, y = 0, z =  1 })
-		   SeekTD(pos, node, { x = 0, y = 0, z = -1 })
+		   Seek(pos, node,  { x = 0, y = 0, z =  1 },
+			doors.trapdoor_toggle, true)
+		   Seek(pos, node,  { x = 0, y = 0, z = -1 },
+			doors.trapdoor_toggle)
 		else
-		   SeekTD(pos, node, { x =  1, y = 0, z = 0 })
-		   SeekTD(pos, node, { x = -1, y = 0, z = 0 })
+		   Seek(pos, node, { x =  1, y = 0, z = 0 },
+			doors.trapdoor_toggle, true)
+		   Seek(pos, node, { x = -1, y = 0, z = 0 },
+			  doors.trapdoor_toggle)
 		end
 		return itemstack
 	end
