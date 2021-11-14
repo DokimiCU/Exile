@@ -252,8 +252,6 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 
 --------------------------------------
 --OIL LAMP
-minetest.register_alias("tech:clay_oil_lamp_empty",
-			"tech:clay_oil_lamp_unlit")
 
 --convert fuel number to a string
 local fuel_string = function(fuel)
