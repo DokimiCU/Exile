@@ -33,7 +33,7 @@ minetest.register_entity("nodes_nature:drop_water", {
 			self.object:set_acceleration({x=0, y=-5, z=0})
 		end
 
-		if minetest.get_node({x=ownpos.x, y=ownpos.y -0.5, z=ownpos.z}).name ~= "air" then
+		if minetest.get_node({x=ownpos.x, y=ownpos.y -0.1, z=ownpos.z}).name ~= "air" then
 			self.object:remove()
 			minetest.sound_play({name="nodes_nature_water_drip"}, {pos = ownpos, gain = math.random(0.5,1), max_hear_distance = 12})
 		end
