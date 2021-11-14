@@ -309,16 +309,57 @@ local function moisture_spread(pos, node)
 
 end
 
+------------------------------------------------------------------
+--soak water into soil, catch water in puddles
+local function rain_soak(pos, node)
+	if pos.y < -15 then
+		return
+	end
+	local name = node.name
+
+
+	if climate.get_rain(pos) then
+		--dry sediment absorbs water, wet and solids can trap puddles
+		if minetest.get_item_group(name, "sediment") >0
+		and minetest.get_item_group(name, "wet_sediment") == 0
+		then
+			--set wet version of what draining into
+			local nodedef = minetest.registered_nodes[name]
+			if not nodedef then
+				return
+			end
+			minetest.swap_node(pos, {name = nodedef._wet_name})
+			return
+		elseif math.random()<0.3 then
+			local posa = {x = pos.x, y = pos.y + 1, z = pos.z}
+			if puddle_detect(posa) then
+				minetest.set_node(posa, {name = "nodes_nature:freshwater_source"})
+			end
+		end
+
+	end
+end
+
+local function sediment_handler(pos, node)
+   local wet = minetest.get_item_group(node.name, "wet_sediment")
+   if wet > 0 then
+      moisture_spread(pos, node)
+   end
+   if math.random() < 0.3 then -- TODO: check rainfall severity
+      rain_soak(pos, node)
+   end
+end
+
 --
 --
 minetest.register_abm({
-	label = "Moisture Spread",
-	nodenames = {"group:wet_sediment"},
+	label = "Sediment Water Handler",
+	nodenames = {"group:sediment"},
 	--neighbors = {"group:sediment"},
 	interval = 121,
 	chance = 15,
 	action = function(...)
-		moisture_spread(...)
+	   sediment_handler(...)
 	end
 })
 
@@ -365,6 +406,8 @@ local function water_soak(pos, node)
 	end
 
 end
+
+
 
 --
 --
@@ -473,51 +516,5 @@ minetest.register_abm({
 	chance = 30,
 	action = function(...)
 		water_erode(...)
-	end
-})
-
-
-------------------------------------------------------------------
---soak water into soil, catch water in puddles
-local function rain_soak(pos, node)
-	if pos.y < -15 then
-		return
-	end
-	local name = node.name
-
-
-	if climate.get_rain(pos) then
-		--dry sediment absorbs water, wet and solids can trap puddles
-		if minetest.get_item_group(name, "sediment") >0
-		and minetest.get_item_group(name, "wet_sediment") == 0
-		then
-			--set wet version of what draining into
-			local nodedef = minetest.registered_nodes[name]
-			if not nodedef then
-				return
-			end
-			minetest.swap_node(pos, {name = nodedef._wet_name})
-			return
-		elseif math.random()<0.3 then
-			local posa = {x = pos.x, y = pos.y + 1, z = pos.z}
-			if puddle_detect(posa) then
-				minetest.set_node(posa, {name = "nodes_nature:freshwater_source"})
-			end
-		end
-
-	end
-end
-
-
---
-minetest.register_abm({
-	label = "Rain Soak",
-	--calling for stone is for puddles only, but means calling all stone
-	--nodenames = {"group:sediment", "group:stone", "group:soft_stone"},
-	nodenames = {"group:sediment"},
-	interval = 92,
-	chance = 180,
-	action = function(...)
-		rain_soak(...)
 	end
 })
