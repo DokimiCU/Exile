@@ -136,7 +136,7 @@ local function snow_accumulate(pos, node)
 
 	--pile up snow
 	if under_name == "nodes_nature:snow" then
-		minetest.set_node(posu, {name = "nodes_nature:snow_block"})
+		minetest.swap_node(posu, {name = "nodes_nature:snow_block"})
 		return
 	end
 
@@ -217,7 +217,7 @@ local function moisture_spread(pos, node)
 	--evaporation
 	if climate.can_evaporate(pos) then
 		--lose it's own water to the atmosphere
-		minetest.set_node(pos, {name = dry_name})
+		minetest.swap_node(pos, {name = dry_name})
 		return
 	end
 
@@ -238,22 +238,22 @@ local function moisture_spread(pos, node)
 		local name2 = minetest.get_node(pos2).name
 		if minetest.get_item_group(name2, "wet_sediment") == 0 then
 			--lose it's own water, and move it
-			minetest.set_node(pos, {name = dry_name})
+			minetest.swap_node(pos, {name = dry_name})
 			--set wet version of what draining into
 			local nodedef2 = minetest.registered_nodes[name2]
 			if not nodedef2 then
 				return
 			end
 			if water_type == 1 then
-				minetest.set_node(pos2, {name = nodedef2._wet_name})
+				minetest.swap_node(pos2, {name = nodedef2._wet_name})
 			else
 				--can it absorb salt or is it "destroyed" e.g. surface, ag
 				local salt = nodedef2._wet_salty_name
 				if not salt then
 					--set it to it's salted parent material
-					minetest.set_node(pos2, {name = nodedef2.drop})
+					minetest.swap_node(pos2, {name = nodedef2.drop})
 				else
-					minetest.set_node(pos2, {name = nodedef2._wet_salty_name})
+					minetest.swap_node(pos2, {name = nodedef2._wet_salty_name})
 				end
 			end
 			return
@@ -271,7 +271,7 @@ local function moisture_spread(pos, node)
 		--select a random one
 		local pos2 = pos_air[math.random(#pos_air)]
 		--lose it's own water, and move it
-		minetest.set_node(pos, {name = dry_name})
+		minetest.swap_node(pos, {name = dry_name})
 		--source or flowing?
 		if puddle_detect(pos2) then
 			if water_type == 1 then
@@ -329,13 +329,13 @@ local function water_soak(pos, node)
 			--
 			if nodename == "nodes_nature:freshwater_source" then
 				--non-renew
-				minetest.set_node(pos, {name = "air"})
+				minetest.swap_node(pos, {name = "air"})
 				--set wet version of what draining into
 				local nodedef2 = minetest.registered_nodes[name2]
 				if not nodedef2 then
 					return
 				end
-				minetest.set_node(pos2, {name = nodedef2._wet_name})
+				minetest.swap_node(pos2, {name = nodedef2._wet_name})
 				return
 			else
 				--set salty wet version of what draining into
@@ -343,7 +343,7 @@ local function water_soak(pos, node)
 				if not nodedef2 then
 					return
 				end
-				minetest.set_node(pos2, {name = nodedef2._wet_salty_name})
+				minetest.swap_node(pos2, {name = nodedef2._wet_salty_name})
 				return
 			end
 		end
@@ -481,7 +481,7 @@ local function rain_soak(pos, node)
 			if not nodedef then
 				return
 			end
-			minetest.set_node(pos, {name = nodedef._wet_name})
+			minetest.swap_node(pos, {name = nodedef._wet_name})
 			return
 		elseif math.random()<0.3 then
 			local posa = {x = pos.x, y = pos.y + 1, z = pos.z}
@@ -523,7 +523,7 @@ local function fall_water(pos,node)
 		return
 	end
 
-	--Fresh water should float on top of the ocean
+	--Fresh water should not float on top of the ocean
 	if ( under_name == "nodes_nature:salt_water_source" and
 	     node.name == "nodes_nature:freshwater_source" ) then
 	   minetest.remove_node(pos)
