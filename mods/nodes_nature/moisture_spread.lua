@@ -9,11 +9,6 @@
 local function water_freeze(pos, node)
 	local n_name = node.name
 
-	--don't freeze flows, allows infinite ice generators
-	if string.match(n_name, "flowing") then
-		return
-	end
-
 	if climate.can_freeze(pos) then
 
 		local water_type = minetest.get_item_group(n_name, "water")
@@ -25,18 +20,6 @@ local function water_freeze(pos, node)
 
 	end
 end
-
---
-minetest.register_abm({
-	label = "Water Freeze",
-	nodenames = {"group:water"},
-	interval = 141,
-	chance = 10,
-	action = function(...)
-		water_freeze(...)
-	end
-})
-
 
 ----------------------------------------------------------------
 --evaporate water
@@ -51,18 +34,50 @@ local function water_evap(pos, node)
 
 end
 
+--------------------------
+--move sources down, otherwise erosion leaves them stranded
+local function fall_water(pos,node)
+
+	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
+	local under_name = minetest.get_node(pos_under).name
+
+	if under_name == "nodes_nature:freshwater_flowing" or under_name == "nodes_nature:salt_water_flowing" then
+		minetest.remove_node(pos)
+		minetest.set_node(pos_under, {name = node.name})
+		return pos
+	end
+
+	--Fresh water should not float on top of the ocean
+	if ( under_name == "nodes_nature:salt_water_source" and
+	     node.name == "nodes_nature:freshwater_source" ) then
+	   minetest.remove_node(pos)
+	   return nil
+	end
+	return pos
+end
+
+local function water_handler(pos, node)
+   pos = fall_water(pos, node)
+   if pos == nil then
+      return -- the water is not there anymore
+   end
+   if climate.active_temp < 2 then
+      water_freeze(pos, node)
+   else
+      water_evap(pos, node)
+   end
+end
+
 --
 minetest.register_abm({
-	label = "Water Evaporate",
-	nodenames = {"group:water"},
-	neighbors = {"air"},
-	interval = 145,
-	chance = 17,
+	label = "Water Source Handling",
+	nodenames = {"nodes_nature:freshwater_source", "nodes_nature:salt_water_source"},
+	interval = 120,
+	chance = 10,
 	action = function(...)
-		water_evap(...)
+		water_handler(...)
 	end
 })
-
 
 
 ----------------------------------------------------------------
@@ -504,39 +519,5 @@ minetest.register_abm({
 	chance = 180,
 	action = function(...)
 		rain_soak(...)
-	end
-})
-
-
-
-
---------------------------
---move sources down, otherwise erosion leaves them stranded
-local function fall_water(pos,node)
-
-	local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
-	local under_name = minetest.get_node(pos_under).name
-
-	if under_name == "nodes_nature:freshwater_flowing" or under_name == "nodes_nature:salt_water_flowing" then
-		minetest.remove_node(pos)
-		minetest.set_node(pos_under, {name = node.name})
-		return
-	end
-
-	--Fresh water should not float on top of the ocean
-	if ( under_name == "nodes_nature:salt_water_source" and
-	     node.name == "nodes_nature:freshwater_source" ) then
-	   minetest.remove_node(pos)
-	   return
-	end
-end
-
-minetest.register_abm({
-	label = "Water Fall",
-	nodenames = {"nodes_nature:freshwater_source", "nodes_nature:salt_water_source"},
-	interval = 41,
-	chance = 5,
-	action = function(...)
-		fall_water(...)
 	end
 })
