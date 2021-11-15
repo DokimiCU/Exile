@@ -21,6 +21,14 @@ minetest.register_on_newplayer(function(player)
       minetest.show_formspec(player:get_player_name(),"lore:login",loginspec)
 end)
 
+local rspawn_available = false
+for _, name in ipairs(minetest.get_modnames()) do
+	if name == "rspawn" then
+		rspawn = true
+	end
+end
+
+
 local function safepoint_and_rspawn(player)
       --If rspawn is enabled, send new players to the safe point if enabled
       -- and later respawning players elsewhere randomly
@@ -31,7 +39,7 @@ local function safepoint_and_rspawn(player)
       if lives <= safespawn and safepoint then
 	 player:set_pos(safepoint)
 	 return true -- disable regular respawn
-      elseif rspawn then
+      elseif rspawn_available then
 	 rspawn:renew_player_spawn(player:get_player_name())
 	 return true
       end
