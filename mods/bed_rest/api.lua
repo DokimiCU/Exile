@@ -116,7 +116,9 @@ function bed_rest.register_bed(name, def)
 
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			bed_rest.on_rightclick(pos, clicker, def.bed_level)
-			return itemstack
+			local stack = clicker:get_wielded_item()
+			--Update wielded item, in case it's a moved blanket
+			return stack
 		end,
 
 		on_rotate = function(pos, node, user, _, new_param2)
