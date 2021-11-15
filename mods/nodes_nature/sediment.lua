@@ -481,7 +481,7 @@ for i in ipairs(list3) do
 	local s, sw, g, g2, g3, g4 = property_by_type(type, hardness, "agricultural")
 
 
-	--register normal soil
+	--register agricultural soil
 	minetest.register_node("nodes_nature:"..name, {
 		description = desc,
 		tiles = {
@@ -503,7 +503,7 @@ for i in ipairs(list3) do
 		end,
 	})
 
-	--register wet normal soil
+	--register wet agricultural soil
 	minetest.register_node("nodes_nature:"..name.."_wet", {
 		description = "Wet "..desc,
 		tiles = {
@@ -513,14 +513,14 @@ for i in ipairs(list3) do
 		stack_max = minimal.stack_max_bulky,
 		groups = g2,
 		sounds = sw,
-		drop = source,
+		drop = source.."_wet",
 		_dry_name = "nodes_nature:"..name,
 		on_construct = function(pos)
 			--speed of erosion, degrade to depleted
 			minetest.get_node_timer(pos):start(math.random(60, 300))
 		end,
 		on_timer = function(pos,elapsed)
-			return erode_deplete_ag_soil(pos, "nodes_nature:"..name.."_depleted")
+			return erode_deplete_ag_soil(pos, "nodes_nature:"..name.."_wet_depleted")
 		end,
 	})
 
@@ -561,7 +561,7 @@ for i in ipairs(list3) do
 		stack_max = minimal.stack_max_bulky,
 		groups = g4,
 		sounds = sw,
-		drop = source,
+		drop = source.."_wet",
 		_dry_name = "nodes_nature:"..name.."_depleted",
 		on_punch = function(pos, node, puncher, pointed_thing)
 			fertilize_ag_soil(pos, puncher, "nodes_nature:"..name.."_wet")
