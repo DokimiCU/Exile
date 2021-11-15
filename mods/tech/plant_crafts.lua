@@ -248,9 +248,7 @@ minetest.register_node("tech:maraka_cake", {
 		if random() < 0.001 then
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
 		end
-
-    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 0, 24, 14, 0)
+    return exile_eatdrink(itemstack, user)
   end,
 })
 
@@ -275,8 +273,7 @@ minetest.register_node("tech:maraka_cake_burned", {
       HEALTH.add_new_effect(user, {"Food Poisoning", 1})
     end
     --burned food has less impact
-    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 0, 12, 7, 0)
+    return exile_eatdrink(itemstack, user)
   end,
 })
 
@@ -326,8 +323,7 @@ minetest.register_node("tech:anperla_tuber_cooked", {
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
 		end
 
-    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 4, 24, 14, 0)
+    return exile_eatdrink(itemstack, user)
   end,
 })
 
@@ -375,8 +371,7 @@ minetest.register_node("tech:mashed_anperla_cooked", {
 			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
 		end
 
-    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 24, 144, 84, 0)
+    return exile_eatdrink(itemstack, user)
   end,
 })
 
@@ -398,9 +393,7 @@ minetest.register_node("tech:mashed_anperla_burned", {
     if random() < 0.001 then
       HEALTH.add_new_effect(user, {"Food Poisoning", 1})
     end
-    --burned food has less impact
-    --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-    return HEALTH.use_item(itemstack, user, 0, 12, 72, 42, 0)
+    return exile_eatdrink(itemstack, user)
   end,
 })
 

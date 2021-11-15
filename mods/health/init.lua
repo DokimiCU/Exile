@@ -7,26 +7,6 @@ Fast, and slow.
 
 Fast applies environmental and action based effects (in on_actions)
 Slow applies internal metabolism effects (here)
-
-
-
-------------------------------------
-
-Some notes:
-
-Calculating sensible values for food:
-(intervals/day) * hunger_rate = daily basal food needs
-i.e. 20min/1min * 2 = 40 units per day
-
-Therefore 40 units = 2000 calories.
-calories -> units = 2000/40 = 50 cal/unit
-
-Sugar 3900 cal/kg = 78 units/kg
-Bread 2600 cal/kg = 52 units/kg
-Potato. 1500 cal/kg = 30 u/kg
-Meat 1000 cal/kg = 20 u/kg
-cabbage 240 cal/kg = 4.8 u/kg
-
 ]]
 
 ------------------------------------
@@ -36,6 +16,7 @@ HEALTH = {}
 dofile(minetest.get_modpath('health')..'/health_effects.lua')
 dofile(minetest.get_modpath('health')..'/on_actions.lua')
 dofile(minetest.get_modpath('health')..'/hud.lua')
+dofile(minetest.get_modpath('health')..'/food.lua')
 
 
 --frequency of updating and applying effects
