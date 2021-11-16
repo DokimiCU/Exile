@@ -24,7 +24,7 @@ end)
 local rspawn_available = false
 for _, name in ipairs(minetest.get_modnames()) do
 	if name == "rspawn" then
-		rspawn = true
+		rspawn_available = true
 	end
 end
 
