@@ -164,8 +164,11 @@ local function wear_blanket(player, donning)
    elseif donning then -- can't put it on, return it to main inv
       plyrinv:add_item(frominvl, newstack)
    else -- or drop it at our feet if there's no room when taking it off
-      minetest.item_drop(newstack, player, player:get_pos())
+      local ppos = player:get_pos()
+      minetest.item_drop(newstack, player, ppos)
       minetest.chat_send_player(name, "You have no room to hold your blanket, so you drop it.")
+      minetest.sound_play("nodes_nature_dig_snappy",
+			  {pos = ppos, gain = .8, max_hear_distance = 2})
    end
    clothing:update_temp(player)
    player_api.set_texture(player)
