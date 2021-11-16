@@ -46,6 +46,34 @@ local pot_box = {
 	{0.3125, -0.0625, -0.0625, 0.4375, 0.0625, 0.0625}, -- NodeBox24
 }
 
+local pot_formspec = "size[8,4.1]"..
+   "list[current_name;main;0,0;8,2]"..
+   "list[current_player;main;0,2.3;8,4]"..
+   "listring[current_name;main]"..
+   "listring[current_player;main]"
+
+local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
+   local meta = minetest.get_meta(pos)
+   local itemname = itemstack:get_name()
+   if meta:get_string("type") == "" then
+      if itemname == "nodes_nature:freshwater_source" then
+	 --TODO: add liquid stores
+	 meta:set_string("type", "soup")
+	 meta:set_string("infotext", "Soup pot")
+	 meta:set_string("formspec", pot_formspec)
+	 itemstack:take_item()
+      end
+      return itemstack
+   end
+   --TODO: use oil for fried food, saltwater for salted food (to preserve it)
+   --show formspec of inventory
+end
+
+--on_receive_fields goes here, calculate total contents, and turn it into
+-- portions of soup/etc when cooked
+--also prevent moving this until emptied
+
+
 minetest.register_node("tech:cooking_pot", {
 	description = "Cooking Pot (WIP!)",
 	tiles = {"tech_pottery.png",
@@ -63,4 +91,13 @@ minetest.register_node("tech:cooking_pot", {
 	},
 	groups = {dig_immediate = 3, pottery = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
+	on_construct = function(pos)
+	   meta = minetest.get_meta(pos)
+	   meta:set_string("infotext", "Unprepared pot")
+	   local inv = meta:get_inventory()
+	   inv:set_size("main", 8*2)
+	end,
+	on_rightclick = function(...)
+	   return pot_rightclick(...)
+	end
 })
