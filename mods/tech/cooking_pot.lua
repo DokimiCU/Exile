@@ -71,8 +71,6 @@ end
 
 --on_receive_fields goes here, calculate total contents, and turn it into
 -- portions of soup/etc when cooked
---also prevent moving this until emptied
-
 
 minetest.register_node("tech:cooking_pot", {
 	description = "Cooking Pot (WIP!)",
@@ -92,12 +90,20 @@ minetest.register_node("tech:cooking_pot", {
 	groups = {dig_immediate = 3, pottery = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
-	   meta = minetest.get_meta(pos)
+	   local meta = minetest.get_meta(pos)
 	   meta:set_string("infotext", "Unprepared pot")
 	   local inv = meta:get_inventory()
 	   inv:set_size("main", 8*2)
 	end,
 	on_rightclick = function(...)
 	   return pot_rightclick(...)
+	end,
+	on_dig = function(pos, node, digger)
+	   local meta = minetest.get_meta(pos)
+	   local inv = meta get_inventory()
+	   if not inv:is_empty("main") then
+	      return false
+	   end
+	   minetest.node_dig(pos, node, digger)
 	end
 })
