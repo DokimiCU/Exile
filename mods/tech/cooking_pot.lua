@@ -22,8 +22,9 @@ Save to inv meta
 
 ]]
 
-local cook_time = 30
-
+local cook_time = 1
+local cook_temp = { [""] = 101, ["Soup"] = 100 }
+local portions = 10
 
 ---------------------
 local pot_box = {
@@ -53,16 +54,25 @@ local pot_formspec = "size[8,4.1]"..
    "listring[current_name;main]"..
    "listring[current_player;main]"
 
+minetest.register_craftitem("tech:soup", {
+	description = "Soup",
+	inventory_image = "tech_vegetable_oil.png",
+	stack_max = minimal.stack_max_medium,
+	on_use = function(itemstack, user, pointed_thing)
+	   return exile_eatdrink_playermade(itemstack, user)
+	end
+})
+
 local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
    local meta = minetest.get_meta(pos)
    local itemname = itemstack:get_name()
    if meta:get_string("type") == "" then
       if itemname == "nodes_nature:freshwater_source" then
 	 --TODO: add liquid stores
-	 meta:set_string("type", "soup")
+	 meta:set_string("type", "Soup")
 	 meta:set_string("infotext", "Soup pot")
 	 meta:set_string("formspec", pot_formspec)
-	 itemstack:take_item()
+	 --itemstack:take_item()
       end
       return itemstack
    end
@@ -75,14 +85,22 @@ end
 local function pot_receive_fields(pos, formname, fields, sender)
    local meta = minetest.get_meta(pos)
    local inv = meta:get_inventory():get_list("main")
-   local total = { 0, 0, 0, 0 }
+   local total = { 0, 0, 0, 0, 0 }
+   if meta:get_string("type") == "finished" then -- reset the pot for next cook
+      if meta:get_inventory():is_empty("main") then
+	 meta:set_string("type", "")
+	 meta:set_string("formspec", "")
+	 meta:set_string("infotext", "Unprepared pot")
+      end
+      return
+   end
    for i = 1, #inv do
       if food_table then
 	 local result = food_table[inv[i]:get_name()]
 	 local count = inv[i]:get_count()
 	 if result then
-	    for i = 1, 4 do
-	       total[i] = total[i] + result[i] * count
+	    for j = 1, 5 do
+	       total[j] = total[j] + result[j] * count
 	    end
 	 end
       end
@@ -96,6 +114,52 @@ local function pot_receive_fields(pos, formname, fields, sender)
    end
    minetest.chat_send_player(sender:get_player_name(),debug)
    meta:set_string("pot_contents", minetest.serialize(total))
+end
+
+local function divide_portions(total)
+   local result = total
+   for i = 1, #total do
+      result[i] = math.floor(total[i])
+   end
+   return result
+end
+
+local function pot_cook(pos, elapsed)
+   local meta = minetest.get_meta(pos)
+   local inv = meta:get_inventory():get_list("main")
+   local total = ( minetest.deserialize(meta:get_string("pot_contents")) or
+		      { 0, 0, 0, 0 } )
+   local kind = meta:get_string("type")
+   climate.heat_transfer(pos, "tech:cooking_pot")
+   local temp = climate.get_point_temp(pos)
+   local baking = meta:get_int("baking")
+   if kind == "Soup" then -- or kind == "etc"; this only runs if we're cooking
+      if baking <= 0 then
+	 for i = 1, #inv do
+	    inv[i]:clear()
+	 end
+	 inv[1]:replace(ItemStack("tech:soup "..portions))
+	 local imeta = inv[1]:get_meta()
+	 local portion = divide_portions(total)
+	 if kind == "Soup" then -- add water to the soup
+	    portion[2] = portion[2] + (100 / portions)
+	 end
+	 imeta:set_string("eat_value", minetest.serialize(portion))
+	 meta:get_inventory(pos):set_list("main", inv)
+	 meta:set_string("infotext", kind.." pot (finished)")
+	 meta:set_string("type", "finished")
+	 return
+      elseif temp < cook_temp[kind] then
+	 return
+      --TODO: burned
+      elseif temp >= cook_temp[kind] then
+	 if meta:get_inventory():is_empty("main") then
+	    return
+	 end
+	 meta:set_string("infotext", kind.." pot (cooking)")
+	 meta:set_int("baking", baking - 1)
+      end
+   end
 end
 
 minetest.register_node("tech:cooking_pot", {
@@ -120,7 +184,8 @@ minetest.register_node("tech:cooking_pot", {
 	   meta:set_string("infotext", "Unprepared pot")
 	   meta:set_int("baking", cook_time)
 	   local inv = meta:get_inventory()
-	   inv:set_size("main", 8*2)
+	   inv:set_size("main", 8)
+	   minetest.get_node_timer(pos):start(6)
 	end,
 	on_rightclick = function(...)
 	   return pot_rightclick(...)
@@ -135,5 +200,9 @@ minetest.register_node("tech:cooking_pot", {
 	end,
 	on_receive_fields = function(...)
 	   pot_receive_fields(...)
+	end,
+	on_timer = function(pos, elapsed)
+	   pot_cook(pos, elapsed)
+	   return true
 	end
 })

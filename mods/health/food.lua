@@ -28,6 +28,18 @@ food_table = {
 
 }
 
+function exile_eatdrink_playermade(itemstack, user)
+   local imeta = itemstack:get_meta()
+   local pname = user:get_player_name()
+   local t = minetest.deserialize(imeta:get_string("eat_value"))
+   if t == nil then minetest.log("warning", pname..
+				    " ate an invalid food of type "..
+				    itemstack:get_name())
+      return
+   end
+   return HEALTH.use_item(itemstack, user, t[1], t[2], t[3], t[4], t[5], t[6])
+end
+
 function exile_eatdrink(itemstack, user)
    local name = itemstack:get_name()
    if not food_table[name] then
