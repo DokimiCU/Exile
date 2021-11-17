@@ -22,6 +22,7 @@ Save to inv meta
 
 ]]
 
+local cook_time = 30
 
 
 ---------------------
@@ -66,12 +67,14 @@ local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
       return itemstack
    end
    --TODO: use oil for fried food, saltwater for salted food (to preserve it)
-   --show formspec of inventory
 end
 
+--TODO: limit stack size in the pot? Or maybe only allow one stack of an item?
+-- So no sixteen stacks of 8 mashed anperla a piece. Maybe shrink the inv size
+
 local function pot_receive_fields(pos, formname, fields, sender)
-   local inv = minetest.get_meta(pos):get_inventory():get_list("main")
-   --print(dump2(inv))
+   local meta = minetest.get_meta(pos)
+   local inv = meta:get_inventory():get_list("main")
    local total = { 0, 0, 0, 0 }
    for i = 1, #inv do
       if food_table then
@@ -84,8 +87,15 @@ local function pot_receive_fields(pos, formname, fields, sender)
 	 end
       end
    end
-   local debug = "Total is: th "..total[1].." hng "..total[2].." eng "..total[3]
+   local debug = "Total is: th "..total[2].." hng "..total[3].." eng "..total[4]
+
+   local length = meta:get_int("baking")
+   if length <= (cook_time - 4) then
+      length = length + 4 -- don't open a cooking pot, you'll let the heat out
+      meta:set_int("baking", length)
+   end
    minetest.chat_send_player(sender:get_player_name(),debug)
+   meta:set_string("pot_contents", minetest.serialize(total))
 end
 
 minetest.register_node("tech:cooking_pot", {
@@ -108,6 +118,7 @@ minetest.register_node("tech:cooking_pot", {
 	on_construct = function(pos)
 	   local meta = minetest.get_meta(pos)
 	   meta:set_string("infotext", "Unprepared pot")
+	   meta:set_int("baking", cook_time)
 	   local inv = meta:get_inventory()
 	   inv:set_size("main", 8*2)
 	end,
