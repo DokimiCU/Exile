@@ -69,8 +69,24 @@ local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
    --show formspec of inventory
 end
 
---on_receive_fields goes here, calculate total contents, and turn it into
--- portions of soup/etc when cooked
+local function pot_receive_fields(pos, formname, fields, sender)
+   local inv = minetest.get_meta(pos):get_inventory():get_list("main")
+   --print(dump2(inv))
+   local total = { 0, 0, 0, 0 }
+   for i = 1, #inv do
+      if food_table then
+	 local result = food_table[inv[i]:get_name()]
+	 local count = inv[i]:get_count()
+	 if result then
+	    for i = 1, 4 do
+	       total[i] = total[i] + result[i] * count
+	    end
+	 end
+      end
+   end
+   local debug = "Total is: th "..total[1].." hng "..total[2].." eng "..total[3]
+   minetest.chat_send_player(sender:get_player_name(),debug)
+end
 
 minetest.register_node("tech:cooking_pot", {
 	description = "Cooking Pot (WIP!)",
@@ -100,10 +116,13 @@ minetest.register_node("tech:cooking_pot", {
 	end,
 	on_dig = function(pos, node, digger)
 	   local meta = minetest.get_meta(pos)
-	   local inv = meta get_inventory()
+	   local inv = meta:get_inventory()
 	   if not inv:is_empty("main") then
 	      return false
 	   end
 	   minetest.node_dig(pos, node, digger)
+	end,
+	on_receive_fields = function(...)
+	   pot_receive_fields(...)
 	end
 })
