@@ -309,43 +309,51 @@ end
 --can be significantly heated or cooled e.g. for smelting
 
 
+local function swap_air(old_pos, new_pos, temp_m)
+   if minetest.get_node(new_pos).name == "air" then
+      local timer = 8
+      minetest.set_node(old_pos, {name = 'air'})
+      minetest.set_node(new_pos, {name = 'climate:air_temp'})
+      local meta = minetest.get_meta(new_pos)
+      meta:set_float("temp", temp_m)
+      minetest.get_node_timer(new_pos):start(math.random(timer, timer*2))
+      return true
+   end
+end
+
 
 --For air_temp. Heat based movement. returns if moved or not
 local move_air_nodes = function(pos, meta, temp_m)
-
 	--heat rises 	-cold sink
 	local pos_new
 	if temp_m > 0 then
 		pos_new = {x=pos.x, y=pos.y +1, z=pos.z}
 	else
-		pos_new = {x=pos.x, y=pos.y -1, z=pos.z}
+	   pos_new = {x=pos.x, y=pos.y -1, z=pos.z}
 	end
 
 	--movement
-	local timer = 8
-	local name_new = minetest.get_node(pos_new).name
-	if name_new == 'air' then
-		--displace it
-		minetest.set_node(pos, {name = 'air'})
-		minetest.set_node(pos_new, {name = 'climate:air_temp'})
-		local meta = minetest.get_meta(pos_new)
-		meta:set_float("temp", temp_m)
-		minetest.get_node_timer(pos_new):start(math.random(timer, timer*2))
-		return true
-	else
-		--blocked above/below, so just select anywhere
-		--then same again
-		local pos_air = minetest.find_node_near(pos, 1, 'air')
-
-		if pos_air then
-			--displace it
-			minetest.set_node(pos, {name = 'air'})
-			minetest.set_node(pos_air, {name = 'climate:air_temp'})
-			local meta = minetest.get_meta(pos_air)
-			meta:set_float("temp", temp_m)
-			minetest.get_node_timer(pos_air):start(math.random(timer, timer*2))
-			return true
-		end
+	if pos_new and swap_air(pos, pos_new, temp_m) then
+	   return true
+	end
+	--blocked above/below, so just select anywhere
+	--then same again
+	local pos_air = minetest.find_node_near(pos, 1, 'air')
+	if pos_air and swap_air(pos, pos_air, temp_m) then
+	   return true
+	end
+	-- no nearby air node? try to squeeze past temp_flow node
+	local pos_pass = minetest.find_node_near(pos, 1, 'group:temp_flow')
+	if pos_pass then
+	   local tf = minetest.get_item_group(minetest.get_node(pos_pass).name,
+					      "temp_flow")
+	   if tf > math.random(0, 100) then
+	      local vec = vector.direction(pos, pos_pass)
+	      pos_pass = vector.add(pos_pass, vec)
+	      if swap_air(pos, pos_pass, temp_m) then
+		 return true
+	      end
+	   end
 	end
 	return false
 end
@@ -412,7 +420,8 @@ function climate.heat_transfer(pos, nodename, replace)
 	--dissappation..lose heat to environment
 	local pos_max = {x=pos.x +1, y=pos.y +1, z=pos.z +1}
 	local pos_min = {x=pos.x -1, y=pos.y -1, z=pos.z -1}
-	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max, {'air', 'group:water', 'climate:air_temp'})
+	local air, cn = minetest.find_nodes_in_area(pos_min, pos_max,
+				{'air', 'group:water', 'climate:air_temp'})
 	--including group:temp_pass causes problems for doing pottery etc in groups (cools down bc of neighbors).
 	--taking them out of temp_pass would allow exploits (e.g. furnaces built from pots)
 	-- it seems good to let air_temp self cool. Any other temp_pass nodes that ought to be here
@@ -450,8 +459,8 @@ end
 minetest.register_node("climate:air_temp", {
 	description = "Temperature Effect Air",
 	tiles = {"climate_air.png"},
-	drawtype = "airlike",
-	--drawtype = "glasslike",
+	--drawtype = "airlike",
+	drawtype = "glasslike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,

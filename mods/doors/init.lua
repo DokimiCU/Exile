@@ -433,6 +433,7 @@ function doors.register(name, def)
 
 	def_opened.mesh = "door_b.obj"
 	def_opened.groups.temp_pass = 1
+        def_opened.groups.temp_flow = 100
 
 	minetest.register_node(":" .. name .. "_b", def_opened)
 
@@ -607,6 +608,7 @@ function doors.register_trapdoor(name, def)
 	def_opened.drop = name_closed
 	def_opened.groups.not_in_creative_inventory = 1
 	def_opened.groups.temp_pass = 1
+	def_opened.groups.temp_flow = 100
 
 	minetest.register_node(name_opened, def_opened)
 	minetest.register_node(name_closed, def_closed)

@@ -39,7 +39,7 @@ minetest.register_node("tech:stick", {
    return false
  end,
  sunlight_propagates = true,
- groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1},
+ groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1, temp_flow = 100},
  drop = "tech:stick",
  sounds = nodes_nature.node_sound_wood_defaults(),
 

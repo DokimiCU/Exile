@@ -57,6 +57,8 @@ Temperature:
   Must call `climate.heat_transfer` as part of node timer. Intended for pottery, smelting etc for direct heat transfers from fires etc.
   Value = % of dissipation speed. i.e. 100 means it dissipates at 100% of base speed (like air, which holds heat poorly),
   10 means 10% of base speed (e.g. like metal which holds heat well). Allows different materials to lose heat and different rates.
+`temp_flow`: 100 = air_temp nodes can jump through this; like an open door
+  Value = % chance of passing through. 100% will always succeed
 
 Plant groups
 -------------
