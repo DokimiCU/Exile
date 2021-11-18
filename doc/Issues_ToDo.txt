@@ -15,7 +15,6 @@ Urgent Fixes needed:
 Climate:
 -weather saving would be better done on_leaveplayer (but that doesn't work for some reason...). Being called unnecessarily to work around this
 -weather effects if exposed to sun?? ie. so can't dig a massive pit to stop rain.
--sound effects cut off underground is too abrupt (should fade)
 
 
 Bed:
@@ -32,7 +31,6 @@ Animals:
 -stability of animal populations over time unknown
 -some animals can be a bit too unintelligent (e.g. hunting)
 -predators don't do well (perhaps swap out for generalists)
--letting cave animals spawn on cave sediments also puts them on the beaches.
 
 Nature:
 -ocean flora lacks spreading (barely matters at this point)
@@ -53,7 +51,6 @@ Megamorph:
 
 
 Tech:
--doors ought to toggle temp_pass group on open and close
 - temp_pass should probably act like air temp, allow air temp to move through them. (e.g. an open door should let air out)
 -torches/oil lamp should burn when held (i.e. no infinite burn exploit)
 -grafitti would benefit from something stopping it on silly things (e.g. beds, crafting spots)
@@ -69,9 +66,7 @@ Artifacts:
 -airboat collision allows going into things, dig pointer is out of line with crosshairs, can jump off inside blocks (exists because wanted to be able to dig while attached)
 
 Crafting (Rubenwardy)
--crafting when full inventory should drop crafts that don't fit inventory.
 -adds stack to inventory at crafted stack size, rather than node stack size (over stacked)
--Calling get_connected_players() at mod load time is deprecated
 -some items need inv images with space around edges (e.g. wattle)
 -sound effects would be nice
 
@@ -129,7 +124,6 @@ to force a migration, rebuild, temporary escape. (story teller)
 -weildview + register wield effects e.g. burn torch
 
 HEALTH
--setting to display temperature in F
 - Effects: on_node + in_node health check, biome check, venom on bite, more components (e.g. HUDs e.g. tunnel vision)
 - effects currently handled by low thirst/hunger/low body temp etc could be turned into effects (e.g. malnutrition, hypothermia)
 
@@ -167,11 +161,10 @@ a people who destroyed themselves should also be a dubious/bad idea.
 -dangerous contaminants, traps etc
 
 --SOFT PERMA-DEATH i.e. new life = new character
--more stuff for character page with: achievements?, earnable nickname?, Character skin image (when random skin done)
+-more stuff for character page with: achievements?, earnable nickname?, Character skin image
 -random (re)spawn location: based on the faction that exiled you there (e.g. Empire of X all spawn at same place - needs some hard coded factions).
 Thus players get mixed around to diff places, but do sometimes return to old place. (balance variety and build).
 Currently travel is very hard, so all lives get lived at one base. This would add some variation. Develop separate towns.
--random character skins for each life
 -acquired character traits (see each life becomes meaningfully unique)
 -Death screen - name and days survived (also put in Breaktaker, maybe a Highscores page?). Give name to bones meta.
 -multiplayer protection that allows protection to fade after death?? might get abused?
@@ -205,7 +198,6 @@ Currently travel is very hard, so all lives get lived at one base. This would ad
 -ranged weapons
 -armor
 -right click to turn torches/lamps off (+require lighting them like with fires)
--fires: water, rain etc should turn them to extinguished form instead of ash (requires reworking code a bit)
 -degradation of rottable building materials (e.g. mudbrick -> clay, log -> rotten). Gives an advantage to sophisticated building materials.
 -grinding stone crafts out of more stone types ( basalt/jade club)
 
