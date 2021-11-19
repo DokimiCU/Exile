@@ -16,10 +16,7 @@ Currently the following meshes are choosable:
 local random = math.random
 local floor = math.floor
 
---how long it takes seeds to mature (number of ticks down i.e. timer X bg = time)
---18000 per season?
-local base_growth = 500
-local base_timer = 40
+
 
 ---------------------------
 -- Dig upwards
@@ -52,7 +49,7 @@ local function seed_soil_response(pos)
 	local ag_soil = minetest.get_item_group(node_under, "agricultural_soil")
 	local dep_ag_soil = minetest.get_item_group(node_under, "depleted_agricultural_soil")
 
-	local timer_min = base_timer
+	local timer_min = plant_base_timer
 
 
 	--apply bonus or penalty by by soil type and wetness
@@ -124,7 +121,7 @@ local function grow_seed(pos, seed_name, plant_name, place_p2, timer_avg, elapse
 	local growth = meta:get_int("growth")
 	--happens if they fall, no meta is set
 	if growth == 0 then
-		growth = base_growth
+		growth = plant_base_growth
 	end
 
 	--We've been away, let's catch up on missing growth
@@ -202,7 +199,7 @@ local on_dig_seedling = function(pos,node, digger)
    end
 	local meta = minetest.get_meta(pos)
 	local growth = meta:get_int("growth")
-	if not growth then growth = base_growth end
+	if not growth then growth = plant_base_growth end
 
 	local new_stack = ItemStack(node.name)
 	local stack_meta = new_stack:get_meta()
@@ -223,7 +220,7 @@ local after_place_seedling = function(pos, placer, itemstack, pointed_thing)
 	if growth == 0 then -- new seeds have no meta
 	   growth = meta:get_int("growth") -- but it's set on the node already
 	end
-	if not growth then growth = base_growth end
+	if not growth then growth = plant_base_growth end
 	meta:set_int("growth", growth)
 end
 
@@ -256,23 +253,6 @@ end
 --Non-consummables
 --
 
-local plantlist = {
-	{"moss", "Moss",{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, 1, "crumbly", "nodebox", nil, "Moss Spores", "nodes_nature_spores.png", base_growth *3},
-  {"gitiri", "Gitiri", nil, 1.2, "woody_plant", nil, 2, nil, nil, base_growth * 2},
-	{"sari", "Sari", nil, 1, "fibrous_plant", nil, 2, nil, nil, base_growth *0.5},
-	{"tanai", "Tanai", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth*1.5},
-	{"bronach", "Bronach", nil, 1.5, "woody_plant", nil, 3, nil, nil, base_growth * 2},
-	{"thoka", "Thoka", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth * 2},
-	{"alaf", "Alaf", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth * 2},
-	{"damo", "Damo", nil, 1, "fibrous_plant", nil, 4, nil, nil, base_growth},
-	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, base_growth * 1.2},
-	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', base_growth * 2},
-	--artifact
-	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", base_growth *3},
-	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", base_growth *3},
-
-
-}
 
 
 for i in ipairs(plantlist) do
@@ -367,7 +347,7 @@ for i in ipairs(plantlist) do
 				if timer_min then
 					minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 				else
-				   minetest.get_node_timer(pos):start(base_timer)
+				   minetest.get_node_timer(pos):start(plant_base_timer)
 				end
 			end,
 
@@ -453,7 +433,7 @@ for i in ipairs(plantlist) do
 				if timer_min then
 					minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 				else
-				   minetest.get_node_timer(pos):start(base_timer)
+				   minetest.get_node_timer(pos):start(plant_base_timer)
 				end
 			end,
 
@@ -536,7 +516,7 @@ for i in ipairs(plantlist) do
 			if timer_min then
 				minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 			else
-			   minetest.get_node_timer(pos):start(base_timer)
+			   minetest.get_node_timer(pos):start(plant_base_timer)
 			end
 		end,
 
@@ -586,24 +566,6 @@ end
 
 
 --Consummables
---Use: hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-local plantlist2 = {
-  --drugs
-	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,2,0, nil, nil, nil, base_growth, 0.001},
-	--toxic
-	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, 0,0,0,0,0, nil, nil, nil, base_growth, 0.001},
-	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 0, 0, 0, 0,0, nil, nil, nil, base_growth*2, 0.001},
-  --medicine
-  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
-	{"merki", "Merki", nil, 1, "mushroom", nil, 0, 0,0,0,0,0, nil, nil, nil, base_growth * 2, 0.001},
-	--food and water
-	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,3,1,0,0, nil, nil, nil, base_growth * 2, 0.005},
-	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,0,0, nil, nil, nil, base_growth * 2, 0.01},
-	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, base_growth *0.8, 0.008},
-	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", base_growth *3, 0.001},
-
-}
 
 
 for i in ipairs(plantlist2) do
@@ -626,7 +588,7 @@ for i in ipairs(plantlist2) do
 	local c_food_pois = plantlist2[i][17]
 
 	if not growth then
-		growth = base_growth
+		growth = plant_base_growth
 	end
 
 
@@ -717,7 +679,7 @@ for i in ipairs(plantlist2) do
 				if timer_min then
 					minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 				else
-				   minetest.get_node_timer(pos):start(base_timer)
+				   minetest.get_node_timer(pos):start(plant_base_timer)
 				end
 			end,
 
@@ -809,7 +771,7 @@ for i in ipairs(plantlist2) do
 				if timer_min then
 					minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 				else
-				   minetest.get_node_timer(pos):start(base_timer)
+				   minetest.get_node_timer(pos):start(plant_base_timer)
 				end
 			end,
 
@@ -894,7 +856,7 @@ for i in ipairs(plantlist2) do
 				if timer_min then
 					minetest.get_node_timer(pos):start(math.random(timer_min, timer_max))
 				else
-				   minetest.get_node_timer(pos):start(base_timer)
+				   minetest.get_node_timer(pos):start(plant_base_timer)
 				end
 			end,
 
@@ -1072,30 +1034,6 @@ end
 
 
 --Underwater Rooted plants
-local searooted_list = {
-	{"kelp",
-	 "Kelp",
-	 {-2/16, 0.5, -2/16, 2/16, 3.5, 2/16},
-	 "seaweed", "nodes_nature:gravel_wet_salty",
-	 "nodes_nature_gravel.png^nodes_nature_mud.png",
-	 nodes_nature.node_sound_gravel_defaults({	dig = {name = "default_dig_snappy", gain = 0.2}, dug = {name = "default_grass_footstep", gain = 0.25},}),
-	 4,6, true},
-	 {"seagrass",
- 	 "Seagrass",
- 	 {-0.4, -0.5, -0.4, 0.4, -0.2, 0.4},
- 	 "seaweed", "nodes_nature:sand_wet_salty",
- 	 "nodes_nature_sand.png^nodes_nature_mud.png",
- 	 nodes_nature.node_sound_dirt_defaults({	dig = {name = "default_dig_snappy", gain = 0.2}, dug = {name = "default_grass_footstep", gain = 0.25},}),
- 	 1,1, false},
-	 {"sea_lettuce",
- 	 "Sea Lettuce",
- 	 {-0.4, -0.5, -0.4, 0.4, -0.2, 0.4},
- 	 "seaweed", "nodes_nature:silt_wet_salty",
- 	 "nodes_nature_silt.png^nodes_nature_mud.png",
- 	 nodes_nature.node_sound_dirt_defaults({	dig = {name = "default_dig_snappy", gain = 0.2}, dug = {name = "default_grass_footstep", gain = 0.25},}),
- 	 1,1, false}
-
-}
 
 
 for i in ipairs(searooted_list) do

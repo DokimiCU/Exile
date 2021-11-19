@@ -260,24 +260,16 @@ end
 --can make stairs
 --has  wet versions for salt and fresh
 
-local list = {
-	{"sand", "Sand", 3, "sand"},
-	{"silt", "Silt", 3, "silt" },
-	{"clay", "Clay", 2, "clay"},
-	{"gravel", "Gravel", 2, "gravel"},
-	{"loam", "Loam", 3, "loam"},
 
-
-}
 
 local doslopes = minetest.settings:get_bool('exile_enableslopes')
 local slopechance = minetest.settings:get('exile_slopechance') or 20
 
-for i in ipairs(list) do
-	local name = list[i][1]
-	local desc = list[i][2]
-	local hardness = list[i][3]
-	local type = list[i][4]
+for i in ipairs(sed_list) do
+	local name = sed_list[i][1]
+	local desc = sed_list[i][2]
+	local hardness = sed_list[i][3]
+	local type = sed_list[i][4]
 
  	local s, sw, g, g2, g3 = property_by_type(type, hardness)
 
@@ -345,22 +337,13 @@ end
 --i.e. having surface textures
 --all are falling
 
-local list2 = {
-	{"grassland_soil", "Grassland Soil", 2, "clay", "clay"},
-	{"marshland_soil", "Marshland Soil", 3, "silt", "silt"},
-	{"duneland_soil", "Duneland Soil", 3, "sand", "sand"},
-	{"highland_soil", "Highland Soil", 2, "gravel", "gravel"},
-	{"woodland_soil", "Woodland Soil", 3, "loam", "loam"},
 
-}
-
-
-for i in ipairs(list2) do
-	local name = list2[i][1]
-	local desc = list2[i][2]
-	local hardness = list2[i][3]
-	local dropped = list2[i][4]
-	local type = list2[i][5]
+for i in ipairs(soil_list) do
+	local name = soil_list[i][1]
+	local desc = soil_list[i][2]
+	local hardness = soil_list[i][3]
+	local dropped = soil_list[i][4]
+	local type = soil_list[i][5]
 
 	local s, sw, g, g2 = property_by_type(type, hardness, "spreading")
 
@@ -461,21 +444,14 @@ end
 
 
 
-local list3 = {
-	{"clay_agricultural_soil", "Clay Agricultural Soil", 2, "nodes_nature:clay", "clay"},
-	{"silt_agricultural_soil", "Silty Agricultural Soil", 3, "nodes_nature:silt", "silt"},
-	{"sand_agricultural_soil", "Sandy Agricultural Soil", 3, "nodes_nature:sand", "sand"},
-	{"gravel_agricultural_soil", "Stony Agricultural Soil", 3, "nodes_nature:gravel", "gravel"},
-	{"loam_agricultural_soil", "Loamy Agricultural Soil", 3, "nodes_nature:loam", "loam"},
-}
 
 
-for i in ipairs(list3) do
-	local name = list3[i][1]
-	local desc = list3[i][2]
-	local hardness = list3[i][3]
-	local source = list3[i][4]		--derived from this type of sediment
-	local type = list3[i][5]
+for i in ipairs(agri_soil_list) do
+	local name = agri_soil_list[i][1]
+	local desc = agri_soil_list[i][2]
+	local hardness = agri_soil_list[i][3]
+	local source = agri_soil_list[i][4]		--derived from this type of sediment
+	local type = agri_soil_list[i][5]
 
 
 	local s, sw, g, g2, g3, g4 = property_by_type(type, hardness, "agricultural")

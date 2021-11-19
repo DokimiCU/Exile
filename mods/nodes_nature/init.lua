@@ -14,6 +14,8 @@ crafting.register_type("masonry_bench")
 --------------------------------
 
 dofile(path.."/sounds.lua")
+dofile(path.."/data_plant.lua")
+dofile(path.."/data_rock.lua")
 
 dofile(path.."/sediment.lua")
 dofile(path.."/rock.lua")

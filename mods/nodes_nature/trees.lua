@@ -123,25 +123,17 @@ minetest.register_node("nodes_nature:tree_mark", {
 
 
 ---------------------------------------------------------
-local base_tree_growth = 31000
-local base_leaf_growth = 21000
-local base_fruit_growth = 19000
 
 
-local treelist = {
-	{"maraka", "Maraka Tree", "maraka_nut", "Maraka Nut", 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1},
-	{"tangkal", "Tangkal Tree", "tangkal_fruit", "Tangkal Fruit", 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2},
-}
 
-
-for i in ipairs(treelist) do
-	local treename = treelist[i][1]
-	local treedesc = treelist[i][2]
-	local fruitname = treelist[i][3]
-	local fruitdesc = treelist[i][4]
-	local p2_fruit  = treelist[i][5]
-	local selbox_fruit = treelist[i][6]
-	local hardness = treelist[i][7]
+for i in ipairs(tree_list) do
+	local treename = tree_list[i][1]
+	local treedesc = tree_list[i][2]
+	local fruitname = tree_list[i][3]
+	local fruitdesc = tree_list[i][4]
+	local p2_fruit  = tree_list[i][5]
+	local selbox_fruit = tree_list[i][6]
+	local hardness = tree_list[i][7]
 
 	if not selbox_fruit then
 		selbox_fruit = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
@@ -176,7 +168,7 @@ for i in ipairs(treelist) do
 				meta:set_string("saved_param2", 0)
 				meta:set_string("leaf_name", "nodes_nature:"..treename.."_leaves")
 				meta:set_string("tree_name", "nodes_nature:"..treename.."_tree")
-				minetest.get_node_timer(pos):start(math.random(base_tree_growth/2, base_tree_growth))
+				minetest.get_node_timer(pos):start(math.random(tree_base_tree_growth/2, tree_base_tree_growth))
 			end
 		end,
 	})
@@ -255,7 +247,7 @@ for i in ipairs(treelist) do
 				meta:set_string("saved_param2", place_param2)
 				meta:set_string("leaf_name", "nodes_nature:"..treename.."_leaves")
 				meta:set_string("tree_name", "nodes_nature:"..treename.."_tree")
-				minetest.get_node_timer(pos):start(math.random(base_leaf_growth/2, base_leaf_growth))
+				minetest.get_node_timer(pos):start(math.random(tree_base_leaf_growth/2, tree_base_leaf_growth))
 			end
 		end,
 	})
@@ -292,7 +284,7 @@ for i in ipairs(treelist) do
 					meta:set_string("saved_param2", p2_fruit)
 					meta:set_string("leaf_name", "nodes_nature:"..treename.."_leaves")
 					meta:set_string("tree_name", "nodes_nature:"..treename.."_tree")
-					minetest.get_node_timer(pos):start(math.random(base_fruit_growth/2, base_fruit_growth))
+					minetest.get_node_timer(pos):start(math.random(tree_base_fruit_growth/2, tree_base_fruit_growth))
 				end
 			end,
 		})
