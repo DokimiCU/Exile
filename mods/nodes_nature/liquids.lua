@@ -407,6 +407,7 @@ minetest.register_abm({
 --plumes
 local erupt = function(pos, aname)
 	local height = 0
+	print("erupt!")
 	--erupt
 	while (aname == "air" or aname == "climate:air_temp") and height < 7 do
 		if ran()<0.8 then
@@ -414,7 +415,7 @@ local erupt = function(pos, aname)
 			pos.y = pos.y + 1
 			minetest.set_node(pos, {name = "nodes_nature:lava_flowing"})
 			minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
-			posa = 	{x = pos.x, y = pos.y+1, z = pos.z}
+			local posa = 	{x = pos.x, y = pos.y+1, z = pos.z}
 			aname = minetest.get_node(posa).name
 		else
 			break
