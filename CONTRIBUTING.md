@@ -29,6 +29,11 @@
 
  Now you can go to your github page and submit a pull request to master, via the handy web interface.
 
+#Github Personal Access tokens
+ Github doesn't support using password anymore, so you need to use either an SSH key or a personal access token, and store it wherever you kept your password.
+ https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+ 
+
 # Some simple guidelines
 
  Try to keep your PRs focused. Don't be a politician and bundle your "fund the schools" PR together with your "build a bridge to my summer home" PR. One PR per feature/bugfix please.
