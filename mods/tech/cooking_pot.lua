@@ -63,6 +63,15 @@ minetest.register_craftitem("tech:soup", {
 	end
 })
 
+local function clear_pot(pos)
+   local meta = minetest.get_meta(pos)
+   meta:set_string("infotext", "Unprepared pot")
+   meta:set_string("formspec", "")
+   meta:set_string("type", "")
+   local inv = meta:get_inventory()
+   inv:set_size("main", 8)
+end
+
 local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
    local meta = minetest.get_meta(pos)
    local itemname = itemstack:get_name()
@@ -72,15 +81,14 @@ local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	 meta:set_string("type", "Soup")
 	 meta:set_string("infotext", "Soup pot")
 	 meta:set_string("formspec", pot_formspec)
-	 --itemstack:take_item()
+	 meta:set_int("baking", cook_time)
+	 minetest.get_node_timer(pos):start(6)
+	 --itemstack:take_item() --don't take water while testing; saves time
       end
       return itemstack
    end
    --TODO: use oil for fried food, saltwater for salted food (to preserve it)
 end
-
---TODO: limit stack size in the pot? Or maybe only allow one stack of an item?
--- So no sixteen stacks of 8 mashed anperla a piece. Maybe shrink the inv size
 
 local function pot_receive_fields(pos, formname, fields, sender)
    local meta = minetest.get_meta(pos)
@@ -88,9 +96,7 @@ local function pot_receive_fields(pos, formname, fields, sender)
    local total = { 0, 0, 0, 0, 0 }
    if meta:get_string("type") == "finished" then -- reset the pot for next cook
       if meta:get_inventory():is_empty("main") then
-	 meta:set_string("type", "")
-	 meta:set_string("formspec", "")
-	 meta:set_string("infotext", "Unprepared pot")
+	 clear_pot(pos)
       end
       return
    end
@@ -151,7 +157,7 @@ local function pot_cook(pos, elapsed)
 	 return
       elseif temp < cook_temp[kind] then
 	 return
-      --TODO: burned
+	    --TODO: burned: reduce th value of pot_contents, emit more smoke
       elseif temp >= cook_temp[kind] then
 	 if meta:get_inventory():is_empty("main") then
 	    return
@@ -180,12 +186,7 @@ minetest.register_node("tech:cooking_pot", {
 	groups = {dig_immediate = 3, pottery = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
-	   local meta = minetest.get_meta(pos)
-	   meta:set_string("infotext", "Unprepared pot")
-	   meta:set_int("baking", cook_time)
-	   local inv = meta:get_inventory()
-	   inv:set_size("main", 8)
-	   minetest.get_node_timer(pos):start(6)
+	   clear_pot(pos)
 	end,
 	on_rightclick = function(...)
 	   return pot_rightclick(...)
@@ -204,5 +205,28 @@ minetest.register_node("tech:cooking_pot", {
 	on_timer = function(pos, elapsed)
 	   pot_cook(pos, elapsed)
 	   return true
-	end
+	end,
+	allow_metadata_inventory_put = function(
+	      pos, listname, index, stack, player)
+	   --only allow cookable items in. maybe cooked ones too?
+	   --if we put new items in during cook, extend "baking" time further
+	   local meta = minetest.get_meta(pos)
+	   local inv = meta:get_inventory():get_list(listname)
+	   for i = 1, #inv do
+	      -- Only allow one stack of a given item
+	      if not (i == index) and inv[i]:get_name() == stack:get_name() then
+		    return 0
+	      end
+	   end
+	   return stack:get_count()
+	end,
+	allow_metadata_inventory_take = function(
+	      pos, listname, index, stack, player)
+	   local meta = minetest.get_meta(pos)
+	   if string.sub(meta:get_string("infotext"), -9) == "(cooking)" then
+		--prevent removing items once cooking begins
+		return 0
+	   end
+	   return stack:get_count()
+	end,
 })
