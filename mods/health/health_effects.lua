@@ -109,7 +109,7 @@ local function stagger(player, repeat_min, repeat_max, delay_min, delay_max, sta
 			if not bed_rest.player[name] then
 				local xr = random(-stag, stag)
 				local zr = random(-stag, stag)
-				player:add_player_velocity({x=xr, y=0, z=zr})
+				player:add_velocity({x=xr, y=0, z=zr})
 				--player_api.set_animation(player, "walk", 10) --doesn't work
 			end
 		end)
