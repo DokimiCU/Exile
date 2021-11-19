@@ -6,8 +6,9 @@
 
         $ git clone https://github.com/YOUR_USERNAME/Exile.git
 
- Add my repository as a remote
+ Move into the directory and add my repository as a remote
 
+        $ cd Exile
         $ git remote add -f upstream https://github.com/jeremyshannon/Exile
 
 ## To update your local copy
@@ -16,7 +17,7 @@
                 $ git checkout master
  Then pull from the corresponding upstream branch:
 
-                $ git pull --ff-only upsteam master
+                $ git pull --ff-only upstream master
 
 ## Making changes
  Create a new branch for each PR you plan on doing:
