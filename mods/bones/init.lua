@@ -276,8 +276,16 @@ minetest.register_on_dieplayer(function(player)
 	end
 
 	local param2 = minetest.dir_to_facedir(player:get_look_dir())
+	repeat
+	   local pos2 = vector.add(pos, {x=0,y=-1,z=0})
+	   if minetest.get_node(pos2).name == "air" then
+	      pos = pos2
+	   else
+	      pos2 = nil
+	   end
+	until pos2 == nil
+	player:set_pos(pos)
 	minetest.set_node(pos, {name = "bones:bones", param2 = param2})
-
 	minetest.log("action", player_name .. " dies at " .. pos_string ..
 		". Bones placed")
 	if bones_position_message then
