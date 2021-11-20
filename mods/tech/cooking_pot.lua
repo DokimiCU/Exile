@@ -208,17 +208,20 @@ minetest.register_node("tech:cooking_pot", {
 	end,
 	allow_metadata_inventory_put = function(
 	      pos, listname, index, stack, player)
-	   --only allow cookable items in. maybe cooked ones too?
-	   --if we put new items in during cook, extend "baking" time further
+	   --TODO: only allow cookable items in. maybe cooked ones too?
+	   --needs a table of cookable foods in addition to edible ones
 	   local meta = minetest.get_meta(pos)
 	   local inv = meta:get_inventory():get_list(listname)
+	   local count = stack:get_count()
 	   for i = 1, #inv do
 	      -- Only allow one stack of a given item
 	      if not (i == index) and inv[i]:get_name() == stack:get_name() then
 		    return 0
 	      end
 	   end
-	   return stack:get_count()
+	   --if we put new items in during cook, extend "baking" time further
+	   meta:set_int("baking", meta:get_int("baking") + count)
+	   return count
 	end,
 	allow_metadata_inventory_take = function(
 	      pos, listname, index, stack, player)
