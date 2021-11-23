@@ -1,3 +1,6 @@
 [submodule "mods/naturalslopeslib"]
 	path = mods/naturalslopeslib
 	url = https://files.creativekara.fr/git/naturalslopeslib.git
+[submodule "utilities/minetest_schemedit"]
+	path = utilities/minetest_schemedit
+	url = https://repo.or.cz/minetest_schemedit.git
