@@ -336,13 +336,12 @@ local move_air_nodes = function(pos, meta, temp_m)
 	if pos_new and swap_air(pos, pos_new, temp_m) then
 	   return true
 	end
-	--blocked above/below, so just select anywhere
-	--then same again
+	--blocked above/below, so look for nearby air or temp_flow nodes
+	local targets = {}
 	local pos_air = minetest.find_node_near(pos, 1, 'air')
-	if pos_air and swap_air(pos, pos_air, temp_m) then
-	   return true
+	if pos_air then
+	   table.insert(targets, pos_air)
 	end
-	-- no nearby air node? try to squeeze past temp_flow node
 	local pos_pass = minetest.find_node_near(pos, 1, 'group:temp_flow')
 	if pos_pass then
 	   local tf = minetest.get_item_group(minetest.get_node(pos_pass).name,
@@ -350,9 +349,13 @@ local move_air_nodes = function(pos, meta, temp_m)
 	   if tf > math.random(0, 100) then
 	      local vec = vector.direction(pos, pos_pass)
 	      pos_pass = vector.add(pos_pass, vec)
-	      if swap_air(pos, pos_pass, temp_m) then
+	      table.insert(targets, pos_pass)
+	   end
+	end
+	if #targets >=1 then -- pick one if we have two options
+	   local num = math.random(1, #targets)
+	   if swap_air(pos, targets[num], temp_m) then
 		 return true
-	      end
 	   end
 	end
 	return false
