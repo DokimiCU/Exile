@@ -4,23 +4,29 @@ dofile(minetest.get_modpath("player_api") .. "/api.lua")
 dofile(minetest.get_modpath("player_api") .. "/base_texture.lua")
 dofile(minetest.get_modpath("player_api") .. "/cloths.lua")
 
+animation_table = {
+		-- Standard animations.
+		stand         = {x = 0,   y = 80},
+		sit           = {x = 81,  y = 161},
+		lay           = {x = 162, y = 167},
+		walk          = {x = 168, y = 188},
+		mine          = {x = 189, y = 199},
+		walk_mine     = {x = 200, y = 220},
+		float         = {x = 225, y = 245},
+		float_mine    = {x = 250, y = 270},
+		swim          = {x = 275, y = 315},
+		swim_mine     = {x = 320, y = 360},
+		crouch        = {x = 365, y = 375},
+		crouch_mine   = {x = 380, y = 390},
+		crawl         = {x = 395, y = 415},
+		crawl_mine    = {x = 420, y = 440},
+}
+
 -- Default player appearance
 player_api.register_model("character.b3d", {
 	animation_speed = 30,
 	textures = {"character.png"},
-	animations = {
-		-- Standard animations.
-		stand = {x = 0,   y = 79},
-		lay = {x = 162, y = 166},
-		walk = {x = 168, y = 187},
-		mine = {x = 189, y = 198},
-		walk_mine = {x = 200, y = 219},
-		sit = {x = 81,  y = 160},
-		swin = {x = 232, y = 280},
-		swin_mine = {x = 281, y = 305},
-		swin_and_mine = {x = 306, y = 330},
-		swin_stand = {x = 232, y = 232},
-	},
+	animations = animation_table,
 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
 	stepheight = 0.6,
 	eye_height = 1.45,
@@ -36,19 +42,7 @@ player_api.register_model("character-f.b3d", {
 		"3d_armor_trans.png",
 		"3d_armor_trans.png",
 	},
-	animations = {
-		-- Standard animations.
-		stand = {x = 0,   y = 79},
-		lay = {x = 162, y = 166},
-		walk = {x = 168, y = 187},
-		mine = {x = 189, y = 198},
-		walk_mine = {x = 200, y = 219},
-		sit = {x = 81,  y = 160},
-		swin = {x = 232, y = 280},
-		swin_mine = {x = 281, y = 305},
-		swin_and_mine = {x = 306, y = 330},
-		swin_stand = {x = 232, y = 232},
-	},
+	animations = animation_table,
 	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
 	visual_size = { x =.8, y = .94, z = .8 },
 	stepheight = 0.6,
