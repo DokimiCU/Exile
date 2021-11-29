@@ -439,7 +439,7 @@ end
 effect_name = "Fungal Infection"
 Soil fungus got into your skin. Something vaguely like Mycetoma.
 For Exile, you get it from wet soil, a reason not to live in a mud hole.
-]]
+]]--
 
 function HEALTH.fungal_infection(order, player, meta, effects_list, r_rate, mov, jum, temperature)
 
@@ -575,7 +575,7 @@ end
 effect_name = "Drunk"
 Alcohol intoxication. Stumble around. Extreme level is alcohol poisoning
 
-]]
+]]--
 
 
 function HEALTH.drunk(order, player, meta, effects_list, r_rate, mov, jum, h_rate, temperature)
@@ -670,7 +670,7 @@ end
 effect_name = "Hangover"
 After effects of drugs and alcohol
 
-]]
+]]--
 
 function HEALTH.hangover(order, player, meta, effects_list, mov, jum )
 
@@ -746,7 +746,7 @@ effect_name = "Tiku High"
 For a crazy drug fueled bender, with a chance of losing control of it.
 Extreme is an overdose
 
-]]
+]]--
 
 
 function HEALTH.tiku_high(order, player, meta, effects_list, r_rate, hun_rate, mov, jum, temperature)
@@ -866,7 +866,7 @@ end
 effect_name = "Neurotoxicity"
  nerve poison. staggering, movement problems, death
 
-]]
+]]--
 
 function HEALTH.neurotoxicity(order, player, meta, effects_list, mov, jum)
 
@@ -1264,6 +1264,7 @@ end
 --this is specific to each health effect so must call that function
 function HEALTH.add_new_effect(player, name)
 
+	if player == nil then return end -- we don't give effects to sneachans
 	local meta = player:get_meta()
 	local effects_list = meta:get_string("effects_list")
 	effects_list = minetest.deserialize(effects_list) or {}
