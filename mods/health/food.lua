@@ -20,8 +20,8 @@ cabbage 240 cal/kg = 4.8 u/kg
 
 food_table = {
    --name	     	      	       hp  thr hngr energy temp replaceitem
-["tech:maraka_cake"]                = {0,  0,  12,  14,    0},
-["tech:maraka_cake_burned"]         = {0,  0,  24,  7,     0},
+["tech:maraka_cake"]                = {0,  0,  24,  14,    0},
+["tech:maraka_cake_burned"]         = {0,  0,  12,  7,     0},
 ["tech:anperla_tuber_cooked"]       = {0,  4,  24,  14,    0},
 ["tech:mashed_anperla_cooked"]      = {0,  24, 144, 84,    0},
 ["tech:mashed_anperla_burned"]      = {0,  12, 72,  42,    0},
