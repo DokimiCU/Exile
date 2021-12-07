@@ -163,6 +163,7 @@ minetest.register_node('tech:wattle_loose', {
 		'tech:mudbrick',
 		'tech:rammed_earth',
 		'tech:wattle_loose',
+		'tech:wattle_door_frame',
 		'tech:wattle',
 		'tech:thatch'
 	},
