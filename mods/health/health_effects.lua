@@ -161,6 +161,8 @@ local function auditory_hallucination(player, repeat_min, repeat_max, delay_min,
 		minetest.after(randel, function()
 
 			local pos = player:get_pos()
+			-- happens after randel delay, so player may be gone
+			if pos == nil then return end
 
 			pos = {x=pos.x+random(-15,15), y=pos.y+random(-15,15), z=pos.z+random(-15,15)}
 
