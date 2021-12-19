@@ -60,6 +60,11 @@ minetest.register_on_joinplayer(function(player)
 	if not player_api.has_cloths(player) then
 	   player_api.set_cloths(player)
 	end
+	local pinv = player:get_inventory()
+	if pinv:get_size("cloths") == 8 then
+	   --Exile uses 6 slots, but playerapi originally set 8
+	   pinv:set_size("cloths", 6)
+	end
 	local cloth = player_api.compose_cloth(player)
 	player_api.registered_models[player_api.get_gender_model(gender)].textures[1] = cloth
 	player_api.set_model(player, player_api.get_gender_model(gender))

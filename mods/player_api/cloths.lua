@@ -131,7 +131,7 @@ player_api.register_cloth("player_api:cloth_male_lower_default", {
 function player_api.set_cloths(player)
 	--Create the "cloths" inventory
 	local inv = player:get_inventory()
-	inv:set_size("cloths", 8)
+	inv:set_size("cloths", 6)
 end
 
 local cloth_pos = {
