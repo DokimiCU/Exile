@@ -160,7 +160,15 @@ local function wear_blanket(player, donning)
       end
    end
    if plyrinv:room_for_item(toinvl, newstack) then
-      plyrinv:add_item(toinvl, newstack)
+      local tinv = plyrinv:get_list(toinvl)
+      local pointer = 0 -- find the last empty slot, put it there, not first
+      for i = 1, #tinv do
+	 if ItemStack(tinv[i]):is_empty() then
+	    pointer = i
+	 end
+      end
+      plyrinv:set_stack(toinvl, pointer, newstack)
+      --plyrinv:add_item(toinvl, newstack)
    elseif donning then -- can't put it on, return it to main inv
       plyrinv:add_item(frominvl, newstack)
    else -- or drop it at our feet if there's no room when taking it off
