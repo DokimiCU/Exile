@@ -396,7 +396,7 @@ minetest.register_node("tech:clay_oil_lamp_unlit", {
 	   local meta = minetest.get_meta(pos)
 	   local fuel = meta:get_int("fuel")
 	   if fuel then
-	      minetest.set_node(pos, {name = 'tech:clay_oil_lamp'})
+	      minetest.swap_node(pos, {name = 'tech:clay_oil_lamp'})
 	      meta:set_int("fuel", fuel)
 	      meta:set_string("infotext", fuel_string(fuel))
 	   end
@@ -480,7 +480,7 @@ minetest.register_node("tech:clay_oil_lamp", {
 		local fuel = meta:get_int("fuel")
 		meta:set_string("infotext",fuel_string(fuel))
 		if fuel < 1 then
-			minetest.set_node(pos, {name = "tech:clay_oil_lamp_unlit"})
+			minetest.swap_node(pos, {name = "tech:clay_oil_lamp_unlit"})
 			--minetest.check_for_falling(pos)
 			return false
 		else
@@ -494,7 +494,7 @@ minetest.register_node("tech:clay_oil_lamp", {
 		local ist_name = itemstack:get_name()
 		local meta = minetest.get_meta(pos)
 		local fuel = meta:get_int("fuel")
-		minetest.set_node(pos, {name = 'tech:clay_oil_lamp_unlit'})
+		minetest.swap_node(pos, {name = 'tech:clay_oil_lamp_unlit'})
 		if fuel then
 		   meta:set_int("fuel", fuel)
 		   meta:set_string("infotext",fuel_string(fuel))
