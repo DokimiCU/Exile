@@ -165,6 +165,9 @@ function doors.door_toggle(pos, node, clicker, itemstack)
 		 minetest.item_drop(ItemStack("tech:stick"), clicker, pos)
 	      end
 	      minetest.chat_send_player(cname, "You unbar the door.")
+	      if not def.protected then -- unprotected only gets temporary owner
+		 meta:set_string("owner", "")
+	      end
 	   else
 	      minetest.chat_send_player(cname,
 					"This door is barred from the inside.")
@@ -176,6 +179,9 @@ function doors.door_toggle(pos, node, clicker, itemstack)
 	      meta:set_int("barred", 1)
 	      minetest.chat_send_player(cname, "You bar the door.")
 	      itemstack:take_item()
+	      if not def.protected then -- ensure the door can't be dug
+		 meta:set_string("owner", cname)
+	      end
 	      return
 	   end
 	end
@@ -345,7 +351,7 @@ function doors.register(name, def)
 	if not def.sounds then
 		def.sounds = default.node_sound_wood_defaults()
 	end
-]]
+]]--
 	if not def.sound_open then
 		def.sound_open = "doors_door_open"
 	end
@@ -452,7 +458,7 @@ function doors.trapdoor_toggle(pos, node, clicker)
 	if clicker and not default.can_interact_with_node(clicker, pos) then
 		return false
 	end
-	]]
+]]--
 
 	local def = minetest.registered_nodes[node.name]
 
