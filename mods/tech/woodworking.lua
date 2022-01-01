@@ -52,6 +52,17 @@ minetest.register_node("tech:wooden_ladder", {
        minetest.set_node(pos, {name = node.name, param1 = node.param1,
 			       param2 = under.param2})
     end
+ end,
+ on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+    local itemname = itemstack:get_name()
+    if minetest.get_item_group(itemname, "ladder") > 0 then
+       local pos_over = {x = pos.x, y = pos.y + 1, z = pos.z}
+       local over = minetest.get_node(pos_over)
+       if over.name == "air" then
+	  minetest.place_node(pos_over, {name = itemname})
+	  itemstack:take_item()
+       end
+    end
  end
 })
 
