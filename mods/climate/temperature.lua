@@ -204,15 +204,13 @@ end
 local adjust_for_shelter = function(pos, temp, av_temp)
 	--Shelter. Brings temp closer to average
 	--daytime dark is the closest proxy for shelter.
-	--can't do darker than artificial light sources, or it would think it's outside
-	-- ^ not true with get_natural_light, which excludes artificial sources
 	local light = minetest.get_natural_light({x=pos.x, y=pos.y+1, z=pos.z}, 0.5)
 	if light and light <= 14 then
-		if light <= 10 then
+		if light <= 10 then     -- 1-10
 			temp = (temp*0.25)+(av_temp*0.75)
-		elseif light <= 12 then
+		elseif light <= 12 then -- 11-12 
 			temp = (temp*0.5)+(av_temp*0.5)
-		else
+		else                    -- 13-14
 			temp = (temp*0.75)+(av_temp*0.25)
 		end
 	end
@@ -225,72 +223,72 @@ end
 --adjust raw air temperature to be more appropriate for the location
 local adjust_active_temp = function(pos, temp)
 
-	--average temp (make sure it matches climate)
-	local av_temp = 15
-	local name = minetest.get_node(pos).name
-	local water = minetest.get_item_group(name,"water")
+   --average temp (make sure it matches climate)
+   local av_temp = 15
+   local name = minetest.get_node(pos).name
+   local water = minetest.get_item_group(name,"water")
 
 
-	--sea water for deep ocean --stratification and density set a constant temperature
-	if water == 2 and pos.y < -40 then
-		temp = 4
-		return temp
-	end
+   --sea water for deep ocean --stratification and density set a constant temperature
+   if water == 2 and pos.y < -40 then
+      temp = 4
+      return temp
+   end
 
-	-------------------------------
-	--Underground
-  if pos.y < -12 and water ==0  then
-    --average temp, heating under the earth. ~ 25C/km
-    temp = -0.025*pos.y + av_temp
-		temp = adjust_for_heatable(pos, name, temp)
-    return temp
-	end
+   -------------------------------
+   --Underground
+   if pos.y < -12 and water ==0  then
+      --average temp, heating under the earth. ~ 25C/km
+      temp = -0.025*pos.y + av_temp
+      temp = adjust_for_heatable(pos, name, temp)
+      return temp
+   end
 
-	--transition to underground
-	if pos.y <= -1 and water ==0 then
-		--below ground is closer to average
-		--should probably match to heightmap rather than y = 0 (maybe unnecessarily complicated)
-		temp = (temp*0.2)+(temp*0.8)
-		temp = adjust_for_shelter(pos, temp, av_temp)
-		temp = adjust_for_heatable(pos, name, temp)
-		return temp
-	end
+   --transition to underground
+   if pos.y <= -1 and water ==0 then
+      --below ground is closer to average
+      --should probably match to heightmap rather than y = 0 (maybe unnecessarily complicated)
+      temp = (temp*0.2)+(temp*0.8)
+      temp = adjust_for_shelter(pos, temp, av_temp)
+      temp = adjust_for_heatable(pos, name, temp)
+      return temp
+   end
 
-	-------------------------
-	--Above ground and oceans
+   -------------------------
+   --Above ground and oceans
 
-	--altitude cooling. ~ -2C per 300m
-	if pos.y > 50 and pos.y <= 9000 then
-		temp = -0.0067*pos.y + temp
-	end
+   --altitude cooling. ~ -2C per 300m
+   if pos.y > 50 and pos.y <= 9000 then
+      temp = -0.0067*pos.y + temp
+   end
 
-	--Shelter.
-	temp = adjust_for_shelter(pos, temp, av_temp)
+   --Shelter.
+   temp = adjust_for_shelter(pos, temp, av_temp)
 
 
-	--Water and oceans
-	if water ~= 0 then
+   --Water and oceans
+   if water ~= 0 then
 
-		--water is closer to average than air...
-		--also a little colder +(av_sea_temp *0.75)
-		temp = (temp*0.25)+ 8
-		temp = adjust_for_heatable(pos, name, temp) --currently nothing fits this
+      --water is closer to average than air...
+      --also a little colder +(av_sea_temp *0.75)
+      temp = (temp*0.25)+ 8
+      temp = adjust_for_heatable(pos, name, temp) --currently nothing fits this
 
-		--apply caps (not frozen or boiling)
-		--freezing/boiling dynamics should kick in (in nodes_nature)
-		if temp > 100 then
-			temp = 100
-			return temp
-		elseif temp < 0 then
-			temp = 0
-			return temp
-		else
-			return temp
-		end
-	end
+      --apply caps (not frozen or boiling)
+      --freezing/boiling dynamics should kick in (in nodes_nature)
+      if temp > 100 then
+	 temp = 100
+	 return temp
+      elseif temp < 0 then
+	 temp = 0
+	 return temp
+      else
+	 return temp
+      end
+   end
 
-	temp = adjust_for_heatable(pos, name, temp)
-	return temp
+   temp = adjust_for_heatable(pos, name, temp)
+   return temp
 
 end
 
