@@ -73,6 +73,7 @@ Plant groups
 `seedling`: unused?
 `flora`: wild plants, will spread
 `bioluminescent`: a living thing that glows.
+`woodslab`: a log that's been cut in half, e.g. stairs/slabs
 
 pottery groups
 --------------

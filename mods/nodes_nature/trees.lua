@@ -207,7 +207,7 @@ for i in ipairs(tree_list) do
 		"nodes_nature:"..treename.."_log",
 		"chopping_block",
 		"false",
-		{choppy = hardness, flammable = 1},
+		{choppy = hardness, flammable = 1, woodslab = 1},
 		{
 			"nodes_nature_"..treename.."_log_top.png",
 			"nodes_nature_"..treename.."_log_top.png",

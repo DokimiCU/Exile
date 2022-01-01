@@ -565,3 +565,12 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+--sticks from log slabs
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:stick 12",
+	items = {"group:woodslab"},
+	level = 1,
+	always_known = true,
+})
