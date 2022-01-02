@@ -62,6 +62,11 @@ minetest.register_node("tech:wooden_ladder", {
 	  minetest.place_node(pos_over, {name = itemname})
 	  itemstack:take_item()
        end
+    else
+       if itemstack:get_definition().type == "node" then
+	  return minetest.item_place_node(itemstack, clicker,
+					  pointed_thing)
+       end
     end
  end
 })
