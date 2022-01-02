@@ -168,7 +168,7 @@ local crime2 = {
   "smuggling",
   "vagabondage",
   "banditry",
-  "unathourized piracy",
+  "unauthorized piracy",
   "drunkness",
   "sinful living",
   "rabble rousing",
@@ -183,8 +183,8 @@ local crime2 = {
   "preaching foreign gods",
   "gross vanity",
   "wickedness",
-  "assasination",
-  "sharing secrets with foriegn powers",
+  "assassination",
+  "sharing secrets with foreign powers",
   "black magic",
   "witchcraft",
   "placing curses upon the innocent",
@@ -217,7 +217,7 @@ local crime2 = {
   "rioting",
   "racketeering",
   "arson",
-  "soliciting assassains to commit murder",
+  "soliciting assassins to commit murder",
   "stealing livestock",
   "usury",
   "aspirations to tyranny",
@@ -252,7 +252,10 @@ local crime2 = {
   "gardening without a permit",
   "stealing priceless art",
   "aiding an adulterous princess",
-  "leading an unathourized military campagain"
+  "leading an unathourized military campaign",
+  "claiming that the world is round",
+  "claiming that the world is not round",
+  "promoting belief in gravity"
 
 }
 
