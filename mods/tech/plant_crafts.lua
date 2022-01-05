@@ -40,8 +40,34 @@ minetest.register_node("tech:stick", {
  end,
  sunlight_propagates = true,
  groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1, temp_flow = 100},
+ override_sneak = true,
  drop = "tech:stick",
  sounds = nodes_nature.node_sound_wood_defaults(),
+ on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+    --Extend or place on top, nothing else. This could be generalized
+    -- for other attached nodes
+    local itemname = itemstack:get_name()
+    if itemname == node.name then
+       local flipdir = (node.param2 % 2) * -2 + node.param2 + 1
+       local enddir = minetest.wallmounted_to_dir(flipdir)
+       local newpos = vector.add(pos,enddir)
+       local stickend = minetest.get_node(newpos)
+       if stickend.name == "air" then -- extend an existing stick
+	  minetest.item_place_node(itemstack, clicker,
+		{type = "node", under=pos, above=newpos}, node.param2)
+	  return itemstack
+       end
+    else -- only allow placing things on top of a stick, for support beams etc
+       local facing = vector.direction(pos, pointed_thing.above)
+       if  vector.equals(facing, { x=0, y=1, z=0}) then
+	  if itemstack:get_definition().type == "node" then
+	     return minetest.item_place_node(itemstack, clicker,
+					     pointed_thing)
+	  end
+       end
+    end
+ end
+			      
 
 })
 
