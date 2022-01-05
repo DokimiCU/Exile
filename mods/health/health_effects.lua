@@ -355,7 +355,7 @@ effect_name = "Food Poisoning"
 Ate something bad.
 vomiting, fever, etc
 
-]]
+]]--
 
 
 function HEALTH.food_poisoning(order, player, meta, effects_list, r_rate, mov, jum, temperature)
@@ -503,7 +503,7 @@ end
 effect_name = "Dust Fever"
 Dust storm born soil fungus got into your lungs. Something vaguely like Valley Fever.
 
-]]
+]]--
 
 function HEALTH.dust_fever(order, player, meta, effects_list, r_rate, mov, jum, temperature)
 
@@ -719,7 +719,7 @@ end
 effect_name = "Intestinal Parasites"
 Gut worms etc. Increased hunger.
 
-]]
+]]--
 
 
 function HEALTH.intestinal_parasites(order, player, meta, effects_list, r_rate, hun_rate)
@@ -934,7 +934,7 @@ end
 effect_name = "Hepatotoxicity"
 liver poison. vomiting, death
 
-]]
+]]--
 function HEALTH.hepatotoxicity(order, player, meta, effects_list, mov, jum, r_rate, h_rate)
 
 	--APPLY SYMPTOMS
@@ -1007,7 +1007,7 @@ end
 effect_name =  "Photosensitivity"
 Light sensitivity
 i.e. you are coming up in blisters if exposed to sun
-]]
+]]--
 
 function HEALTH.photosensitivity(order, player, meta, effects_list, h_rate, r_rate )
 
@@ -1062,7 +1062,7 @@ from artifact. Super powers for a price.
 Increasing powers unlocked the more you inject.
 A slight bit of a techno-vampire vibe
 
-]]
+]]--
 
 
 function HEALTH.meta_stim(order, player, meta, effects_list, h_rate, r_rate, hun_rate, t_rate)
