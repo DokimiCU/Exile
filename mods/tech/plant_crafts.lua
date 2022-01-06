@@ -185,7 +185,7 @@ minetest.register_node("tech:maraka_bread_cooked", {
 		type = "fixed",
 		fixed = {-0.28, -0.5, -0.28, 0.28, -0.32, 0.28},
 	},
-	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1, heatable = 80},
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning
@@ -240,6 +240,29 @@ minetest.register_node("tech:peeled_anperla", {
     --TODO: Add burned anperla tuber
 })
 
+minetest.register_node("tech:peeled_anperla_burned", {
+	description = "Burned Anperla Tuber",
+	tiles = {"tech_flour_burned.png"},
+	stack_max = minimal.stack_max_medium * 2,
+  paramtype = "light",
+  sunlight_propagates = true,
+	drawtype = "nodebox",
+  node_box = {
+    type = "fixed",
+    fixed = {-0.15, -0.5, -0.15,  0.15, -0.35, 0.15},
+  },
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
+	sounds = nodes_nature.node_sound_dirt_defaults(),
+  on_use = function(itemstack, user, pointed_thing)
+    --food poisoning
+		if random() < 0.002 then
+			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+		end
+
+    return exile_eatdrink(itemstack, user)
+  end,
+})
+
 minetest.register_node("tech:peeled_anperla_cooked", {
 	description = "Cooked Anperla Tuber",
 	tiles = {"tech_flour_bitter.png"},
@@ -251,7 +274,7 @@ minetest.register_node("tech:peeled_anperla_cooked", {
     type = "fixed",
     fixed = {-0.15, -0.5, -0.15,  0.15, -0.35, 0.15},
   },
-	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, heatable = 70,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning
@@ -276,7 +299,7 @@ minetest.register_node("tech:mashed_anperla", {
     type = "fixed",
     fixed = {-6/16, -0.5, -6/16, 6/16, 1/16, 6/16},
   },
-	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 68},
+	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 70},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 })
 
@@ -291,7 +314,7 @@ minetest.register_node("tech:mashed_anperla_cooked", {
     type = "fixed",
     fixed = {-5/16, -0.5, -5/16, 5/16, -1/16, 5/16},
   },
-	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, heatable = 70,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning

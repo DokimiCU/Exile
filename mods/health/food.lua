@@ -52,7 +52,8 @@ end
 function exile_eatdrink(itemstack, user)
    local name = itemstack:get_name()
    if not food_table[name] then
-      minetest.log("error","Oh noes! Could not find ",name," in food table!")
+      minetest.chat_send_player(user:get_player_name(),
+				"This is inedible.")
       return
    end
    local t = food_table[name]
