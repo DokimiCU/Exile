@@ -160,7 +160,12 @@ minetest.register_on_joinplayer(function(player)
 	 local weather = get_weather_table(w_name, registered_weathers)
 	 if weather then
 	    climate.active_weather = weather
+	    minetest.log("action", "Loaded a valid weather: "..w_name)
+	 else
+	    minetest.log("error", "Invalid weather loaded: "..w_name)
 	 end
+      else
+	 minetest.log("warning", "No previous weather could be loaded")
       end
 
       --same again, but for temperature
