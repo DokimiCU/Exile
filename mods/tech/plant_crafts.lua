@@ -154,80 +154,6 @@ minetest.register_node('tech:maraka_flour', {
 })
 
 
-
-
-
---Bread baking functions
-local function set_bake_bread(pos, length, interval)
-	-- and firing count
-	local meta = minetest.get_meta(pos)
-	meta:set_int("baking", length)
-	--check heat interval
-	minetest.get_node_timer(pos):start(interval)
-end
-
-
-
-local function bake_bread(pos, selfname, name_cooked, name_burned, length, heat)
-	local meta = minetest.get_meta(pos)
-	local baking = meta:get_int("baking")
-
-	--check if wet stop
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
-		return true
-	end
-
-    --exchange accumulated heat
-    climate.heat_transfer(pos, selfname)
-
-    --check if above firing temp
-    local temp = climate.get_point_temp(pos)
-    local fire_temp = heat
-    if temp == nil then
-       return
-    elseif baking <= 0 then
-     --finished firing
-     minetest.set_node(pos, {name = name_cooked})
-     minetest.check_for_falling(pos)
-     return false
-    elseif temp < fire_temp then
-    --not lit yet
-       return true
-    elseif temp > fire_temp * 2 then
-       if name_burned then
-	  --too hot, burn
-	  minetest.set_node(pos, {name = name_burned})
-       else
-	  minetest.set_node(pos, {name = "air"})
-       end
-    --Smoke
-    minetest.sound_play("tech_fire_small",{pos=pos, max_hear_distance = 10, loop=false, gain=0.1})
-    minetest.add_particlespawner({
-          amount = 2,
-          time = 0.5,
-          minpos = {x = pos.x - 0.1, y = pos.y, z = pos.z - 0.1},
-          maxpos = {x = pos.x + 0.1, y = pos.y + 0.5, z = pos.z + 0.1},
-          minvel = {x= 0, y= 0, z= 0},
-          maxvel = {x= 0.01, y= 0.06, z= 0.01},
-          minacc = {x= 0, y= 0, z= 0},
-          maxacc = {x= 0.01, y= 0.1, z= 0.01},
-          minexptime = 3,
-          maxexptime = 10,
-          minsize = 1,
-          maxsize = 4,
-          collisiondetection = true,
-          vertical = true,
-          texture = "tech_smoke.png",
-        })
-	  return false
-	elseif temp >= fire_temp then
-		--do firing
-		meta:set_int("baking", baking - 1)
-		return true
-	end
-
-end
-
 --maraka cake, prior to baking
 minetest.register_node("tech:maraka_bread", {
 	description = "Unbaked Maraka Cake",
@@ -243,14 +169,6 @@ minetest.register_node("tech:maraka_bread", {
 	},
 	groups = {crumbly = 3, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_construct = function(pos)
-    --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 10, 6)
-  end,
-  on_timer = function(pos, elapsed)
-    --finished product, length, heat
-    return bake_bread(pos, "tech:maraka_bread", "tech:maraka_bread_cooked", "tech:maraka_bread_burned", 10, 160)
-  end,
 })
 
 
@@ -267,7 +185,7 @@ minetest.register_node("tech:maraka_bread_cooked", {
 		type = "fixed",
 		fixed = {-0.28, -0.5, -0.28, 0.28, -0.32, 0.28},
 	},
-	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
+	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
     --food poisoning
@@ -319,15 +237,7 @@ minetest.register_node("tech:anperla_tuber_peeled", {
   },
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 70},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_construct = function(pos)
-    --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 7, 6)
-  end,
-  on_timer = function(pos, elapsed)
-    --self, finished product, length, heat
-    return bake_bread(pos, "tech:anperla_tuber_peeled", "tech:anperla_tuber_cooked", nil, 7, 100)
     --TODO: Add burned anperla tuber
-  end,
 })
 
 minetest.register_node("tech:anperla_tuber_cooked", {
@@ -368,14 +278,6 @@ minetest.register_node("tech:mashed_anperla", {
   },
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 68},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_construct = function(pos)
-    --length(i.e. difficulty), interval for checks (speed)
-    set_bake_bread(pos, 35, 6)
-  end,
-  on_timer = function(pos, elapsed)
-    --self, finished product, length, heat
-    return bake_bread(pos, "tech:mashed_anperla", "tech:mashed_anperla_cooked", "tech:mashed_anperla_burned", 35, 100)
-  end,
 })
 
 minetest.register_node("tech:mashed_anperla_cooked", {
