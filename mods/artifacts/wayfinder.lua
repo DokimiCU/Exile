@@ -59,7 +59,7 @@ end
 -- get right image number for players compas
 local function get_compass_stack(player, stack)
 	local target = get_destination(player, stack)
-	local pos = player:getpos()
+	local pos = player:get_pos()
 	local dir = player:get_look_horizontal()
 	local angle_north = math.deg(math.atan2(target.x - pos.x, target.z - pos.z))
 	if angle_north < 0 then
