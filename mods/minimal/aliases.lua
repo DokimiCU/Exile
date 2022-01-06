@@ -4,6 +4,10 @@
 
 --Changed in Exile 0.3.5/0.2.8
 --standardizing uncooked/cooked/burned
+minetest.register_alias("tech:anperla_tuber_peeled",
+			"tech:peeled_anperla")
+minetest.register_alias("tech:anperla_tuber_cooked",
+			"tech:peeled_anperla_cooked")
 minetest.register_alias("tech:maraka_cake_unbaked",
 			"tech:maraka_bread")
 minetest.register_alias("tech:maraka_cake",

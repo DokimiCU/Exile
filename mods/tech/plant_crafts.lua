@@ -224,7 +224,7 @@ minetest.register_node("tech:maraka_bread_burned", {
 
 -----------
 --Anperla
-minetest.register_node("tech:anperla_tuber_peeled", {
+minetest.register_node("tech:peeled_anperla", {
 	description = "Peeled Anperla Tuber",
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_medium,
@@ -240,7 +240,7 @@ minetest.register_node("tech:anperla_tuber_peeled", {
     --TODO: Add burned anperla tuber
 })
 
-minetest.register_node("tech:anperla_tuber_cooked", {
+minetest.register_node("tech:peeled_anperla_cooked", {
 	description = "Cooked Anperla Tuber",
 	tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_medium * 2,
@@ -366,7 +366,7 @@ crafting.register_recipe({
 --peel tubers
 crafting.register_recipe({
 	type = "crafting_spot",
-	output = "tech:anperla_tuber_peeled",
+	output = "tech:peeled_anperla",
 	items = {"nodes_nature:anperla_seed"},
 	level = 1,
 	always_known = true,
@@ -378,7 +378,7 @@ crafting.register_recipe({
 
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:anperla_tuber_peeled",
+	output = "tech:peeled_anperla",
 	items = {"nodes_nature:anperla_seed"},
 	level = 1,
 	always_known = true,
@@ -387,14 +387,14 @@ crafting.register_recipe({
 
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:anperla_tuber_peeled 6",
+	output = "tech:peeled_anperla 6",
 	items = {"nodes_nature:anperla_seed 6"},
 	level = 1,
 	always_known = true,
 })
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:anperla_tuber_peeled 36",
+	output = "tech:peeled_anperla 36",
 	items = {"nodes_nature:anperla_seed 36"},
 	level = 1,
 	always_known = true,
@@ -404,7 +404,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:mashed_anperla",
-	items = {"tech:anperla_tuber_peeled 6"},
+	items = {"tech:peeled_anperla 6"},
 	level = 1,
 	always_known = true,
 })
@@ -412,7 +412,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "mortar_and_pestle",
 	output = "tech:mashed_anperla 6",
-	items = {"tech:anperla_tuber_peeled 36"},
+	items = {"tech:peeled_anperla 36"},
 	level = 1,
 	always_known = true,
 })

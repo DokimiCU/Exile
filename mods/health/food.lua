@@ -22,7 +22,7 @@ food_table = {
    --name	     	      	       hp  thr hngr energy temp
 ["tech:maraka_bread_cooked"]        = {0,  0,  24,  14,    0},
 ["tech:maraka_bread_burned"]        = {0,  0,  12,  7,     0},
-["tech:anperla_tuber_cooked"]       = {0,  4,  24,  14,    0},
+["tech:peeled_anperla_cooked"]      = {0,  4,  24,  14,    0},
 ["tech:mashed_anperla_cooked"]      = {0,  24, 144, 84,    0},
 ["tech:mashed_anperla_burned"]      = {0,  12, 72,  42,    0},
 }
@@ -32,7 +32,7 @@ local cook_rate = 6   -- speed of the cook timer; tenth of a minute seems fine
 bake_table = {
    --name                        temp, duration, cooked, burned
 ["tech:maraka_bread"]        = { 160,  10 },
-["tech:anperla_tuber"]       = { 100,  7  },
+["tech:peeled_anperla"]      = { 100,  7  },
 ["tech:mashed_anperla"]      = { 100,  35 },
 }
 
