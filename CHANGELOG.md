@@ -1,6 +1,16 @@
 
 ### Changelog:
 
+# 0.3.5 and 0.2.8
+- Blankets to keep warm
+- Foods can now burn if left on too long
+- You can use a stick to bar a door, to prevent entry
+- New animations thanks to MisterE
+- Track how many incarnations you've had in the char tab
+- Nerf: Sticks don't connect at 90 degree angles anymore
+- No more beach spiders
+- Misc bugfixes and quality of life improvements
+
 # 0.3.4 and 0.2.7
 - New player api: head tracking, multiplayer skins, male and female characters
 - An introduction screen for new players, and a display of the day/season/year
