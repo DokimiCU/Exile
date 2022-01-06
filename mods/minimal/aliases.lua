@@ -2,6 +2,14 @@
 
 --for importing old saves
 
+--Changed in Exile 0.3.5/0.2.8
+--standardizing uncooked/cooked/burned
+minetest.register_alias("tech:maraka_cake_unbaked",
+			"tech:maraka_bread")
+minetest.register_alias("tech:maraka_cake",
+			"tech:maraka_bread_cooked")
+minetest.register_alias("tech:maraka_cake_burned",
+			"tech:maraka_bread_burned")
 
 --Changed in Exile 0.3.1/0.2.4
 minetest.register_alias("tech:peeled_anperal_tuber",

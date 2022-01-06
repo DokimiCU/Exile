@@ -229,7 +229,7 @@ local function bake_bread(pos, selfname, name_cooked, name_burned, length, heat)
 end
 
 --maraka cake, prior to baking
-minetest.register_node("tech:maraka_cake_unbaked", {
+minetest.register_node("tech:maraka_bread", {
 	description = "Unbaked Maraka Cake",
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_medium,
@@ -249,13 +249,13 @@ minetest.register_node("tech:maraka_cake_unbaked", {
   end,
   on_timer = function(pos, elapsed)
     --finished product, length, heat
-    return bake_bread(pos, "tech:maraka_cake_unbaked", "tech:maraka_cake", "tech:maraka_cake_burned", 10, 160)
+    return bake_bread(pos, "tech:maraka_bread", "tech:maraka_bread_cooked", "tech:maraka_bread_burned", 10, 160)
   end,
 })
 
 
 --maraka cake,baked
-minetest.register_node("tech:maraka_cake", {
+minetest.register_node("tech:maraka_bread_cooked", {
 	description = "Maraka Cake",
 	tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_medium * 4,
@@ -279,7 +279,7 @@ minetest.register_node("tech:maraka_cake", {
 })
 
 --maraka cake, burned
-minetest.register_node("tech:maraka_cake_burned", {
+minetest.register_node("tech:maraka_bread_burned", {
   description = "Maraka Cake Burned",
   tiles = {"tech_flour_burned.png"},
   stack_max = minimal.stack_max_medium * 4,
@@ -536,7 +536,7 @@ crafting.register_recipe({
 --make maraka cakes
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:maraka_cake_unbaked 6",
+	output = "tech:maraka_bread 6",
 	items = {'tech:maraka_flour'},
 	level = 1,
 	always_known = true,
@@ -544,7 +544,7 @@ crafting.register_recipe({
 --bulk maraka cakes
 crafting.register_recipe({
 	type = "mortar_and_pestle",
-	output = "tech:maraka_cake_unbaked 24",
+	output = "tech:maraka_bread 24",
 	items = {'tech:maraka_flour 4'},
 	level = 1,
 	always_known = true,

@@ -641,9 +641,9 @@ tech:lw_tecti 252 252 252
 tech:lw_tree 250 250 250
 tech:lw_x 249 249 250
 tech:lw_xox 252 252 252
-tech:maraka_cake 165 145 116
-tech:maraka_cake_burned 32 32 32
-tech:maraka_cake_unbaked 206 191 167
+tech:maraka_bread_cooked 165 145 116
+tech:maraka_bread_burned 32 32 32
+tech:maraka_bread 206 191 167
 tech:maraka_flour 206 191 167
 tech:maraka_flour_bitter 165 145 116
 tech:mashed_anperla 206 191 167
