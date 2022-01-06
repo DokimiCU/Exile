@@ -15,21 +15,6 @@ Since 0.2.3, Exile requires naturalslopeslib. If you're installing the source
 from git, you'll need to install nsl as well. Extract it into the exile mods/
 folder or use 'git pull --recurse submodules' if you have cloned the repository.
 
-### Settings for multiplayer
-"time_speed" defaults to 72, at this rate a player who logs on at 8:00am every
-day will get a change in season every 2.5 days. Changing speed to 60 will make
-days last 24 minutes and a new season every day, but he will see the seasons
-in reverse. At time_speed of 96, days last only 15 minutes, but the player
-might see spring (year 1) on day 1, summer (year 2) on day 2, etc.
-
-Set exile_hud_update to 1 second for multiplayer servers on the internet; a
-lan server can probably handle 0.2 seconds.
-
-### Mods for multiplayer
-Wield3d is recommended: https://github.com/stujones11/wield3d
-Alternode was used to add the "infotext" popups in the spawn shelter on the
-Land of Catastrophe server: https://github.com/AntumMT/mod-alternode
-
 ### Gameplay
 Challenging, at times brutal, wilderness survival with simple technology.
 Use your wits to find food, water, and shelter before succumbing to the elements,
@@ -41,6 +26,13 @@ Dynamic nature: Seasonal weather, erosion, water flows through soil...
 Building matters: make shelters from the rain, kilns, smelters,...
 
 CAUTION: some people may find parts of this game difficult or disturbing.
+
+### World settings
+Valleys is the standard mapgen for Exile. Carpathian is also supported, for a
+somewhat more difficult and slower-paced game.
+Flat mostly works, but merki, and therefore the glow paint and medicine made
+from it, will be unavailable. Enable it in game.conf if you'd like to try it
+anyway.
 
 ### Gameplay Guide
 Check out doc > walkthrough for a more detailed guide.
@@ -83,6 +75,21 @@ Some tips and tricks:
 - Charcoal. Make it like you would for real: a wood fire sealed up with no air.
 - Glassmaking: Sand and wood ash can be made into green glass; the ash must be soaked, dried, and roasted to make clear glass. Glass can be melted onto iron trays to make panes for real windows!
 - Iron smelting. This is hard. It needs plenty of charcoal, and a space below the iron mixture for slag to drain out.
+
+### Settings for multiplayer
+"time_speed" defaults to 72, at this rate a player who logs on at 8:00am every
+day will get a change in season every 2.5 days. Changing speed to 60 will make
+days last 24 minutes and a new season every day, but he will see the seasons
+in reverse. At time_speed of 96, days last only 15 minutes, but the player
+might see spring (year 1) on day 1, summer (year 2) on day 2, etc.
+
+Set exile_hud_update to 1 second for multiplayer servers on the internet; a
+lan server can probably handle 0.2 seconds.
+
+### Mods for multiplayer
+Wield3d is recommended: https://github.com/stujones11/wield3d
+Alternode was used to add the "infotext" popups in the spawn shelter on the
+Land of Catastrophe server: https://github.com/AntumMT/mod-alternode
 
 
 ### Development

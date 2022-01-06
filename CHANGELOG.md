@@ -8,6 +8,7 @@
 - New animations thanks to MisterE
 - Track how many incarnations you've had in the char tab
 - Nerf: Sticks don't connect at 90 degree angles anymore
+- Carpathian mapgen is now supported, for a harder game
 - No more beach spiders
 - Misc bugfixes and quality of life improvements
 
