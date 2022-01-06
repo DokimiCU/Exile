@@ -237,7 +237,6 @@ minetest.register_node("tech:peeled_anperla", {
   },
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 70},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-    --TODO: Add burned anperla tuber
 })
 
 minetest.register_node("tech:peeled_anperla_burned", {
