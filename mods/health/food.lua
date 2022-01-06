@@ -11,11 +11,11 @@ i.e. 20min/1min * 2 = 40 units per day
 Therefore 40 units = 2000 calories.
 calories -> units = 2000/40 = 50 cal/unit
 
-Sugar 3900 cal/kg = 78 units/kg
-Bread 2600 cal/kg = 52 units/kg
-Potato. 750 cal/kg = 15 u/kg
-Meat 2000 cal/kg = 40 u/kg
-cabbage 240 cal/kg = 4.8 u/kg
+Sugar 3900 cal/kg = 78 units/kg  172 per lb.
+Bread 2600 cal/kg = 52 units/kg  115 per lb.
+Potato. 750 cal/kg = 15 u/kg     33 per lb.
+Meat 2000 cal/kg = 40 u/kg       88 per lb.
+cabbage 240 cal/kg = 4.8 u/kg    10.5 per lb.
 ]]--
 
 food_table = {
