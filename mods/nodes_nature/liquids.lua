@@ -65,8 +65,11 @@ for i in ipairs(list) do
   	liquid_viscosity = 1,
 		liquid_range = 2,
 		liquid_renewable = renew,
+	temp_effect = -1,
+	temp_effect_max = 0,
   	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = water_g, cools_lava = 1, puts_out_fire = 1},
+  	groups = {water = water_g, cools_lava = 1, puts_out_fire = 1,
+		  temp_effect = 1},
   	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
