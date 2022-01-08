@@ -395,8 +395,9 @@ minetest.register_node("tech:clay_oil_lamp_unlit", {
 	on_ignite = function(pos, user)
 	   local meta = minetest.get_meta(pos)
 	   local fuel = meta:get_int("fuel")
-	   if fuel then
+	   if fuel and fuel > 0 then
 	      minetest.swap_node(pos, {name = 'tech:clay_oil_lamp'})
+	      minetest.registered_nodes["tech:clay_oil_lamp"].on_construct(pos)
 	      meta:set_int("fuel", fuel)
 	      meta:set_string("infotext", fuel_string(fuel))
 	   end
@@ -411,7 +412,6 @@ minetest.register_node("tech:clay_oil_lamp_unlit", {
 		if ist_name == "tech:vegetable_oil" then
 		   if fuel and fuel < 1550 then
 		      fuel = fuel + math.random(1450,1550)
-		      --minetest.set_node(pos, {name = 'tech:clay_oil_lamp'})
 		      meta:set_int("fuel", fuel)
 		      meta:set_string("infotext",fuel_string(fuel))
 		      local name = clicker:get_player_name()
