@@ -1,6 +1,24 @@
 --food.lua
 --handles the intake of food and drink
 
+--Modding info:
+--[[
+ To add new foods, define a node, then pass a table with its info to
+exile_add_food(table). Its on_use will be set automatically.
+
+ For cookable things, define the node, and a name_cooked/name_burned version,
+then pass the cooking data to exile_add_bake(table). Its on_construct and
+on_timer will be set automatically.  Then add the cooked version to the
+food table.
+ If the burned version is not also added to foods, it will be inedible.
+
+ If a food can only be cooked in a pot, don't define a name_cooked node,
+but add it to the food table anyway. The cooking pot will make a soup using
+the food table's data, but the food will not be able to bake in an oven or
+over a fire.
+#TODO: Test this ^^ after the cooking pot supports both tables
+]]--
+
 --[[
 Some notes:
 
@@ -101,12 +119,18 @@ minetest.after(1, function() -- don't run overrides until after registration
    minetest.log("info", "Finalized list of bake_table entries:")
    for k, v in pairs(bake_table) do
       if not minetest.registered_nodes[k] then
-	 minetest.log("error", "Bake table contains an unknown node: "..k)
+	 minetest.log("error", "Bake table contains an undefined node: "..k)
       else
-	 minetest.log("info",k)
-	 minetest.override_item(k, bake_redef)
-	 minetest.override_item(k.."_cooked", bake_redef)
-	 minetest.override_item(k.."_burned", bake_redef)
+	 if minetest.registered_nodes[k.."_cooked"] then
+	    minetest.log("info",k)
+	    minetest.override_item(k, bake_redef)
+	    if minetest.registered_nodes[k.."_burned"] then
+	       minetest.override_item(k.."_cooked", bake_redef)
+	    end
+	 else
+	    minetest.log("info", "undefined (cooking pot-only) node: "..
+			    k.."_cooked")
+	 end
       end
    end
    minetest.log("info","-------")
