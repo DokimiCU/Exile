@@ -23,6 +23,7 @@ food_table = {
 ["tech:maraka_bread_cooked"]        = {0,  0,  24,  14,    0},
 ["tech:maraka_bread_burned"]        = {0,  0,  12,  7,     0},
 ["tech:peeled_anperla_cooked"]      = {0,  4,  24,  14,    0},
+--example: burned anperla tubers are inedible
 ["tech:mashed_anperla_cooked"]      = {0,  24, 144, 84,    0},
 ["tech:mashed_anperla_burned"]      = {0,  12, 72,  42,    0},
 }
@@ -73,24 +74,39 @@ function exile_add_bake(table)
    end
 end
 
--- Bake_table node setup
---Sets the on_construct/on_timer for registered cookable/burnable foods
+-- Table node setup
+--Sets the on_construct/on_timer for registered foods
 
 minetest.after(1, function() -- don't run overrides until after registration
-   local redef = {  on_construct = function(...)
+   local eat_redef = { on_use = function(itemstack, user, pointed_thing)
+			  --TODO: add risk of fpois, parasites, etc
+			  return exile_eatdrink(itemstack, user)
+		     end}
+   local bake_redef = {  on_construct = function(...)
 			exile_start_bake(...)
 		 end,
 		     on_timer = function(...)
 			return exile_bake(...)
 		 end}
-   minetest.log("info", "Finalized list of bake_table foods:")
+   minetest.log("info", "Finalized list of food_table entries:")
+   for k, v in pairs(food_table) do
+      if not minetest.registered_nodes[k] then
+	 minetest.log("error", "Food table contains an unknown node: "..k)
+      else
+	 minetest.log("info",k)
+	 minetest.override_item(k, eat_redef)
+      end
+   end
+   minetest.log("info","-------")
+   minetest.log("info", "Finalized list of bake_table entries:")
    for k, v in pairs(bake_table) do
       if not minetest.registered_nodes[k] then
 	 minetest.log("error", "Bake table contains an unknown node: "..k)
       else
 	 minetest.log("info",k)
-	 minetest.override_item(k, redef)
-	 minetest.override_item(k.."_cooked", redef)
+	 minetest.override_item(k, bake_redef)
+	 minetest.override_item(k.."_cooked", bake_redef)
+	 minetest.override_item(k.."_burned", bake_redef)
       end
    end
    minetest.log("info","-------")
