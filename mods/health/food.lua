@@ -60,8 +60,17 @@ function exile_eatdrink(itemstack, user)
    return HEALTH.use_item(itemstack, user, t[1], t[2], t[3], t[4], t[5], t[6])
 end
 
-function exile_add_bake_table(table)
-   --#TODO: Allow mods to add their own tables of things that can be cooked
+function exile_add_food(table)
+   --Add new foods, mod must send a table in the above format
+   for k, v in pairs(table) do
+      food_table[k] = v
+   end
+end
+function exile_add_bake(table)
+   --Add new bakables, mod must send a table in the above format
+   for k, v in pairs(table) do
+      bake_table[k] = v
+   end
 end
 
 -- Bake_table node setup
