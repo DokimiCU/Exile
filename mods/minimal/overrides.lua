@@ -2,6 +2,9 @@
 --Alters base minetest functions for:
 --item_place
 --is_protected
+--fall damage
+
+local fall_damage_multiplier = 1.5
 
 --A new item_place that allows disabling sneak-rightclick behavior for nodes
 --Needed for tech:stick
@@ -35,3 +38,11 @@ function minetest.is_protected(pos, name)
    end
    return old_is_protected(pos, name)
 end
+
+--Increase fall damage
+minetest.register_on_player_hpchange(function(player, hp_change, reason)
+	if reason.type == "fall" then
+		hp_change = hp_change*fall_damage_multiplier
+	end
+	return hp_change
+end, true)
