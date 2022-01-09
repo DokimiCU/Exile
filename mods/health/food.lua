@@ -139,6 +139,7 @@ end)
 function exile_start_bake(pos)
    local selfname = minetest.get_node(pos).name
    local meta = minetest.get_meta(pos)
+   selfname = selfname:gsub("_cooked","") -- ensure we have the base name
    meta:set_int("baking",bake_table[selfname][2])
    minetest.get_node_timer(pos):start(cook_rate)
 end

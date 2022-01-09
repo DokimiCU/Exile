@@ -1,3 +1,4 @@
+
 ------------------------------------
 --TOOL CRAFTS
 
@@ -158,7 +159,7 @@ minetest.register_tool("tech:digging_stick", {
 --[[
 note: we have multiple rock types
 Granite is harder than basalt.
-]]
+]]--
 
 local lvl_2 = 0.8
 local lvl_2_use = base_use * 2

@@ -4,6 +4,7 @@
 # 0.3.5 and 0.2.8
 - Blankets to keep warm
 - Foods can now burn if left on too long
+- Increased fall damage
 - You can use a stick to bar a door, to prevent entry
 - New animations thanks to MisterE
 - Track how many incarnations you've had in the char tab
