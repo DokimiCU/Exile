@@ -58,6 +58,7 @@ minetest.register_node("tech:stick", {
 	  return itemstack
        end
     else -- only allow placing things on top of a stick, for support beams etc
+       if not pointed_thing then return itemstack end
        local facing = vector.direction(pos, pointed_thing.above)
        if  vector.equals(facing, { x=0, y=1, z=0}) then
 	  if itemstack:get_definition().type == "node" then
