@@ -145,7 +145,7 @@ function airboat.on_step(self, dtime)
 		local driver_objref = minetest.get_player_by_name(self.driver)
 		if driver_objref then
 			local ctrl = driver_objref:get_player_control()
-			if ctrl.up and ctrl.down then
+			if (ctrl.up and ctrl.down) or (ctrl.left and ctrl.right) then
 				if not self.auto then
 					self.auto = true
 					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
