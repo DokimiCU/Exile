@@ -70,6 +70,9 @@ end
 
 function exile_eatdrink(itemstack, user)
    local name = itemstack:get_name()
+   if minetest.registered_aliases[name] then
+      name = minetest.registered_aliases[name]
+   end
    if not food_table[name] then
       minetest.chat_send_player(user:get_player_name(),
 				"This is inedible.")
