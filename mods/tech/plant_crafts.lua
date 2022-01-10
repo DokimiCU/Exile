@@ -189,10 +189,6 @@ minetest.register_node("tech:maraka_bread_cooked", {
 	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
-    --food poisoning
-		if random() < 0.001 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
     return exile_eatdrink(itemstack, user)
   end,
 })
@@ -213,11 +209,6 @@ minetest.register_node("tech:maraka_bread_burned", {
   groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
   sounds = nodes_nature.node_sound_dirt_defaults(),
   on_use = function(itemstack, user, pointed_thing)
-    --food poisoning
-    if random() < 0.001 then
-      HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-    end
-    --burned food has less impact
     return exile_eatdrink(itemstack, user)
   end,
 })

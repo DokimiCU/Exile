@@ -55,6 +55,25 @@ bake_table = {
 ["tech:mashed_anperla"]      = { 100,  35 },
 }
 
+food_harm_table = {
+   --name                     { {tag, chance, severity}, {t, c, s}, etc }
+["tech:maraka_bread_cooked"]     = { { "Food Poisoning", 0.001, 1} },
+["tech:maraka_bread_burned"]     = { { "Food Poisoning", 0.001, 1} },
+["tech:peeled_anperla_cooked"]   = { { "Food Poisoning", 0.002, 1} },
+["tech:mashed_anperla_cooked"]   = { { "Food Poisoning", 0.002, 1} },
+["tech:mashed_anperla_burned"]   = { { "Food Poisoning", 0.002, 1} },
+}
+
+local function do_food_harm(user, nodename)
+   if not food_harm_table[nodename] then return end
+   local fht = food_harm_table[nodename]
+   for i = 1, #fht do
+      print("Checking for ",fht[i][1]," with ",fht[i][2]," chance")
+      if math.random() < fht[i][2] then
+	 HEALTH.add_new_effect(user, {fht[i][1], fht[i][3]})
+      end
+   end
+end
 
 function exile_eatdrink_playermade(itemstack, user)
    local imeta = itemstack:get_meta()
@@ -78,6 +97,7 @@ function exile_eatdrink(itemstack, user)
 				"This is inedible.")
       return
    end
+   do_food_harm(user, name)
    local t = food_table[name]
    return HEALTH.use_item(itemstack, user, t[1], t[2], t[3], t[4], t[5], t[6])
 end
