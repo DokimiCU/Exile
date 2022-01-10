@@ -154,6 +154,7 @@ function exile_bake(pos, elapsed)
    local name_burned = selfname.."_burned"
    local heat = bake_table[selfname][1]
    local length = bake_table[selfname][2]
+   local burntime = math.floor( length * .33 + 6 ) * -1
    local meta = minetest.get_meta(pos)
    local baking = meta:get_int("baking")
 
@@ -180,7 +181,7 @@ function exile_bake(pos, elapsed)
    elseif temp < fire_temp then
       --not lit yet
       return true
-   elseif temp > fire_temp * 2  or baking < (length / 2 * -1) then
+   elseif temp > fire_temp * 2  or baking < burntime then
       if minetest.registered_nodes[name_burned] then
 	 --too hot or too long on the fire, burn
 	 minetest.set_node(pos, {name = name_burned})
