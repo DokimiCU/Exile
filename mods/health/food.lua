@@ -19,56 +19,14 @@ over a fire.
 #TODO: Test this ^^ after the cooking pot supports both tables
 ]]--
 
---[[
-Some notes:
-
-Calculating sensible values for food:
-(intervals/day) * hunger_rate = daily basal food needs
-i.e. 20min/1min * 2 = 40 units per day
-
-Therefore 40 units = 2000 calories.
-calories -> units = 2000/40 = 50 cal/unit
-
-Sugar 3900 cal/kg = 78 units/kg  172 per lb.
-Bread 2600 cal/kg = 52 units/kg  115 per lb.
-Potato. 750 cal/kg = 15 u/kg     33 per lb.
-Meat 2000 cal/kg = 40 u/kg       88 per lb.
-cabbage 240 cal/kg = 4.8 u/kg    10.5 per lb.
-]]--
-
-food_table = {
-   --name	     	      	       hp  thr hngr energy temp
-["tech:maraka_bread_cooked"]        = {0,  0,  24,  14,    0},
-["tech:maraka_bread_burned"]        = {0,  0,  12,  7,     0},
-["tech:peeled_anperla_cooked"]      = {0,  4,  24,  14,    0},
---example: burned anperla tubers are inedible
-["tech:mashed_anperla_cooked"]      = {0,  24, 144, 84,    0},
-["tech:mashed_anperla_burned"]      = {0,  12, 72,  42,    0},
-}
-
 local cook_rate = 6   -- speed of the cook timer; tenth of a minute seems fine
 
-bake_table = {
-   --name                        temp, duration, cooked, burned
-["tech:maraka_bread"]        = { 160,  10 },
-["tech:peeled_anperla"]      = { 100,  7  },
-["tech:mashed_anperla"]      = { 100,  35 },
-}
-
-food_harm_table = {
-   --name                     { {tag, chance, severity}, {t, c, s}, etc }
-["tech:maraka_bread_cooked"]     = { { "Food Poisoning", 0.001, 1} },
-["tech:maraka_bread_burned"]     = { { "Food Poisoning", 0.001, 1} },
-["tech:peeled_anperla_cooked"]   = { { "Food Poisoning", 0.002, 1} },
-["tech:mashed_anperla_cooked"]   = { { "Food Poisoning", 0.002, 1} },
-["tech:mashed_anperla_burned"]   = { { "Food Poisoning", 0.002, 1} },
-}
+dofile(minetest.get_modpath('health')..'/food_data.lua')
 
 local function do_food_harm(user, nodename)
    if not food_harm_table[nodename] then return end
    local fht = food_harm_table[nodename]
    for i = 1, #fht do
-      print("Checking for ",fht[i][1]," with ",fht[i][2]," chance")
       if math.random() < fht[i][2] then
 	 HEALTH.add_new_effect(user, {fht[i][1], fht[i][3]})
       end
