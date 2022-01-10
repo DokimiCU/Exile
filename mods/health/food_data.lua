@@ -19,7 +19,7 @@ Meat 2000 cal/kg = 40 u/kg       88 per lb.
 cabbage 240 cal/kg = 4.8 u/kg    10.5 per lb.
 ]]--
 
-local food_table = {
+food_table = {
    --name	     	      	       hp  thr hngr energy temp
 ["tech:maraka_bread_cooked"]        = {0,  0,  24,  14,    0},
 ["tech:maraka_bread_burned"]        = {0,  0,  12,  7,     0},
@@ -29,14 +29,14 @@ local food_table = {
 ["tech:mashed_anperla_burned"]      = {0,  12, 72,  42,    0},
 }
 
-local bake_table = {
+bake_table = {
    --name                        temp, duration, cooked, burned
 ["tech:maraka_bread"]        = { 160,  10 },
 ["tech:peeled_anperla"]      = { 100,  7  },
 ["tech:mashed_anperla"]      = { 100,  35 },
 }
 
-local food_harm_table = {
+food_harm_table = {
    --name                     { {tag, chance, severity}, {t, c, s}, etc }
 ["tech:maraka_bread_cooked"]     = { { "Food Poisoning", 0.001, 1} },
 ["tech:maraka_bread_burned"]     = { { "Food Poisoning", 0.001, 1} },
