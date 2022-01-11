@@ -243,6 +243,12 @@ local function extinguish_fire(pos, puncher, ext_name)
 	--hit it with fertilizer to restore
 	local itemstack = puncher:get_wielded_item()
 	local ist_name = itemstack:get_name()
+	 -- make slabs/etc work too
+	local nn = "nodes_nature:"
+	ist_name = ist_name:gsub("stairs:slab_",nn)
+	ist_name = ist_name:gsub("stairs:stair_inner_",nn)
+	ist_name = ist_name:gsub("stairs:stair_outer_",nn)
+	ist_name = ist_name:gsub("stairs:stair_",nn)
 
 	if minetest.get_item_group(ist_name, "sediment") >= 1
 	then
