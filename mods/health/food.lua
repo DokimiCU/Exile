@@ -96,9 +96,7 @@ minetest.after(1, function() -- don't run overrides until after registration
 		 end}
    minetest.log("info", "Finalized list of food_table entries:")
    for k, v in pairs(food_table) do
-      if not minetest.registered_nodes[k] then
-	 minetest.log("error", "Food table contains an unknown node: "..k)
-      else
+      if minetest.registered_nodes[k] then
 	 minetest.log("info",k)
 	 minetest.override_item(k, eat_redef)
       end
