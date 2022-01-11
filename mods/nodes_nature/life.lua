@@ -317,9 +317,6 @@ for i in ipairs(plantlist) do
 			buildable_to = true,
 			groups = g,
 			sounds = s,
-			on_use = function(itemstack, user, pointed_thing)
-			   return itemstack
-			end,
 		})
 
 		--seedling
@@ -402,9 +399,6 @@ for i in ipairs(plantlist) do
         type = "fixed",
         fixed = selbox,
       },
-      on_use = function(itemstack, user, pointed_thing)
-	 return itemstack
-      end,
     })
 
 		--seedling
@@ -564,6 +558,7 @@ for i in ipairs(plantlist) do
 		always_known = true,
 	})
 
+	exile_add_food_hook("nodes_nature:"..plantname)
 
 
 end
@@ -743,9 +738,6 @@ for i in ipairs(searooted_list) do
 			on_place = function(itemstack, placer, pointed_thing)
 				return rooted_place(itemstack, placer, pointed_thing, "nodes_nature:"..name, substrate, height_min, height_max)
 			end,
-			on_use = function(itemstack, user, pointed_thing)
-			   return itemstack
-			end,
 
 			after_destruct  = function(pos, oldnode)
 				minetest.set_node(pos, {name = substrate})
@@ -781,12 +773,9 @@ for i in ipairs(searooted_list) do
 			after_destruct  = function(pos, oldnode)
 				minetest.set_node(pos, {name = substrate})
 			end,
-			on_use = function(itemstack, user, pointed_thing)
-			   return itemstack
-			end,
 		})
 	end
-
+	exile_add_food_hook("nodes_nature:"..name)
 
 end
 
