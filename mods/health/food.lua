@@ -80,13 +80,19 @@ function exile_add_harm(table)
    end
 end
 
+function exile_add_food_hook(name) 
+   if not food_table[name] then return end
+   minetest.override_item(name, {
+			     on_use = function(itemstack, user, pointed_thing)
+				return exile_eatdrink(itemstack, user)
+				end}
+   )
+end
+
 -- Table node setup
 --Sets the on_construct/on_timer for registered foods
 
 minetest.after(1, function() -- don't run overrides until after registration
-   local eat_redef = { on_use = function(itemstack, user, pointed_thing)
-			  return exile_eatdrink(itemstack, user)
-		     end}
    local bake_redef = {  on_construct = function(...)
 			exile_start_bake(...)
 		 end,
@@ -97,7 +103,6 @@ minetest.after(1, function() -- don't run overrides until after registration
    for k, v in pairs(food_table) do
       if minetest.registered_nodes[k] then
 	 minetest.log("info",k)
-	 minetest.override_item(k, eat_redef)
       end
    end
    minetest.log("info","-------")
