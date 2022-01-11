@@ -18,27 +18,21 @@ plantlist = {
 	--artifact
 	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", plant_base_growth *3},
 	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", plant_base_growth *3},
-
-
-}
-
---Consummables
---Use: hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-plantlist2 = {
+--Consumables
   --drugs
-	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2, 0, 0,-2,2,0, nil, nil, nil, plant_base_growth, 0.001},
+	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2,  nil, nil, plant_base_growth},
 	--toxic
-	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, 0,0,0,0,0, nil, nil, nil, plant_base_growth, 0.001},
-	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, 0, 0, 0, 0,0, nil, nil, nil, plant_base_growth*2, 0.001},
+	{"nebiyi", "Nebiyi", nil, 1, "mushroom", nil, 1, nil, nil, plant_base_growth},
+	{"marbhan", "Marbhan", nil, 1, "mushroom", nil, 2, nil, nil, plant_base_growth*2},
   --medicine
-  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 0, 0,0,0,0,0, nil, nil, nil, plant_base_growth * 2, 0.001},
-	{"merki", "Merki", nil, 1, "mushroom", nil, 0, 0,0,0,0,0, nil, nil, nil, plant_base_growth * 2, 0.001},
+  {"hakimi", "Hakimi", nil, 1, "herbaceous_plant", nil, 0, nil, nil, plant_base_growth * 2},
+	{"merki", "Merki", nil, 1, "mushroom", nil, 0, nil, nil, plant_base_growth * 2},
 	--food and water
-	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, 0,3,1,0,0, nil, nil, nil, plant_base_growth * 2, 0.005},
-	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, 0,0,4,0,0, nil, nil, nil, plant_base_growth * 2, 0.01},
-	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, 0,1,3,0,0, nil, nil, nil, plant_base_growth *0.8, 0.008},
+	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, nil, nil, plant_base_growth * 2},
+	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, nil, nil, plant_base_growth * 2},
+	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, nil, nil, plant_base_growth *0.8},
 	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, 0, 10, 10, 0, 0, nil, "Lambakap Spores", "nodes_nature_spores.png", plant_base_growth *3, 0.001},
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", 0, "Lambakap Spores", "nodes_nature_spores.png", plant_base_growth *3},
 
 }
 

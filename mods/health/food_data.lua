@@ -36,6 +36,7 @@ food_table = {
 ["nodes_nature:wiha"]               = { 0,3,1,0,0 },
 ["nodes_nature:zufani"]             = { 0,0,4,0,0 },
 ["nodes_nature:galanta"]            = { 0,1,3,0,0 },
+["nodes_nature:lambakap"]           = { 0,10,10,0,0 },
 --drugs
 ["nodes_nature:tikusati"]           = { 0,0,-2,2,0 },
 --toxic

@@ -85,7 +85,6 @@ end
 
 minetest.after(1, function() -- don't run overrides until after registration
    local eat_redef = { on_use = function(itemstack, user, pointed_thing)
-			  --TODO: add risk of fpois, parasites, etc
 			  return exile_eatdrink(itemstack, user)
 		     end}
    local bake_redef = {  on_construct = function(...)
