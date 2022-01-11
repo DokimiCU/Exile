@@ -101,10 +101,14 @@ local function pot_receive_fields(pos, formname, fields, sender)
       return
    end
    for i = 1, #inv do
-      if food_table then
-	 local result = food_table[inv[i]:get_name()]
-	 local count = inv[i]:get_count()
+      local fname = inv[i]:get_name()
+      if food_table[fname] then
+	 local result = food_table[fname.."_cooked"]
+	 if result == nil then -- prefer the cooked version, use raw if none
+	    result = food_table[fname]
+	 end
 	 if result then
+	    local count = inv[i]:get_count()
 	    for j = 1, 5 do
 	       total[j] = total[j] + result[j] * count
 	    end
