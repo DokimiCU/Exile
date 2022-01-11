@@ -236,7 +236,6 @@ local on_place_seedling = function(itemstack, placer, pointed_thing)
       if udef and udef.on_rightclick and
 	 not (placer and placer:is_player() and
 	      placer:get_player_control().sneak) then
-	    print(dump2(udef.on_rightclick))
 	    return udef.on_rightclick(pointed_thing.under, ground,
 				      placer, itemstack,
 				      pointed_thing) or itemstack
@@ -318,6 +317,9 @@ for i in ipairs(plantlist) do
 			buildable_to = true,
 			groups = g,
 			sounds = s,
+			on_use = function(itemstack, user, pointed_thing)
+			   return itemstack
+			end,
 		})
 
 		--seedling
@@ -400,6 +402,9 @@ for i in ipairs(plantlist) do
         type = "fixed",
         fixed = selbox,
       },
+      on_use = function(itemstack, user, pointed_thing)
+	 return itemstack
+      end,
     })
 
 		--seedling
@@ -738,6 +743,9 @@ for i in ipairs(searooted_list) do
 			on_place = function(itemstack, placer, pointed_thing)
 				return rooted_place(itemstack, placer, pointed_thing, "nodes_nature:"..name, substrate, height_min, height_max)
 			end,
+			on_use = function(itemstack, user, pointed_thing)
+			   return itemstack
+			end,
 
 			after_destruct  = function(pos, oldnode)
 				minetest.set_node(pos, {name = substrate})
@@ -772,7 +780,10 @@ for i in ipairs(searooted_list) do
 
 			after_destruct  = function(pos, oldnode)
 				minetest.set_node(pos, {name = substrate})
-			end
+			end,
+			on_use = function(itemstack, user, pointed_thing)
+			   return itemstack
+			end,
 		})
 	end
 
