@@ -47,6 +47,7 @@ end
 
 function exile_eatdrink(itemstack, user)
    local name = itemstack:get_name()
+
    if minetest.registered_aliases[name] then
       name = minetest.registered_aliases[name]
    end
@@ -61,15 +62,21 @@ function exile_eatdrink(itemstack, user)
 end
 
 function exile_add_food(table)
-   --Add new foods, mod must send a table in the above format
+   --Add new foods, mod must send a table in the food_data.lua format
    for k, v in pairs(table) do
       food_table[k] = v
    end
 end
 function exile_add_bake(table)
-   --Add new bakables, mod must send a table in the above format
+   --Add new bakables, mod must send a table in the food_data.lua format
    for k, v in pairs(table) do
       bake_table[k] = v
+   end
+end
+function exile_add_harm(table)
+   --Add new food harm, mod must send a table in the food_data.lua format
+   for k, v in pairs(table) do
+      food_harm_table[k] = v
    end
 end
 
@@ -100,7 +107,7 @@ minetest.after(1, function() -- don't run overrides until after registration
    minetest.log("info", "Finalized list of bake_table entries:")
    for k, v in pairs(bake_table) do
       if not minetest.registered_nodes[k] then
-	 minetest.log("error", "Bake table contains an undefined node: "..k)
+	 minetest.log("info", "Bake table contains an undefined node: "..k)
       else
 	 if minetest.registered_nodes[k.."_cooked"] then
 	    minetest.log("info",k)
@@ -132,7 +139,7 @@ function exile_bake(pos, elapsed)
    local name_burned = selfname.."_burned"
    local heat = bake_table[selfname][1]
    local length = bake_table[selfname][2]
-   local burntime = math.floor( length * .33 + 6 ) * -1
+   local burntime = math.floor( length * .40 + 10 ) * -1
    local meta = minetest.get_meta(pos)
    local baking = meta:get_int("baking")
 

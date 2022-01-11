@@ -1121,25 +1121,6 @@ for i in ipairs(searooted_list) do
 
 end
 
---edible sea_lettuce
-minetest.override_item("nodes_nature:sea_lettuce",{
-	on_use = function(itemstack, user, pointed_thing)
-
-		--food poisoning
-		if random() <  0.05 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-		--parasites
-		if random() < 0.01 then
-			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
-		end
-
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 5, -10, 0)
-	end,
-})
-
 
 ----------------------------------------------
 --Extra effects
@@ -1165,35 +1146,6 @@ minetest.override_item("nodes_nature:anperla_seed",{
 	stack_max = minimal.stack_max_medium,
 	walkable = true,
 })
-
-
---oil seed crop
-minetest.override_item("nodes_nature:vansano_seed",{
-	on_use = function(itemstack, user, pointed_thing)
-		--food poisoning
-		if random() < 0.001 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
-	end,
-})
-
----------------------------------------
---tikusati's stimulant in the seeds too
-minetest.override_item("nodes_nature:tikusati_seed",{
-	on_use = function(itemstack, user, pointed_thing)
-		--food poisoning
-		if random() < 0.001 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, -2, 2, 0)
-	end,
-})
-
 
 --marbhan has a Neurotoxin
 minetest.override_item("nodes_nature:marbhan",{
