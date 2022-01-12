@@ -1,6 +1,6 @@
 # Changelog:
 
-## 0.3.5 and 0.2.8
+## Availables — 0.3.5 and 0.2.8
   - Blankets to keep warm.
   - Foods can now burn if left cooking too long.
   - Nerf: Increased fall damage.
@@ -11,8 +11,8 @@
   - Mapgen: `carpathian` is now supported, for a harder game world.
   - No more beach spiders.
   - Misc. bug-fixes and quality of life improvements.
-
-## 0.3.4 and 0.2.7
+   
+## 2021-11-01 — 0.3.4 and 0.2.7
   - New player API: Head tracking, multiplayer skins, male and female characters.
   - Added an introduction screen for new players, and a chat display of the day/season/year.
   - Place snow/ice/water on top of a clay water pot, and melting will fill it.
@@ -21,24 +21,24 @@
   - New chat commands: `/set_tempscale`, `/date`.
   - Better indoors check on `Minetest 5.4.x`.
 
-## 0.3.3 and 0.2.6
+## 2021-09-27 — 0.3.3 and 0.2.6
   - Plants now grow even when players are away from the area.
   - Fireproof: `Iron Doors` and `Iron Trapdoors`.
   - Ability to mix `Wet Loam` and agricultural soil.
   - Renamed `Stone Chopper` to `Stone Knife` for clarity.
   - More bug fixes and improvements.
 
-## 0.3.2 and 0.2.5
+## 2021-09-12 — 0.3.2 and 0.2.5
   - Glassworking! Make windows, and make glass bottles that can hold water, and which stack.
   - Agricultural soil erodes down to a soil slab instead of vanishing.
   - Fixed a baking crash.
 
-## 0.3.1 and 0.2.4
+## 2021-07-18 — 0.3.1 and 0.2.4
   - Oil lamps can be switched off with right click, and lit with fire sticks.
   - Oil lamps can hold more oil and last longer.
   - Bug-fixes.
 
-## 0.3.0 and 0.2.3
+## 2021-06-12 — 0.3.0 and 0.2.3
   - Initial release for `Minetest 5.4.0`, use Exile 0.2 series for 5.3.0 version.
   - New dependency: `naturalslopeslib`.
   - Ability to throw torches for light.
@@ -49,9 +49,9 @@
   - Fixes for fire and rain.
   - Many fixes for crashes and bugs.
 
-## Now maintained by Mantar
+## 2021-02-15 — Now maintained by Mantar
 
-## 0.2.2
+## 2020-12-29 — 0.2.2
   - New HUD.
   - Character tab.
   - Health effects.
@@ -68,14 +68,14 @@
   - `Mashed Anperla`.
   - Misc. minor fixes and balancing.
 
-## 0.2.1
+## 2020-09-25 — 0.2.1
   - Fixed exile-letter crash.
   - Fixed salt-water surface sediment crash.
   - Fixed multiplayer health-tab crash.
   - Balanced and bug-fix: animals.
   - Adjusted ice freezing and thawing.
 
-## 0.2.0
+## 2020-08-02 — 0.2.0
   - Clothing (plus multi-skin model, new player API), `Weaving Frame`, and temperature tolerance via clothing.
   - Lore: exile letter.
   - Sleeping spot.
@@ -100,5 +100,7 @@
   - Various minor additions.
   - `Minetest 5.3.0` compatibility.
 
-## 0.1.0
+## 2020-03-11 — 0.1.0
   - Initial release.
+
+## 2020-03-10 — Founded by Dokimi
