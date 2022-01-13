@@ -98,6 +98,7 @@
 -- 16. `underground` biome used to have basalt dungeon
 -- 22. `upland_grassland_barren` remains disabled
 -- 29. `highland_scree` and 30. `wet_highland_scree` had optional snow dusting
+
 --[[Define Biomes Table]]--
 local biome_list = {
 	--                                                                                               node   depth  node                 depth                                                                                                                            
@@ -136,31 +137,57 @@ local biome_list = {
 	--[[31]]  { "dry_highland"           ,   nil,  alpine   ,    1,  gravel   ,     1,   limestone,   nil,   nil,  air   ,  gravel_w ,    3,   nil      ,  nil     ,  nil     ,    5,   mountain_min     ,  highland_min     ,  extreme_high     ,  extreme_low     ,  },
 	--[[32]]  { "dry_mountain"           ,   nil,  nil      ,  nil,  gravel   ,     2,   limestone,   nil,   nil,  air   ,  gravel   ,    2,   {potable},  nil     ,  nil     ,   10,   upper_limit      ,  mountain_min     ,  low - 10         ,  extreme_low     ,  },
 	}
---[[Loop to Itereate for Registrations]]--
+
+--Get experimental biome settings
+--"use_exile_v4_biomes" is world-specific; it uses a separate name from
+--the global UI setting "exile_v4_biomes" to any avoid possible conflicts
+local biomes_enable = minetest.get_mapgen_setting("use_exile_v4_biomes")
+local wp = minetest.get_worldpath()
+if io.open(wp.."/env_meta.txt", "r") == nil then
+   -- This is a hack to see if it's a new world; if so, apply global setting
+   biomes_enable = minetest.settings:get_bool("exile_v4_biomes", false)
+   minetest.set_mapgen_setting("use_exile_v4_biomes",
+			       tostring(biomes_enable))
+elseif biomes_enable == nil then -- pre-existing world, but with no setting?
+   biomes_enable = false         -- set the default, then
+   minetest.set_mapgen_setting("use_exile_v4_biomes", "false", true)
+else                           -- get_mapgen_settings gives us a string, so:
+   biomes_enable = biomes_enable == "true" -- convert it to a boolean
+ end
+if biomes_enable == true then
+   minetest.log("action","Exile v4 experimental biomes enabled")
+   enable_experimentals = true
+elseif biomes_enable == false then
+   minetest.log("action","Exile v4 experimental biomes disabled")
+else
+   minetest.log("action","v4 biomes setting is invalid!")
+end
+
+--[[Loop to Iterate for Registrations]]--
 for i in pairs(biome_list) do
-	if (enable_experimentals == false) and (i > stable_biomes) then
-		break -- End the loop if further biomes are disabled as experimental.
-		end
-	minetest.register_biome({
-		name               = biome_list[i][01],
-		node_dust          = biome_list[i][02],
-		node_top           = biome_list[i][03],
-		depth_top          = biome_list[i][04],
-		node_filler        = biome_list[i][05],
-		depth_filler       = biome_list[i][06],
-		node_stone         = biome_list[i][07],
-		node_water_top     = biome_list[i][08],
-		depth_water_top    = biome_list[i][09],
-		node_river_water   = biome_list[i][10],
-		node_riverbed      = biome_list[i][11],
-		depth_riverbed     = biome_list[i][12],
-		node_cave_liquid   = biome_list[i][13],
-		node_dungeon       = biome_list[i][14],
-		node_dungeon_stair = biome_list[i][15],
-		vertical_blend     = biome_list[i][16],
-		y_max              = biome_list[i][17],
-		y_min              = biome_list[i][18],
-		heat_point         = biome_list[i][19],
-		humidity_point     = biome_list[i][20],
-		})
-	end
+   if (enable_experimentals == false) and (i > stable_biomes) then
+      break -- End the loop if further biomes are disabled as experimental.
+   end
+   minetest.register_biome({
+	 name               = biome_list[i][01],
+	 node_dust          = biome_list[i][02],
+	 node_top           = biome_list[i][03],
+	 depth_top          = biome_list[i][04],
+	 node_filler        = biome_list[i][05],
+	 depth_filler       = biome_list[i][06],
+	 node_stone         = biome_list[i][07],
+	 node_water_top     = biome_list[i][08],
+	 depth_water_top    = biome_list[i][09],
+	 node_river_water   = biome_list[i][10],
+	 node_riverbed      = biome_list[i][11],
+	 depth_riverbed     = biome_list[i][12],
+	 node_cave_liquid   = biome_list[i][13],
+	 node_dungeon       = biome_list[i][14],
+	 node_dungeon_stair = biome_list[i][15],
+	 vertical_blend     = biome_list[i][16],
+	 y_max              = biome_list[i][17],
+	 y_min              = biome_list[i][18],
+	 heat_point         = biome_list[i][19],
+	 humidity_point     = biome_list[i][20],
+   })
+end
