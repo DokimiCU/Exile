@@ -36,12 +36,17 @@ food_table = {
 ["nodes_nature:wiha"]               = { 0,3,1,0,0 },
 ["nodes_nature:zufani"]             = { 0,0,4,0,0 },
 ["nodes_nature:galanta"]            = { 0,1,3,0,0 },
-["nodes_nature:lambakap"]           = { 0,10,10,0,0 },
+["nodes_nature:lambakap"]           = { 0,10,10,0,0},
+["nodes_nature:tangkal_fruit"]      = { 0,5,10,10,0},
 --drugs
 ["nodes_nature:tikusati"]           = { 0,0,-2,2,0 },
 --toxic
 ["nodes_nature:nebiyi"]             = { 0,0,0,0,0 },
-["nodes_nature:marbhan"]            = { 0, 0, 0, 0,0 },
+["nodes_nature:marbhan"]            = { 0, 0, 0, 0, 0 },
+--maraka nut is dangerous poisonous until processed,
+-- causes photosensitivity, risk of hepatotoxicity
+--you can eat it raw if you want to take the risk... famine food for the despera
+["nodes_nature:maraka_nut"]         = { 0, 0, 5, 5, 0 },
 --medicine
 ["nodes_nature:hakimi"]             = { 0,0,0,0,0 },
 ["nodes_nature:merki"]              = { 0,0,0,0,0 },
@@ -74,5 +79,9 @@ food_harm_table = {
 ["nodes_nature:wiha"]            = { { "Food Poisoning", 0.005, 1} },
 ["nodes_nature:zufani"]          = { { "Food Poisoning", 0.010, 1} },
 ["nodes_nature:galanta"]         = { { "Food Poisoning", 0.008, 1} },
-
+["nodes_nature:maraka_nut"]      = { { "Food Poisoning", 0.001, 1},
+			           { "Hepatotoxicity", 0.005, math.floor(math.random(1,4)) },
+			           {"Photosensitivity", 0.3, 1} },
+["nodes_nature:tangkal_fruit"]   = { { "Food Poisoning", 0.001, 1},
+                                   { "Drunk", 0.005, 1} }
 }
