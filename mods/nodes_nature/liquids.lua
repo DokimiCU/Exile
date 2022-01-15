@@ -238,7 +238,7 @@ crafting.register_recipe({
 
 crafting.register_recipe({
 	type = "mixing_spot",
-	output = "nodes_nature:snow_block 4",
+	output = "nodes_nature:snow_block 2",
 	items = {"nodes_nature:ice"},
 	level = 1,
 	always_known = true,
@@ -247,7 +247,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "mixing_spot",
 	output = "nodes_nature:ice",
-	items = {"nodes_nature:snow_block 4"},
+	items = {"nodes_nature:snow_block 2"},
 	level = 1,
 	always_known = true,
 })
