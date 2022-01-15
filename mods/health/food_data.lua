@@ -33,6 +33,7 @@ food_table = {
 	["nodes_nature:galanta"]            = { 0,  1,   3,  0,  0 },
 	["nodes_nature:lambakap"]           = { 0, 10,  10,  0,  0 },
 	["nodes_nature:tangkal_fruit"]      = { 0,  5,  10, 10,  0 },
+	["nodes_nature:momo"]               = { 0,  1,  12,  0,  0 },
 	--drugs
 	["nodes_nature:tikusati"]           = { 0,  0,  -2,  2,  0 },
 	--toxic
@@ -65,7 +66,6 @@ food_harm_table = {
 	                                     {"Intestinal Parasites", 0.010   } },
 	["nodes_nature:vansano_seed"]    = { { "Food Poisoning",      0.001, 1} },
 	["nodes_nature:tikusati_seed"]   = { { "Food Poisoning",      0.001, 1} },
-
 	["nodes_nature:tikusati"]        = { { "Food Poisoning",      0.001, 1} },
 	["nodes_nature:nebiyi"]          = { { "Food Poisoning",      0.001, 1} },
 	["nodes_nature:marbhan"]         = { { "Food Poisoning",      0.001, 1} },
@@ -74,6 +74,7 @@ food_harm_table = {
 	["nodes_nature:wiha"]            = { { "Food Poisoning",      0.005, 1} },
 	["nodes_nature:zufani"]          = { { "Food Poisoning",      0.010, 1} },
 	["nodes_nature:galanta"]         = { { "Food Poisoning",      0.008, 1} },
+	["nodes_nature:momo"]            = { { "Food Poisoning",      0.001, 1} },
 	["nodes_nature:maraka_nut"]      = { { "Food Poisoning",      0.001, 1},
 	                                     { "Hepatotoxicity",      0.005, math.floor(math.random(1,4)) },
 	                                     { "Photosensitivity",    0.300, 1} },

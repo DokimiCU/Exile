@@ -312,3 +312,24 @@ end
 
 --maraka thorns
 minetest.override_item("nodes_nature:maraka_leaves",{damage_per_second = 1})
+
+--exile_experimental trees
+minetest.override_item("nodes_nature:sasaran_cone",{
+			  on_use = function(itemstack, user, pointed_thing)
+
+			     --food poisoning
+			     if random() < 0.08 then
+				HEALTH.add_new_effect(user, {"Food Poisoning", 1})
+			     end
+
+			     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
+			     return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
+
+			  end,
+})
+
+
+minetest.override_item("nodes_nature:kagum_pod",{
+ light_source = 2,
+ groups = {dig_immediate=3, flammable=1, leafdecay = 3, leafdecay_drop = 1, bioluminescent= 1},
+})

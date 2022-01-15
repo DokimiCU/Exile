@@ -15,6 +15,8 @@ plantlist = {
 	{"damo", "Damo", nil, 1, "fibrous_plant", nil, 4, nil, nil, plant_base_growth},
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, plant_base_growth * 1.2},
 	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, 'Anperla Tuber', 'nodes_nature_tuber.png', plant_base_growth * 2},
+	{"tashvish", "Tashvish", nil, 1, "fibrous_plant", nil, 4, nil, nil, plant_base_growth*1.5},
+
 	--artifact
 	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Reshedaar Spores", "nodes_nature_spores.png", plant_base_growth *3},
 	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, "Mahal Spores", "nodes_nature_spores.png", plant_base_growth *3},
@@ -31,6 +33,7 @@ plantlist = {
 	{"wiha", "Wiha", nil, 1, "herbaceous_plant", nil, 4, nil, nil, plant_base_growth * 2},
 	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, nil, nil, plant_base_growth * 2},
 	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, nil, nil, plant_base_growth *0.8},
+	{"momo", "Momo", nil, 1, "herbaceous_plant", nil, 2, nil, nil, plant_base_growth *2},
 	--artifact
 	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", 0, "Lambakap Spores", "nodes_nature_spores.png", plant_base_growth *3},
 
@@ -71,4 +74,6 @@ tree_base_fruit_growth = 19000
 tree_list = {
 	{"maraka", "Maraka Tree", "maraka_nut", "Maraka Nut", 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1},
 	{"tangkal", "Tangkal Tree", "tangkal_fruit", "Tangkal Fruit", 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2},
+	{"sasaran", "Sasaran Tree", "sasaran_cone", "Sasaran Cone", 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2},
+	{"kagum", "Kagum Tree", "kagum_pod", "Kagum Pod", 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2},
 }

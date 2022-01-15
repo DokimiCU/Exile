@@ -8,11 +8,16 @@ local sand_on      = {"nodes_nature:granite", "nodes_nature:limestone", "nodes_n
 local clay_on      = {"nodes_nature:granite", "nodes_nature:limestone", "nodes_nature:gneiss", "nodes_nature:claystone",}
 local silt_on      = {"nodes_nature:granite", "nodes_nature:limestone", "nodes_nature:gneiss", "nodes_nature:siltstone",}
 
-local grassland_on = {"nodes_nature:grassland_soil", "nodes_nature:grassland_soil_wet"}
-local marshland_on = {"nodes_nature:marshland_soil", "nodes_nature:marshland_soil_wet"}
-local highland_on  = {"nodes_nature:highland_soil",  "nodes_nature:highland_soil_wet"}
-local duneland_on  = {"nodes_nature:duneland_soil",  "nodes_nature:duneland_soil_wet"}
-local woodland_on  = {"nodes_nature:woodland_soil",  "nodes_nature:woodland_soil_wet"}
+local grassland_on        = {"nodes_nature:grassland_soil", "nodes_nature:grassland_soil_wet"}
+local marshland_on        = {"nodes_nature:marshland_soil", "nodes_nature:marshland_soil_wet"}
+local highland_on         = {"nodes_nature:highland_soil",  "nodes_nature:highland_soil_wet"}
+local duneland_on         = {"nodes_nature:duneland_soil",  "nodes_nature:duneland_soil_wet"}
+local woodland_on         = {"nodes_nature:woodland_soil",  "nodes_nature:woodland_soil_wet"}
+local barren_grassland_on = {"nodes_nature:grassland_barren_soil", "nodes_nature:grassland_barren_soil_wet"}
+local dry_woodland_on     = {"nodes_nature:woodland_dry_soil", "nodes_nature:woodland_dry_soil_wet"}
+local drylands_on         = {"nodes_nature:grassland_barren_soil", "nodes_nature:woodland_dry_soil"}
+local all_woodland_on     = {"nodes_nature:woodland_soil", "nodes_nature:woodland_soil_wet", "nodes_nature:woodland_dry_soil", "nodes_nature:woodland_dry_soil_wet"}
+
 local all_soils_on = {
 	"nodes_nature:marshland_soil",
 	"nodes_nature:marshland_soil_wet",
@@ -75,7 +80,26 @@ local tiken  = {
 		{ypos = 5, prob = 155},
 		{ypos = 6, prob = 105},
 		},
-	}
+}
+
+--Exile v4 cane plant, found in dry woodlands
+local s4 = { name = "nodes_nature:chalin", param2 = 2 }
+local chalin = {
+   size = {y = 7, x = 1, z = 1},
+   data = {
+      s4, s4, s4, s4, s4, s4, s4
+   },
+   yslice_prob = {
+      {ypos = 0, prob = 255},
+      {ypos = 1, prob = 255},
+      {ypos = 2, prob = 255},
+      {ypos = 3, prob = 255},
+      {ypos = 4, prob = 230},
+      {ypos = 5, prob = 155},
+      {ypos = 6, prob = 105},
+   },
+}
+
 --- Decoration --- 
 local decoration_list = {
 	--         Description	                            name =                              	deco_type = 	place_on =                           	       place_offset_y =  sidelen =  fill_ratio = 	noise_params =                                                                                              	y_max =         	y_min =     	flags =           	decoration =                	spawn_by =      	num_spawn_by = 	schematic =                                                     	place_offset_y = 	flags =                         	rotation =  	param2 = 	param2_max = 
@@ -125,6 +149,7 @@ local decoration_list = {
 	{ --[[ Sediments: cave silt                    ]]	"cave_silt"                         ,	"simple"   ,	silt_on                                                 ,	nil,	 04,	nil     ,	{offset = -0.40, scale = 3.0000, spread = {x =  32, y =  32, z =  32}, seed =  87005, octaves = 2, persist = 0.9},	            31000,	      -31000,	              nil,	"nodes_nature:silt"             ,	nil          ,	nil,        	nil                                                              ,	 -1,            	"all_floors, force_placement"   ,	     nil,	     nil,	    nil,	     },
 	 ---- Cave mushrooms -- artifact species escaped from cultivation																				     
 	{ --[[ Mushrooms: lambakap  (food and water)   ]]	"nodes_nature:lambakap"             ,	"simple"   ,	mushrooms_on                                            ,	nil,	 80,	0.010000,	nil                                                                                                              ,	              -80,	        -950,	              nil,	"nodes_nature:lambakap"         ,	nil          ,	nil,        	nil                                                              ,	nil,            	"all_floors"                    ,	     nil,	     nil,	    nil,	     },
+
 	{ --[[ Mushrooms: reshedaar (wood source)      ]]	"nodes_nature:reshedaar"            ,	"simple"   ,	mushrooms_on                                            ,	nil,	 80,	0.010000,	nil                                                                                                              ,	              -80,	        -950,	              nil,	"nodes_nature:reshedaar"        ,	nil          ,	nil,        	nil                                                              ,	nil,            	"all_floors"                    ,	     nil,	     nil,	    nil,	     },
 	{ --[[ Mushrooms: mahal     (fibre source)     ]]	"nodes_nature:mahal"                ,	"simple"   ,	mushrooms_on                                            ,	nil,	 80,	0.010000,	nil                                                                                                              ,	              -80,	        -950,	              nil,	"nodes_nature:mahal"            ,	nil          ,	nil,        	nil                                                              ,	nil,            	"all_floors"                    ,	     nil,	     nil,	    nil,	     },
 	{ --[[   Animals: gundu                        ]]	"animals:gundu_eggs"                ,	"simple"   ,	fish_on                                                 ,	nil,	 80,	0.000500,	nil                                                                                                              ,	               -5,	         -25,	"force_placement",	"animals:gundu_eggs"            ,	nil          ,	nil,        	nil                                                              ,	nil,            	nil                             ,	     nil,	     nil,	    nil,	     },
@@ -137,7 +162,17 @@ local decoration_list = {
 	{ --[[   Animals: sneachan                     ]]	"animals:sneachan_eggs"             ,	"simple"   ,	all_soils_on                                            ,	nil,	 80,	0.002000,	nil                                                                                                              ,	lowland_ymax     ,	           3,	              nil,	"animals:sneachan_eggs"         ,	nil          ,	nil,        	nil                                                              ,	nil,            	"all_floors"                    ,	     nil,	     nil,	    nil,	     },
 	{ --[[  Multiple: moss                         ]]	"nodes_nature:moss"                 ,	"simple"   ,	all_soils_on                                            ,	nil,	 16,	nil     ,	{offset =  0.00, scale = 0.0050, spread = {x = 100, y = 100, z = 100}, seed =   1000, octaves = 3, persist = 0.9},	lowland_ymax     ,	lowland_ymin,	              nil,	"nodes_nature:moss"             ,	nil          ,	nil,        	nil                                                              ,	nil,            	nil                             ,	     nil,	     nil,	    nil,	     },
 	{ --[[  Multiple: denser moss in marsh         ]]	"nodes_nature:moss"                 ,	"simple"   ,	moss_on                                                 ,	nil,	 16,	nil     ,	{offset =  0.00, scale = 0.0900, spread = {x =  16, y =  16, z =  16}, seed =   1640, octaves = 3, persist = 0.8},	            31000,	           1,	              nil,	"nodes_nature:moss"             ,	nil          ,	nil,        	nil                                                              ,	nil,            	nil                             ,	     nil,	     nil,	    nil,	     },
-	}																				
+	 ---- Exile v4 experimental biome additions
+	--         Description	                            name =                              	deco_type = 	place_on =                           	       place_offset_y =  sidelen =  fill_ratio = 	noise_params =                                                                                              	y_max =         	y_min =     	flags =           	decoration =                	spawn_by =      	num_spawn_by = 	schematic =                                                     	place_offset_y = 	flags =                         	rotation =  	param2 = 	param2_max = 
+	{ --[[     Trees: sasaran in dry woodland    ]]	        "nodes_nature:sasaran_tree1_lowland",	"schematic",	dry_woodland_on                                             ,	-4,	 80,	0.0075  ,	nil                                                                                                              ,                     35,	lowland_ymin,	              nil,	nil                             ,	nil          ,	nil,        	minetest.get_modpath("mapgen") .. "/schematics/sasaran1.mts",	         -4,            	"place_center_x, place_center_z",	"random",	     nil,	    nil,	     },
+	{ --[[     Trees: sasaran in dry woodland    ]]	        "nodes_nature:sasaran_tree1"        ,	"schematic",	dry_woodland_on                                             ,	-4,	 80,	0.001   ,	nil                                                                                                              ,                     75,	          35,	              nil,	nil                             ,	nil          ,	nil,        	minetest.get_modpath("mapgen") .. "/schematics/sasaran1.mts",	         -4,            	"place_center_x, place_center_z",	"random",	     nil,	    nil,	     },
+	{ --[[     Trees: kagum on salt silt   169   ]]	        "nodes_nature:kagum_tree"           ,	"schematic",	{"nodes_nature:silt_wet_salty"}                             ,	 0,	 80,	nil     ,	{offset = 0,scale = 0.065,spread = {x = 128, y = 128, z = 128},seed = 51122,octaves = 3,persist = 0.5}           ,                      3,	          -1,	              nil,	nil                             ,	nil          ,	nil,        	minetest.get_modpath("mapgen") .. "/schematics/kagum1.mts",	          0,            	"place_center_x, place_center_z",	"random",	     nil,	    nil,	     },
+	{ --[[ All woodland:: Lowland Chalin   170   ]]	        "nodes_nature:chalin_lowland"       ,	"schematic",	all_woodland_on                                            ,	nil,	 80,	0.015   ,	nil                                                                                                                 ,	               35,	lowland_ymin,	              nil,	nil                             ,	nil          ,	nil,        	chalin                                                           ,	nil,            	nil                             ,	     nil,	     nil,	    nil,	     },
+	{ --[[ Dry woodland:: Chalin           171   ]]	        "nodes_nature:chalin"               ,	"schematic",	dry_woodland_on                                            ,	nil,	 80,	0.3     ,	nil                                                                                                                 ,	     lowland_ymax,	          35,	              nil,	nil                             ,	nil          ,	nil,        	chalin                                                           ,	nil,            	nil                             ,	     nil,	     nil,	    nil,	     },
+	{ --[[ Dry woodland:: Momo             172   ]]	        "nodes_nature:momo"                 ,	"simple"   ,	dry_woodland_on                                            ,	nil,	 80,	0.001   ,	nil                                                                                                                 ,	     lowland_ymax,	lowland_ymin,	              nil,	"nodes_nature:momo"             ,	nil          ,	nil,        	nil                                                              ,	nil,            	nil                             ,	     nil,	       1,	    nil,	     },
+	{ --[[ Drylands:: Tashvish                   ]]	        "nodes_nature:tashvish"             ,	"simple"   ,	drylands_on                                                ,	nil,	 80,	0.3     ,	nil                                                                                                                 ,	     lowland_ymax,	lowland_ymin,	              nil,	"nodes_nature:tashvish"         ,	nil          ,	nil,        	nil                                                              ,	nil,            	nil                             ,	     nil,	       4,	    nil,	     },
+	{ --[[ Underground: Cave worms on cave roof  ]]	        "nodes_nature:glow_worm"            ,	"simple"   ,	{ "nodes_nature:granite", "nodes_nature:gneiss", "nodes_nature:limestone", "nodes_nature:jade"},nil, 16, nil, {offset = -0.04,scale = 0.4,spread = {x= 64,y= 64,z= 64},seed=11002,octaves = 3,persist = 0.9}     ,	              -15,	       -1000,	              nil,	"nodes_nature:glow_worm"        ,	nil          ,	nil,        	nil                                                              ,	nil,            	"all_ceilings"                  ,	     nil,	       3,	    nil,	     },
+}
 
 for i in ipairs(decoration_list) do
 	minetest.register_decoration(
@@ -163,7 +198,7 @@ for i in ipairs(decoration_list) do
 			param2_max     = decoration_list[i][19],
 		}
 	)
-	end
+end
 
 -------- Start node timers ---
 -------- get decoration IDs --
@@ -230,5 +265,4 @@ minetest.register_on_generated(
 				minetest.get_node_timer(pos):start(1)
 				end
 			end
-		end
-	)
+end)

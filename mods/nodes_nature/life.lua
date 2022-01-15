@@ -779,6 +779,69 @@ for i in ipairs(searooted_list) do
 
 end
 
+--exile_experimental plants, need Exile v4 biomes to spawn?
+minetest.register_node("nodes_nature:chalin", {
+			  description = "Chalin",
+			  drawtype = "plantlike",
+			  tiles = {"nodes_nature_chalin.png"},
+			  inventory_image = "nodes_nature_chalin.png",
+			  wield_image = "nodes_nature_chalin.png",
+			  stack_max = minimal.stack_max_medium,
+			  paramtype = "light",
+			  paramtype2 = "meshoptions",
+			  place_param2 = 2,
+			  sunlight_propagates = true,
+			  walkable = false,
+			  climbable = true,
+			  --floodable = true,
+			  selection_box = {
+			     type = "fixed",
+			     fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
+			  },
+			  groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+			  sounds = nodes_nature.node_sound_wood_defaults(),
+
+			  after_dig_node = function(pos, node, metadata, digger)
+			     dig_up(pos, node, digger)
+			  end,
+})
+
+--a bit experimental, doesn't reproduce
+minetest.register_node("nodes_nature:glow_worm", {
+			  description = "Glow Worm",
+			  drawtype = "plantlike",
+			  waving = 1,
+			  visual_scale = 1,
+			  light_source = 2,
+			  tiles = {"nodes_nature_glow_worm.png"},
+			  stack_max = minimal.stack_max_medium,
+			  inventory_image = "nodes_nature_glow_worm.png",
+			  wield_image = "nodes_nature_glow_worm.png",
+			  paramtype = "light",
+			  paramtype2 = "meshoptions",
+			  place_param2 = 3,
+			  floodable = true,
+			  sunlight_propagates = true,
+			  walkable = false,
+			  buildable_to = true,
+			  groups = {snappy = 3, flammable = 1, temp_pass = 1, bioluminescent = 1},
+			  sounds = nodes_nature.node_sound_leaves_defaults(),
+			  selection_box = {
+			     type = "fixed",
+			     fixed = {-0.3, 0.5, -0.3, 0.3, 0.35, 0.3},
+			     floodable = true,
+			     sunlight_propagates = true,
+			     walkable = false,
+			     buildable_to = true,
+			     groups = {snappy = 3, flammable = 1, temp_pass = 1, bioluminescent = 1},
+			     sounds = nodes_nature.node_sound_leaves_defaults(),
+			     selection_box = {
+				type = "fixed",
+				fixed = {-0.3, 0.5, -0.3, 0.3, 0.35, 0.3},
+			     },
+			  },
+})
+
 
 ----------------------------------------------
 --Extra effects

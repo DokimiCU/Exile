@@ -36,6 +36,8 @@ soil_list = {
 	{"duneland_soil", "Duneland Soil", 3, "sand", "sand"},
 	{"highland_soil", "Highland Soil", 2, "gravel", "gravel"},
 	{"woodland_soil", "Woodland Soil", 3, "loam", "loam"},
+	{"grassland_barren_soil", "Barren Grassland Soil", 3, "gravel", "gravel"},
+	{"woodland_dry_soil", "Dry Woodland Soil", 3, "silt", "silt"},
 
 }
 
