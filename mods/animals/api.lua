@@ -522,14 +522,14 @@ function animals.on_punch(self, tool_capabilities, puncher, prty, chance)
     mobkit.clear_queue_high(self)
     mobkit.hurt(self,tool_capabilities.damage_groups.fleshy or 1)
     mobkit.make_sound(self,'punch')
-
+    print("puncher: ",puncher)
     --fight or flight
     --flee if hurt
     if self.hp < self.max_hp/10 then
       mobkit.animate(self,'fast')
       mobkit.make_sound(self,'warn')
       mobkit.hq_runfrom(self, prty, puncher)
-    else
+    elseif prty < 20 then
       animals.fight_or_flight(self, puncher, prty, chance)
     end
 
