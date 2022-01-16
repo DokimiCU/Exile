@@ -136,16 +136,24 @@ function torch_entity:on_step(dtime, moveresult)
 
 	 local pos = self.object:get_pos()
 	 local here = minetest.get_node(pos)
-	 local heremeta = minetest.get_meta(pos)
+	 local def = minetest.registered_nodes[here.name]
 	 if not here.name then -- we're in an unloaded spot, just forget it
 	    self.remove()
 	    return
 	 end
-	 if minetest.get_item_group(here.name, "water") > 0 then
+	 if def.groups.water and def.groups.water > 0 then
 	    minetest.sound_play("nodes_nature_cool_lava",
 				{pos = pos, max_hear_distance = 16, gain = 0.1})
-	 elseif minetest.get_item_group(here.name, "igniter") == 0 then
-	    local node = minetest.place_node(pos, {name = "tech:torch"})
+	 elseif def.groups.igniter and def.groups.igniter > 0 then
+	    minetest.sound_play("inferno_extinguish_flame.2",
+				{pos = pos, max_hear_distance = 16, gain = 0.1})
+	 elseif not def.buildable_to then
+	    local torchent = ItemStack("tech:torch")
+	    torchent:get_meta():set_int("fuel", self.fuel)
+	    minetest.item_drop(torchent, nil, pos)
+	 else
+	    minetest.place_node(pos, {name = "tech:torch"})
+	    local heremeta = minetest.get_meta(pos)
 	    heremeta:set_int("fuel", self.fuel)
 	 end
 	 self.object:remove()
