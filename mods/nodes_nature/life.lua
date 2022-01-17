@@ -277,7 +277,7 @@ for i in ipairs(plantlist) do
 	local gs = {snappy = 3, herbaceous_plant = 1, attached_node = 1, flammable = 1, seedling = 1, temp_pass = 1} --seedlings
 	local g_seed = {snappy = 3, dig_immediate = 2, flammable = 1, attached_node = 1, seed = 1, temp_pass = 1}
 
-  if type == "crumbly" then		--moss, dirt mat-like things
+	if type == "crumbly" then		--moss, dirt mat-like things
 		g = {crumbly = 3, herbaceous_plant = 1, falling_node = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 	elseif type == "woody_plant" then
 		g = {choppy = 3, woody_plant = 1, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
@@ -289,7 +289,7 @@ for i in ipairs(plantlist) do
 	elseif type == "mushroom" then
 		g = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, temp_pass = 1}
 		gs = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, seedling = 1, temp_pass = 1}
-		g_seed = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, seedl = 1, temp_pass = 1}
+		g_seed = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, seed = 1, temp_pass = 1}
 	else
 		g = {snappy = 3, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 	end
