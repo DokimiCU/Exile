@@ -140,8 +140,8 @@ end
 minetest.register_abm({
 	label = "Mushroom spread",
 	nodenames = {"group:mushroom"},
-	interval = 260,
-	chance = 60,
+	interval = 280,
+	chance = 80,
 	catch_up = true,
 	action = function(...)
 		mushroom_spread(...)
