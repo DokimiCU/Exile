@@ -206,7 +206,7 @@ minetest.register_node("tech:iron_smelting_mix", {
 	tiles = {"tech_iron_smelting_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
-	groups = {crumbly = 3, falling_node = 1, heatable =20},
+	groups = {crumbly = 3, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_gravel_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
@@ -268,7 +268,7 @@ minetest.register_node("tech:iron_and_slag", {
 	tiles = {"tech_iron_and_slag.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
-	groups = {cracky = 3, crumbly = 1, falling_node = 1, temp_pass = 1, heatable =10},
+	groups = {cracky = 3, crumbly = 1, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_stone_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of firing), interval for checks (speed)
