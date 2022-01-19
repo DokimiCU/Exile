@@ -147,7 +147,7 @@ local function wear_blanket(player, donning)
       toinvl = "cloths"
    end
    local cinv = plyrinv:get_list(frominvl)
-   local newstack
+   local newstack = ItemStack("")
    for i = 1, #cinv do
       local stack = ItemStack(cinv[i])
       if stack:get_count() > 0 then
