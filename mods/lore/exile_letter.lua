@@ -102,7 +102,6 @@ local judger = {
   "Monastic Order",
   "Merchant Republic",
   "Theocracy",
-
   --Military
   "Generals",
   "Champion",
@@ -112,7 +111,6 @@ local judger = {
   "Commander",
   "Commandant",
   "Warlord",
-
   --rogues
   "Pirates",
   "Bandits",
@@ -120,7 +118,6 @@ local judger = {
   "Horde",
   "Liberators",
   "Destroyers",
-
   --freaky
   "All Seeing Eye",
   "Old Children",
@@ -133,9 +130,7 @@ local judger = {
   "Towering Tree",
   "Viridian Majestar",
   "Thousand-tongued All-speaker"
-
 }
-
 
 --exile worthy crime
 local crime1 = {
@@ -158,9 +153,7 @@ local crime1 = {
   "sabotage",
   "treachery",
   "sedition"
-
 }
-
 
 --flavour crime
 local crime2 = {
@@ -256,9 +249,7 @@ local crime2 = {
   "claiming that the world is round",
   "claiming that the world is not round",
   "promoting belief in gravity"
-
 }
-
 
 --woe upon ye
 local woe = {
@@ -297,7 +288,6 @@ local woe = {
   "So it is done.",
   "Even the dogs despise them.",
   "We break no bread with traitors."
-
 }
 
 --Various curruptions of "Ozymandias"
@@ -353,8 +343,6 @@ local mythic_terror = {
   "Lost"
 }
 
-
-
 local generate_text = function(player)
   local letter_text = ""
 
@@ -390,14 +378,8 @@ local generate_text = function(player)
     "\n  \n \n"..
     "\n"..your_woe
 
-
-
-
   return letter_text
 end
-
-
-
 
 --------------------------------------------
 local function get_formspec(meta, letter_text)
@@ -412,14 +394,10 @@ local function get_formspec(meta, letter_text)
 end
 
 
-
-
-
 -----------------------------------------------
 local after_place = function(pos, placer, itemstack, pointed_thing)
   local meta = minetest.get_meta(pos)
   local stack_meta = itemstack:get_meta()
-
   local letter_text = stack_meta:get_string("lore:letter_text")
   if letter_text == "" then
     letter_text = generate_text(placer)
@@ -429,32 +407,6 @@ local after_place = function(pos, placer, itemstack, pointed_thing)
   meta:set_string("formspec", form)
   meta:set_string("lore:letter_text", letter_text)
 
-end
-
-----------------------------------------------
-local dig = function(pos, node, digger, width, height)
-  if not digger then
-		minetest.remove_node(pos)
-		return
-	end
-
-	if minetest.is_protected(pos, digger:get_player_name()) then
-		return false
-	end
-
-	local meta = minetest.get_meta(pos)
-	local letter_text = meta:get_string("lore:letter_text")
-
-	local new = ItemStack(node)
-  local stack_meta = new:get_meta()
-	stack_meta:set_string("lore:letter_text", letter_text)
-	minetest.remove_node(pos)
-	local player_inv = digger:get_inventory()
-	if player_inv:room_for_item("main", new) then
-		player_inv:add_item("main", new)
-	else
-		minetest.add_item(pos, new)
-	end
 end
 
 
@@ -469,15 +421,20 @@ minetest.register_node("lore:exile_letter", {
   paramtype2 = "wallmounted",
   sunlight_propagates = true,
   walkable = false,
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {-0.35, -0.5, -0.4, 0.35, -0.45, 0.4},
-	},
-	groups = {dig_immediate = 3, temp_pass = 1, flammable = 1},
-	sounds = nodes_nature.node_sound_leaves_defaults(),
+  drawtype = "nodebox",
+  node_box = {
+     type = "fixed",
+     fixed = {-0.35, -0.5, -0.4, 0.35, -0.45, 0.4},
+  },
+  groups = {dig_immediate = 3, temp_pass = 1, flammable = 1},
+  sounds = nodes_nature.node_sound_leaves_defaults(),
   after_place_node = after_place,
-  on_dig = dig
+  preserve_metadata = function(pos, oldnode, oldmeta, drops)
+     local letter_text = oldmeta["lore:letter_text"]
+     print("PM drops: ",dump(drops))
+     local stack_meta = drops[1]:get_meta()
+     stack_meta:set_string("lore:letter_text", letter_text)
+  end,
 })
 
 
