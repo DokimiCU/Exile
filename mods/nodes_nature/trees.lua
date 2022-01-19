@@ -288,7 +288,6 @@ for i in ipairs(tree_list) do
 				end
 			end,
 		})
-		print("Adding food hooks to "..fruitname)
 		exile_add_food_hooks("nodes_nature:"..fruitname)
 		register_leafdecay({
 			trunks = {"nodes_nature:"..treename.."_tree"},
