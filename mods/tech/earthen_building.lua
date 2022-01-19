@@ -55,7 +55,9 @@ stairs.register_stair_and_slab(
 	"Mudbrick Stair",
 	"Mudbrick Slab",
 	minimal.stack_max_bulky *4,
-	nodes_nature.node_sound_dirt_defaults()
+	nodes_nature.node_sound_dirt_defaults(),
+	nil,
+	"nodes_nature:clay"
 )
 
 ------------------------------------------

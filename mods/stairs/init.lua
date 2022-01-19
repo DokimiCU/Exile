@@ -43,7 +43,7 @@ end
 -- Node will be called stairs:stair_<subname>
 
 function stairs.register_stair(subname, recipeitem, craft_station, recycle, groups, images, description,
-		stack_size, sounds, worldaligntex)
+		stack_size, sounds, worldaligntex, droptype)
 	-- Set backface culling and world-aligned textures
 	local stair_images = {}
 	for i, image in ipairs(images) do
@@ -74,6 +74,7 @@ function stairs.register_stair(subname, recipeitem, craft_station, recycle, grou
 		stack_max = stack_size,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		drop = droptype,
 		is_ground_content = false,
 		groups = new_groups,
 		sounds = sounds,
@@ -130,7 +131,7 @@ end
 -- Node will be called stairs:slab_<subname>
 
 function stairs.register_slab(subname, recipeitem, craft_station, recycle, groups, images, description,
-		stack_size, sounds, worldaligntex)
+		stack_size, sounds, worldaligntex, droptype)
 	-- Set world-aligned textures
 	local slab_images = {}
 	for i, image in ipairs(images) do
@@ -157,6 +158,7 @@ function stairs.register_slab(subname, recipeitem, craft_station, recycle, group
 		stack_max = stack_size,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		drop = droptype,
 		is_ground_content = false,
 		groups = new_groups,
 		sounds = sounds,
@@ -258,7 +260,7 @@ end
 -- Node will be called stairs:stair_inner_<subname>
 
 function stairs.register_stair_inner(subname, recipeitem, craft_station, recycle, groups, images,
-		description, stack_size, sounds, worldaligntex)
+		description, stack_size, sounds, worldaligntex, droptype)
 	-- Set backface culling and world-aligned textures
 	local stair_images = {}
 	for i, image in ipairs(images) do
@@ -289,6 +291,7 @@ function stairs.register_stair_inner(subname, recipeitem, craft_station, recycle
 		stack_max = stack_size,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		drop = droptype,
 		is_ground_content = false,
 		groups = new_groups,
 		sounds = sounds,
@@ -338,7 +341,7 @@ end
 -- Node will be called stairs:stair_outer_<subname>
 
 function stairs.register_stair_outer(subname, recipeitem, craft_station, recycle, groups, images,
-		description, stack_size, sounds, worldaligntex)
+		description, stack_size, sounds, worldaligntex, droptype)
 	-- Set backface culling and world-aligned textures
 	local stair_images = {}
 	for i, image in ipairs(images) do
@@ -369,6 +372,7 @@ function stairs.register_stair_outer(subname, recipeitem, craft_station, recycle
 		stack_max = stack_size,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		drop = droptype,
 		is_ground_content = false,
 		groups = new_groups,
 		sounds = sounds,
@@ -416,14 +420,30 @@ end
 -- Stair/slab registration function.
 -- Nodes will be called stairs:{stair,slab}_<subname>
 
-function stairs.register_stair_and_slab(subname, recipeitem, craft_station, recycle, groups, images,
-		desc_stair, desc_slab, stack_size, sounds, worldaligntex)
+function stairs.register_stair_and_slab(subname, recipeitem, craft_station,
+		recycle, groups, images, desc_stair, desc_slab, stack_size,
+		sounds, worldaligntex, droptypemain)
+        local droptype = nil
+        local droptypesub = ""
+        if droptypemain ~= nil then
+	   -- 50% chance to drop the whole node if no stair/slabs exist
+	   droptype = { max_items = 1,items = {
+			   {rarity = 2, items = {droptypemain} }
+		      }}
+	   --Else remove the modname so we can build the stairs names if they do
+	   droptypesub = string.split(droptypemain,":")[2]
+	end
+        local stexist = minetest.registered_nodes["stairs:stair_"..droptypesub]
+        if stexist then droptype = "stairs:stair_"..droptypesub end
 	stairs.register_stair(subname, recipeitem, craft_station, recycle, groups, images, desc_stair, stack_size,
-		sounds, worldaligntex)
+		sounds, worldaligntex, droptype)
+        if stexist then droptype = "stairs:stair_inner_"..droptypesub end
 	stairs.register_stair_inner(subname, recipeitem, craft_station, recycle, groups, images, desc_stair, stack_size,
-		sounds, worldaligntex)
+		sounds, worldaligntex, droptype)
+        if stexist then droptype = "stairs:stair_outer_"..droptypesub end
 	stairs.register_stair_outer(subname, recipeitem, craft_station, recycle, groups, images, desc_stair, stack_size,
-		sounds, worldaligntex)
+		sounds, worldaligntex, droptype)
+        if stexist then droptype = "stairs:slab_"..droptypesub end
 	stairs.register_slab(subname, recipeitem, craft_station, recycle, groups, images, desc_slab, stack_size,
-		sounds, worldaligntex)
+		sounds, worldaligntex, droptype)
 end

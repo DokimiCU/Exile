@@ -452,8 +452,11 @@ stairs.register_stair_and_slab(
 	"Brick and Mortar Stair",
 	"Brick and Mortar Slab",
 	minimal.stack_max_medium,
-	nodes_nature.node_sound_stone_defaults()
+	nodes_nature.node_sound_stone_defaults(),
+	nil,
+	"tech:loose_brick"
 )
+
 
 -----------------------------------------------------
 --BRICK RECIPES
