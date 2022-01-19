@@ -164,12 +164,12 @@ function airboat.on_step(self, dtime)
 				self.v = self.v + 0.1
 			end
 			if ctrl.left then
-				self.rot = self.rot + 0.001
+				self.rot = self.rot + 0.005
 				if random()>0.98 then
 					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
 				end
 			elseif ctrl.right then
-				self.rot = self.rot - 0.001
+				self.rot = self.rot - 0.005
 				if random()>0.98 then
 					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
 				end
