@@ -12,11 +12,9 @@ player_api.register_cloth("tech:woven_hat", {
 	description = "Woven Hat",
 	inventory_image = "tech_inv_woven_hat.png",
 	texture = "tech_uv_woven_hat.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 1, clothing_hat = 1,},
 	customfields= {temp_min = 1, temp_max = 1}
---	on_equip = clothing.default_equip,  <--- necessary?
---	on_unequip = clothing.default_unequip <- if not, TODO: remove functions
 })
 
 
@@ -33,6 +31,7 @@ player_api.register_cloth("tech:woven_cape", {
 	description = "Woven Cape",
 	inventory_image = "tech_inv_woven_cape.png",
 	texture = "tech_uv_woven_cape.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 5, cape = 1, clothing_cape=1},
 	customfields= {temp_min = 2, temp_max = 1}
 })
@@ -51,7 +50,7 @@ player_api.register_cloth("tech:woven_poncho", {
 	description = "Woven Poncho",
 	inventory_image = "tech_inv_woven_poncho.png",
 	texture = "tech_uv_woven_poncho.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 2, clothing_shirt = 1,},
 	customfields= {temp_min = 2, temp_max = 1}
 })
@@ -71,6 +70,7 @@ player_api.register_cloth("tech:woven_leggings", {
 	description = "Woven Leggings",
 	inventory_image = "tech_inv_woven_leggings.png",
 	texture = "tech_uv_woven_leggings.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 3, clothing_pants=1},
 	customfields= {temp_min = 1, temp_max = 0}
 })
@@ -88,6 +88,7 @@ player_api.register_cloth("tech:woven_blanket", {
 	description = "Woven Blanket",
 	inventory_image = "tech_woven_blanket.png",
 	texture = "tech_woven_blanket.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {blanket=1, clothing_blanket=1, cloth=6},
 	customfields = {temp_min = 3, temp_max = -2}
 })
@@ -112,7 +113,7 @@ player_api.register_cloth("tech:light_fabric_hat", {
 	description = "Light Fabric Hat",
 	inventory_image = "tech_inv_light_fabric_hat.png",
 	texture = "tech_uv_light_fabric_hat.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 1, clothing_hat = 1,},
 	customfields= {temp_min = 2, temp_max = 1}
 })
@@ -131,7 +132,7 @@ player_api.register_cloth("tech:thick_fabric_hat", {
 	description = "Thick Fabric Hat",
 	inventory_image = "tech_inv_thick_fabric_hat.png",
 	texture = "tech_uv_thick_fabric_hat.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 1, clothing_hat = 1,},
 	customfields= {temp_min = 4, temp_max = -1}
 })
@@ -150,6 +151,7 @@ player_api.register_cloth("tech:light_fabric_cape", {
 	description = "Light Fabric Cape",
 	inventory_image = "tech_inv_light_fabric_cape.png",
 	texture = "tech_uv_light_fabric_cape.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 5, cape = 1, clothing_cape=1},
 	customfields= {temp_min = 3, temp_max = 3}
 })
@@ -167,6 +169,7 @@ player_api.register_cloth("tech:thick_fabric_cape", {
 	description = "Thick Fabric Cape",
 	inventory_image = "tech_inv_thick_fabric_cape.png",
 	texture = "tech_uv_thick_fabric_cape.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 5, cape = 1, clothing_cape=1},
 	customfields= {temp_min = 6, temp_max = -2}
 })
@@ -184,8 +187,8 @@ crafting.register_recipe({
 player_api.register_cloth("tech:light_fabric_trousers", {
 	description = "Light Fabric Trousers",
 	inventory_image = "tech_inv_light_fabric_trousers.png",
-	texture = "tech_light_fabric_trousers.png",
 	texture = "tech_uv_light_fabric_trousers.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 3, clothing_pants=1},
 	customfields= {temp_min = 3, temp_max = 2}
 })
@@ -204,6 +207,7 @@ player_api.register_cloth("tech:thick_fabric_trousers", {
 	description = "Thick Fabric Trousers",
 	inventory_image = "tech_inv_thick_fabric_trousers.png",
 	texture = "tech_uv_thick_fabric_trousers.png",
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 3, clothing_pants=1},
 	customfields= {temp_min = 6, temp_max = -2}
 })
@@ -222,7 +226,7 @@ player_api.register_cloth("tech:light_fabric_tunic", {
 	description = "Light Fabric Tunic",
 	inventory_image = "tech_inv_light_fabric_tunic.png",
 	texture = "tech_uv_light_fabric_tunic.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 2, clothing_shirt = 1,},
 	customfields= {temp_min = 3, temp_max = 2}
 })
@@ -241,7 +245,7 @@ player_api.register_cloth("tech:thick_fabric_tunic", {
 	description = "Thick Fabric Tunic",
 	inventory_image = "tech_inv_thick_fabric_tunic.png",
 	texture = "tech_uv_thick_fabric_tunic.png",
-	stack_max = 1,
+	stack_max = minimal.stack_max_bulky,
 	groups = {cloth = 2, clothing_shirt = 1,},
 	customfields= {temp_min = 6, temp_max = -2}
 })
