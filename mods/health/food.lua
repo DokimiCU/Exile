@@ -3,14 +3,16 @@
 
 --Modding info:
 --[[
- To add new foods, define a node, then pass a table with its info to
+ To add new foods, define your node(s), then pass a table with food info to
 exile_add_food(table). Its on_use will be set automatically.
+ Make sure all your nodes have been defined BEFORE you send any tables!
+ exile_add_food() will override a node's on_use.
 
  For cookable things, define the node, and a name_cooked/name_burned version,
-then pass the cooking data to exile_add_bake(table). Its on_construct and
-on_timer will be set automatically.  Then add the cooked version to the
-food table.
+then pass the cooking data to exile_add_bake(table). Don't forget to add the
+cooked version to the food table.
  If the burned version is not also added to foods, it will be inedible.
+ exile_add_bake() will override a node's on_construct and on_timer.
 
  If a food can only be cooked in a pot, don't define a name_cooked node,
 but add it to the food table anyway. The cooking pot will make a soup using
@@ -61,16 +63,36 @@ function exile_eatdrink(itemstack, user)
    return HEALTH.use_item(itemstack, user, t[1], t[2], t[3], t[4], t[5], t[6])
 end
 
+-- Overrides for edible and bakable nodes
+local eat_redef = {
+   on_use = function(itemstack, user, pointed_thing)
+      return exile_eatdrink(itemstack, user)
+end}
+
+local bake_redef = {
+   on_construct = function(...)
+      exile_start_bake(...)
+   end,
+   on_timer = function(...)
+      return exile_bake(...)
+end}
+
 function exile_add_food(table)
    --Add new foods, mod must send a table in the food_data.lua format
    for k, v in pairs(table) do
       food_table[k] = v
+      if minetest.registered_nodes[k] then
+	 minetest.override_item(name, eat_redef)
+      end
    end
 end
 function exile_add_bake(table)
    --Add new bakables, mod must send a table in the food_data.lua format
    for k, v in pairs(table) do
       bake_table[k] = v
+      if minetest.registered_nodes[k] then
+	 minetest.override_item(name, bake_redef)
+      end
    end
 end
 function exile_add_harm(table)
@@ -80,25 +102,22 @@ function exile_add_harm(table)
    end
 end
 
-function exile_add_food_hook(name) 
-   if not food_table[name] then return end
-   minetest.override_item(name, {
-			     on_use = function(itemstack, user, pointed_thing)
-				return exile_eatdrink(itemstack, user)
-				end}
-   )
+function exile_add_food_hooks(name)
+   if food_table[name] then
+      minetest.override_item(name, eat_redef)
+   end
+   if bake_table[name] then
+      minetest.override_item(name, bake_redef)
+   end
+   if string.match(name, "_cooked") then
+	 minetest.override_item(name, bake_redef)
+   end
 end
 
--- Table node setup
---Sets the on_construct/on_timer for registered foods
 
-minetest.after(1, function() -- don't run overrides until after registration
-   local bake_redef = {  on_construct = function(...)
-			exile_start_bake(...)
-		 end,
-		     on_timer = function(...)
-			return exile_bake(...)
-		 end}
+-- Finalized table list
+--Outputs a compilned list of all added foods to the minetest log, info level
+minetest.after(1, function()
    minetest.log("info", "Finalized list of food_table entries:")
    for k, v in pairs(food_table) do
       if minetest.registered_nodes[k] then
@@ -113,12 +132,8 @@ minetest.after(1, function() -- don't run overrides until after registration
       else
 	 if minetest.registered_nodes[k.."_cooked"] then
 	    minetest.log("info",k)
-	    minetest.override_item(k, bake_redef)
-	    if minetest.registered_nodes[k.."_burned"] then
-	       minetest.override_item(k.."_cooked", bake_redef)
-	    end
 	 else
-	    minetest.log("info", "undefined (cooking pot-only) node: "..
+	    minetest.log("info", "undefined node (cooking pot only entry): "..
 			    k.."_cooked")
 	 end
       end

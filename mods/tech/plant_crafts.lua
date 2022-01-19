@@ -172,7 +172,6 @@ minetest.register_node("tech:maraka_bread", {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 })
 
-
 --maraka cake,baked
 minetest.register_node("tech:maraka_bread_cooked", {
 	description = "Maraka Cake",
@@ -188,9 +187,6 @@ minetest.register_node("tech:maraka_bread_cooked", {
 	},
 	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, temp_pass = 1, heatable = 80},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    return exile_eatdrink(itemstack, user)
-  end,
 })
 
 --maraka cake, burned
@@ -208,10 +204,10 @@ minetest.register_node("tech:maraka_bread_burned", {
   },
   groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
   sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    return exile_eatdrink(itemstack, user)
-  end,
 })
+exile_add_food_hooks("tech:maraka_bread")
+exile_add_food_hooks("tech:maraka_bread_cooked")
+exile_add_food_hooks("tech:maraka_bread_burned")
 
 
 -----------
@@ -244,14 +240,6 @@ minetest.register_node("tech:peeled_anperla_burned", {
   },
 	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    --food poisoning
-		if random() < 0.002 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-    return exile_eatdrink(itemstack, user)
-  end,
 })
 
 minetest.register_node("tech:peeled_anperla_cooked", {
@@ -267,15 +255,10 @@ minetest.register_node("tech:peeled_anperla_cooked", {
   },
 	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, heatable = 70,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    --food poisoning
-		if random() < 0.002 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-    return exile_eatdrink(itemstack, user)
-  end,
 })
+exile_add_food_hooks("tech:peeled_anperla")
+exile_add_food_hooks("tech:peeled_anperla_cooked")
+exile_add_food_hooks("tech:peeled_anperla_burned")
 
 
 --mash (a way to bulk cook tubers - 6 at once)
@@ -307,14 +290,6 @@ minetest.register_node("tech:mashed_anperla_cooked", {
   },
 	groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, heatable = 70,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    --food poisoning
-		if random() < 0.002 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-		end
-
-    return exile_eatdrink(itemstack, user)
-  end,
 })
 
 minetest.register_node("tech:mashed_anperla_burned", {
@@ -330,14 +305,10 @@ minetest.register_node("tech:mashed_anperla_burned", {
   },
   groups = {crumbly = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
   sounds = nodes_nature.node_sound_dirt_defaults(),
-  on_use = function(itemstack, user, pointed_thing)
-    --food poisoning, lower chance on burned food
-    if random() < 0.001 then
-      HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-    end
-    return exile_eatdrink(itemstack, user)
-  end,
 })
+exile_add_food_hooks("tech:mashed_anperla")
+exile_add_food_hooks("tech:mashed_anperla_cooked")
+exile_add_food_hooks("tech:mashed_anperla_burned")
 
 ------------------------------------------
 --Vegetable Oils

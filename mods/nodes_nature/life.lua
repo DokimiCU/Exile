@@ -558,7 +558,7 @@ for i in ipairs(plantlist) do
 		always_known = true,
 	})
 
-	exile_add_food_hook("nodes_nature:"..plantname)
+	exile_add_food_hooks("nodes_nature:"..plantname)
 
 
 end
@@ -775,7 +775,7 @@ for i in ipairs(searooted_list) do
 			end,
 		})
 	end
-	exile_add_food_hook("nodes_nature:"..name)
+	exile_add_food_hooks("nodes_nature:"..name)
 
 end
 
