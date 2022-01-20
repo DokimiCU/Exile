@@ -163,21 +163,7 @@ minetest.register_node("animals:sneachan_eggs", {
 	},
 	groups = {snappy = 3, falling_node = 1, dig_immediate = 3, flammable = 1,  temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults(),
-	on_use = function(itemstack, user, pointed_thing)
-
-		--food poisoning
-		if random() < 0.5 then
-			HEALTH.add_new_effect(user, {"Food Poisoning", floor(random(1,4))})
-		end
-
-		--parasites
-		if random() < 0.5 then
-			HEALTH.add_new_effect(user, {"Intestinal Parasites"})
-		end
-
-		--hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-		return HEALTH.use_item(itemstack, user, 0, 0, 3, 0, 0)
-	end,
+	on_use = exile_eatdrink,
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(math.random(egg_timer,egg_timer*2))
 	end,

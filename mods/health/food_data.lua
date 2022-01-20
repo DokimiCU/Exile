@@ -51,6 +51,14 @@ food_table = {
      ["animals:carcass_fish_large"]         = { 0,  3,  30,-12,  0 },
      ["animals:carcass_fish_large_cooked"]  = { 0,  3,  60,  6,  0 },
      ["animals:carcass_fish_large_burned"]  = { 0, -1,   8,-13,  0 },
+	--eggs
+	["animals:darkasthaan_eggs"]        = { 0,  1,  10,  0,  0 },
+	["animals:gundu_eggs"]              = { 0, 10,  40,  0,  0 },
+	["animals:impethu_eggs"]            = { 0,  0,   4,  0,  0 },
+	["animals:kubwakubwa_eggs"]         = { 0,  0,   6,  0,  0 },
+	["animals:pegasun_eggs"]            = { 0,  0,  10,  0,  0 },
+	["animals:sarkamos_eggs"]           = { 0, 10,  40,  0,  0 },
+	["animals:sneachan_eggs"]           = { 0,  0,   3,  0,  0 },
 	--drugs
 	["nodes_nature:tikusati"]           = { 0,  0,  -2,  2,  0 },
 	--toxic
@@ -82,6 +90,7 @@ food_harm_table = {
 	["tech:maraka_bread_cooked"]     = { { "Food Poisoning",      0.001, 1} },
 	["tech:maraka_bread_burned"]     = { { "Food Poisoning",      0.001, 1} },
 	["tech:peeled_anperla_cooked"]   = { { "Food Poisoning",      0.002, 1} },
+
 	["tech:mashed_anperla_cooked"]   = { { "Food Poisoning",      0.002, 1} },
 	["tech:mashed_anperla_burned"]   = { { "Food Poisoning",      0.002, 1} },
 	["nodes_nature:sea_lettuce"]     = { { "Food Poisoning",      0.050, 1},
@@ -103,6 +112,7 @@ food_harm_table = {
 	--Tangkal Fruit is good food, but bulky, contains small amounts of alcohol.
 	["nodes_nature:tangkal_fruit"]   = { { "Food Poisoning",      0.001, 1},
 	                                     { "Drunk",               0.005, 1} },
+	--meat
 	["animals:carcass_invert_small"] = { { "Food Poisoning",      0.1,   1},
 	                                     { "Intestinal Parasites",0.01,  1} },
 	["animals:carcass_invert_large"] = { { "Food Poisoning",      0.2,   1},
@@ -113,4 +123,26 @@ food_harm_table = {
 	                                     { "Intestinal Parasites",0.02,  1} },
 	["animals:carcass_fish_large"]   = { { "Food Poisoning",      0.1,   1},
 	                                     { "Intestinal Parasites",0.04,  1} },
+	--eggs
+	["animals:darkasthaan_eggs"]     = { { "Food Poisoning",      0.1,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.01, 1} },
+	["animals:gundu_eggs"]           = { { "Food Poisoning",      0.05,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.1,  1} },
+	["animals:impethu_eggs"]         = { { "Food Poisoning",      0.1,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.1,  1} },
+	["animals:kubwakubwa_eggs"]      = { { "Food Poisoning",      0.1,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.01, 1} },
+	["animals:pegasun_eggs"]         = { { "Food Poisoning",      0.02,
+					       math.floor(math.random(1,2))},
+	                                     { "Intestinal Parasites",0.005, 1} },
+	["animals:sarkamos_eggs"]       = { { "Food Poisoning",      0.3,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.05, 1} },
+	["animals:sneachan_eggs"]       = { { "Food Poisoning",      0.5,
+					       math.floor(math.random(1,4))},
+	                                     { "Intestinal Parasites",0.5, 1} },
 	}
