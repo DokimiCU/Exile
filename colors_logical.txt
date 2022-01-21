@@ -1,0 +1,884 @@
+# Exile `colors.txt` for use in `minetestmapper`
+# Aiming to sort roughly by technology level, with 
+# various cosmetic nodes listed at the end.
+# Looks best with Groovy or Ruby syntax highlighting.
+
+# Special
+	lore:exile_letter                   130 104  65
+	inferno:basic_flame                 223 136  44
+	climate:air_temp                      0   0   0
+	climate:air_temp_visible              0   0   0
+	doors:hidden                          0   0   0
+	tutorial:wall                       192 160 111
+	wiztool:evidence                     93  69  46
+# Animal Eggs
+	animals:darkasthaan_eggs            145 118  87
+	animals:gundu_eggs                  145 118  87
+	animals:impethu_eggs                145 118  87
+	animals:kubwakubwa_eggs             145 118  87
+	animals:pegasun_eggs                145 118  87
+	animals:sarkamos_eggs               145 118  87
+	animals:sneachan_eggs               145 118  87
+# Dead Animals
+	bones:bones                         176 156 121
+	animals:carcass_bird_small          153 102  77
+	animals:carcass_bird_small_burned    74  74  74
+	animals:carcass_bird_small_cooked   108  85  66
+	animals:carcass_fish_large          153 102  77
+	animals:carcass_fish_large_burned    74  74  74
+	animals:carcass_fish_large_cooked   108  85  66
+	animals:carcass_fish_small          153 102  77
+	animals:carcass_fish_small_burned    74  74  74
+	animals:carcass_fish_small_cooked   108  85  66
+	animals:carcass_invert_large        153 102  77
+	animals:carcass_invert_large_burned  74  74  74
+	animals:carcass_invert_large_cooked 108  85  66
+	animals:carcass_invert_small        153 102  77
+	animals:carcass_invert_small_burned  74  74  74
+	animals:carcass_invert_small_cooked 108  85  66
+# Plants
+## Canes
+	nodes_nature:gemedi             121 102  53
+
+	nodes_nature:cana                70  48  30
+
+	nodes_nature:tiken               90  89  80
+## Leafy Greens
+	nodes_nature:galanta             92 170  95
+	nodes_nature:galanta_seed       162 151 105
+	nodes_nature:galanta_seedling    86 156  92
+	
+	nodes_nature:kelp               103 101  93
+	nodes_nature:seagrass           144 141 118
+	nodes_nature:sea_lettuce        108  85  66
+## Grasses
+	nodes_nature:sari               163 138  58
+	nodes_nature:sari_seed          162 151 105
+	nodes_nature:sari_seedling      160 137  57
+
+	nodes_nature:damo                94 122  41
+	nodes_nature:damo_seed          162 151 105
+	nodes_nature:damo_seedling      108 138  51
+	
+	nodes_nature:alaf               198 161  78
+	nodes_nature:alaf_seed          162 151 105
+	nodes_nature:alaf_seedling      197 171  73
+
+	nodes_nature:tanai              129  78  37
+	nodes_nature:tanai_seed         162 151 105
+	nodes_nature:tanai_seedling     119  69  36
+
+	nodes_nature:thoka              102  83  74
+	nodes_nature:thoka_seed         162 151 105
+	nodes_nature:thoka_seedling      94  76  66
+## Woody
+	nodes_nature:gitiri             122 116  54
+	nodes_nature:gitiri_seed        162 151 105
+	nodes_nature:gitiri_seedling    137 127  56
+	
+	nodes_nature:bronach            115  73  35
+	nodes_nature:bronach_seed       162 151 105
+	nodes_nature:bronach_seedling   119  75  37
+## Tubers
+	nodes_nature:anperla            131 168 110
+	nodes_nature:anperla_seed       108  85  66
+	nodes_nature:anperla_seedling   151 193 128
+## Flowers
+	nodes_nature:nebiyi             150 160 175
+	nodes_nature:nebiyi_seed        111  96  60
+	nodes_nature:nebiyi_seedling    173 185 205
+
+	nodes_nature:hakimi              48 134 170
+	nodes_nature:hakimi_seed        162 151 105
+	nodes_nature:hakimi_seedling     41 167 118
+
+	nodes_nature:tikusati           134 118  54
+	nodes_nature:tikusati_seed      162 151 105
+	nodes_nature:tikusati_seedling  113 108  30
+## Mushrooms
+	nodes_nature:zufani             135 101  44
+	nodes_nature:zufani_seed        111  96  60
+	nodes_nature:zufani_seedling    135 121  85
+
+	nodes_nature:merki              126 152 171
+	nodes_nature:merki_seed         111  96  60
+	nodes_nature:merki_seedling     141 154 164
+	
+	nodes_nature:lambakap           121  30  35
+	nodes_nature:lambakap_seed      111  96  60
+	nodes_nature:lambakap_seedling  121  30  35
+	
+	nodes_nature:reshedaar           79  47  52
+	nodes_nature:reshedaar_seed     111  96  60
+	nodes_nature:reshedaar_seedling  79  47  52
+
+	nodes_nature:mahal               61  50  41
+	nodes_nature:mahal_seed         111  96  60
+	nodes_nature:mahal_seedling      61  50  41
+## Exotics
+	nodes_nature:moss               124 132  25
+	nodes_nature:moss_seed          111  96  60
+	nodes_nature:moss_seedling      124 132  25
+
+	nodes_nature:vansano             64  74  44
+	nodes_nature:vansano_seed       162 151 105
+	nodes_nature:vansano_seedling    65  74  45
+
+	nodes_nature:marbhan            144  50  32
+	nodes_nature:marbhan_seed       111  96  60
+	nodes_nature:marbhan_seedling   126  69  45
+
+	nodes_nature:wiha               215 173  90
+	nodes_nature:wiha_seed          162 151 105
+	nodes_nature:wiha_seedling      179 186  88
+## Trees
+	nodes_nature:maraka_tree        158 138 112
+	nodes_nature:maraka_log         151 126  96
+	nodes_nature:maraka_leaves      104 103  93
+	nodes_nature:maraka_nut          83  67  57
+
+	nodes_nature:tangkal_tree       167 127  96
+	nodes_nature:tangkal_log        135 114  96
+	nodes_nature:tangkal_leaves      97  95  79
+	nodes_nature:tangkal_fruit      121  91  54
+# Biome Topsoils
+	nodes_nature:woodland_soil       90  84  52
+	nodes_nature:woodland_soil_wet   90  84  52
+	nodes_nature:marshland_soil     120  63  32
+	nodes_nature:marshland_soil_wet 120  63  32
+	nodes_nature:grassland_soil     173 140  74
+	nodes_nature:grassland_soil_wet 173 140  74
+	nodes_nature:highland_soil       76  61  54
+	nodes_nature:highland_soil_wet   76  61  54
+	nodes_nature:duneland_soil      167 106  55
+	nodes_nature:duneland_soil_wet  167 106  55
+# Agriculatural Soils
+	nodes_nature:clay_agricultural_soil                149 109  61
+	nodes_nature:clay_agricultural_soil_depleted       149 109  61
+	nodes_nature:clay_agricultural_soil_wet            149 109  61
+	nodes_nature:clay_agricultural_soil_wet_depleted   149 109  61
+
+	nodes_nature:gravel_agricultural_soil              103 101  93
+	nodes_nature:gravel_agricultural_soil_depleted     103 101  93
+	nodes_nature:gravel_agricultural_soil_wet          103 101  93
+	nodes_nature:gravel_agricultural_soil_wet_depleted 103 101  93
+
+	nodes_nature:loam_agricultural_soil                117  86  56
+	nodes_nature:loam_agricultural_soil_depleted       117  86  56
+	nodes_nature:loam_agricultural_soil_wet            117  86  56
+	nodes_nature:loam_agricultural_soil_wet_depleted   117  86  56
+
+	nodes_nature:sand_agricultural_soil                144 141 118
+	nodes_nature:sand_agricultural_soil_depleted       144 141 118
+	nodes_nature:sand_agricultural_soil_wet            144 141 118
+	nodes_nature:sand_agricultural_soil_wet_depleted   144 141 118
+
+	nodes_nature:silt_agricultural_soil                108  85  66
+	nodes_nature:silt_agricultural_soil_depleted       108  85  66
+	nodes_nature:silt_agricultural_soil_wet            108  85  66
+	nodes_nature:silt_agricultural_soil_wet_depleted   108  85  66
+# Fluids and Solids
+	nodes_nature:salt_water_source   41 106 141
+	nodes_nature:salt_water_flowing  41 106 140
+	
+	nodes_nature:freshwater_source   41 107 142
+	nodes_nature:freshwater_flowing  41 106 140
+
+	nodes_nature:snow               225 225 238
+	nodes_nature:snow_block         225 225 238
+
+	nodes_nature:ice                188 233 255
+	nodes_nature:sea_ice            188 233 255
+
+	nodes_nature:lava_source        210 116  23
+	nodes_nature:lava_flowing       190  76  20
+# Geologic Strata
+	nodes_nature:loam               117  86  56
+	nodes_nature:loam_wet           117  86  56
+	nodes_nature:loam_wet_salty     117  86  56
+
+	nodes_nature:gravel             103 101  93
+	nodes_nature:gravel_wet         103 101  93
+	nodes_nature:gravel_wet_salty   103 101  93
+	
+	nodes_nature:conglomerate       132 128 121
+
+	nodes_nature:silt               108  85  66
+	nodes_nature:silt_wet           108  85  66
+	nodes_nature:silt_wet_salty     108  85  66
+	nodes_nature:siltstone          141 119 103
+
+	nodes_nature:sand               144 141 118
+	nodes_nature:sand_wet           144 141 118
+	nodes_nature:sand_wet_salty     144 141 118
+	nodes_nature:sandstone          151 148 122
+
+	nodes_nature:clay               149 109  61
+	nodes_nature:clay_wet           149 109  61
+	nodes_nature:clay_wet_salty     149 109  61
+	nodes_nature:claystone          186 169 137
+
+	nodes_nature:limestone          154 149 142
+	nodes_nature:limestone_block    168 163 159
+	nodes_nature:limestone_boulder  154 149 142
+	nodes_nature:limestone_brick    165 160 155
+
+	nodes_nature:ironstone          109  73  52
+	nodes_nature:ironstone_block    110  74  55
+	nodes_nature:ironstone_boulder  109  73  52
+	nodes_nature:ironstone_brick    110  76  57
+
+	nodes_nature:granite            188 160 138
+	nodes_nature:granite_block      188 160 139
+	nodes_nature:granite_boulder    188 160 138
+	nodes_nature:granite_brick      186 162 142
+
+	nodes_nature:jade                88 122  74
+	nodes_nature:jade_block          88 122  74
+	nodes_nature:jade_boulder        88 122  74
+	nodes_nature:jade_brick          88 122  74
+
+	nodes_nature:basalt              51  51  49
+	nodes_nature:basalt_block        52  52  49
+	nodes_nature:basalt_boulder      51  51  49
+	nodes_nature:basalt_brick        52  54  51
+
+	nodes_nature:gneiss             137 130 123
+	nodes_nature:gneiss_block       139 132 125
+	nodes_nature:gneiss_boulder     137 130 123
+	nodes_nature:gneiss_brick       136 130 123
+# Crafting
+## Basics
+	tech:stick                          129 104  73
+	tech:thatch                         107  89  60
+
+	tech:torch                          141 123  93
+	tech:torch_ceiling                  141 123  93
+	tech:torch_wall                     141 123  93
+
+	tech:drystack                        92  88  80
+
+	tech:wattle                         186 170 150
+	tech:wattle_loose                   186 170 150
+	tech:wattle_door_frame              186 170 150
+	doors:door_wattle_a                 147 131 110
+	doors:door_wattle_b                 147 131 110
+	tech:trapdoor_wattle                154 138 117
+	tech:trapdoor_wattle_open           238 234 229
+## Workstations
+	tech:crafting_spot            10  10  10
+	tech:mixing_spot              77  62  42
+	tech:threshing_spot           35  40  21
+
+	tech:grinding_stone          188 160 138
+	tech:mortar_pestle_basalt     51  51  49
+	tech:mortar_pestle_granite   188 160 138
+	tech:mortar_pestle_limestone 154 149 142
+
+	tech:chopping_block          163 134  98
+	tech:hammering_block         100  81  59
+
+	tech:spinning_wheel          149 125  94
+	tech:loom                    149 125  94
+	tech:weaving_frame           129 104  73
+
+	tech:masonry_bench           149 125  94
+	tech:brick_makers_bench      149 125  94
+
+	tech:carpentry_bench         149 125  94
+
+	tech:anvil                   108 108 108
+	tech:glass_furnace           155 117  93
+	
+	tech:cooking_pot              93  69  46
+	crafting:furnace             101  98  96
+	crafting:furnace_active      101  98  96
+## Furniture
+	tech:sleeping_spot_bottom     70  49  36
+	tech:sleeping_spot_top        70  49  36
+	tech:sleeping_mat_bottom     107  89  60
+	tech:sleeping_mat_top        107  89  60
+
+	tech:bed_bottom              204 185 163
+	tech:bed_top                 204 185 163
+	tech:primitive_bed_bottom    107  89  60
+	tech:primitive_bed_top       107  89  60
+
+	tech:mattress_bottom         204 185 163
+	tech:mattress_top            204 185 163
+## Ceramics
+	tech:clay_oil_lamp_unfired      149 109  61
+	tech:clay_water_pot_unfired     149 109  61
+	tech:clay_storage_pot_unfired   149 109  61
+
+	tech:broken_pottery              83  62  42
+
+	tech:clay_oil_lamp               73  54  37
+	tech:clay_oil_lamp_unlit         73  54  37
+
+	tech:clay_water_pot              86  64  43
+	tech:clay_storage_pot            93  69  46
+
+	tech:clay_water_pot_freshwater   87  69  55
+	tech:clay_water_pot_potash      101  83  68
+	tech:clay_water_pot_salt_water   87  69  55
+
+	tech:dry_potash_pot              86  64  43
+
+	tech:roof_tile_loose_unfired    149 109  61
+	tech:roof_tile_loose            164 102  65
+	tech:roof_tile                  164 102  65
+	tech:roof_tile_ic               164 102  65
+	tech:roof_tile_oc               164 102  65
+## Agricultural Supplies
+	tech:wood_ash               202 202 202
+	tech:wood_ash_block         202 202 202
+## Culinary Produce
+	tech:maraka_flour           206 191 167
+	tech:maraka_flour_bitter    165 145 116
+	tech:maraka_bread           206 191 167
+	tech:maraka_bread_burned     32  32  32
+	tech:maraka_bread_cooked    165 145 116
+
+	tech:anperla_tuber_cooked   165 145 116
+	tech:anperla_tuber_peeled   206 191 167
+	tech:mashed_anperla         206 191 167
+	tech:mashed_anperla_burned   32  32  32
+	tech:mashed_anperla_cooked  165 145 116
+	
+	tech:tang_unfermented        95  73  44
+	tech:tang                    90  67  43
+## Masonry Produce
+	tech:rammed_earth           192 160 111
+	tech:mudbrick               194 161 120
+	
+	tech:loose_brick            164 102  65
+	tech:loose_brick_unfired    149 109  61
+	tech:bricks_and_mortar      155 117  93
+	
+	tech:crushed_lime           122 120 116
+	tech:slaked_lime            206 191 167
+	tech:slaked_lime_ruined     206 191 167
+	tech:quicklime              180 180 180
+	tech:lime_mortar            155 155 155
+	
+	tech:limestone_block_mortar 168 163 159
+	tech:limestone_brick_mortar 165 160 155
+	
+	tech:ironstone_block_mortar 110  74  55
+	tech:ironstone_brick_mortar 110  76  57
+
+	tech:granite_block_mortar   188 160 139
+	tech:granite_brick_mortar   186 162 142
+
+	tech:basalt_block_mortar     52  52  49
+	tech:basalt_brick_mortar     52  54  51
+
+	tech:jade_block_mortar       88 122  74
+	tech:jade_brick_mortar       88 122  74
+
+	tech:gneiss_block_mortar    139 132 125
+	tech:gneiss_brick_mortar    136 130 123
+
+	tech:potash                 214 214 214
+	tech:potash_block           214 214 214
+	tech:potash_flowing         214 214 214
+	tech:potash_source          214 214 214
+## Textile Produce
+	backpacks:backpack_woven_bag  155 135  92
+	
+	ropes:ropeladder               88  69  41
+	ropes:ropeladder_bottom        88  70  40
+	ropes:ropeladder_falling       88  69  41
+	ropes:ropeladder_top           91  73  47
+
+	tech:retted_cana_bundle        84  66  48
+	tech:unretted_cana_bundle      72  50  32
+
+	backpacks:backpack_fabric_bag 204 181 156
+
+	ropes:wood1rope_block           0   0   0
+	ropes:rope                     62  51  32
+	ropes:rope_bottom              62  51  32
+## Glassworks Produce
+	tech:clear_glass_ingot               68 140 160
+	tech:clear_glass_mix                157 155 138
+	
+	tech:green_glass_ingot               79 184  99
+	tech:green_glass_mix                157 155 138
+
+	tech:glass_bottle_clear              68 140 160
+	tech:glass_bottle_clear_freshwater   63 134 156
+	tech:glass_bottle_clear_saltwater    63 134 156
+
+	tech:glass_bottle_green              79 184  99
+	tech:glass_bottle_green_freshwater   78 181 102
+	tech:glass_bottle_green_saltwater    78 181 102
+
+	tech:pane_tray                      108 108 108
+	tech:pane_tray_clear                 85 127 138
+	tech:pane_tray_green                 93 156 100
+	tech:pane_clear                      68 140 160
+	tech:pane_green                      79 184  99
+
+	tech:window_clear                   159  90  42
+	tech:window_green                   159  90  42
+## Ironworks Produce
+	tech:large_wood_fire                102  26   1
+	tech:large_wood_fire_ext             72  69  68
+	tech:large_wood_fire_smoldering     102  26   1
+	tech:large_wood_fire_unlit          111  89  67
+
+	tech:small_wood_fire                102  26   1
+	tech:small_wood_fire_ext             72  69  68
+	tech:small_wood_fire_smoldering     102  26   1
+	tech:small_wood_fire_unlit          111  89  67
+
+	tech:small_charcoal_fire            102  26   1
+	tech:small_charcoal_fire_ext         72  69  68
+	tech:small_charcoal_fire_smoldering 102  26   1
+
+	tech:large_charcoal_fire            102  26   1
+	tech:large_charcoal_fire_ext         72  69  68
+	tech:large_charcoal_fire_smoldering 102  26   1
+
+	tech:crushed_iron_ore                86  54  32
+	tech:roasted_iron_ore                68  44  28
+	tech:roasted_iron_ore_powder         69  45  28
+
+	tech:charcoal                        53  53  53
+	tech:charcoal_block                  53  53  53
+
+	tech:iron_smelting_mix               59  53  51
+	tech:iron_and_slag                   64  62  62
+	tech:molten_slag_flowing            190  76  20
+	tech:molten_slag_source             210 116  23
+	tech:slag                            64  62  62
+
+	tech:iron_bloom                      64  62  62
+	tech:iron_ingot                     108 108 108
+	
+	tech:trapdoor_iron                  106 106 106
+	tech:trapdoor_iron_open              98  98  98
+	
+	doors:door_iron_a                   102 102 102
+	doors:door_iron_b                   102 102 102
+## Carpentry Produce
+	doors:door_wooden_a       148  79  33
+	doors:door_wooden_b       148  79  33
+	tech:trapdoor_wooden      155  84  37
+	tech:trapdoor_wooden_open 233 224 221
+	tech:wooden_chest         161  87  37
+	tech:wooden_floor_boards  159  89  39
+	tech:wooden_ladder        129 104  73
+	tech:wooden_stairs        159  90  42
+# Painted Symbols
+	tech:lw_4pole      253 253 253
+	tech:lw_antiq      241 239 242
+	tech:lw_arrowd     246 246 248
+	tech:lw_arrowl     247 247 249
+	tech:lw_arrowr     247 247 249
+	tech:lw_arrowu     246 246 248
+	tech:lw_avi        250 250 250
+	tech:lw_bolt       252 252 253
+	tech:lw_bridge     243 243 244
+	tech:lw_burst1     244 244 244
+	tech:lw_burst2     247 247 247
+	tech:lw_chrysalis  243 242 244
+	tech:lw_fig1       248 248 248
+	tech:lw_fig2       247 247 247
+	tech:lw_fig3       247 247 247
+	tech:lw_flute      250 250 251
+	tech:lw_foot       245 245 245
+	tech:lw_hand       248 248 249
+	tech:lw_hand2      250 250 250
+	tech:lw_hourglass1 251 251 251
+	tech:lw_hourglass2 251 251 251
+	tech:lw_hourglass3 251 251 251
+	tech:lw_lineh      246 246 247
+	tech:lw_linev      247 247 247
+	tech:lw_o          249 249 250
+	tech:lw_odot       250 250 250
+	tech:lw_oval       248 248 248
+	tech:lw_ovalfull   247 247 247
+	tech:lw_pecti1     252 252 252
+	tech:lw_pecti2     252 252 252
+	tech:lw_penni1     252 252 252
+	tech:lw_penni2     252 252 252
+	tech:lw_quad       249 249 250
+	tech:lw_quaddot    248 248 248
+	tech:lw_scali      250 250 251
+	tech:lw_spiral     248 248 248
+	tech:lw_spiral2    248 248 248
+	tech:lw_spirald    252 252 252
+	tech:lw_spirald2   252 252 252
+	tech:lw_square     248 248 248
+	tech:lw_squarefull 248 248 248
+	tech:lw_tecti      252 252 252
+	tech:lw_tree       250 250 250
+	tech:lw_x          249 249 250
+	tech:lw_xox        252 252 252
+# Glowpaint Symbols
+	tech:gp_arrowd 190 235 235
+	tech:gp_arrowl 190 235 235
+	tech:gp_arrowr 190 235 235
+	tech:gp_arrowu 190 235 235
+	tech:gp_dot    174 230 230
+	tech:gp_spsq   177 233 232
+	tech:gp_sq     176 238 237
+	tech:gp_x      178 241 239
+# Artifacts
+## Materials
+	artifacts:antiquorium                89 105 112
+	artifacts:moon_glass                138 154 171
+## Utilities
+	artifacts:antiquorium_chest          91 106 114
+
+	artifacts:antiquorium_ladder        105 120 128
+
+	doors:door_antiquorium_a             88 103 110
+	doors:door_antiquorium_b             88 103 110
+
+	artifacts:conveyor                   91 106 114
+
+	artifacts:trapdoor_antiquorium       91 106 114
+	artifacts:trapdoor_antiquorium_open  91 106 114
+## Light Sources
+	artifacts:star_stone                138 154 171
+	artifacts:moon_stone                138 154 171
+	artifacts:sun_stone                 255 236 158
+## Statuettes
+	artifacts:gamepiece_a_white         154 149 142
+	artifacts:gamepiece_b_white         154 149 142
+	artifacts:gamepiece_c_white         154 149 142
+	
+	artifacts:gamepiece_a_black          51  51  49
+	artifacts:gamepiece_b_black          51  51  49
+	artifacts:gamepiece_c_black          51  51  49
+
+	artifacts:sculpture_mg_bloom        138 154 171
+	artifacts:sculpture_mg_bonsai       138 154 171
+	artifacts:sculpture_mg_dancers      138 154 171
+
+	artifacts:sculpture_g_arch_beast    132 104  49
+	artifacts:sculpture_g_arch_judge    132 104  49
+	artifacts:sculpture_g_arch_mother   132 104  49
+	artifacts:sculpture_g_arch_trickster 132 104 49
+	
+	artifacts:sculpture_j_axeman         88 122  74
+	artifacts:sculpture_j_dragon_head    88 122  74
+	artifacts:sculpture_j_skull_head     88 122  74
+## Arts and Music
+	artifacts:bell                      123 103  67
+
+	artifacts:drumming_stone             89 105 112
+	artifacts:drumming_stone_b           89 105 112
+
+	artifacts:singing_stone              89 105 112
+	artifacts:singing_stone_b           255 236 158
+	artifacts:singing_stone_c           138 154 171
+## Teleportation Technology
+	artifacts:transporter_focalizer      89 105 112
+	artifacts:transporter_pad            89 105 112
+	artifacts:transporter_pad_active     89 105 112
+	artifacts:transporter_pad_charging   89 105 112
+	artifacts:transporter_power         255 236 158
+	artifacts:transporter_power_dep     138 154 171
+	artifacts:transporter_regulator      89 105 112
+	artifacts:transporter_stabilizer     89 105 112
+# Transportation and Navigation
+	artifacts:trampoline                 91 106 114
+	artifacts:waystone                   89 105 112
+	artifacts:airboat_nodebox           130 135 131
+# Stairs
+## Trees
+	stairs:slab_tangkal_log                   135 114  96
+	stairs:stair_tangkal_log                  135 114  96
+	stairs:stair_inner_tangkal_log            135 114  96
+	stairs:stair_outer_tangkal_log            135 114  96
+
+	stairs:slab_maraka_log                    151 126  96
+	stairs:stair_maraka_log                   151 126  96
+	stairs:stair_inner_maraka_log             151 126  96
+	stairs:stair_outer_maraka_log             151 126  96
+
+	stairs:slab_loam                          117  86  56
+	stairs:stair_loam                         117  86  56
+	stairs:stair_inner_loam                   117  86  56
+	stairs:stair_outer_loam                   117  86  56
+## Crafted
+	stairs:slab_thatch                        107  89  60
+	stairs:stair_inner_thatch                 107  89  60
+	stairs:stair_outer_thatch                 107  89  60
+	stairs:stair_thatch                       107  89  60
+	
+	stairs:stair_drystack                      92  88  80
+	stairs:slab_drystack                       92  88  80
+	stairs:stair_inner_drystack                92  88  80
+	stairs:stair_outer_drystack                92  88  80
+## Masonry
+	stairs:slab_rammed_earth                  192 160 111
+	stairs:stair_inner_rammed_earth           192 160 111
+	stairs:stair_outer_rammed_earth           192 160 111
+	stairs:stair_rammed_earth                 192 160 111
+	
+	stairs:slab_mudbrick                      194 161 120
+	stairs:stair_mudbrick                     194 161 120
+	stairs:stair_inner_mudbrick               194 161 120
+	stairs:stair_outer_mudbrick               194 161 120
+
+	stairs:slab_bricks_and_mortar             155 117  93
+	stairs:stair_bricks_and_mortar            155 117  93
+	stairs:stair_inner_bricks_and_mortar      155 117  93
+	stairs:stair_outer_bricks_and_mortar      155 117  93
+## Soils
+	stairs:slab_gravel                        103 101  93
+	stairs:stair_gravel                       103 101  93
+	stairs:stair_inner_gravel                 103 101  93
+	stairs:stair_outer_gravel                 103 101  93
+
+	stairs:slab_sand                          144 141 118
+	stairs:stair_sand                         144 141 118
+	stairs:stair_inner_sand                   144 141 118
+	stairs:stair_outer_sand                   144 141 118
+
+	stairs:slab_silt                          108  85  66
+	stairs:stair_silt                         108  85  66
+	stairs:stair_inner_silt                   108  85  66
+	stairs:stair_outer_silt                   108  85  66
+
+	stairs:slab_clay                          149 109  61
+	stairs:stair_clay                         149 109  61
+	stairs:stair_inner_clay                   149 109  61
+	stairs:stair_outer_clay                   149 109  61
+## Limestone
+	stairs:slab_limestone_block               168 163 159
+	stairs:slab_limestone_block_mortar        168 163 159
+	stairs:slab_limestone_brick               165 160 155
+	stairs:slab_limestone_brick_mortar        165 160 155
+
+	stairs:stair_inner_limestone_block        168 163 159
+	stairs:stair_inner_limestone_block_mortar 168 163 159
+	stairs:stair_inner_limestone_brick        165 160 155
+	stairs:stair_inner_limestone_brick_mortar 165 160 155
+	
+	stairs:stair_limestone_block              168 163 159
+	stairs:stair_limestone_block_mortar       168 163 159
+	stairs:stair_limestone_brick              165 160 155
+	stairs:stair_limestone_brick_mortar       165 160 155
+
+	stairs:stair_outer_limestone_block        168 163 159
+	stairs:stair_outer_limestone_block_mortar 168 163 159
+	stairs:stair_outer_limestone_brick        165 160 155
+	stairs:stair_outer_limestone_brick_mortar 165 160 155
+## Ironstone
+	stairs:stair_ironstone_block              110  74  55
+	stairs:stair_ironstone_block_mortar       110  74  55
+	stairs:stair_ironstone_brick              110  76  57
+	stairs:stair_ironstone_brick_mortar       110  76  57
+	
+	stairs:slab_ironstone_block               110  74  55
+	stairs:slab_ironstone_block_mortar        110  74  55
+	stairs:slab_ironstone_brick               110  76  57
+	stairs:slab_ironstone_brick_mortar        110  76  57
+
+	stairs:stair_outer_ironstone_block        110  74  55
+	stairs:stair_outer_ironstone_block_mortar 110  74  55
+	stairs:stair_outer_ironstone_brick        110  76  57
+	stairs:stair_outer_ironstone_brick_mortar 110  76  57
+
+	stairs:stair_inner_ironstone_block        110  74  55
+	stairs:stair_inner_ironstone_block_mortar 110  74  55
+	stairs:stair_inner_ironstone_brick        110  76  57
+	stairs:stair_inner_ironstone_brick_mortar 110  76  57
+## Granite
+	stairs:stair_outer_granite_block          188 160 139
+	stairs:stair_outer_granite_block_mortar   188 160 139
+	stairs:stair_outer_granite_brick          186 162 142
+	stairs:stair_outer_granite_brick_mortar   186 162 142
+
+	stairs:stair_inner_granite_block          188 160 139
+	stairs:stair_inner_granite_block_mortar   188 160 139
+	stairs:stair_inner_granite_brick          186 162 142
+	stairs:stair_inner_granite_brick_mortar   186 162 142
+
+	stairs:stair_granite_block                188 160 139
+	stairs:stair_granite_block_mortar         188 160 139
+	stairs:stair_granite_brick                186 162 142
+	stairs:stair_granite_brick_mortar         186 162 142
+	
+	stairs:slab_granite_block                 188 160 139
+	stairs:slab_granite_block_mortar          188 160 139
+	stairs:slab_granite_brick                 186 162 142
+	stairs:slab_granite_brick_mortar          186 162 142
+## Basalt
+	stairs:slab_basalt_block                   52  52  49
+	stairs:slab_basalt_block_mortar            52  52  49
+	stairs:slab_basalt_brick                   52  54  51
+	stairs:slab_basalt_brick_mortar            52  54  51
+	
+	stairs:stair_basalt_block                  52  52  49
+	stairs:stair_basalt_block_mortar           52  52  49
+	stairs:stair_basalt_brick                  52  54  51
+	stairs:stair_basalt_brick_mortar           52  54  51
+	
+	stairs:stair_inner_basalt_block            52  52  49
+	stairs:stair_inner_basalt_block_mortar     52  52  49
+	stairs:stair_inner_basalt_brick            52  54  51
+	stairs:stair_inner_basalt_brick_mortar     52  54  51
+
+	stairs:stair_outer_basalt_block            52  52  49
+	stairs:stair_outer_basalt_block_mortar     52  52  49
+	stairs:stair_outer_basalt_brick            52  54  51
+	stairs:stair_outer_basalt_brick_mortar     52  54  51
+## Jade
+	stairs:stair_inner_jade_block              88 122  74
+	stairs:stair_inner_jade_block_mortar       88 122  74
+	stairs:stair_inner_jade_brick              88 122  74
+	stairs:stair_inner_jade_brick_mortar       88 122  74
+	
+	stairs:stair_jade_block                    88 122  74
+	stairs:stair_jade_block_mortar             88 122  74
+	stairs:stair_jade_brick                    88 122  74
+	stairs:stair_jade_brick_mortar             88 122  74
+
+	stairs:slab_jade_block                     88 122  74
+	stairs:slab_jade_block_mortar              88 122  74
+	stairs:slab_jade_brick                     88 122  74
+	stairs:slab_jade_brick_mortar              88 122  74
+
+	stairs:stair_outer_jade_block              88 122  74
+	stairs:stair_outer_jade_block_mortar       88 122  74
+	stairs:stair_outer_jade_brick              88 122  74
+	stairs:stair_outer_jade_brick_mortar       88 122  74
+## Gneiss
+	stairs:stair_gneiss_block                 139 132 125
+	stairs:stair_gneiss_block_mortar          139 132 125
+	stairs:stair_gneiss_brick                 136 130 123
+	stairs:stair_gneiss_brick_mortar          136 130 123
+
+	stairs:stair_inner_gneiss_block           139 132 125
+	stairs:stair_inner_gneiss_block_mortar    139 132 125
+	stairs:stair_inner_gneiss_brick           136 130 123
+	stairs:stair_inner_gneiss_brick_mortar    136 130 123
+	
+	stairs:slab_gneiss_block                  139 132 125
+	stairs:slab_gneiss_block_mortar           139 132 125
+	stairs:slab_gneiss_brick                  136 130 123
+	stairs:slab_gneiss_brick_mortar           136 130 123
+	
+	stairs:stair_outer_gneiss_block           139 132 125
+	stairs:stair_outer_gneiss_block_mortar    139 132 125
+	stairs:stair_outer_gneiss_brick           136 130 123
+	stairs:stair_outer_gneiss_brick_mortar    136 130 123
+# Natural Slopes
+## Sand
+	nodes_nature:slope_sand                     144 141 118
+	nodes_nature:slope_sand_wet                 144 141 118
+	nodes_nature:slope_sand_wet_salty           144 141 118
+	nodes_nature:slope_inner_sand               144 141 118
+	nodes_nature:slope_inner_sand_wet           144 141 118
+	nodes_nature:slope_inner_sand_wet_salty     144 141 118
+	nodes_nature:slope_outer_sand               144 141 118
+	nodes_nature:slope_outer_sand_wet           144 141 118
+	nodes_nature:slope_outer_sand_wet_salty     144 141 118
+	nodes_nature:slope_pike_sand                144 141 118
+	nodes_nature:slope_pike_sand_wet            144 141 118
+	nodes_nature:slope_pike_sand_wet_salty      144 141 118
+## Gravel
+	nodes_nature:slope_gravel                   103 101  93
+	nodes_nature:slope_gravel_wet               103 101  93
+	nodes_nature:slope_gravel_wet_salty         103 101  93
+	nodes_nature:slope_inner_gravel             103 101  93
+	nodes_nature:slope_inner_gravel_wet         103 101  93
+	nodes_nature:slope_inner_gravel_wet_salty   103 101  93
+	nodes_nature:slope_outer_gravel             103 101  93
+	nodes_nature:slope_outer_gravel_wet         103 101  93
+	nodes_nature:slope_outer_gravel_wet_salty   103 101  93
+	nodes_nature:slope_pike_gravel              103 101  93
+	nodes_nature:slope_pike_gravel_wet          103 101  93
+	nodes_nature:slope_pike_gravel_wet_salty    103 101  93
+## Clay
+	nodes_nature:slope_clay                     149 109  61
+	nodes_nature:slope_clay_wet                 149 109  61
+	nodes_nature:slope_clay_wet_salty           149 109  61
+	nodes_nature:slope_inner_clay               149 109  61
+	nodes_nature:slope_inner_clay_wet           149 109  61
+	nodes_nature:slope_inner_clay_wet_salty     149 109  61
+	nodes_nature:slope_outer_clay               149 109  61
+	nodes_nature:slope_outer_clay_wet           149 109  61
+	nodes_nature:slope_outer_clay_wet_salty     149 109  61
+	nodes_nature:slope_pike_clay                149 109  61
+	nodes_nature:slope_pike_clay_wet            149 109  61
+	nodes_nature:slope_pike_clay_wet_salty      149 109  61
+## Silt
+	nodes_nature:slope_silt                     108  85  66
+	nodes_nature:slope_silt_wet                 108  85  66
+	nodes_nature:slope_silt_wet_salty           108  85  66
+	nodes_nature:slope_inner_silt               108  85  66
+	nodes_nature:slope_inner_silt_wet           108  85  66
+	nodes_nature:slope_inner_silt_wet_salty     108  85  66
+	nodes_nature:slope_outer_silt               108  85  66
+	nodes_nature:slope_outer_silt_wet           108  85  66
+	nodes_nature:slope_outer_silt_wet_salty     108  85  66
+	nodes_nature:slope_pike_silt                108  85  66
+	nodes_nature:slope_pike_silt_wet            108  85  66
+	nodes_nature:slope_pike_silt_wet_salty      108  85  66
+## Loam
+	nodes_nature:slope_loam                     117  86  56
+	nodes_nature:slope_loam_wet                 117  86  56
+	nodes_nature:slope_loam_wet_salty           117  86  56
+	nodes_nature:slope_inner_loam               117  86  56
+	nodes_nature:slope_inner_loam_wet           117  86  56
+	nodes_nature:slope_inner_loam_wet_salty     117  86  56
+	nodes_nature:slope_outer_loam               117  86  56
+	nodes_nature:slope_outer_loam_wet           117  86  56
+	nodes_nature:slope_outer_loam_wet_salty     117  86  56
+	nodes_nature:slope_pike_loam                117  86  56
+	nodes_nature:slope_pike_loam_wet            117  86  56
+	nodes_nature:slope_pike_loam_wet_salty      117  86  56
+## Biome Topsoils
+	nodes_nature:slope_woodland_soil             90  84  52
+	nodes_nature:slope_woodland_soil_wet         90  84  52
+	nodes_nature:slope_inner_woodland_soil       90  84  52
+	nodes_nature:slope_inner_woodland_soil_wet   90  84  52
+	nodes_nature:slope_outer_woodland_soil       90  84  52
+	nodes_nature:slope_outer_woodland_soil_wet   90  84  52
+	nodes_nature:slope_pike_woodland_soil        90  84  52
+	nodes_nature:slope_pike_woodland_soil_wet    90  84  52
+	
+	nodes_nature:slope_marshland_soil           120  63  32
+	nodes_nature:slope_marshland_soil_wet       120  63  32
+	nodes_nature:slope_inner_marshland_soil     120  63  32
+	nodes_nature:slope_inner_marshland_soil_wet 120  63  32
+	nodes_nature:slope_outer_marshland_soil     120  63  32
+	nodes_nature:slope_outer_marshland_soil_wet 120  63  32
+	nodes_nature:slope_pike_marshland_soil      120  63  32
+	nodes_nature:slope_pike_marshland_soil_wet  120  63  32
+	
+	nodes_nature:slope_grassland_soil           173 140  74
+	nodes_nature:slope_grassland_soil_wet       173 140  74
+	nodes_nature:slope_inner_grassland_soil     173 140  74
+	nodes_nature:slope_inner_grassland_soil_wet 173 140  74
+	nodes_nature:slope_outer_grassland_soil     173 140  74
+	nodes_nature:slope_outer_grassland_soil_wet 173 140  74
+	nodes_nature:slope_pike_grassland_soil      173 140  74
+	nodes_nature:slope_pike_grassland_soil_wet  173 140  74
+
+	nodes_nature:slope_duneland_soil            167 106  55
+	nodes_nature:slope_duneland_soil_wet        167 106  55
+	nodes_nature:slope_inner_duneland_soil      167 106  55
+	nodes_nature:slope_inner_duneland_soil_wet  167 106  55
+	nodes_nature:slope_outer_duneland_soil      167 106  55
+	nodes_nature:slope_outer_duneland_soil_wet  167 106  55
+	nodes_nature:slope_pike_duneland_soil       167 106  55
+	nodes_nature:slope_pike_duneland_soil_wet   167 106  55
+
+	nodes_nature:slope_highland_soil             76  61  54
+	nodes_nature:slope_highland_soil_wet         76  61  54
+	nodes_nature:slope_outer_highland_soil       76  61  54
+	nodes_nature:slope_outer_highland_soil_wet   76  61  54
+	nodes_nature:slope_inner_highland_soil       76  61  54
+	nodes_nature:slope_inner_highland_soil_wet   76  61  54
+	nodes_nature:slope_pike_highland_soil        76  61  54
+	nodes_nature:slope_pike_highland_soil_wet    76  61  54
