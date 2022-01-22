@@ -1,15 +1,20 @@
 # Changelog:
 
-## Availables — 0.3.5 and 0.2.8
+## 2022-01-21 — 0.3.5 and 0.2.8
   - Blankets to keep warm.
   - Foods can now burn if left cooking too long.
+  - Mobs should no longer stunlock when hit repeatedly
   - Nerf: Increased fall damage.
   - You can use a stick to bar a door, to prevent entry.
   - New animations thanks to `MisterE`.
   - Track how many incarnations you’ve had in the `Character` tab.
+  - Glow worms in caves
   - Nerf: `Stick`s don’t connect with right-angle corners anymore.
+  - Nerf: Mudbrick turns to clay when broken, like bricks lose mortar
   - Mapgen: `carpathian` is now supported, for a harder game world.
   - No more beach spiders.
+  - New food system infrastructure
+  - Experimental biomes, enable under settings to test
   - Misc. bug-fixes and quality of life improvements.
    
 ## 2021-11-01 — 0.3.4 and 0.2.7
