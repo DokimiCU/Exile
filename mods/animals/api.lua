@@ -41,7 +41,7 @@ end
 --------------------------------------------------------------------------
 
 ----------------------------------------------------
--- drop on death what is definded in the entity table
+-- drop on death what is defined in the entity table
 function animals.handle_drops(self)
    if not self.drops then
      return
@@ -52,8 +52,6 @@ function animals.handle_drops(self)
      local amount = random (item.min, item.max)
      local chance = random(1,100)
      local pos = self.object:get_pos()
-     pos.x = pos.x + random(-1,1)
-     pos.z = pos.z + random(-1,1)
 
      if chance < (100/item.chance) then
        --leave time for death animation to end
