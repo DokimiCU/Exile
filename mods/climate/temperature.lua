@@ -245,10 +245,11 @@ local adjust_active_temp = function(pos, temp)
    end
 
    --transition to underground
-   if pos.y <= -1 and water ==0 then
+   if pos.y <= 0 and water ==0 then
       --below ground is closer to average
       --should probably match to heightmap rather than y = 0 (maybe unnecessarily complicated)
-      temp = (temp*0.2)+(temp*0.8)
+      local x = (-1*pos.y-12)*(-1/12)
+      temp = (temp*x)+(av_temp*(1-x))
       temp = adjust_for_shelter(pos, temp, av_temp)
       temp = adjust_for_heatable(pos, name, temp)
       return temp
