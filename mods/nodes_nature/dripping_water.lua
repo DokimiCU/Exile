@@ -42,6 +42,7 @@ minetest.register_entity("nodes_nature:drop_water", {
 	on_punch=function(self, puncher, time_from_last_punch, tool_capabilities, dir)
 		--drink
 		local meta = puncher:get_meta()
+		if not meta then return end --mobs can punch, but can't drink
 		local pos = puncher:get_pos()
 		local thirst = meta:get_int("thirst")
 		--only drink if thirsty
