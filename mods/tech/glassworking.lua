@@ -458,15 +458,12 @@ minetest.register_node("tech:pane_tray_green",
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
-	drop = {
-		max_items = 2,
-		items = {
-			{items = {"tech:pane_tray"}},
-			{items = {"tech:pane_green"}},
-		}
-	}
+	on_dig = function(pos, node, digger)
+	   digger:get_inventory():add_item("main", "tech:pane_green")
+	   minetest.swap_node(pos, {name = "tech:pane_tray"})
+	end,
 
 })
 
@@ -489,15 +486,12 @@ minetest.register_node("tech:pane_tray_clear",
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
-	drop = {
-		max_items = 2,
-		items = {
-			{items = {"tech:pane_tray"}},
-			{items = {"tech:pane_clear"}},
-		}
-	}
+	on_dig = function(pos, node, digger)
+	   digger:get_inventory():add_item("main", "tech:pane_clear")
+	   minetest.swap_node(pos, {name = "tech:pane_tray"})
+	end,
 
 })
 
