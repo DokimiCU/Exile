@@ -1,45 +1,71 @@
-#Select the temperature scale to display
-exile_temp_scale (Temperature scale) enum Celsius Celsius,Fahrenheit,Kelvin
-exile_nobreaktaker (Disable the notice to take a break) bool false
+## Error correction
 
-#This will enable the experimental v4 biomes for Exile
-#These are not yet ready for regular use, and have balance issues
-#Note: Enabling this will only have effect on new worlds
-exile_v4_biomes (Enable the experimental v4 biomes) bool false
-
-#For singleplayer or LAN, this can be left at 0.1, but on
-#internet servers, a rate of 1 second per update may help to
-#mitigate HUD lag
-exile_hud_update (Number of seconds before HUD updates) float 0.1 0.1 4
-
-#If your map has busted half beds that can't be interacted with,
-#enabling this LBM will remove them at the cost of a bit of performance.
-#
-#If you know how it happened, please let me know so I can prevent it
+# If your map has broken half-bed objects that can't be interacted with. 
+# 
+# Enabling this LBM will remove them at the cost of a bit of performance.
+# If you know how it happened, please let me know so I can prevent it.
 exile_bed_clear (Fix broken beds *press edit for details*) bool false
 
-#Set from 30 to 90 minutes for the first notice.
-#
-#After each notice the time before the next is halved.
-#Set to 30 minutes, it will be a constant nag after ~1 hour
-#At 60 it will be constant at two hours, at 90 it will take 3 hours
-exile_breaktime	   (Set delay before the first break notice) int 30 30 90
 
-#A safe location for new players to spawn. This can break intended balance,
-#but can be used to make a tutorial area or a newbie-only zone.
+## Settings for displays
+
+# Select the temperature scale to display in the HUD.
+exile_temp_scale (Temperature scale) enum Celsius Celsius,Fahrenheit,Kelvin
+
+# Determines the frequency of refresh for the displayed HUD information.
+	# 
+	# For singleplayer or LAN, this can be left at 0.1, but on Internet 
+	# servers, a rate of 1 second per update may help to mitigate HUD lag.
+exile_hud_update (Number of seconds before HUD updates) float 0.1 0.1 4
+
+# Whether to display the notification screen when a player 
+# has been in the game for a long period of time, and then 
+# rests in a bed.
+# 
+# Set from 30 to 90 minutes for the first notice.
+#
+# After each notice the time before the next is halved.
+# Set to 30 minutes, it will be a constant nag after ~1 hour.
+# At 60 it will be constant at two hours, at 90 it will take 3 hours.
+exile_breaktime (Set delay before the first break notice) int 30 30 90
+
+# Whether to display the notification screen at all.
+exile_nobreaktaker (Disable the notice to take a break) bool false
+
+## Settings for respawning
+
+# Use this to set a safe location for new players to spawn.
+# 
+# This can break intended balance, but can be used to make 
+# a tutorial area or a newbie-only zone.
 exile_safe_spawn_pos (Location of safe spawn point) string
 
-#The number of lives before you are switched to regular respawn or rspawn
+# The number of lives before you are switched to regular respawn or rspawn.
+# 
+# 
 exile_safe_spawn_lives (Number of lives spawned at safe point) int 0 0 100
 
+
+## Settings for map generation
+
+# This setting will enable the experimental v4 biomes for Exile.
+# 
+# These are not yet ready for regular use, and have balance issues
+# Note: Enabling this will only take effect on new worlds.
+exile_v4_biomes (Enable the experimental v4 biomes) bool false
+
+# 
+# 
+# 
 exile_enableslopes (Create natural slopes on mapgen) bool true
 
 [Natural Slopes settings]
 
 # Set the percentage of non-slopes that appear on map generation
-#
+# 
 # 10% = 90% chance of a slope in a given spot, 90 = 10% chance
 exile_slopechance (Non-Slope percentage) int 20 0 100
+
 
 ## Update shape ABM
 
@@ -56,6 +82,7 @@ naturalslopeslib_enable_shape_on_walk (Enable shaping by walking on edges) bool 
 ## Update shape on world generation
 
 # Enable or disable shape update when the world is generated.
+# 
 # This will probably put a lot of pressure on the server. Hopefully it doesn't happen that frequently.
 naturalslopeslib_enable_shape_on_generate (Shape update on generation) bool true
 
@@ -64,12 +91,17 @@ naturalslopeslib_enable_shape_on_generate (Shape update on generation) bool true
 #  - Progressive is way much slower, but the area is available directly in it's untransformed shape. The nodes will be updated one after the other while the game is rather idle. This method is preferred on old single core CPU that cannot benefit from map generation optimization, if the areas are too long to emerge or if you like to see mountains smoothing themselves progressively.
 naturalslopeslib_generation_method (Generation method) enum VoxelManip VoxelManip,Progressive
 
-# Inverted chance factor on generation. The lesser, the more likely the node will be
+# Inverted chance factor on generation. 
+# 
+# The lesser, the more likely the node will be
 # generated in their updated shape. 0.1 means 10 time more likely.
 naturalslopeslib_update_shape_generate_factor (Generation factor) float 0.05 0
 
-# Skip n nodes when generating an area. The higher, the less nodes can be updated but it dramatically saves server resources.
+# Skip n nodes when generating an area. 
+# The higher, the less nodes can be updated 
+# but it dramatically saves server resources.
 naturalslopeslib_update_shape_generate_skip (Generation skip nodes) int 0 0
+
 
 ## Update shape on dig and place
 
@@ -79,6 +111,8 @@ naturalslopeslib_enable_shape_on_dig_place (Shape update on dig and place) bool 
 
 ## Rendering
 
-# Enable smooth rendering instead of cubic. It will show some disconnections at some
-# points that won't be fixed and may be visually misleading with heights.
-naturalslopeslib_smooth_rendering (Smooth but glitched rendering) bool false
+	# Enable smooth rendering instead of cubic. 
+		# 
+		# It will show some disconnections at some points 
+		# that won't be fixed and may be visually misleading with heights.
+	naturalslopeslib_smooth_rendering (Smooth but glitched rendering) bool false
