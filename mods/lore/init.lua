@@ -15,5 +15,5 @@ dofile(modpath..'/char_tab.lua')
 dofile(modpath..'/exile_letter.lua')
 dofile(modpath..'/login.lua')
 
-
+dofile(modpath..'/suicide.lua')
 -------------------------------
