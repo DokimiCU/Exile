@@ -11,7 +11,7 @@ local min = math.min
 local tan = math.tan
 local pow = math.pow
 
-
+local max_objects = 50
 
 
 --------------------------------------------------------------------------
@@ -152,8 +152,9 @@ function animals.place_egg(pos, egg_name, energy, energy_egg, medium)
 
   local p = mobkit.get_node_pos(pos)
   local e = energy
+  local objcount = #minetest.get_objects_inside_radius(pos, 30)
 
-  if minetest.get_node(p).name == medium then
+  if minetest.get_node(p).name == medium and objcount < max_objects then
 
     local posu = {x = p.x, y = p.y - 1, z = p.z}
     local n = mobkit.nodeatpos(posu)
@@ -182,15 +183,15 @@ function animals.hatch_egg(pos, medium_name, replace_name, name, energy_egg, you
 
   local cnt = 0
   local start_e = energy_egg/young_per_egg
-
-  while cnt < young_per_egg do
+  local objcount = #minetest.get_objects_inside_radius(pos, 30)
+  while cnt < young_per_egg and objcount < max_objects do
     local ran_pos = air[random(#air)]
     local ent = minetest.add_entity(ran_pos, name)
     minetest.sound_play("animals_hatch_egg", {pos = pos, gain = 0.2, max_hear_distance = 6})
     ent = ent:get_luaentity()
     mobkit.remember(ent,'energy', start_e)
     mobkit.remember(ent,'age',0)
-
+    objcount = objcount + 1
     cnt = cnt + 1
   end
 
