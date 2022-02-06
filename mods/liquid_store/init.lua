@@ -17,7 +17,16 @@ function liquid_store.register_liquid(source, flowing, force_renew)
 
 end
 
-
+function liquid_store.contents(nodename)
+   --To be called when you need to know if something's a valid liquid
+   --Stores will return their source name; regular nodes will pass through
+   local liquiddef = liquid_store.stored_liquids[node.name]
+   if liquiddef ~= nil then
+      return liquiddef.source
+   else
+      return nodename
+   end
+end
 
 local function check_protection(pos, name, text)
 	if minetest.is_protected(pos, name) then
@@ -32,7 +41,20 @@ local function check_protection(pos, name, text)
 	return false
 end
 
-
+local function handle_stacks(player, stack_items, new_item)
+   local inv = player:get_inventory()
+   if stack_items:get_count() > 1 then
+      if inv:room_for_item("main", new_item) then
+	 inv:add_item("main", new_item)
+      else
+	 local pos = player:get_pos()
+	 minetest.add_item(pos, new_item)
+      end
+      return(stack_items:get_name().." "..(stack_items:get_count() - 1))
+   else
+      return ItemStack(new_item)
+   end
+end
 
 --Function for empty buckets to call on_use... as return (so gives item)
 function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
@@ -62,7 +84,6 @@ function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 		local giving_back
 		local empty = itemstack:get_name()
 
-
 		for k, v in pairs(liquid_store.stored_liquids) do
 			local m = v.nodename_empty
 			local s = v.source
@@ -78,22 +99,7 @@ function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 			return nil
 		end
 
-		-- check if holding more than 1 empty bucket
-		if item_count > 1 then
-
-			-- if space in inventory add filled bucked, otherwise drop as item
-			local inv = user:get_inventory()
-			if inv:room_for_item("main", {name = giving_back}) then
-				inv:add_item("main", giving_back)
-			else
-				local pos = user:get_pos()
-				pos.y = math.floor(pos.y + 0.5)
-				minetest.add_item(pos, giving_back)
-			end
-
-			-- set to return empty buckets minus 1
-			giving_back = empty.." ".. tostring(item_count-1)
-		end
+		local new_wield = handle_stacks(user, user:get_wielded_item(), giving_back)
 
 		-- force_renew requires a source neighbour
 		local source_neighbor = false
@@ -105,7 +111,7 @@ function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 			minetest.add_node(pointed_thing.under, {name = "air"})
 		end
 
-		return ItemStack(giving_back)
+		return new_wield
 
 	else
 		-- non-liquid nodes will have their on_punch triggered
@@ -200,22 +206,7 @@ function liquid_store.register_stored_liquid(source, nodename, nodename_empty, t
 				end
 
 				minetest.set_node(lpos, {name = source})
-
-				-- More sophisticated inventory management.
-				-- If original stack has more than one item, return the others to the player instead of destroying them
-				if itemstack:get_count() > 1 then
-					player_inv = user:get_inventory()
-					if player_inv:room_for_item("main", nodename_empty) then
-						player_inv:add_item("main", nodename_empty)
-					else
-						local player_pos = user:get_pos()
-	   					minetest.add_item(pos, nodename_empty)
-					end
-
-					return ItemStack(itemstack:get_name().." "..(itemstack:get_count() - 1))
-				else
-					return ItemStack(nodename_empty)
-				end
+				return handle_stacks(user, itemstack, nodename_empty)
 			end,
 		})
 
