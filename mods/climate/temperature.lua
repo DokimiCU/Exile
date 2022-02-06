@@ -272,7 +272,7 @@ local adjust_active_temp = function(pos, temp)
 
       --water is closer to average than air...
       --also a little colder +(av_sea_temp *0.75)
-      temp = (temp*0.25)+ 8
+      temp = climate.active_sea_temp
       temp = adjust_for_heatable(pos, name, temp) --currently nothing fits this
 
       --apply caps (not frozen or boiling)

@@ -17,7 +17,8 @@ A specific locations Temperature and more can be called elsewhere (e.g. for heal
 
 climate = {
 	active_weather = {},
-	active_temp = {}
+	active_temp = {},
+	active_sea_temp = {}
 
 }
 
@@ -78,6 +79,7 @@ local plvl_mid = 25
 --random values that should get overriden by mod storage
 climate.active_weather = registered_weathers[math.random(#registered_weathers)]
 climate.active_temp = math.random(15,25)
+climate.sea_temp = climate.active_temp * math.random(0.6,8)
 local active_weather_interval = 1
 
 
@@ -146,7 +148,7 @@ minetest.register_on_leaveplayer(function(player)
 		store:set_float("temp", t)
 	end
 end)
-]]
+]]--
 
 minetest.register_on_joinplayer(function(player)
    --get weather from storage, override random start values
@@ -172,6 +174,10 @@ minetest.register_on_joinplayer(function(player)
       local temp = store:get_float("temp")
       if temp then
 	 climate.active_temp = temp
+      end
+      local stemp = store:get_float("sea_temp")
+      if stemp then
+	 climate.active_sea_temp = stemp
       end
 
       --same again, but for ran_walk
@@ -243,6 +249,23 @@ local function select_new_active_weather()
     end
 end	 
 
+local function get_seasonal_waves()
+   --get seasonal wave
+   local dc = minetest.get_day_count() - 10
+   --diff +/- from yearly mean (seasonal variation)
+   local dc_amp = 17
+   --~80 day year, 20 day seasons
+   local dc_period = (2*math.pi)/80
+   --yearly average,
+   local dc_mean = 13
+   local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
+   --seawater temp change has lower amplitude, behind 2 days from mass of water
+   --Fudged loosely from McCombie's 1959 "Some Relations Between Air
+   --  Temperatures and the Surface Temperature of Lakes", Wiley Online Library
+   local sea_wav = (dc_amp-5) * math.sin((dc - 2) * dc_period) + dc_mean
+   return dc_wav, sea_wav
+end
+
 local function set_world_temperature()
     --this is a universal temperature for the whole map
     --we treat the whole map as one coherent region, with a single climate
@@ -255,28 +278,20 @@ local function set_world_temperature()
     local dn_period = (2*math.pi)/1 ---match day length
     local dn_wav = dn_amp * math.cos(tod * dn_period)
 
-    --get seasonal wave
-    local dc = minetest.get_day_count() - 10
-    --diff +/- from yearly mean (seasonal variation)
-    local dc_amp = 17
-    --~80 day year, 20 day seasons
-    local dc_period = (2*math.pi)/80
-    --yearly average,
-    local dc_mean = 13
-    local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
     --random walk...an incremental fluctuation that is capped
     ran_walk = ran_walk + math.random(-2, 2)
     if ran_walk > ran_walk_range or ran_walk < -ran_walk_range then
        ran_walk = ran_walk/1.04
     end
-
+    local dc_wav, sea_wav = get_seasonal_waves()
     --sum waves plus some random noise
-    climate.active_temp = dc_wav + dn_wav + ran_walk
-
+    climate.active_temp =  dc_wav + dn_wav + ran_walk
+    climate.active_sea_temp = sea_wav + ((dn_wav + ran_walk) * 0.3)
     --save state so can be reloaded.
     --only actually needed on log out,... but that doesn't work
     store:set_string("weather", climate.active_weather.name)
     store:set_float("temp", climate.active_temp)
+    store:set_float("sea_temp", climate.active_sea_temp)
     store:set_float("ran_walk", ran_walk)
 end
 
