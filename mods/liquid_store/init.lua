@@ -8,19 +8,17 @@ liquid_store.stored_liquids = {}
 
 --Liquids that it is possible to put in a bucket
 function liquid_store.register_liquid(source, flowing, force_renew)
-
 	liquid_store.liquids[source] = {
 		source = source,
 		flowing = flowing,
 		force_renew = force_renew,
 	}
-
 end
 
 function liquid_store.contents(nodename)
    --To be called when you need to know if something's a valid liquid
    --Stores will return their source name; regular nodes will pass through
-   local liquiddef = liquid_store.stored_liquids[node.name]
+   local liquiddef = liquid_store.stored_liquids[nodename]
    if liquiddef ~= nil then
       return liquiddef.source
    else
@@ -69,6 +67,15 @@ local function find_stored(empty, sourcename)
    return stored_name
 end
 
+function liquid_store.drain_store(player, itemstack)
+   local itemname = itemstack:get_name()
+   local sdef = liquid_store.stored_liquids[itemname]
+   if sdef then
+      return handle_stacks(player, itemstack, sdef.nodename_empty)
+   else
+      return itemstack
+   end
+end
 
 --Function for empty buckets to call on_use... as return (so gives item)
 function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)

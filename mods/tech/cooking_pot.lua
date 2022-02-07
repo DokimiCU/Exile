@@ -76,14 +76,18 @@ local function pot_rightclick(pos, node, clicker, itemstack, pointed_thing)
    local meta = minetest.get_meta(pos)
    local itemname = itemstack:get_name()
    if meta:get_string("type") == "" then
-      if itemname == "nodes_nature:freshwater_source" then
-	 --TODO: add liquid stores
+      local liquid = liquid_store.contents(itemname)
+      if liquid == "nodes_nature:freshwater_source" then
 	 meta:set_string("type", "Soup")
 	 meta:set_string("infotext", "Soup pot")
 	 meta:set_string("formspec", pot_formspec)
 	 meta:set_int("baking", cook_time)
 	 minetest.get_node_timer(pos):start(6)
-	 --itemstack:take_item() --don't take water while testing; saves time
+	 if itemname ~= liquid then -- it's stored in a container
+	    return liquid_store.drain_store(clicker, itemstack)
+	 else
+	    itemstack:take_item()
+	 end
       end
       return itemstack
    end
@@ -173,7 +177,7 @@ local function pot_cook(pos, elapsed)
 end
 
 minetest.register_node("tech:cooking_pot", {
-	description = "Cooking Pot (WIP!)",
+	description = "Cooking Pot",
 	tiles = {"tech_pottery.png",
 	"tech_pottery.png",
 	"tech_pottery.png",
