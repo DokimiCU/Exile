@@ -24,7 +24,7 @@ Save to inv meta
 
 local cook_time = 1
 local cook_temp = { [""] = 101, ["Soup"] = 100 }
-local portions = 10
+local portions = 10 -- TODO: is this sane? Can we adjust it based on contents?
 
 ---------------------
 local pot_box = {
@@ -124,6 +124,7 @@ local function pot_receive_fields(pos, formname, fields, sender)
    local length = meta:get_int("baking")
    if length <= (cook_time - 4) then
       length = length + 4 -- don't open a cooking pot, you'll let the heat out
+      --TODO: Can we drain current temp while the formspec's open? Groups?
       meta:set_int("baking", length)
    end
    minetest.chat_send_player(sender:get_player_name(),debug)
@@ -230,6 +231,7 @@ minetest.register_node("tech:cooking_pot", {
 	      end
 	   end
 	   --if we put new items in during cook, extend "baking" time further
+	   --TODO: Increase baking time based on food cook times?
 	   meta:set_int("baking", meta:get_int("baking") + count)
 	   return count
 	end,
