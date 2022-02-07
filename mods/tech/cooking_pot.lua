@@ -216,8 +216,10 @@ minetest.register_node("tech:cooking_pot", {
 	end,
 	allow_metadata_inventory_put = function(
 	      pos, listname, index, stack, player)
-	   --TODO: only allow cookable items in. maybe cooked ones too?
-	   --needs a table of cookable foods in addition to edible ones
+	   local fname = stack:get_name()
+	   if not food_table[fname] and not bake_table[fname] then
+	      return 0
+	   end
 	   local meta = minetest.get_meta(pos)
 	   local inv = meta:get_inventory():get_list(listname)
 	   local count = stack:get_count()
