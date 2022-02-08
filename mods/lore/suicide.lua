@@ -10,7 +10,7 @@ local function suicide_confirm (name, message)
 	if (chat_confirm[name] == 'suicide') then
 		if message == 'Yes' then
 			local player=minetest.get_player_by_name(name)
-			minetest.chat_send_all(name .. " slipped on a banana peel and broke their neck.")
+			minetest.chat_send_all(name .. " succumbed to despair and gave in to their fate.")
 			player:set_hp(0);
 		else
 			minetest.chat_send_player(name, "You've come to your senses and decided to keep trying")
