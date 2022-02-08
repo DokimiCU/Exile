@@ -4,8 +4,8 @@
 --unfired versions must reach right temperature for long enough to fire.
 -----------------------------------------------
 --firing difficulty
-local base_firing = 25
-local firing_int = 10
+local base_firing = ncrafting.base_firing
+local firing_int = ncrafting.firing_int
 
 
 ---
@@ -26,57 +26,6 @@ minetest.register_node("tech:broken_pottery", {
 })
 
 
-
---
---Pottery firing functions
-local function set_firing(pos, length, interval)
-	-- and firing count
-	local meta = minetest.get_meta(pos)
-	meta:set_int("firing", length)
-	--check heat interval
-	minetest.get_node_timer(pos):start(interval)
-end
-
-
-
-local function fire_pottery(pos, selfname, name, length)
-	local meta = minetest.get_meta(pos)
-	local firing = meta:get_int("firing")
-
-	--check if wet, falls to bits and thats it for your pot
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
-		minetest.set_node(pos, {name = 'nodes_nature:clay'})
-		return false
-	end
-
-	--exchange accumulated heat
-	climate.heat_transfer(pos, selfname)
-
-	--check if above firing temp
-	local temp = climate.get_point_temp(pos)
-	local fire_temp = 600
-
-	if firing <= 0 then
-		--finished firing
-		minetest.set_node(pos, {name = name})
-		return false
-	elseif temp < fire_temp then
-		if firing < length and temp < fire_temp/2 then
-			--firing began but is now interupted
-			--causes firing to fail
-			minetest.set_node(pos, {name = "tech:broken_pottery"})
-			return false
-		else
-			--no fire lit yet
-			return true
-		end
-	elseif temp >= fire_temp then
-		--do firing
-		meta:set_int("firing", firing - 1)
-		return true
-	end
-
-end
 
 
 -------------------------------------------------------------------
@@ -202,11 +151,11 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
-		set_firing(pos, base_firing, firing_int)
+		ncrafting.set_firing(pos, base_firing, firing_int)
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_water_pot_unfired", "tech:clay_water_pot", base_firing)
+		return ncrafting.fire_pottery(pos, "tech:clay_water_pot_unfired", "tech:clay_water_pot", base_firing)
 	end,
 })
 
@@ -240,11 +189,11 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
-		set_firing(pos, base_firing+5, firing_int)
+		ncrafting.set_firing(pos, base_firing+5, firing_int)
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_storage_pot_unfired", "tech:clay_storage_pot", base_firing+5)
+		return ncrafting.fire_pottery(pos, "tech:clay_storage_pot_unfired", "tech:clay_storage_pot", base_firing+5)
 	end,
 })
 
@@ -341,11 +290,11 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 	sounds = nodes_nature.node_sound_stone_defaults(),
 	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
-		set_firing(pos, base_firing, firing_int)
+		ncrafting.set_firing(pos, base_firing, firing_int)
 	end,
 	on_timer = function(pos, elapsed)
 		--finished product, length
-		return fire_pottery(pos, "tech:clay_oil_lamp_unfired", "tech:clay_oil_lamp_empty", base_firing)
+		return ncrafting.fire_pottery(pos, "tech:clay_oil_lamp_unfired", "tech:clay_oil_lamp_empty", base_firing)
 	end,
 })
 

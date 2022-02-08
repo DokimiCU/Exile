@@ -245,3 +245,39 @@ minetest.register_node("tech:cooking_pot", {
 	   return stack:get_count()
 	end,
 })
+
+minetest.register_node("tech:cooking_pot_unfired", {
+	description = "Cooking Pot",
+	tiles = {"nodes_nature_clay.png",
+		 "nodes_nature_clay.png",
+		 "nodes_nature_clay.png",
+		 "nodes_nature_clay.png",
+		 "nodes_nature_clay.png",
+		 "nodes_nature_clay.png"},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = pot_box,
+	},
+	groups = {dig_immediate=3, temp_pass = 1, falling_node = 1, heatable = 20},
+	sounds = nodes_nature.node_sound_stone_defaults(),
+	on_construct = function(pos)
+	   ncrafting.set_firing(pos, ncrafting.base_firing, ncrafting.firing_int)
+	end,
+	on_timer = function(pos, elapsed)
+		--finished product, length
+		return ncrafting.fire_pottery(pos, "tech:cooking_pot_unfired", "tech:cooking_pot", ncrafting.base_firing)
+	end,
+
+})
+
+crafting.register_recipe({
+	type = "crafting_spot",
+	output = "tech:cooking_pot_unfired 1",
+	items = {"nodes_nature:clay_wet 4"},
+	level = 1,
+	always_known = true,
+})
