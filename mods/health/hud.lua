@@ -5,6 +5,7 @@
 ----------------------------------------------------------------------
 local hud = {}
 local hudupdateseconds = tonumber(minetest.settings:get("exile_hud_update"))
+local overlaid = {}
 
 local setup_hud = function(player)
 
@@ -175,6 +176,7 @@ local function color_envirotemp(v, meta)
 	local stress_high = comfort_high + 10
 	local danger_low = stress_low - 40
 	local danger_high = stress_high +40
+	local overlay
 
 	local col = 0xFFFFFF
 
@@ -185,8 +187,11 @@ local function color_envirotemp(v, meta)
 	elseif v > comfort_high or v < comfort_low then
 		col = 0xFDFF46
 	end
+	if v < stress_low then
+	   overlay = "weather_hud_frost.png"
+	end
 
-	return col
+	return col, overlay
 end
 
 
@@ -246,12 +251,36 @@ local function temp(player, hud_data)
 	player:hud_change(hud, "number", col)
 end
 
+local function do_overlay(player, pname, pos, overlay)
+   local handle = player:hud_add({
+	 name = weather,
+	 hud_elem_type = "image",
+	 position = {x = 0, y = 0},
+	 alignment = {x = 1, y = 1},
+	 scale = { x = -100, y = -100},
+	 z_index = hud.z_index,
+	 text = overlay,
+	 offset = {x = 0, y = 0}
+   })
+   overlaid[pname] = handle
+end
+
+
 local function enviro_temp(player, hud_data)
 	local meta = player:get_meta()
+	local pname = player:get_player_name()
 	local player_pos = player:get_pos()
 	player_pos.y = player_pos.y + 0.6 --adjust to body height
 	local v = math.floor(climate.get_point_temp(player_pos))
-	local col = color_envirotemp(v, meta)
+	local col, overlay = color_envirotemp(v, meta)
+	if overlay then
+	   if not overlaid[pname] then
+	      do_overlay(player, pname, player_pos, overlay)
+	   end
+	elseif overlaid[pname] then
+	   player:hud_remove(overlaid[pname])
+	   overlaid[pname] = nil
+	end
 	local t = climate.get_temp_string(v, meta)
 	local hud =  hud_data.enviro_temp_hud
 	player:hud_change(hud, "text", t)
