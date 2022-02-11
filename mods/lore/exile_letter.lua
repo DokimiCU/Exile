@@ -245,7 +245,7 @@ local crime2 = {
   "gardening without a permit",
   "stealing priceless art",
   "aiding an adulterous princess",
-  "leading an unathourized military campaign",
+  "leading an unauthorized military campaign",
   "claiming that the world is round",
   "claiming that the world is not round",
   "promoting belief in gravity"
