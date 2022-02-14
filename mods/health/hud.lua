@@ -253,7 +253,7 @@ end
 
 local function do_overlay(player, pname, pos, overlay)
    local handle = player:hud_add({
-	 name = weather,
+	 name = overlay,
 	 hud_elem_type = "image",
 	 position = {x = 0, y = 0},
 	 alignment = {x = 1, y = 1},
