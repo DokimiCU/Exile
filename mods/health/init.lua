@@ -462,7 +462,6 @@ minetest.register_on_dieplayer(function(player)
 	local meta = player:get_meta()
 	meta:set_string("effects_list", "")
 	meta:set_int("effects_num", 0)
-
 end)
 
 minetest.register_on_respawnplayer(function(player)
@@ -471,11 +470,7 @@ minetest.register_on_respawnplayer(function(player)
 	clothing:update_temp(player)
 end)
 
-
-
 if minetest.settings:get_bool("enable_damage") then
-
-
 	--Main update values
 	local timer = 0
 	minetest.register_globalstep(function(dtime)
@@ -486,11 +481,11 @@ if minetest.settings:get_bool("enable_damage") then
 
 			for _,player in ipairs(minetest.get_connected_players()) do
 
-
 				local name = player:get_player_name()
 				local meta = player:get_meta()
-
 				local health = player:get_hp()
+				if health == 0 then return end
+				-- don't damage us, we're already dead
 				local thirst = meta:get_int("thirst")
 				local hunger = meta:get_int("hunger")
 				local energy = meta:get_int("energy")

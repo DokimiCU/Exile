@@ -233,6 +233,8 @@ if minetest.settings:get_bool("enable_damage") then
 				local meta = player:get_meta()
 
 				local health = player:get_hp()
+				if health == 0 then return end
+				-- we're dead, so no more healing/etc
 				local thirst = meta:get_int("thirst")
 				local hunger = meta:get_int("hunger")
 				local energy = meta:get_int("energy")
