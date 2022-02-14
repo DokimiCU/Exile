@@ -69,5 +69,5 @@ note: ranges are
 	meta:set_int("clothing_temp_max", temp_max )
 	sfinv.set_player_inventory_formspec(player)
 	-- Apply armorgroups changes
-	player:set_armor_groups(armorgroups)
+	if minetest.settings:get_bool("enable_damage") then player:set_armor_groups(armorgroups) end
 end
