@@ -88,12 +88,11 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 						if player_inv:room_for_item("main", cloth_name) then
 							player_inv:remove_item("cloths", cloth_name)
 							player_inv:add_item("main", cloth_name)
-							clothing:update_temp(player)
 							return 1
 						end
 					end
 				end
-				return 0
+				return 1 -- swapping in-place
 			end
 		end
 		return 1
