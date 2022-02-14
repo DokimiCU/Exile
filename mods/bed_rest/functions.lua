@@ -91,7 +91,8 @@ local quote_list = {
 local function get_formspec()
 	local title = "BREAK TIME!"
 	local message1 = "You've been here long enough to justify a real break.\nThink of this as a reminder from your better self.\nGo get some rest. Leave Exile behind. You can come back any time."
-
+	local message2 = minetest.colorize("#aaaa22",
+		   "(Disable this notice with /set_breaktaker off)" )
 	local quote = quote_list[math.random(1,#quote_list)]
 
 	local formspec = {
@@ -99,7 +100,8 @@ local function get_formspec()
 		"real_coordinates[true]",
 		"label[9.375,1.5;", minetest.formspec_escape(title), "]",
 		"label[2.375,3.5;", minetest.formspec_escape(message1), "]",
-		"label[2.375,7.5;", minetest.formspec_escape(quote), "]"
+		"label[2.375,7.5;", minetest.formspec_escape(quote), "]",
+		"label[12,12.5;", minetest.formspec_escape(message2), "]"
 	}
 
 	return table.concat(formspec, "")
@@ -109,13 +111,13 @@ end
 
 
 --check session length and encourage player to take a real break
-local function break_taker(name)
+local function break_taker(name, prefs)
 	local ts = bed_rest.session_start[name]
 	local sess_l = bed_rest.session_limit[name]
 	local tn = os.time()
 
 	local nobreaks = minetest.settings:get('exile_nobreaktaker') or false
-	if nobreaks == true then
+	if prefs == "off" or ( prefs == nil and nobreaks == true ) then
 	   return
 	end
 
@@ -273,7 +275,7 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		end
 
 		--check with break taker
-		break_taker(name)
+		break_taker(name,player:get_meta():get_string("BreaktakerPref"))
 
 		--wear a blanket from inventory
 		wear_blanket(player, true)
@@ -372,7 +374,7 @@ minetest.register_on_leaveplayer(function(player)
 	lay_down(player, nil, nil, nil, false)
 	bed_rest.player[name] = nil
 end)
-]]
+]]--
 
 minetest.register_on_dieplayer(function(player)
 	local name = player:get_player_name()
@@ -404,3 +406,21 @@ minetest.register_on_joinplayer(function(player)
 
 end
 )
+
+minetest.register_chatcommand("set_breaktaker", {
+    params = "on or off",
+    description = "Switch the break taker off or on per user",
+    func = function(name, param)
+       if param == "" or param == "help" then
+	  wlist = "/set_breaktaker:\n"..
+	  "Switch the breaktaker notice off or on for you."
+	  return false, wlist
+       end
+       if param ~= "on" and param ~= "off" then
+	  return false, "Valid choices are on or off"
+       end
+       local player = minetest.get_player_by_name(name)
+       meta = player:get_meta()
+       meta:set_string("BreaktakerPref", param)
+    end,
+})
