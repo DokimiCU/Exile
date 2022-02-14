@@ -114,7 +114,8 @@ local function break_taker(name)
 	local sess_l = bed_rest.session_limit[name]
 	local tn = os.time()
 
-	if minetest.settings:get('exile_nobreaktaker') then
+	local nobreaks = minetest.settings:get('exile_nobreaktaker') or false
+	if nobreaks == true then
 	   return
 	end
 
