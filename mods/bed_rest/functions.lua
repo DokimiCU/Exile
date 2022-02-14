@@ -6,7 +6,6 @@
 local pi = math.pi
 local store = minetest.get_mod_storage()
 
-
 function load_bedrest()
    local loaded = minetest.deserialize(store:get_string("bedrest"), true)
    return loaded
@@ -15,9 +14,6 @@ end
 ----------------------------------------------------
 --Break taker
 --
-
-
-
 
 local quote_list = {
 	"'Sometimes even to live is an act of courage.'\n- Seneca",
@@ -81,11 +77,7 @@ local quote_list = {
 	"'It will be a sinister day when computers start to laugh,\nbecause that will mean they are capable of a lot of other things as well'\n- Edward de Bono",
 	"'Po converts what might otherwise be taken as madness into a perfectly reasonable illogical procedure.'\n- Edward de Bono"
 
-
-
-
 }
-
 
 
 local function get_formspec()
@@ -107,9 +99,6 @@ local function get_formspec()
 	return table.concat(formspec, "")
 end
 
-
-
-
 --check session length and encourage player to take a real break
 local function break_taker(name, prefs)
 	local ts = bed_rest.session_start[name]
@@ -122,20 +111,15 @@ local function break_taker(name, prefs)
 	end
 
 	if os.difftime(tn, ts) > sess_l then
-
 		--show form
 		minetest.show_formspec(name, "bed_rest:break_taker", get_formspec())
-
 		minetest.sound_play("bed_rest_breakbell", {to_player = name, gain = 0.8})
-
-
 		--reset clock, with a diminishing limit
 		--if ignored too long it will eventually become a constant nag
 		--e.g. 30 + 15 + 7.5 + 3.25 + 1.125 = ~ 1hr max
 		bed_rest.session_start[name] = tn
 		bed_rest.session_limit[name] = sess_l/2
 	end
-
 end
 
 
@@ -314,13 +298,11 @@ end
 
 
 --------------------------------------------
-
 function bed_rest.on_rightclick(pos, player, level)
 	local name = player:get_player_name()
 	local ppos = player:get_pos()
 	local tod = minetest.get_timeofday()
 
-  --
 	if bed_rest.player[name] then
 	   lay_down(player, nil, nil, nil, false)
 	else
@@ -330,9 +312,7 @@ function bed_rest.on_rightclick(pos, player, level)
 end
 
 
-
 --------------------------------------------
-
 function bed_rest.can_dig(bed_pos, player)
    if minetest.check_player_privs(player, "protection_bypass") then
       return true
@@ -346,10 +326,9 @@ function bed_rest.can_dig(bed_pos, player)
 	return true
 end
 
-jtimer = 0
 --------------------------------------------
 --Jump out of bed
-
+local jtimer = 0
 minetest.register_globalstep(function(dtime)
       jtimer = jtimer + dtime
       if jtimer > 0.2 then
@@ -364,17 +343,6 @@ minetest.register_globalstep(function(dtime)
 	 jtimer = 0
       end
 end)
-
-
---------------------------------------------
---clear attachment etc
---[[
-minetest.register_on_leaveplayer(function(player)
-	local name = player:get_player_name()
-	lay_down(player, nil, nil, nil, false)
-	bed_rest.player[name] = nil
-end)
-]]--
 
 minetest.register_on_dieplayer(function(player)
 	local name = player:get_player_name()
@@ -403,10 +371,10 @@ minetest.register_on_joinplayer(function(player)
   bed_rest.session_start[name] = os.time()
   -- 30 minutes is 1800 ticks, so multiply by 60
   bed_rest.session_limit[name] = minetest.settings:get('exile_breaktime') * 60
-
 end
 )
 
+--------------------------------------------
 minetest.register_chatcommand("set_breaktaker", {
     params = "on or off",
     description = "Switch the break taker off or on per user",
