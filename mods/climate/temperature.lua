@@ -769,12 +769,14 @@ climate.get_temp_string = function(v, meta)
 	 scale = tempscalepref
       end
    end
-   local t = v .." °C"
+   local t = math.floor(v*10)/10 .." °C"
    if scale == "Fahrenheit" then
       v = v / 5 * 9 + 32
+      v = math.floor(v*10)/10
       t = v .." °F"
    elseif scale == "Kelvin" then
       v = v + 273.15
+      v = math.floor(v*10)/10
       t = v .."K"
    end
    return t
