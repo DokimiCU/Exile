@@ -200,7 +200,6 @@ local function get_look_yaw(pos)
 end
 
 
-
 -----------------------------------------------------------------
 local function lay_down(player, level, pos, bed_pos, state, skip)
 	local name = player:get_player_name()
@@ -300,7 +299,13 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		player_api.set_animation(player, "lay")
 	end
 
-	store:set_string("bedrest", minetest.serialize(bed_rest))
+	local brtemp = {}
+	brtemp.level = bed_rest.level
+	brtemp.player = bed_rest.player
+	brtemp.pos = bed_rest.pos
+	brtemp.bed_position = bed_rest.bed_position
+
+	store:set_string("bedrest", minetest.serialize(brtemp))
 	player:hud_set_flags(hud_flags)
 end
 
