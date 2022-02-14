@@ -37,39 +37,6 @@ minetest.register_craftitem("artifacts:light_meter", {
 	end,
 })
 
---[[ Redundant
-------------------------------------
---THERMOMETER
---get ambient position temperature
-------------------------------------
-
-local thermometer = function(user, pointed_thing)
-
-  local name =user:get_player_name()
-  local pos = user:get_pos()
-
-	minetest.chat_send_player(name, minetest.colorize("#00ff00", "AMBIENT TEMPERATURE MEASUREMENT:"))
-
-  local measure = climate.get_point_temp(pos)
-
-  minetest.chat_send_player(name, minetest.colorize("#cc6600","TEMPERATURE = "..measure))
-  --minetest.sound_play("ecobots2_tool_good", {gain = 0.2, pos = pos, max_hear_distance = 5})
-
-end
-
-
-minetest.register_craftitem("artifacts:thermometer", {
-	description = "Thermometer",
-	inventory_image = "artifacts_thermometer.png",
-	stack_max = 1,
-
-	on_use = function(itemstack, user, pointed_thing)
-		thermometer(user, pointed_thing)
-	end,
-})
-
-]]
-
 ------------------------------------
 --TEMPERATURE PROBE
 --get node temperature
