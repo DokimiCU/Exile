@@ -60,12 +60,10 @@ local on_dig = function(pos, node, digger, width, height)
 	local new_list_as_string = minetest.serialize(new_list)
 	local new = ItemStack(node)
 	new:set_metadata(new_list_as_string)
-	minetest.remove_node(pos)
 	local player_inv = digger:get_inventory()
 	if player_inv:room_for_item("main", new) then
 		player_inv:add_item("main", new)
-	else
-		minetest.add_item(pos, new)
+		minetest.remove_node(pos)
 	end
 end
 
