@@ -22,6 +22,7 @@ local function suicide_confirm (name, message)
 	if (chat_confirm[name] == 'suicide') then
 		if message == 'Yes' or message == "yes" then
 			minetest.chat_send_all(name .. " succumbed to despair and gave in to their fate.")
+			minetest.log("action", name .. " gave up the ghost.")
 			timestamp[name] = minetest.get_gametime()
 			killplayer(name)
 		else
