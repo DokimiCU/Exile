@@ -134,7 +134,7 @@ end
 local function divide_portions(total)
    local result = total
    for i = 1, #total do
-      result[i] = math.floor(total[i])
+      result[i] = math.floor(total[i] / portions)
    end
    return result
 end
