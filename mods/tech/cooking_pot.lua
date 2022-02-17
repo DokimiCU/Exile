@@ -222,6 +222,10 @@ minetest.register_node("tech:cooking_pot", {
 	      return 0
 	   end
 	   local meta = minetest.get_meta(pos)
+	   if meta:get_string("type") == "finished" then
+		--prevent adding items after cooking is complete
+		return 0
+	   end
 	   local inv = meta:get_inventory():get_list(listname)
 	   local count = stack:get_count()
 	   for i = 1, #inv do
@@ -247,7 +251,7 @@ minetest.register_node("tech:cooking_pot", {
 })
 
 minetest.register_node("tech:cooking_pot_unfired", {
-	description = "Cooking Pot",
+	description = "Cooking Pot (unfired)",
 	tiles = {"nodes_nature_clay.png",
 		 "nodes_nature_clay.png",
 		 "nodes_nature_clay.png",
