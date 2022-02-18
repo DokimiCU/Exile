@@ -1,4 +1,4 @@
-A message from _Exile_ founder Dokimi, first published 2020-08-02.
+A message from _Exile_ founder Dokimi, first published 2020-08-02.  
 Edited and updated by the community.
 
 # Design Guide
@@ -125,9 +125,11 @@ The Ancients were scattered to the four corners of the world — exiled from the
 Many nations claim descent from these people, though of course it is probably all just stories.
 
 The technology of the Ancients is said to have been far beyond anything now existing.
-Some say it was magic. Some say skill. Some say there is no difference. The world of today is at an early Iron Age level — that is the only technology with which you have any familiarity.
+Some say it was magic. Some say skill. Some say there is no difference. 
 
-Your second task, if you choose, is to figure out if the myths are true.
+The world of today is at an early Iron Age level — that is the only technology with which you have any familiarity. But this also means that your culture is still close enough to life in the natural world, that you might stand a chance rebuilding it from nothing, in the ruined land. That is, if you can find others like yourself….
+
+Your second task, if you choose, is to figure out if the stories are true.
 
 ## Future:
 Various more-detailed plotlines and content could be spun off from these two game goals.
