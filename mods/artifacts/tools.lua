@@ -64,7 +64,8 @@ local temp_probe = function(user, pointed_thing)
 
   local temp = climate.get_point_temp(pointed_thing.under)
   local measure = climate.get_temp_string(temp, user:get_meta())
-  minetest.chat_send_player(name, minetest.colorize("#cc6600","TEMPERATURE = "..measure))
+  minetest.chat_send_player(name, minetest.colorize("#cc6600","TEMPERATURE = "))
+  minetest.chat_send_player(name, minetest.colorize("#cc6600", measure))
   --minetest.sound_play("ecobots2_tool_good", {gain = 0.2, pos = pos, max_hear_distance = 5})
 
 end
