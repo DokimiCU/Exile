@@ -106,7 +106,7 @@ local function pot_receive_fields(pos, formname, fields, sender)
    end
    for i = 1, #inv do
       local fname = inv[i]:get_name()
-      if food_table[fname] then
+      if food_table[fname] or food_table[fname.."_cooked"] then
 	 local result = food_table[fname.."_cooked"]
 	 if result == nil then -- prefer the cooked version, use raw if none
 	    result = food_table[fname]
