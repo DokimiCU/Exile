@@ -7,7 +7,7 @@ Unique, randomly generated, for each "life".
  i.e. Respawn means starting as someone new
 
  Sets the scene for the game.
- Explains why you are there, where "there" is.
+ Explains why you are there, and where "there" is.
 
 
 ]]
@@ -17,7 +17,7 @@ local random = math.random
 
 ----------------------------------------------------------
 local judger = {
-  --monarchs ec
+  --monarchs, etc.
   "King",
   "Queen",
   "Emperor",
@@ -54,7 +54,7 @@ local judger = {
   "High Priest",
   "High Priestess",
   "Great Prophet",
-  "Annoited One",
+  "Anointed One",
   "God King",
   "Philosopher King",
   "Seers",
@@ -63,7 +63,7 @@ local judger = {
   "Monks",
   "Priests",
   "Priestesses",
-  "Englightened Ones",
+  "Enlightened Ones",
   "Great Sage",
   "Shaman",
   --tribal
@@ -124,15 +124,14 @@ local judger = {
   "Spectre",
   "Dragon King",
   "Seven Hands",
-  "Imperial Phylogistar",
+  "Imperial Phlogistonist",
   "Sacred Snake-god",
   "Eternal Pyramid",
   "Towering Tree",
-  "Viridian Majestar",
+  "Viridian Magister",
   "Thousand-tongued All-speaker"
 }
-
---exile worthy crime
+-- exile-worthy crime
 local crime1 = {
   "treason",
   "betrayal",
@@ -154,15 +153,14 @@ local crime1 = {
   "treachery",
   "sedition"
 }
-
---flavour crime
+-- flavour-text crime
 local crime2 = {
   "leading the youth astray",
-  "smuggling",
+  "smuggling contraband",
   "vagabondage",
   "banditry",
-  "unauthorized piracy",
-  "drunkness",
+  "piracy absent a letter of marque",
+  "drunkenness",
   "sinful living",
   "rabble rousing",
   "inciting violence",
@@ -176,13 +174,13 @@ local crime2 = {
   "preaching foreign gods",
   "gross vanity",
   "wickedness",
-  "assassination",
+  "assassination of one who was high-born",
   "sharing secrets with foreign powers",
   "black magic",
-  "witchcraft",
+  "witchcraft afflicting the fertility of our crops",
   "placing curses upon the innocent",
   "shameful conduct",
-  "cowardice",
+  "cowardice in the face of glory",
   "tax evasion",
   "abusing their station for personal gain",
   "desecration of holy relics",
@@ -195,17 +193,17 @@ local crime2 = {
   "embezzlement",
   "questioning the gloriousness of our ways",
   "bearing false witness",
-  "deception",
+  "deception of those who must be obeyed",
   "fraud",
   "fakery",
   "consorting with disreputables",
-  "trespassing",
-  "poaching",
-  "impersonation",
+  "trespassing upon the tall tower",
+  "poaching on royal lands",
+  "impersonation of an official",
   "insulting our great leaders",
-  "disobedience",
-  "dealing in harmful substances",
-  "pickpocketing",
+  "disobedience toward rightful authority",
+  "dealing in harmful potions",
+  "pickpocketing pious pilgrims",
   "possession of stolen goods",
   "rioting",
   "racketeering",
@@ -215,28 +213,28 @@ local crime2 = {
   "usury",
   "aspirations to tyranny",
   "improper ambition",
-  "failing to acknowledge the gods",
+  "failing to venerate the gods",
   "vandalism",
-  "uncouth manners",
+  "abidingly uncouth comportment",
   "adopting barbarian customs",
   "speaking a forbidden tongue",
   "harassment",
   "forgery",
   "bribery",
-  "forsaking the ancestors",
+  "forsaking our ancestors",
   "mocking all that is good",
   "stubborn foolishness",
   "persistent idiocy",
-  "failure to perform duty",
+  "failure to exercise one's duty",
   "disregard of honor",
-  "breaking faith",
+  "breaking the faith",
   "touching the forbidden",
   "seeking banned knowledge",
   "slander",
   "rejecting common sense",
   "failing to appear for military service",
   "hoarding food during famine",
-  "fouling the good reputation of our people",
+  "befouling the good reputation of our people",
   "sowing discord among the populace",
   "sleeping with unclean creatures",
   "violating the chastity of the priesthood",
@@ -245,52 +243,63 @@ local crime2 = {
   "gardening without a permit",
   "stealing priceless art",
   "aiding an adulterous princess",
-  "leading an unauthorized military campaign",
+  "leading an unauthorised military campaign",
   "claiming that the world is round",
   "claiming that the world is not round",
   "promoting belief in gravity"
 }
-
---woe upon ye
-local woe = {
-  "May their name be forgotten.",
-  "They are outlaw.",
-  "Never suffer to return.",
-  "May the gods have mercy upon them.",
-  "Let none come to their aid.",
-  "May their weeping never cease.",
-  "Their life is forfeit.",
-  "It shall be as if they were never born.",
-  "May their end be swift.",
-  "May fortune forgive them.",
-  "They shall live so long as they deserve.",
-  "Let the beasts do with them as they wish.",
-  "This is justice.",
-  "Let none dispute it.",
-  "May they wander fruitlessly.",
-  "May their bones bleach in the sun.",
-  "Thus we declare.",
-  "For we are merciful.",
-  "Let this be our kindness to them.",
-  "Begone evildoer.",
-  "Thus do we cleanse ourselves.",
-  "We wash our hands of them.",
-  "Fortune shall be their final judge.",
-  "They are disowned.",
-  "We never knew them.",
-  "They are cut off.",
-  "Let them live with the beasts.",
-  "Let the barbarians and wild folk have them.",
-  "They are not fit for civilized lands.",
-  "Thus we ensure our security.",
-  "Only the righteous belong among us.",
-  "May they toil in vain.",
-  "So it is done.",
-  "Even the dogs despise them.",
-  "We break no bread with traitors."
-}
-
---Various curruptions of "Ozymandias"
+-- woe upon ye
+local woe = {}
+local genderSU = {male = "He"     , female = "She"    } -- subjective + uppercase
+local genderSL = {male = "he"     , female = "she"    } -- subjective + lowercase
+local genderOU = {male = "Him"    , female = "Her"    } -- objective  + uppercase
+local genderOL = {male = "him"    , female = "her"    } -- objective  + lowercase
+local genderPU = {male = "His"    , female = "Her"    } -- possessive + uppercase
+local genderPL = {male = "his"    , female = "her"    } -- possessive + lowercase
+local genderRU = {male = "Himself", female = "Herself"} -- reflexive  + uppercase
+local genderRL = {male = "himself", female = "herself"} -- reflexive  + lowercase
+local populate_woe = function(player)
+	local gend = player_api.get_gender(player)
+	return {
+	  "May "..genderPL[gend].." name be forgotten.",
+	  genderSU[gend].."is proscribed.",
+	  "Never suffer"..genderOL[gend].." to return.",
+	  "May the gods have mercy upon "..genderOL[gend]..".",
+	  "Let none come to "..genderPL[gend].." aid.",
+	  "May "..genderPL[gend].." weeping never cease.",
+	  genderPU[gend].." life is forfeit.",
+	  "It shall be as if "..genderSL[gend].." were never born.",
+	  "May "..genderPL[gend].." end be swift.",
+	  "May fortune forgive "..genderOL[gend]..".",
+	  genderSU[gend].." shall live so long as "..genderSL[gend].." deserves.",
+	  "Let the beasts do with "..genderOL[gend].." as they wish.",
+	  "This is justice.",
+	  "Let none dispute it.",
+	  "May "..genderSL[gend].." wander fruitlessly.",
+	  "May "..genderPL[gend].." bones bleach in the sun.",
+	  "Thus we declare.",
+	  "For we are merciful.",
+	  "Let this be our kindness to "..genderOL[gend]..".",
+	  "Begone, evildoer.",
+	  "Thus do we cleanse ourselves.",
+	  "We wash our hands of "..genderOL[gend]..".", -- Perhaps a reference to Pontius Pilate
+	  "Fortune shall be "..genderPL[gend].." final judge.",
+	  genderSU[gend].." is disowned.",
+	  "We never knew "..genderOL[gend]..".",
+	  genderSU[gend].." is cut off.",
+	  "Let "..genderOL[gend].." live with the beasts.",
+	  "Let the barbarians and wild folk have "..genderOL[gend]..".",
+	  genderSU[gend].." is not fit for civilised lands.",
+	  "Thus we ensure our security.", -- Perhaps a reference to Sheev Palpatine
+	  "Only the righteous belong among us.",
+	  "May "..genderSL[gend].." toil in vain.",
+	  "So it is written. So it is done.", -- Now a reference to Cecil B. DeMille
+	  "Even the dogs despise "..genderOL[gend]..".",
+	  "We break no bread with traitors.",
+	  "Let this be "..genderPL[gend].." journey to cleanse "..genderRL[gend].."."
+	}
+end
+-- Various corruptions of "Ozymandias"
 local exile = {
   "Ochymadion",
   "Aseymedius",
@@ -309,8 +318,7 @@ local exile = {
   "Otzakantas",
   "Archanatus"
 }
-
---what happened here? Lost to memory
+-- What happened here? Lost to memory.
 local mythic_terror = {
   "Great Calamity",
   "Unending Curse",
@@ -323,7 +331,7 @@ local mythic_terror = {
   "Darkness",
   "Scourge",
   "Sleeping Evil",
-  "Firey Breath",
+  "Fiery Breath",
   "Great Burning",
   "Great Bleeding",
   "Ancient Exodus",
@@ -348,31 +356,33 @@ local generate_text = function(player)
 
   local meta = player:get_meta()
 
-  local judge = judger[random(#judger)]
-  local your_name = meta:get_string("char_name")
+  local judge       = judger[random(#judger)]
+  local your_name   = meta:get_string("char_name")
   local origin_name = lore.generate_name(4)
   local polity_name = lore.generate_name(5)
-  local cr1 = crime1[random(#crime1)]
-  local cr2 = crime2[random(#crime2)]
-  local your_woe = woe[random(#woe)]
-  local exile_land = exile[random(#exile)]
-  local terror = mythic_terror[random(#mythic_terror)]
-
+  local cr1         = crime1[random(#crime1)]
+  local cr2         = crime2[random(#crime2)]
+  woe               = populate_woe(player)
+  local your_woe    = woe[random(#woe)]
+  local exile_land  = exile[random(#exile)]
+  local terror      = mythic_terror[random(#mythic_terror)]
+  local gend        = player_api.get_gender(player)
+  --
   letter_text =
     "By decree of the "..judge..
     " of "..polity_name..": "..
     "\n \n "..
-    "\n "..your_name.." of "..origin_name..
+    "\n  "..your_name.." of "..origin_name..
     "\n \n "..
     "\nis hereby sentenced to exile for the crimes of "..
     "\n  "..
     "\n"..cr1..
-    "\n  "..
+    "\n    "..
     "\nand "..
     "\n  "..
     "\n"..cr2.."."..
     "\n \n \n"..
-    "\nThey are banished to the land of "..exile_land.."."..
+    "\n"..genderSU[gend].." is banished to the land of "..exile_land.."."..
     "\n  "..
     "\nThe land of the "..terror.."."..
     "\n  \n \n"..
