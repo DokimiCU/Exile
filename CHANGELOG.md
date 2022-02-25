@@ -1,5 +1,12 @@
 # Changelog:
 
+## [2022-01-25][2022-01-25__0.3.5b] — 0.3.5b and 0.2.8b
+ - flowing water no longer supports player weight in MT 5.5.0
+ - /suicide command for players who are stuck
+ - added frost overlay to the HUD when you're dangerously cold
+ - cooking pot now available, still somewhat WIP
+ - many minor bugfixes and improvements
+
 ## [2022-01-21][2022-01-21__0.3.5] — 0.3.5 and 0.2.8
   - Blankets to keep warm.
   - Foods can now burn if left cooking too long.
@@ -16,7 +23,7 @@
   - New food system infrastructure.
   - Experimental biomes, enable under settings to test.
   - Miscellaneous bug-fixes and quality of life improvements.
-   
+
 ## [2021-11-01][2021-11-01__0.3.4] — 0.3.4 and 0.2.7
   - New player API: Head tracking, multiplayer skins, male and female characters.
   - Added an introduction screen for new players, and a chat display of the day/season/year with in-universe style.
@@ -89,7 +96,7 @@
   - Graffiti: glow paint.
   - New building materials: `Rammed Earth`, bricks and mortar, roof tiles, wooden doors/floors/stair, mortared masonry.
   - Fixed dungeon loot.
-  - Added more artifacts. (`Airboat`, art, transporter, `Wayfinder`, 
+  - Added more artifacts. (`Airboat`, art, transporter, `Wayfinder`,
   ….)
   - Added three artifact species of mushrooms for sustaining fibre, food/water, and sticks, absent sunlight.
   - Split Geomoria mod's biomes into realms (highways, and city structures).
@@ -181,6 +188,6 @@
  <!-- Unix time 1583885403 -->
  <!-- Wed Mar 11 13:10:03 2020 UTC+1300 -->
  <!-- 2020-03-11 00:10:03      UTC+0000 -->
- <!-- This was the first commit on GitHub. 
+ <!-- This was the first commit on GitHub.
 	Presumably the code was developed for more than at least one day.
 	The date Dokimi began working on the code does not appear to have been publicized. -->
