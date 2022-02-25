@@ -484,8 +484,8 @@ if minetest.settings:get_bool("enable_damage") then
 				local name = player:get_player_name()
 				local meta = player:get_meta()
 				local health = player:get_hp()
-				if health == 0 then return end
-				-- don't damage us, we're already dead
+				-- don't damage us if we're already dead
+				if health > 0 then
 				local thirst = meta:get_int("thirst")
 				local hunger = meta:get_int("hunger")
 				local energy = meta:get_int("energy")
@@ -560,9 +560,9 @@ if minetest.settings:get_bool("enable_damage") then
 				sfinv.set_player_inventory_formspec(player)
 
 
+				end
 			end
 		end
-
 		--reset
 		if timer > interval then
 			timer = 0

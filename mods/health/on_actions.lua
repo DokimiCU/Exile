@@ -233,8 +233,8 @@ if minetest.settings:get_bool("enable_damage") then
 				local meta = player:get_meta()
 
 				local health = player:get_hp()
-				if health == 0 then return end
-				-- we're dead, so no more healing/etc
+				-- if we're dead, no more healing/etc
+				if health > 0 then
 				local thirst = meta:get_int("thirst")
 				local hunger = meta:get_int("hunger")
 				local energy = meta:get_int("energy")
@@ -278,7 +278,7 @@ if minetest.settings:get_bool("enable_damage") then
         --[safe] comfort zone ->[low cost]->stress zone ->[high cost]-> danger zone->[damage]
 
         local comfort_low = meta:get_int("clothing_temp_min")
-      	local comfort_high = meta:get_int("clothing_temp_max") + 1
+	local comfort_high = meta:get_int("clothing_temp_max") + 1
 	-- comfort is rounded off in display, so you can be half a degree
 	-- over and still in the white. Don't confuse players by penalizing!
         local stress_low = comfort_low - 10
@@ -418,8 +418,8 @@ if minetest.settings:get_bool("enable_damage") then
           posu.y = posu.y - 1.6
 
           local s_name = minetest.get_node(posu).name
-      		if minetest.get_item_group(s_name, "wet_sediment") > 0 then
-            HEALTH.add_new_effect(player, {"Fungal Infection", 1})
+	  if minetest.get_item_group(s_name, "wet_sediment") > 0 then
+	     HEALTH.add_new_effect(player, {"Fungal Infection", 1})
           end
         end
 
@@ -458,9 +458,10 @@ if minetest.settings:get_bool("enable_damage") then
 				--update form so can see change while looking
 				sfinv.set_player_inventory_formspec(player)
 
+				end
+
+
 			end
-
-
 		end
 
 		--reset
