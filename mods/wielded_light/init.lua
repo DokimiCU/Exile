@@ -25,7 +25,7 @@ local removal_delay = update_interval * 0.5
 local cleanup_interval = update_interval * 3
 
 -- How far in the future will the position be projected based on the velocity
-local velocity_projection = update_interval * 1
+local velocity_projection = update_interval * 0.5
 
 -- How many light levels should an item held in the hand be reduced by, compared to the placed node
 -- does not apply to manually registered light levels
