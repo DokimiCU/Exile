@@ -207,8 +207,7 @@ local function health(player, hud_data)
 end
 
 
-local function energy(player, hud_data)
-  local meta = player:get_meta()
+local function energy(player, hud_data, meta)
 	local v = meta:get_int("energy")
 	v = (v/1000)*100
 	local col = color(v)
@@ -218,8 +217,7 @@ local function energy(player, hud_data)
 	player:hud_change(hud, "number", col)
 end
 
-local function thirst(player, hud_data)
-	local meta = player:get_meta()
+local function thirst(player, hud_data, meta)
 	local v = meta:get_int("thirst")
 	v = (v/100)*100
 	local col = color(v)
@@ -229,8 +227,7 @@ local function thirst(player, hud_data)
 	player:hud_change(hud, "number", col)
 end
 
-local function hunger(player,  hud_data)
-	local meta = player:get_meta()
+local function hunger(player,  hud_data, meta)
 	local v = meta:get_int("hunger")
 	v = (v/1000)*100
 	local col = color(v)
@@ -241,8 +238,7 @@ local function hunger(player,  hud_data)
 end
 
 
-local function temp(player, hud_data)
-	local meta = player:get_meta()
+local function temp(player, hud_data, meta)
 	local v = meta:get_int("temperature")
 	local col = color_bodytemp(v)
 	local t = climate.get_temp_string(v, meta)
@@ -266,8 +262,7 @@ local function do_overlay(player, pname, pos, overlay)
 end
 
 
-local function enviro_temp(player, hud_data)
-	local meta = player:get_meta()
+local function enviro_temp(player, hud_data, meta)
 	local pname = player:get_player_name()
 	local player_pos = player:get_pos()
 	player_pos.y = player_pos.y + 0.6 --adjust to body height
@@ -288,8 +283,7 @@ local function enviro_temp(player, hud_data)
 end
 
 
-local function effects(player, hud_data)
-	local meta = player:get_meta()
+local function effects(player, hud_data, meta)
 	local v = meta:get_int("effects_num")
 	local t = "x "..v
 	local hud =  hud_data.effects_hud
@@ -306,18 +300,19 @@ minetest.register_globalstep(function(dtime)
    for _0, player in ipairs(minetest.get_connected_players()) do
 
 		local name = player:get_player_name()
+		local meta = player:get_meta()
 		local hud_data = hud[name]
 		if not hud_data then
 			return
 		end
 
 		health(player, hud_data)
-		energy(player, hud_data)
-		thirst(player, hud_data)
-		hunger(player, hud_data)
-		temp(player, hud_data)
-		enviro_temp(player, hud_data)
-		effects(player, hud_data)
+		energy(player, hud_data, meta)
+		thirst(player, hud_data, meta)
+		hunger(player, hud_data, meta)
+		temp(player, hud_data, meta)
+		enviro_temp(player, hud_data, meta)
+		effects(player, hud_data, meta)
 
    end
    timer = 0
