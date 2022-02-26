@@ -480,7 +480,7 @@ local air_def = {
 }
 minetest.register_node("climate:air_temp", air_def)
 air_def.description = "Temperature Effect Air (Visible)"
-air_def.drawtype = "glasslike"
+air_def.drawtype = "allfaces"
 air_def.on_timer =function(pos, elapsed)
    return climate.heat_transfer(pos, "climate:air_temp_visible", 'air')
 end,
