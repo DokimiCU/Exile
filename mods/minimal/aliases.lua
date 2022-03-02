@@ -29,3 +29,12 @@ minetest.register_alias("tech:mashed_anperal_burned",
 
 minetest.register_alias("tech:clay_oil_lamp_empty",
 			"tech:clay_oil_lamp_unlit")
+--Changed in Exile 0.3.5c/0.2.8c
+minetest.register_alias("illumination:light_faint",
+			"air")
+minetest.register_alias("illumination:light_dim",
+			"air")
+minetest.register_alias("illumination:light_mid",
+			"air")
+minetest.register_alias("illumination:light_full",
+			"air")
