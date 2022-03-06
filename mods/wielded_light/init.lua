@@ -99,6 +99,14 @@ local function is_entity_valid(entity)
 	return entity and (entity.obj:is_player() or (entity.obj:get_luaentity() and entity.obj:get_luaentity().name) or false)
 end
 
+-- Check whether a node was registered by the wield_light mod
+local function  is_wieldlight_node(pos_vec)
+   local name = string.sub(minetest.get_node(pos_vec).name, 0, #mod_name)
+   if name == mod_name then
+      return true
+   end
+end
+
 -- Get the projected position of an entity based on its velocity, rounded to the nearest block
 local function entity_pos(obj, offset)
 	local velocity
@@ -176,7 +184,9 @@ local function update_entity(entity)
 		end
 	end
 	if active_lights[pos_str] then
-		minetest.get_node_timer(pos):start(cleanup_interval)
+	   if is_wieldlight_node(pos) then
+	      minetest.get_node_timer(pos):start(cleanup_interval)
+	   end
 	end
 	entity.update = false
 end
@@ -200,7 +210,7 @@ local function restore_timer(pos_vec)
 --	local pos_vec = minetest.string_to_pos(pos)
 	local meta = minetest.get_meta(pos_vec)
 	local timeout = meta:get_float("saved_timer_timeout")
-	if timeout then
+	if timeout > 0 then
 		local elapsed = meta:get_float("saved_timer_elapsed")
 		local timer=minetest.get_node_timer(pos_vec)
 		timer:set(timeout,elapsed)
@@ -208,10 +218,6 @@ local function restore_timer(pos_vec)
 		meta:set_string("saved_timer_elapsed",nil)
 	end
 end
-
-
-
-
 
 
 -- Replace a lighting node with its original counterpart
@@ -294,7 +300,9 @@ local function recalc_light(pos)
 			node_name = lighting_nodes[name].node
 		end
 		if node_name then
-			save_timer(pos)
+		   if not is_wieldlight_node(pos_vec) then
+		      save_timer(pos)
+		   end
 			minetest.swap_node(pos_vec, {
 				name = lightable_nodes[node_name][max_light],
 				param2 = existing_node.param2
@@ -635,7 +643,7 @@ if minetest.get_modpath("exile_env_sounds") then
 	wielded_light.register_lightable_node("nodes_nature:salt_water_source", {groups={liquid=1}}, "salt_water_")
 	wielded_light.register_lightable_node("nodes_nature:salt_water_flowing", {groups={liquid=1,floodable=0}}, "salt_water_flowing_")
 
-	-- Trees 
+	-- Trees
 	wielded_light.register_lightable_node("nodes_nature:tree_mark", nil, "trees_")
 
 	-- Ladders / Rope
@@ -657,7 +665,7 @@ if minetest.get_modpath("exile_env_sounds") then
 	-- dim, 8, 8-10
 	wielded_light.register_item_light('tech:torch', 8)			--8
 	-- mid, 12, 11-12
-	
+
 	-- full, 14, 13-15
 	wielded_light.register_item_light('artifacts:sun_stone', 14)		--13
 else
