@@ -449,6 +449,12 @@ minetest.register_on_joinplayer(function(player)
 	local temperature = meta:get_int("temperature")
 	HEALTH.malus_bonus(player, name, meta, health, energy, thirst, hunger, temperature)
 
+	local velo = meta:get_string("player_velocity")
+	if velo ~= nil then
+	   local velo_vec = minetest.string_to_pos(velo)
+	   player:add_velocity(velo_vec)
+	   meta:set_string("player_velocity", "")
+	end
 end)
 
 
@@ -468,6 +474,12 @@ minetest.register_on_respawnplayer(function(player)
 	set_default_attibutes(player)
 	sfinv.set_player_inventory_formspec(player)
 	clothing:update_temp(player)
+end)
+
+minetest.register_on_leaveplayer(function(player, timed_out)
+      local meta = player:get_meta()
+      local velo = player:get_velocity()
+      meta:set_string("player_velocity", minetest.pos_to_string(velo))
 end)
 
 if minetest.settings:get_bool("enable_damage") then
