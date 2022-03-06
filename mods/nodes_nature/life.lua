@@ -801,6 +801,21 @@ minetest.register_node("nodes_nature:chalin", {
 			  groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
 			  sounds = nodes_nature.node_sound_wood_defaults(),
 
+			  on_place = function(itemstack, placer, pointed_thing)
+			     if minetest.get_node(pointed_thing.under).name ==
+				"nodes_nature:chalin" then
+				return
+			     end
+			     local face = vector.direction(pointed_thing.above,
+							   pointed_thing.under)
+			     if face.y == -1 then
+				minetest.item_place_node(itemstack, placer, pointed_thing)
+				itemstack:take_item(1)
+				return itemstack
+			     else
+				return itemstack
+			     end
+			  end,
 			  after_dig_node = function(pos, node, metadata, digger)
 			     dig_up(pos, node, digger)
 			  end,
