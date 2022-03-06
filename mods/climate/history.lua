@@ -114,6 +114,45 @@ function crop_rewind(duration, timer_avg, mushroom)
    return floor(growth_ticks)
 end
 
+------------------------------
+-- checks the climate record, and returns how long it rained
+function climate.rain_amount(duration)
+   local chunks = floor(duration / 60)
+   local total = 0
+   for i = 0,chunks,1 do
+      local conditions = history(i)
+	 if conditions.rain == true then
+	    total = total + 1
+	 end
+   end
+   return total
+end
+
+local last_rained -- caches the gametime value of the last rain
+
+function climate.time_since_rain(max_seek)
+   if last_rained then
+      local timesincelast = minetest.get_gametime() - last_rained
+      if timesincelast < max_seek then
+	 return timesincelast
+      end
+   end
+
+   local max_chunks = 0
+   if max_seek then
+      max_chunks = floor(max_seek / 60)
+   end
+   for i = 1,max_chunks,1 do
+      local conditions = history(i)
+      if conditions.rain == true
+      then
+	 last_rained = minetest.get_gametime() - i*60
+	 return i*60
+      end
+   end
+   return 0
+end
+
 function exiledatestring()
    local days = minetest.get_day_count()
    local time = minetest.get_timeofday()

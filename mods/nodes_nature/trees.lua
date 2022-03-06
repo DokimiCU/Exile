@@ -111,7 +111,8 @@ minetest.register_node("nodes_nature:tree_mark", {
 
 		if #positions == 0 then
 			minetest.remove_node(pos)
-		elseif climate.get_rain(pos, 15) then
+		elseif climate.get_rain(pos, 15) or
+		   climate.time_since_rain(elapsed) > 0 then
 			--needs rain for growth
 			minetest.set_node(pos, {name = saved_name, param2 = saved_param2})
 		else
