@@ -452,7 +452,9 @@ minetest.register_on_joinplayer(function(player)
 	local velo = meta:get_string("player_velocity")
 	if velo ~= nil then
 	   local velo_vec = minetest.string_to_pos(velo)
-	   player:add_velocity(velo_vec)
+	   if velo_vec ~= nil then
+	      player:add_velocity(velo_vec)
+	   end
 	   meta:set_string("player_velocity", "")
 	end
 end)
