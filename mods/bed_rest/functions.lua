@@ -84,7 +84,7 @@ local function get_formspec()
 	local title = "BREAK TIME!"
 	local message1 = "You've been here long enough to justify a real break.\nThink of this as a reminder from your better self.\nGo get some rest. Leave Exile behind. You can come back any time."
 	local message2 = minetest.colorize("#aaaa22",
-		   "(Disable this notice with /set_breaktaker off)" )
+		   "(Disable this notice with /breaktaker off)" )
 	local quote = quote_list[math.random(1,#quote_list)]
 
 	local formspec = {
@@ -375,12 +375,12 @@ end
 )
 
 --------------------------------------------
-minetest.register_chatcommand("set_breaktaker", {
+minetest.register_chatcommand("breaktaker", {
     params = "on or off",
     description = "Switch the break taker off or on per user",
     func = function(name, param)
        if param == "" or param == "help" then
-	  wlist = "/set_breaktaker:\n"..
+	  wlist = "/breaktaker:\n"..
 	  "Switch the breaktaker notice off or on for you."
 	  return false, wlist
        end
