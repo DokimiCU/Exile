@@ -21,8 +21,6 @@ over a fire.
 #TODO: Test this ^^ after the cooking pot supports both tables
 ]]--
 
-local cook_rate = 6   -- speed of the cook timer; tenth of a minute seems fine
-
 dofile(minetest.get_modpath('health')..'/data_food.lua')
 
 local function do_food_harm(user, nodename)
@@ -70,11 +68,13 @@ local eat_redef = {
 end}
 
 local bake_redef = {
-   on_construct = function(...)
-      exile_start_bake(...)
+   on_construct = function(pos)
+      ncrafting.start_bake(pos, bake_table[selfname][2])
    end,
-   on_timer = function(...)
-      return exile_bake(...)
+   on_timer = function(pos, elapsed)
+      return ncrafting.do_bake(pos, elapsed,
+			       bake_table[selfname][1],
+			       bake_table[selfname][2])
 end}
 
 function exile_add_food(table)
@@ -82,7 +82,7 @@ function exile_add_food(table)
    for k, v in pairs(table) do
       food_table[k] = v
       if minetest.registered_nodes[k] then
-	 minetest.override_item(name, eat_redef)
+	 minetest.override_item(k, eat_redef)
       end
    end
 end
@@ -91,7 +91,7 @@ function exile_add_bake(table)
    for k, v in pairs(table) do
       bake_table[k] = v
       if minetest.registered_nodes[k] then
-	 minetest.override_item(name, bake_redef)
+	 minetest.override_item(k, bake_redef)
       end
    end
 end
@@ -140,80 +140,3 @@ minetest.after(1, function()
    end
    minetest.log("info","-------")
 end)
-
-function exile_start_bake(pos)
-   local selfname = minetest.get_node(pos).name
-   local meta = minetest.get_meta(pos)
-   selfname = selfname:gsub("_cooked","") -- ensure we have the base name
-   meta:set_int("baking",bake_table[selfname][2])
-   minetest.get_node_timer(pos):start(cook_rate)
-end
-
-function exile_bake(pos, elapsed)
-   local selfname = minetest.get_node(pos).name
-   selfname = selfname:gsub("_cooked","") -- ensure we have the base name
-   local name_cooked = selfname.."_cooked"
-   local name_burned = selfname.."_burned"
-   local heat = bake_table[selfname][1]
-   local length = bake_table[selfname][2]
-   local burntime = math.floor( length * .40 + 10 ) * -1
-   local meta = minetest.get_meta(pos)
-   local baking = meta:get_int("baking")
-
-   --check if wet, stop
-   if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
-      return true
-   end
-
-   --exchange accumulated heat
-   climate.heat_transfer(pos, selfname)
-
-   --check if above firing temp
-   local temp = climate.get_point_temp(pos)
-   local fire_temp = heat
-   if temp == nil then
-      return
-   elseif baking == 0 then
-      --finished firing
-      minetest.swap_node(pos, {name = name_cooked})
-      minetest.check_for_falling(pos) 
-      meta:set_int("baking", -1) -- prepare to burn it
-      minetest.get_node_timer(pos):start(cook_rate)
-      return true
-   elseif temp < fire_temp then
-      --not lit yet
-      return true
-   elseif temp > fire_temp * 2  or baking < burntime then
-      if minetest.registered_nodes[name_burned] then
-	 --too hot or too long on the fire, burn
-	 minetest.set_node(pos, {name = name_burned})
-      else
-	 minetest.set_node(pos, {name = "air"})
-      end
-      --Smoke
-      minetest.sound_play("tech_fire_small",{pos=pos, max_hear_distance = 10, loop=false, gain=0.1})
-      minetest.add_particlespawner({
-	    amount = 2,
-	    time = 0.5,
-	    minpos = {x = pos.x - 0.1, y = pos.y, z = pos.z - 0.1},
-	    maxpos = {x = pos.x + 0.1, y = pos.y + 0.5, z = pos.z + 0.1},
-	    minvel = {x= 0, y= 0, z= 0},
-	    maxvel = {x= 0.01, y= 0.06, z= 0.01},
-	    minacc = {x= 0, y= 0, z= 0},
-	    maxacc = {x= 0.01, y= 0.1, z= 0.01},
-	    minexptime = 3,
-	    maxexptime = 10,
-	    minsize = 1,
-	    maxsize = 4,
-	    collisiondetection = true,
-	    vertical = true,
-	    texture = "tech_smoke.png",
-      })
-      return false
-   elseif temp >= fire_temp then
-      --do firing
-      meta:set_int("baking", baking - 1)
-      return true
-   end
-
-end
