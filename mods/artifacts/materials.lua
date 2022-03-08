@@ -171,6 +171,7 @@ minetest.register_node("artifacts:antiquorium_ladder", {
 		type = "wallmounted",
 		--wall_top = = <default>
 		--wall_bottom = = <default>
+		wall_side = {-0.5,-0.4,-0.4,-0.4,0.4,0.4},
 		--wall_side = = <default>
 	},
 	sounds = nodes_nature.node_sound_glass_defaults(),

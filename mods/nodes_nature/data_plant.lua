@@ -75,5 +75,5 @@ tree_list = {
 	{"maraka", "Maraka Tree", "maraka_nut", "Maraka Nut", 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1},
 	{"tangkal", "Tangkal Tree", "tangkal_fruit", "Tangkal Fruit", 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2},
 	{"sasaran", "Sasaran Tree", "sasaran_cone", "Sasaran Cone", 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2},
-	{"kagum", "Kagum Tree", "kagum_pod", "Kagum Pod", 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2},
+	{"kagum", "Kagum Tree", "kagum_pod", "Kagum Pod", 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2},
 }

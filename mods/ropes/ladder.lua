@@ -36,6 +36,7 @@ local rope_ladder_top_def = {
 		type = "wallmounted",
 		--wall_top = = <default>
 		--wall_bottom = = <default>
+		wall_side = {-0.5,-0.4,-0.4,-0.4,0.4,0.4},
 		--wall_side = = <default>
 
 	},
@@ -74,6 +75,7 @@ minetest.register_node("ropes:ropeladder", {
 		type = "wallmounted",
 		--wall_top = = <default>
 		--wall_bottom = = <default>
+		wall_side = {-0.5,-0.4,-0.4,-0.4,0.4,0.4},
 		--wall_side = = <default>
 	},
 	groups = {choppy=2, flammable=1, not_in_creative_inventory=1},
@@ -103,6 +105,7 @@ minetest.register_node("ropes:ropeladder_bottom", {
 		type = "wallmounted",
 		--wall_top = = <default>
 		--wall_bottom = = <default>
+		wall_side = {-0.5,-0.4,-0.4,-0.4,0.4,0.4},
 		--wall_side = = <default>
 
 	},
