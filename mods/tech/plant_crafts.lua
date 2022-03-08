@@ -4,7 +4,6 @@
 --also food processing
 -----------------------------------
 
-local random = math.random
 ---------------------------------------
 --Craft items
 
@@ -68,60 +67,9 @@ minetest.register_node("tech:stick", {
        end
     end
  end
-			      
+
 
 })
-
-
-
-
-
-
----------------------------------------
---Food processing
-
-
-
------------
---Maraka washing functions
-local function set_maraka_wash(pos, length, interval)
-	-- count
-	local meta = minetest.get_meta(pos)
-	meta:set_int("washing", length)
-	--check  interval
-	minetest.get_node_timer(pos):start(interval)
-end
-
-
-
-local function wash_maraka(pos, name, length)
-	local meta = minetest.get_meta(pos)
-	local washing = meta:get_int("washing")
-
-  local node_a = minetest.get_node({x=pos.x, y=pos.y + 1, z=pos.z})
-
-	--check if wet,
-	if climate.get_rain(pos) or  minetest.get_item_group(node_a.name, "water") > 0 then
-  -- or minetest.find_node_near(pos, 1, {"group:water"}) then
-
-    if washing <= 0 then
-      --finished
-      minetest.set_node(pos, {name = name})
-      return false
-    else
-      --do washing
-      meta:set_int("washing", washing - 1)
-      return true
-    end
-
-  else
-    --no water
-    return true
-	end
-
-end
-
-
 
 
 --bitter maraka flour
@@ -135,11 +83,11 @@ minetest.register_node('tech:maraka_flour_bitter', {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    set_maraka_wash(pos, 60, 10)
+    ncrafting.set_soak(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length
-    return wash_maraka(pos, "tech:maraka_flour", 60)
+    return ncrafting.do_soak(pos, "tech:maraka_flour", 60)
   end,
 })
 

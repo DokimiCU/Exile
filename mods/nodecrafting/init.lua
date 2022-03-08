@@ -5,6 +5,7 @@ ncrafting = {
  cook_rate = 6   -- cook timer; tenth of a minute seems fine
 }
 
+
 -----------------------------------------------
 -- Smoke particles
 
@@ -27,6 +28,7 @@ function ncrafting.particle_smokesmall(pos)
   texture = "tech_smoke.png",
    }
 end
+
 
 -----------------------------------------------
 -- Pottery firing functions
@@ -77,6 +79,7 @@ function ncrafting.fire_pottery(pos, selfname, name, length)
 	end
 
 end
+
 
 -----------------------------------------------
 -- Baking functions
@@ -133,6 +136,38 @@ function ncrafting.do_bake(pos, elapsed, heat, length)
    elseif temp >= fire_temp then
       --do firing
       meta:set_int("baking", baking - 1)
+      return true
+   end
+end
+
+
+-----------------------------------------------
+-- Soaking/Retting functions
+
+function ncrafting.start_soak(pos, length, interval)
+   local meta = minetest.get_meta(pos)
+   meta:set_int("soaking", length)
+   minetest.get_node_timer(pos):start(interval)
+end
+
+function ncrafting.do_soak(pos, name, length)
+   local meta = minetest.get_meta(pos)
+   local soaking = meta:get_int("soaking")
+
+   --check if wet,
+   local node_a = minetest.get_node({x=pos.x, y=pos.y + 1, z=pos.z})
+   if minetest.get_item_group(node_a.name, "water") > 0 then
+      if soaking <= 0 then
+	 --finished
+	 minetest.set_node(pos, {name = name})
+	 return false
+      else
+	 --do soaking
+	 meta:set_int("soaking", soaking - 1)
+	 return true
+      end
+   else
+      --no water
       return true
    end
 end
