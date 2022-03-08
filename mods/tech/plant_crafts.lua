@@ -83,7 +83,7 @@ minetest.register_node('tech:maraka_flour_bitter', {
 	sounds = nodes_nature.node_sound_dirt_defaults(),
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    ncrafting.set_soak(pos, 60, 10)
+    ncrafting.start_soak(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length

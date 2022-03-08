@@ -59,7 +59,7 @@ minetest.register_node('tech:unretted_cana_bundle', {
 	end,
   on_construct = function(pos)
     --length(i.e. difficulty of wash), interval for checks (speed)
-    ncrafting.set_soak(pos, 60, 10)
+    ncrafting.start_soak(pos, 60, 10)
   end,
   on_timer = function(pos, elapsed)
     --finished product, length
