@@ -69,9 +69,11 @@ end}
 
 local bake_redef = {
    on_construct = function(pos)
+      local selfname = minetest.get_node(pos).name
       ncrafting.start_bake(pos, bake_table[selfname][2])
    end,
    on_timer = function(pos, elapsed)
+      local selfname = minetest.get_node(pos).name
       return ncrafting.do_bake(pos, elapsed,
 			       bake_table[selfname][1],
 			       bake_table[selfname][2])
