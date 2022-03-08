@@ -175,6 +175,36 @@ minetest.register_node("artifacts:antiquorium_ladder", {
 	},
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 2},
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local itemname = itemstack:get_name()
+		if  itemname == 'artifacts:antiquorium_ladder' then
+			local pos_under = {x = pos.x, y = pos.y - 1, z = pos.z}
+			local under = minetest.get_node(pos_under)
+			if under.name == "air" then
+				minetest.set_node(pos_under, {name = itemname,
+					param1 = node.param1,
+					param2 = node.param2
+				})
+
+				itemstack:take_item()
+			else
+				local pos_over =  {x = pos.x, y = pos.y + 1, z = pos.z}
+				local over = minetest.get_node(pos_over)
+				if over.name == 'air' then
+					minetest.set_node(pos_over, {name = itemname,
+						param1 = node.param1,
+						param2 = node.param2
+					})
+					itemstack:take_item()
+				end
+			end
+		else
+			if itemstack:get_definition().type == "node" then
+				return minetest.item_place_node(itemstack, clicker,
+							 pointed_thing)
+			end
+		end
+	end
 })
 
 
