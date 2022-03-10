@@ -329,7 +329,7 @@ minetest.register_node("nodes_nature:lava_source", {
 	liquid_renewable = false,
 	damage_per_second = 4 * 2,
 	post_effect_color = {a = 191, r = 255, g = 64, b = 0},
-	groups = {igniter = 1, temp_effect = 1},
+	groups = {igniter = 1, temp_effect = 1, temp_pass = 1},
 })
 
 minetest.register_node("nodes_nature:lava_flowing", {
