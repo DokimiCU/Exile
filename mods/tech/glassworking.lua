@@ -420,7 +420,7 @@ minetest.register_node("tech:pane_tray",
 	description = "Pane Casting Tray",
 	tiles = {"tech_iron.png"},
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {
@@ -430,7 +430,7 @@ minetest.register_node("tech:pane_tray",
 			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
 			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
 		}
-		
+
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
@@ -444,7 +444,7 @@ minetest.register_node("tech:pane_tray_green",
 	description = "Pane Casting Tray With Green Glass Pane",
 	tiles = {"tech_tray_green.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {
@@ -454,14 +454,19 @@ minetest.register_node("tech:pane_tray_green",
 			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
 			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
 		}
-		
+
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
 	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
 	on_dig = function(pos, node, digger)
-	   digger:get_inventory():add_item("main", "tech:pane_green")
+	   local inv = digger:get_inventory()
+	   if inv:room_for_item("main", "tech:pane_green") then
+	      inv:add_item("main", "tech:pane_green")
+	   else
+	      minetest.add_item(pos, "tech:pane_green")
+	   end
 	   minetest.swap_node(pos, {name = "tech:pane_tray"})
 	end,
 
@@ -472,7 +477,7 @@ minetest.register_node("tech:pane_tray_clear",
 	description = "Pane Casting Tray With Clear Glass Pane",
 	tiles = {"tech_tray_clear.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {
@@ -482,14 +487,19 @@ minetest.register_node("tech:pane_tray_clear",
 			{-0.5, -0.4, -0.5, 0.5, -0.3, -0.4},
 			{-0.5, -0.4, 0.5, 0.5, -0.3, 0.4}
 		}
-		
+
 	},
 	stack_max = minimal.stack_max_bulky * 2,
 	paramtype2 = "facedir",
 	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
 	on_dig = function(pos, node, digger)
-	   digger:get_inventory():add_item("main", "tech:pane_clear")
+	   local inv = digger:get_inventory()
+	   if inv:room_for_item("main", "tech:pane_clear") then
+	      inv:add_item("main", "tech:pane_clear")
+	   else
+	      minetest.add_item(pos, "tech:pane_clear")
+	   end
 	   minetest.swap_node(pos, {name = "tech:pane_tray"})
 	end,
 
@@ -513,7 +523,7 @@ minetest.register_node("tech:pane_green",
 	tiles = {"tech_green_glass.png"},
 	inventory_image = "tech_green_pane_icon.png",
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes
@@ -536,7 +546,7 @@ minetest.register_node("tech:pane_clear",
 	node_box = 
 	{
 		type = "fixed",
-		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes	
+		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes
 	},
 	stack_max = minimal.stack_max_medium * 2,
 	paramtype = "light",

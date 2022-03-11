@@ -87,6 +87,9 @@ function crafting.make_result_selector(player, type, level, size, context)
 	local y_offset = 0.2
 	for i = start_i, math.min(#recipes, start_i * num_per_page)  do
 		local result = recipes[i]
+		if not result then
+		   return
+		end
 		local recipe = result.recipe
 
 		local itemname = ItemStack(recipe.output):get_name()
