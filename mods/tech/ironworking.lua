@@ -73,7 +73,7 @@ local function roast(pos, selfname, name, length, heat, smelt)
     --not lit yet
     return true
 	elseif temp >= fire_temp then
-    if smelt then
+    if smelt then -- #TODO: eliminate directional bias
       --smelting requires release of slag
       --position below
       local posb = {
@@ -91,25 +91,34 @@ local function roast(pos, selfname, name, length, heat, smelt)
       for _, p in pairs(posb) do
         local n = minetest.get_node(p).name
 				--must drain into air or other slag mix
-        if n == 'air' or n == 'climate:air_temp' or n == 'tech:iron_and_slag' then
-					minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 8, gain = 0.1})
-					if n ~= 'tech:iron_and_slag' then
-						minetest.set_node(p, {name = 'tech:molten_slag_flowing'})
-						--only drain to one place (i.e. so they all drain the same amount)
-						cn = cn + 1
-						break
-					else
-						--undo progress of the one it is draining into.
-						local meta_under = minetest.get_meta(p)
-						local roast_under = meta_under:get_int("roast")
-						--only if still has room (i.e. can't infinitely fill it)
-						if roast_under < 100 then
-							meta_under:set_int("roast", roast_under + 1)
-							--only drain to one place (i.e. so they all drain the same amount)
-							cn = cn + 1
-							break
-						end
-					end
+	local target = p
+	local tn = n
+	if tn == "tech:molten_slag_flowing" then
+	   repeat -- add a tail onto existing slag plumes
+	      target = vector.add(target, {x = 0, y = -1, z = 0})
+	      tn = minetest.get_node(target).name
+	   until tn ~= 'tech:molten_slag_flowing'
+	end
+        if tn == 'air' or tn == 'climate:air_temp' or
+	   tn == 'tech:iron_and_slag' then
+	   minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 8, gain = 0.1})
+	   if tn ~= 'tech:iron_and_slag' then
+	      minetest.set_node(target, {name = 'tech:molten_slag_flowing'})
+	      --only drain to one place (i.e. so they all drain the same amount)
+	      cn = cn + 1
+	      break
+	   else
+	      --undo progress of the one it is draining into.
+	      local meta_under = minetest.get_meta(target)
+	      local roast_under = meta_under:get_int("roast")
+	      --only if still has room (i.e. can't infinitely fill it)
+	      if roast_under < 100 then
+		 meta_under:set_int("roast", roast_under + 1)
+		 --only drain to one place (i.e. so they all drain the same amount)
+		 cn = cn + 1
+		 break
+	      end
+	   end
         end
       end
       --only makes smelt progress if able to drain
@@ -459,7 +468,7 @@ minetest.register_node("tech:molten_slag_flowing", {
 	liquidtype = "flowing",
 	liquid_alternative_flowing = "tech:molten_slag_flowing",
 	liquid_alternative_source = "tech:molten_slag_source",
-	liquid_viscosity = 7,
+	liquid_viscosity = 3,
 	liquid_renewable = false,
 	damage_per_second = 4 * 2,
 	post_effect_color = {a = 191, r = 255, g = 64, b = 0},
