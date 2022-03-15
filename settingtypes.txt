@@ -6,6 +6,13 @@
 # If you know how it happened, please let me know so I can prevent it.
 exile_bed_clear (Fix broken beds *press edit for details*) bool false
 
+## Gameplay settings
+
+# By default, Exile uses the world seed to generate dye sources. This
+# means dye sources will normally be the same for a given seed. Disable
+# this to use a random seed, so different plants will be chosen each time
+# the world seed is used.
+ncrafting_worldseed (Use world seed for dye generation) bool true
 
 ## Settings for displays
 

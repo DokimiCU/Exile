@@ -266,6 +266,8 @@ for i in ipairs(plantlist) do
 	local seed_desc = plantlist[i][8]
 	local seed_image = plantlist[i][9]
 	local growth = plantlist[i][10] --for seeds
+	local dyecandidate = plantlist[i][11]
+	local dominantcolor = plantlist[i][12]
 
 	if selbox == nil then
 		selbox = {-0.4, -0.5, -0.4, 0.4, -0.2, 0.4}
@@ -294,6 +296,11 @@ for i in ipairs(plantlist) do
 		g = {snappy = 3, attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
 	end
 
+	if dyecandidate then
+	   g.ncrafting_dye_candidate = dyecandidate
+	else
+	   g.ncrafting_dye_candidate = 1
+	end
 
 	--singlenode bushes etc
 	if draw == "nodebox" then
@@ -317,6 +324,7 @@ for i in ipairs(plantlist) do
 			buildable_to = true,
 			groups = g,
 			sounds = s,
+			_ncrafting_dye_dcolor = dominantcolor
 		})
 
 		--seedling
@@ -395,6 +403,7 @@ for i in ipairs(plantlist) do
       buildable_to = true,
       groups = g,
       sounds = s,
+      _ncrafting_dye_dcolor = dominantcolor,
       selection_box = {
         type = "fixed",
         fixed = selbox,
@@ -583,8 +592,9 @@ minetest.register_node("nodes_nature:gemedi", {
 		type = "fixed",
 		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
 	},
-	groups = {snappy = 3, fibrous_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+	groups = {snappy = 3, fibrous_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1, ncrafting_dye_candidate = 1},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
+	_ncrafting_dye_dcolor = "yellow",
 
 	after_dig_node = function(pos, node, metadata, digger)
 		dig_up(pos, node, digger)
@@ -635,7 +645,7 @@ minetest.register_node("nodes_nature:tiken", {
 		type = "fixed",
 		fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
 	},
-	groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+	groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1, ncrafting_dye_candidate = 1},
 	sounds = nodes_nature.node_sound_wood_defaults(),
 
 	after_dig_node = function(pos, node, metadata, digger)
@@ -704,12 +714,20 @@ for i in ipairs(searooted_list) do
 	local sound_table = searooted_list[i][7]
 	local height_min = searooted_list[i][8]
 	local height_max = searooted_list[i][9]
-	local pillar = searooted_list[i][9]
+	local pillar = searooted_list[i][10]
+	local dyecandidate = searooted_list[i][11]
+	local dominantcolor = searooted_list[i][12] or "green"
 
 	local g = {snappy = 3}
 	--use seaweed as fertilizer
 	if type == "seaweed" then
 		g = {snappy = 3, fertilizer = 1}
+	end
+
+	if dyecandidate then
+	   g.ncrafting_dye_candidate = dyecandidate
+	else
+	   g.ncrafting_dye_candidate = 1
 	end
 
 	if pillar then
@@ -734,6 +752,7 @@ for i in ipairs(searooted_list) do
 			node_dig_prediction = substrate,
 			node_placement_prediction = "",
 			sounds = sound_table,
+			_ncrafting_dye_dcolor = dominantcolor,
 
 			on_place = function(itemstack, placer, pointed_thing)
 				return rooted_place(itemstack, placer, pointed_thing, "nodes_nature:"..name, substrate, height_min, height_max)
@@ -765,6 +784,7 @@ for i in ipairs(searooted_list) do
 			node_dig_prediction = substrate,
 			node_placement_prediction = "",
 			sounds = sound_table,
+			_ncrafting_dye_dcolor = dominantcolor,
 
 			on_place = function(itemstack, placer, pointed_thing)
 				return rooted_place(itemstack, placer, pointed_thing, "nodes_nature:"..name, substrate, height_min, height_max)
@@ -798,7 +818,7 @@ minetest.register_node("nodes_nature:chalin", {
 			     type = "fixed",
 			     fixed = {-0.1875, -0.5, -0.1875, 0.1875, 0.5, 0.1875},
 			  },
-			  groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1},
+			  groups = {choppy = 3, woody_plant = 1, flammable = 1, flora = 1, cane_plant = 1, temp_pass = 1, ncrafting_dye_candidate = 1},
 			  sounds = nodes_nature.node_sound_wood_defaults(),
 
 			  on_place = function(itemstack, placer, pointed_thing)

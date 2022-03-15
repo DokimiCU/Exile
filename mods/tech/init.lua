@@ -28,3 +28,22 @@ dofile(modpath .. "/grafitti.lua")
 dofile(modpath .. "/bricks_and_mortar.lua")
 dofile(modpath .. "/cooking_pot.lua")
 -------------------------------
+
+-----------------------------------------------
+-- Dying recipes
+
+crafting.register_recipe({
+	type = "crafting_spot",
+	output = "ncrafting:dye_pot 1",
+	items = {"tech:clay_water_pot 1", "tech:stick 1"},
+	level = 1,
+	always_known = true,
+})
+
+crafting.register_recipe({
+	type = "crafting_spot",
+	output = "ncrafting:dye_table 1",
+	items = {"tech:stick 12"},
+	level = 1,
+	always_known = true,
+})

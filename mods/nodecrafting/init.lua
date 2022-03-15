@@ -1,10 +1,30 @@
 --
+local modpath = minetest.get_modpath('nodecrafting')
+
 ncrafting = {
  base_firing = 25,
  firing_int = 10,
  cook_rate = 6   -- cook timer; tenth of a minute seems fine
 }
 
+dofile(modpath..'/dyes.lua')
+
+local store = minetest.get_mod_storage()
+
+function ncrafting.loadstore(name)
+   return minetest.deserialize(store:get_string(name))
+end
+function ncrafting.savestore(name, table)
+   store:set_string(name, minetest.serialize(table))
+end
+function ncrafting.loadstore64(name)
+   local decodeme = minetest.decode_base64(store:get_string(name))
+   return minetest.deserialize(decodeme)
+end
+function ncrafting.savestore64(name, table)
+   local encodeme = minetest.serialize(table)
+   store:set_string(name, minetest.encode_base64(encodeme))
+end
 
 -----------------------------------------------
 -- Smoke particles
@@ -90,16 +110,16 @@ function ncrafting.start_bake(pos, result)
    minetest.get_node_timer(pos):start(ncrafting.cook_rate)
 end
 
-function ncrafting.do_bake(pos, elapsed, heat, length)
+function ncrafting.do_bake(pos, elapsed, heat, length, cookname, burnname)
    local selfname = minetest.get_node(pos).name
    selfname = selfname:gsub("_cooked","") -- ensure we have the base name
-   local name_cooked = selfname.."_cooked"
-   local name_burned = selfname.."_burned"
+   local name_cooked = cookname or selfname.."_cooked"
+   local name_burned = burnname or selfname.."_burned"
    local burntime = math.floor( length * .40 + 10 ) * -1
    local meta = minetest.get_meta(pos)
    local baking = meta:get_int("baking")
 
-   --check if wet, stop
+   --check if wet, wait until dry
    if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
       return true
    end
@@ -111,10 +131,11 @@ function ncrafting.do_bake(pos, elapsed, heat, length)
    local temp = climate.get_point_temp(pos)
    local fire_temp = heat
    if temp == nil then
-      return
+      return true
    elseif baking == 0 then
       --finished firing
       minetest.swap_node(pos, {name = name_cooked})
+      ncrafting.set_treatment(meta, "cook")
       minetest.check_for_falling(pos)
       meta:set_int("baking", -1) -- prepare to burn it
       minetest.get_node_timer(pos):start(ncrafting.cook_rate)
@@ -125,7 +146,8 @@ function ncrafting.do_bake(pos, elapsed, heat, length)
    elseif temp > fire_temp * 2  or baking < burntime then
       if minetest.registered_nodes[name_burned] then
 	 --too hot or too long on the fire, burn
-	 minetest.set_node(pos, {name = name_burned})
+	 minetest.swap_node(pos, {name = name_burned})
+	 ncrafting.set_treatment(meta, "burn")
       else
 	 minetest.set_node(pos, {name = "air"})
       end
@@ -133,8 +155,7 @@ function ncrafting.do_bake(pos, elapsed, heat, length)
       minetest.sound_play("tech_fire_small",{pos=pos, max_hear_distance = 10, loop=false, gain=0.1})
       minetest.add_particlespawner(ncrafting.particle_smokesmall(pos))
       return false
-   elseif temp >= fire_temp then
-      --do firing
+   elseif temp >= fire_temp then -- do baking
       meta:set_int("baking", baking - 1)
       return true
    end
@@ -159,7 +180,8 @@ function ncrafting.do_soak(pos, name, length)
    if minetest.get_item_group(node_a.name, "water") > 0 then
       if soaking <= 0 then
 	 --finished
-	 minetest.set_node(pos, {name = name})
+	 minetest.swap_node(pos, {name = name})
+	 ncrafting.set_treatment(meta, "soak")
 	 return false
       else
 	 --do soaking

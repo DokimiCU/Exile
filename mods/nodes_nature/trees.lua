@@ -135,6 +135,8 @@ for i in ipairs(tree_list) do
 	local p2_fruit  = tree_list[i][5]
 	local selbox_fruit = tree_list[i][6]
 	local hardness = tree_list[i][7]
+	local dyecandidate = tree_list[i][8]
+	local dominantcolor = tree_list[i][9] or "none"
 
 	if not selbox_fruit then
 		selbox_fruit = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
@@ -272,8 +274,9 @@ for i in ipairs(tree_list) do
 				type = "fixed",
 				fixed = selbox_fruit
 			},
-			groups = {dig_immediate=3, flammable=1, leafdecay = 3, leafdecay_drop = 1},
+			groups = {dig_immediate=3, flammable=1, leafdecay = 3, leafdecay_drop = 1, ncrafting_dye_candidate = dyecandidate },
 			sounds = nodes_nature.node_sound_defaults(),
+			_ncrafting_dye_dcolor = dominantcolor,
 			after_place_node = function(pos, placer, itemstack)
 				minetest.set_node(pos, {name = "nodes_nature:"..fruitname, param2 = p2_fruit, param3 = 1})
 			end,
@@ -333,7 +336,10 @@ minetest.override_item("nodes_nature:sasaran_cone",{
 })
 
 
+local kagum_groups = table.copy(minetest.registered_nodes["nodes_nature:kagum_pod"].groups)
+kagum_groups.bioluminescent = 1
+
 minetest.override_item("nodes_nature:kagum_pod",{
  light_source = 2,
- groups = {dig_immediate=3, flammable=1, leafdecay = 3, leafdecay_drop = 1, bioluminescent= 1},
+ groups = kagum_groups,
 })

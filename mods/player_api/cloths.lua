@@ -57,6 +57,7 @@ function player_api.register_cloth(name, def)
 		_cloth_texture = def.texture or nil,
 		_cloth_preview = def.preview or nil,
 		_cloth_gender = def.gender or nil,
+		palette = "natural_dyes.png",
 		groups = def.groups or nil,
 	}
 	if def.customfields then
@@ -157,20 +158,26 @@ function player_api.compose_cloth(player)
 		--minetest.chat_send_all(item_name)
 		local cloth_type = minetest.get_item_group(item_name, "cloth")
 		--if cloth_type then minetest.chat_send_all(cloth_type) end
+		local color = ""
+		local indx = inv_list[i]:get_meta():get_int("palette_index") / 8
+		local dye = dye_to_colorstring(indx)
+		if indx and indx > 0 and not ( dye == "" ) then
+		   color = "\\^\\[multiply\\:\\"..dye
+		end
 		if cloth_type == 1 then
-			head_ItemStack = cloth_itemstack._cloth_texture
+			head_ItemStack = cloth_itemstack._cloth_texture..color
 		elseif cloth_type == 2 then
-			upper_ItemStack = cloth_itemstack._cloth_texture
+			upper_ItemStack = cloth_itemstack._cloth_texture..color
 			bra = true
 		elseif cloth_type == 3 then
-			lower_ItemStack = cloth_itemstack._cloth_texture
+			lower_ItemStack = cloth_itemstack._cloth_texture..color
 			underwear = true
 		elseif cloth_type == 4 then
-			footwear_ItemStack = cloth_itemstack._cloth_texture
+			footwear_ItemStack = cloth_itemstack._cloth_texture..color
 		elseif cloth_type == 5 then
-			cape_ItemStack = cloth_itemstack._cloth_texture
+			cape_ItemStack = cloth_itemstack._cloth_texture..color
 		elseif cloth_type == 6 then
-			blanket_ItemStack = cloth_itemstack._cloth_texture
+			blanket_ItemStack = cloth_itemstack._cloth_texture..color
 		end
 		if cloth_itemstack and cloth_itemstack._cloth_attach then
 			attached_cloth[#attached_cloth+1] = cloth_itemstack._cloth_attach
