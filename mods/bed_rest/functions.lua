@@ -222,7 +222,6 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 
 		-- physics, eye_offset, etc
 		player:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
-		player:set_look_horizontal(math.random(1, 180) / 100)
 		player_api.player_attached[name] = false
 		po.speed = 1
 		po.jump = 1
