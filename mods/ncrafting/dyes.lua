@@ -214,8 +214,8 @@ minetest.register_node(":ncrafting:dye_pot", {
 	   if def._ncrafting_dye_color then
 	      local inv = minetest.get_inventory({type="node", pos=pos})
 	      inv:remove_item(listname, stack)
-	      minetest.get_meta(pos):set_string("dye_soak", 1)
 	   end
+	   minetest.get_meta(pos):set_string("dye_soak", 1)
 	end,
 })
 
