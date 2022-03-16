@@ -268,6 +268,8 @@ local function bundlename(meta, plant, treatment)
    end
    if treatment and treatment ~= "" then
       fmt_treatment = " treated by "..treatment.."ing"
+   else
+      fmt_treatment = ", untreated"
    end
    return "bundle "..fmt_plant..fmt_treatment
 end
