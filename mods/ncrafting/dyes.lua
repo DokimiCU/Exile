@@ -1,11 +1,4 @@
 --dyes.lua
---we want a tub that you can fill with water and add a dye
---insert a clothing item into its slot
---then maybe punch it a couple of time to stir, each punch moving the
---clothing up the palette stack towards the dye-water mix color, and
---moving the dye color down more slowly as the dye is soaked up.
---getting stronger colors requires adding more dye, faded colors come from
---dye vats that have been used, see colors of the medieval world png
 
 local spins = 24 -- how many 1/4 turns to stir before dye takes hold
 local stirspeed = 0.25 -- How many second per 1/4 turn
@@ -53,7 +46,7 @@ local function clear_pot(pos)
 end
 
 local spin_table = { [2] = 5, [5] = 3, [3] = 4,  [4] = 2 }
---local function dyepot_punch (pos, node, puncher, pointed_thing)
+
 local function dyepot_stir(pos, puncher)
    local function not_dyable(material,dyecol)
       local shade = material:get_int("palette_index") / 8
@@ -65,12 +58,6 @@ local function dyepot_stir(pos, puncher)
       else
 	 return false
       end
-   end
-   local function soak_fabric(item, tocolor)
-      local name =  item:get_name()
-      local count = item:get_count()
-      return ItemStack(minetest.itemstring_with_palette(name.." "..count,
-							tocolor*8))
    end
    local function drain_dyepot(curcolor)
       curcolor = curcolor + 1 -- increase color to next lighter shade
@@ -96,8 +83,8 @@ local function dyepot_stir(pos, puncher)
 
    local soak = meta:get_int("dye_soak") or 1
    if soak >= spins then -- finish after defined # of spin steps have stirred it
-      print("Dye, Sgt. Laundry!")
-      inv:set_stack("main", 1, soak_fabric(stack, color))
+      stackmeta:set_string("palette_index",color*8)
+      inv:set_stack("main", 1, stack)
       color = drain_dyepot(color)
       meta:set_int("dye_soak", 1)
    else
@@ -227,6 +214,7 @@ minetest.register_node(":ncrafting:dye_pot", {
 	   if def._ncrafting_dye_color then
 	      local inv = minetest.get_inventory({type="node", pos=pos})
 	      inv:remove_item(listname, stack)
+	      minetest.get_meta(pos):set_string("dye_soak", 1)
 	   end
 	end,
 })
