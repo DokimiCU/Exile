@@ -119,7 +119,6 @@ local function pot_receive_fields(pos, formname, fields, sender)
 	 end
       end
    end
-   local debug = "Total is: th "..total[2].." hng "..total[3].." eng "..total[4]
 
    local length = meta:get_int("baking")
    if length <= (cook_time - 4) then
@@ -127,7 +126,6 @@ local function pot_receive_fields(pos, formname, fields, sender)
       --TODO: Can we drain current temp while the formspec's open? Groups?
       meta:set_int("baking", length)
    end
-   minetest.chat_send_player(sender:get_player_name(),debug)
    meta:set_string("pot_contents", minetest.serialize(total))
 end
 
