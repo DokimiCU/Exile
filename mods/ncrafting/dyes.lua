@@ -207,19 +207,19 @@ minetest.register_node(":ncrafting:dye_pot", {
 	      pos, listname, index, stack, player)
 	   local def = stack:get_definition()
 	   local palette = def.palette
-	   if not palette or not ( palette == "natural_dyes.png" ) then
-	      return 0
-	   end
 	   if def._ncrafting_dye_color then
 	      if add_dye(pos, stack, def) then
 		 return 1
 	      end
 	      return 0
 	   end
+	   if not palette or not ( palette == "natural_dyes.png" ) then
+	      return 0 -- this is not a dyeable or dyeing object
+	   end
 	   if def.mod_origin == "nodecrafting" then
 	      return 0 -- this is a dye pot or bundle
 	   end
-	   return 2
+	   return 2 -- it's a valid dyeable item
 	end,
 	on_metadata_inventory_put = function(pos, listname, index,
 					     stack, player)
