@@ -148,6 +148,8 @@ local function pot_cook(pos, elapsed)
    local baking = meta:get_int("baking")
    if kind == "Soup" then -- or kind == "etc"; this only runs if we're cooking
       if baking <= 0 then
+	 local firstingr = inv[1]:get_description()
+	 if firstingr then firstingr = firstingr.." " end
 	 for i = 1, #inv do
 	    inv[i]:clear()
 	 end
@@ -158,6 +160,7 @@ local function pot_cook(pos, elapsed)
 	    portion[2] = portion[2] + (100 / portions)
 	 end
 	 imeta:set_string("eat_value", minetest.serialize(portion))
+	 imeta:set_string("description", firstingr.."soup")
 	 meta:get_inventory(pos):set_list("main", inv)
 	 meta:set_string("infotext", kind.." pot (finished)")
 	 meta:set_string("type", "finished")
