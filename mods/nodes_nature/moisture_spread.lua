@@ -174,6 +174,7 @@ minetest.register_abm({
 	neighbors = {"group:crumbly","group:cracky", "group:snappy"},
 	interval = 72,
 	chance = 770,
+	min_y = -15,
 	action = function(...)
 		snow_accumulate(...)
 	end
@@ -517,6 +518,7 @@ minetest.register_abm({
 	nodenames = {"group:sediment"},
 	interval = 92,
 	chance = 180,
+	min_y = -15,
 	action = function(...)
 		rain_soak(...)
 	end
