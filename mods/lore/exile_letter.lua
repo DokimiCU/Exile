@@ -352,7 +352,7 @@ local mythic_terror = {
 }
 
 local generate_text = function(player)
-  local letter_text = ""
+  local letter_text
 
   local meta = player:get_meta()
 
@@ -396,29 +396,43 @@ local function get_formspec(meta, letter_text)
 
 	local formspec = {
     "size[9,11]",
-  	"textarea[1.5,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
+	"textarea[1.5,1.5;8.6,10.6;;" .. minetest.formspec_escape(letter_text) .. ";]",
     "button_exit[8.2,10.6;0.8,0.5;exit_form;X]",
-  	"background[0,0;18,11;lore_exile_letter_bg.png;true]"}
+	"background[0,0;18,11;lore_exile_letter_bg.png;true]"}
 
 	return table.concat(formspec, "")
 end
 
+local function setup_letter(player, imeta)
+   if not imeta then
+      minetest.log("error", "Tried to set up a letter with invalid item metatable")
+      return nil
+   end
+   local letter_text = imeta:get_string("lore:letter_text")
+   if letter_text == "" then
+      letter_text = generate_text(player)
+      imeta:set_string("lore:letter_text", letter_text)
+   end
+   return letter_text
+end
 
 -----------------------------------------------
 local after_place = function(pos, placer, itemstack, pointed_thing)
   local meta = minetest.get_meta(pos)
   local stack_meta = itemstack:get_meta()
-  local letter_text = stack_meta:get_string("lore:letter_text")
-  if letter_text == "" then
-    letter_text = generate_text(placer)
-  end
-
+  local letter_text = setup_letter(placer, stack_meta)
   local form = get_formspec(meta, letter_text )
   meta:set_string("formspec", form)
   meta:set_string("lore:letter_text", letter_text)
-
 end
 
+local on_secondary_use = function(itemstack, user, pointed_thing)
+   local meta = itemstack:get_meta()
+   local letter_text = setup_letter(user, meta)
+   local form = get_formspec(meta, letter_text)
+   local pname = user:get_player_name()
+   minetest.show_formspec(pname, "lore:exile_letter", form)
+end
 
 ---------------------------------------------
 --Placeable Node
@@ -439,6 +453,7 @@ minetest.register_node("lore:exile_letter", {
   groups = {dig_immediate = 3, temp_pass = 1, flammable = 1},
   sounds = nodes_nature.node_sound_leaves_defaults(),
   after_place_node = after_place,
+  on_secondary_use = on_secondary_use,
   preserve_metadata = function(pos, oldnode, oldmeta, drops)
      local letter_text = oldmeta["lore:letter_text"]
      local stack_meta = drops[1]:get_meta()
