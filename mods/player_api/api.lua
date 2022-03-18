@@ -82,20 +82,30 @@ local function yaw_to_degrees(yaw)
 	return(yaw * 180.0 / math.pi)
 end
 
-local last_look_at_dir
+local last_look = {}
 
 local function move_head(player, on_water)
 	local look_at_dir = player:get_look_dir()
-	--apply change only if the pitch changed
-	if last_look_at_dir and look_at_dir.y == last_look_at_dir.y then
+	local pname = player:get_player_name()
+	local lastlook = last_look[pname]
+	local anim = player_anim[pname] or ""
+	local anim_base = string.sub(anim, 1, 4)
+	--apply change only if the pitch or anim changed
+	if lastlook and look_at_dir.y == lastlook.dir.y and
+	   anim_base == lastlook.anim then
 		return
 	else
-		last_look_at_dir = look_at_dir
+		last_look[pname] = {}
+		last_look[pname].dir = look_at_dir
+		last_look[pname].anim = anim_base
 	end
 	local pitch = yaw_to_degrees(math.asin(look_at_dir.y))
-	if on_water then
+	if pitch > 70 then pitch = 70 end
+	if pitch < -50 then pitch = -50 end
+	if anim_base == "swim" then
 		pitch = pitch + 70
 	end
+
 	local head_rotation = {x= pitch, y= 0, z= 0} --the head movement {pitch, yaw, roll}
 	local head_offset
 	if minetest.get_modpath("3d_armor")~=nil then
