@@ -20,6 +20,9 @@ Components must be 1 block radius around the pad. Above pad must be kept clear.
 Only need one of each
 
 ]]
+
+
+local S = minetest.get_translator("transporter")
 ------------------------------------
 local rand = math.random
 --minimum distance transporters muct be apart (nodes)
@@ -34,6 +37,17 @@ local recent_teleports = {}
 
 
 
+-- Set owner for protected items.
+function transporter_after_place_node( pos, placer, itemstack, pointed_thing )
+	local iDef=itemstack:get_definition()
+	local iName=itemstack:get_name()
+	local pn = placer:get_player_name()
+	local meta = minetest.get_meta(pos)
+	meta:set_string("owner", pn)
+	-- XXX shouldn't be clobbering existing info text
+	meta:set_string("infotext", iDef.description .. "\n" .. S("Owned by @1", pn))
+	return (creative and creative.is_enabled_for and creative.is_enabled_for(pn))
+end
 
 ------------------------------------------------------------
 --TRANSPORTER PAD
@@ -329,7 +343,40 @@ end
 
 
 
+local function transporter_power_rightclick(pos, node, player, itemstack, pointed_thing)
+	local iName = itemstack:get_name()
+	local nName = node.name
+	local power = "artifacts:transporter_power" 
+	local depleted = "artifacts:transporter_power_dep"
+	local swap_a
+	local swap_b
+	if iName == power and nName == depleted  then
+		swap_a = power
+		swap_b = depleted
+	elseif iName == depleted and nName == power then
+		swap_a = depleted
+		swap_b = power
+	else
+		-- Nothing to do unless holding a charged core
+		return itemstack
+	end
 
+	local pInv = player:get_inventory()
+	local new = ItemStack(swap_b)
+
+	if pInv:room_for_item("main", new) then
+	local pn = player:get_player_name()
+	local meta = minetest.get_meta(pos)
+
+	local description=itemstack:get_definition().description
+		pInv:add_item("main", new)
+		-- XXX shouldn't be clobbering existing info text
+		meta:set_string("infotext", description .. "\n" .. S("Owned by @1", pn))
+		minetest.swap_node(pos, {name=swap_a})
+		itemstack:take_item()
+		return itemstack
+	end
+end
 
 --
 local function transporter_rightclick(pos, node, player, itemstack, pointed_thing)
@@ -386,7 +433,6 @@ local function active_transporter_rightclick(pos, node, player, itemstack, point
 		local random = meta_tran:get_string("tmp_random")
 
 		do_teleport(pos, dest, random, player, range, regulator, power)
-
 	else
 		minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
 	end
@@ -743,6 +789,7 @@ minetest.register_node('artifacts:transporter_pad', {
 	},
 	groups = { cracky = 2 },
 	on_rightclick = transporter_rightclick,
+	after_place_node = transporter_after_place_node,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
 
@@ -889,6 +936,8 @@ minetest.register_node('artifacts:transporter_power', {
 	},
 	groups = { oddly_breakable_by_hand = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = transporter_after_place_node,
+	on_rightclick = transporter_power_rightclick,
 })
 
 
@@ -932,6 +981,8 @@ minetest.register_node('artifacts:transporter_power_dep', {
 		--finished product, length
 		return charge_power(pos, "artifacts:transporter_power_dep", "artifacts:transporter_power", 5)
 	end,
+	after_place_node = transporter_after_place_node,
+	on_rightclick = transporter_power_rightclick,
 })
 
 minetest.register_node('artifacts:transporter_focalizer', {
@@ -958,6 +1009,7 @@ minetest.register_node('artifacts:transporter_focalizer', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = transporter_after_place_node,
 })
 
 minetest.register_node('artifacts:transporter_stabilizer', {
@@ -980,6 +1032,7 @@ minetest.register_node('artifacts:transporter_stabilizer', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = transporter_after_place_node,
 })
 
 minetest.register_node('artifacts:transporter_regulator', {
@@ -1006,6 +1059,7 @@ minetest.register_node('artifacts:transporter_regulator', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = transporter_after_place_node,
 })
 
 
@@ -1020,3 +1074,4 @@ minetest.register_tool('artifacts:transporter_key', {
 
 
 ---------------------------------------------------------
+
