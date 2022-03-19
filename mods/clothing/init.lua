@@ -25,12 +25,10 @@ local clothing_formspec = "size[8,8.5]"..
 sfinv.register_page("clothing:clothing", {
 	title = "Clothing",
 	get = function(self, player, context)
-		local name = player:get_player_name()
-
 		local meta = player:get_meta()
 		local cur_tmin = climate.get_temp_string(meta:get_int("clothing_temp_min"), meta)
 		local cur_tmax = climate.get_temp_string(meta:get_int("clothing_temp_max"), meta)
-		
+
 		local formspec = clothing_formspec..
 		"label[3,0.4; Min Temperature Tolerance: " .. cur_tmin .. " ]"..
 		"label[3,1; Max Temperature Tolerance: " .. cur_tmax .. " ]"..
@@ -86,8 +84,8 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 				if player_inv:get_stack("cloths", to_index):get_count() == 0 then --if put on an empty slot
 					if from_inv == "main" then
 						if player_inv:room_for_item("main", cloth_name) then
-							player_inv:remove_item("cloths", cloth_name)
-							player_inv:add_item("main", cloth_name)
+							local removed = player_inv:remove_item("cloths", cloth_name)
+							player_inv:add_item("main", removed)
 							return 1
 						end
 					end
