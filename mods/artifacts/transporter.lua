@@ -35,20 +35,6 @@ local FULL_RANGE = 3000
 --to stop excessive back and forth
 local recent_teleports = {}
 
-
-
--- Set owner for protected items.
-function transporter_after_place_node( pos, placer, itemstack, pointed_thing )
-	local iDef=itemstack:get_definition()
-	local iName=itemstack:get_name()
-	local pn = placer:get_player_name()
-	local meta = minetest.get_meta(pos)
-	meta:set_string("owner", pn)
-	-- XXX shouldn't be clobbering existing info text
-	meta:set_string("infotext", iDef.description .. "\n" .. S("Owned by @1", pn))
-	return (creative and creative.is_enabled_for and creative.is_enabled_for(pn))
-end
-
 ------------------------------------------------------------
 --TRANSPORTER PAD
 
@@ -789,7 +775,7 @@ minetest.register_node('artifacts:transporter_pad', {
 	},
 	groups = { cracky = 2 },
 	on_rightclick = transporter_rightclick,
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 })
 
@@ -936,7 +922,7 @@ minetest.register_node('artifacts:transporter_power', {
 	},
 	groups = { oddly_breakable_by_hand = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 	on_rightclick = transporter_power_rightclick,
 })
 
@@ -981,7 +967,7 @@ minetest.register_node('artifacts:transporter_power_dep', {
 		--finished product, length
 		return charge_power(pos, "artifacts:transporter_power_dep", "artifacts:transporter_power", 5)
 	end,
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 	on_rightclick = transporter_power_rightclick,
 })
 
@@ -1009,7 +995,7 @@ minetest.register_node('artifacts:transporter_focalizer', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 })
 
 minetest.register_node('artifacts:transporter_stabilizer', {
@@ -1032,7 +1018,7 @@ minetest.register_node('artifacts:transporter_stabilizer', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 })
 
 minetest.register_node('artifacts:transporter_regulator', {
@@ -1059,7 +1045,7 @@ minetest.register_node('artifacts:transporter_regulator', {
 	},
 	groups = { cracky = 3 },
 	sounds = nodes_nature.node_sound_glass_defaults(),
-	after_place_node = transporter_after_place_node,
+	after_place_node = minimal.protection_after_place_node,
 })
 
 
