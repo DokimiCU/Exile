@@ -138,6 +138,7 @@ minetest.register_node("tech:weaving_frame",{
 		},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("weaving_frame", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --grinding stone
 --for grinding stone tools
@@ -163,6 +164,7 @@ minetest.register_node("tech:grinding_stone",{
 		},
 	sounds        = nodes_nature.node_sound_stone_defaults(),
 	on_rightclick = crafting.make_on_rightclick("grinding_stone", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --mortar and pestle.
 --for grinding food etc
@@ -188,6 +190,7 @@ minetest.register_node("tech:mortar_pestle_basalt",{
 		},
 	sounds        = nodes_nature.node_sound_stone_defaults(),
 	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:mortar_pestle_granite",{
 	description   = "Granite Mortar and Pestle",
@@ -211,6 +214,7 @@ minetest.register_node("tech:mortar_pestle_granite",{
 		},
 	sounds        = nodes_nature.node_sound_stone_defaults(),
 	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:mortar_pestle_limestone",{
 	description   = "Limestone Mortar and Pestle",
@@ -234,6 +238,7 @@ minetest.register_node("tech:mortar_pestle_limestone",{
 		},
 	sounds        = nodes_nature.node_sound_stone_defaults(),
 	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --chopping_block --crude wood crafts,
 minetest.register_node("tech:chopping_block", {
@@ -256,6 +261,7 @@ minetest.register_node("tech:chopping_block", {
 	groups        = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("chopping_block", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --hammering_block
 --crude hammering crushing jobs,
@@ -279,6 +285,7 @@ minetest.register_node("tech:hammering_block", {
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("hammering_block", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 -------------------
 --3rd Level. --metal working, and things dependant on it
@@ -301,6 +308,7 @@ minetest.register_node("tech:anvil", { --anvil--metal  working
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_stone_defaults(),
 	on_rightclick = crafting.make_on_rightclick("anvil", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:carpentry_bench", { --carpentry_bench--more sophisticated wood working
 	description   = "Carpentry Bench",
@@ -323,6 +331,7 @@ minetest.register_node("tech:carpentry_bench", { --carpentry_bench--more sophist
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("carpentry_bench", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:masonry_bench", { --masonry_bench--more sophisticated stone crafts
 	description   = "Masonry Bench",
@@ -348,6 +357,7 @@ minetest.register_node("tech:masonry_bench", { --masonry_bench--more sophisticat
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("masonry_bench", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --brick_makers_bench
 --for fired bricks and associated crafts
@@ -380,6 +390,7 @@ minetest.register_node("tech:brick_makers_bench", {
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("brick_makers_bench", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --spinning_wheel
 --turn raw fibres into spun fibre
@@ -406,6 +417,7 @@ minetest.register_node("tech:spinning_wheel", {
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("spinning_wheel", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --Loom--turn fibre into fabric items
 minetest.register_node("tech:loom", {
@@ -437,6 +449,7 @@ minetest.register_node("tech:loom", {
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("loom", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 --Glassworking Furnace
 --Glassblowing and similar
@@ -461,6 +474,7 @@ minetest.register_node("tech:glass_furnace", {
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
 	on_rightclick = crafting.make_on_rightclick("glass_furnace", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
 	})
 ---------------------------------------
 --Recipes
