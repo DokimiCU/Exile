@@ -180,12 +180,9 @@ minetest.register_node(":ncrafting:dye_pot", {
 	groups = {pottery = 1, temp_pass = 1},
 	--sounds = nodes_nature.node_sound_stone_defaults(),
 	on_punch = dyepot_punch,
-	--can_dig = dyepot_can_dig,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-	      --itemstack:get_meta():get_string("palette_index") or 31
 	   local node = minetest.get_node(pos)
-	   local color = minetest.strip_param2_color(node.param2,
-						     "colorwallmounted")
+	   local color = itemstack:get_meta():get_string("palette_index") or 31
 	   node.param2 = 2 + color
 	   minetest.swap_node(pos, node)
 	   clear_pot(pos)
