@@ -549,6 +549,13 @@ minetest.register_node(":ncrafting:dye_table", {
 	},
 	groups = {flammable = 1, temp_pass = 1, dig_immediate=3},
 	--sounds = nodes_nature.node_sound_stone_defaults(),
+	on_dig = function(pos, node, digger)
+	   local inv = minetest.get_meta(pos):get_inventory()
+	   if inv:is_empty("craft") and inv:is_empty("craftresult") then
+	      minetest.node_dig(pos, node, digger)
+	      return true
+	   end
+	end,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 	   local meta = minetest.get_meta(pos)
 	   meta:set_string("formspec", table_formspec[0])
