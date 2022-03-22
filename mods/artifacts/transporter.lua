@@ -68,8 +68,7 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 	-- XXX all this to add infotext here.  
 	local meta = minetest.get_meta(power)
 	local pn = meta:get_string("owner")
-	local new = ItemStack("artifacts:transporter_power_dep")
-	local description=new:get_definition().description
+	local description = minetest.registered_nodes["artifacts:transporter_power_dep"].description
 	-- XXX shouldn't be clobbering existing info text
 	meta:set_string("infotext", description .. "\n" .. "Owned by " .. pn)
 	minetest.swap_node(power, {name = "artifacts:transporter_power_dep"})
@@ -113,7 +112,6 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 	--means you get zapped instead of thrown to a random place,
 	-- which serves the purpose of a fail either way
 	if random ~= 'locked' then
-
 		local dest_node = minetest.get_node(target_pos).name
 		local def = minetest.registered_nodes[dest_node]
 		if dest_node == 'ignore' or (def and def.walkable) then
@@ -359,10 +357,9 @@ local function transporter_power_rightclick(pos, node, player, itemstack, pointe
 	local new = ItemStack(swap_b)
 
 	if pInv:room_for_item("main", new) then
-	local pn = player:get_player_name()
-	local meta = minetest.get_meta(pos)
-
-	local description=itemstack:get_definition().description
+		local meta = minetest.get_meta(pos)
+		local pn = meta:get_string('owner')
+		local description = itemstack:get_definition().description
 		pInv:add_item("main", new)
 		-- XXX shouldn't be clobbering existing info text
 		meta:set_string("infotext", description .. "\n" .. S("Owned by @1", pn))
@@ -746,8 +743,7 @@ local function charge_power(pos, selfname, name, length)
 	if charging <= 0 then
 		--finished
 		local pn = meta:get_string("owner")
-		local new = ItemStack(name)
-		local description=new:get_definition().description
+		local description = minetest.registered_nodes[name].description
 		-- XXX shouldn't be clobbering existing info text
 		meta:set_string("infotext", description .. "\n" .. "Owned by " .. pn)
 		minetest.swap_node(pos, {name=name})
