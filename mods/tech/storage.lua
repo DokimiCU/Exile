@@ -2,7 +2,8 @@
 --Storage
 --e.g. for chests, pots etc
 
-
+-- Load support for MT game translation.
+local S = minetest.get_translator("storage")
 ---------------------------------------------------
 local function get_storage_formspec(pos, w, h)
 	local main_offset = 0.85 + h
@@ -178,3 +179,88 @@ minetest.register_node("tech:wooden_chest", {
 	on_blast = function(pos)
 	end,
 })
+
+--iron chest
+minetest.register_node("tech:iron_chest", {
+	description = "Iron Chest",
+	tiles = {"tech_iron_chest_top.png",
+			"tech_iron_chest_bottom.png",
+			"tech_iron_chest_side.png",
+			"tech_iron_chest_side.png",
+			"tech_iron_chest_back.png",
+			"tech_iron_chest_front.png"},
+	paramtype = "light",
+	paramtype2 = "facedir",
+	use_texture_alpha = "clip",
+	protected = true,
+	stack_max = minimal.stack_max_bulky,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.375, -0.375, 0.4375, 0.375, 0.375}, -- NodeBox1
+			{-0.5, 0.375, -0.4375, 0.5, 0.5, 0.4375}, -- NodeBox2
+			{0.3125, -0.5, -0.4375, 0.5, -0.375, -0.25}, -- NodeBox3
+			{0.3125, -0.5, 0.25, 0.5, -0.375, 0.4375}, -- NodeBox4
+			{-0.5, -0.5, 0.25, -0.3125, -0.375, 0.4375}, -- NodeBox5
+			{-0.5, -0.5, -0.4375, -0.3125, -0.375, -0.25}, -- NodeBox6
+			{0.1875, 0.25, 0.375, 0.3125, 0.375, 0.4375}, -- NodeBox8
+			{-0.3125, 0.25, 0.375, -0.1875, 0.375, 0.4375}, -- NodeBox9
+			{-0.0625, 0.25, -0.4375, 0.0625, 0.375, -0.375}, -- NodeBox10
+		}
+	},
+	groups = {dig_immediate = 3},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+
+	on_construct = function(pos)
+		on_construct(pos, 8, 8)
+	end,
+
+
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		local pn = placer:get_player_name()
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", pn)
+		meta:set_string("infotext", itemstack:get_definition().description .. "\n" .. S("Owned by @1", pn))
+
+		return (creative and creative.is_enabled_for and creative.is_enabled_for(pn))
+	end,
+
+
+
+
+	can_dig = function(pos, player)
+		local inv = minetest.get_meta(pos):get_inventory()
+		local name = ""
+		if player then
+			name = player:get_player_name()
+		end
+		return is_owner(pos, name) and inv:is_empty("main")
+	end,
+
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		if is_owner(pos, player:get_player_name()) then
+			return count
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name())
+		and not string.match(stack:get_name(), "backpacks:") then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name()) then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	on_blast = function(pos)
+	end,
+})
+

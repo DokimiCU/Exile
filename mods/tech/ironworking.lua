@@ -509,3 +509,13 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+--Chest ...see storage
+crafting.register_recipe({
+	type = "anvil",
+	output = "tech:iron_chest",
+	items = {'tech:iron_fittings 2', 'tech:iron_ingot 4', 'tech:vegetable_oil'},
+	level = 1,
+	always_known = true,
+})
+
