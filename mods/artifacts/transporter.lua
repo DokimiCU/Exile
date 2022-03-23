@@ -457,13 +457,13 @@ local function set_from_key(itemstack, placer, pointed_thing)
 	if node == "artifacts:transporter_pad" then
 		local meta_tran = minetest.get_meta(pt_under)
 		local power, range, stabilizer, regulator  = assess_transporter(pt_under) --really just need range
+		local ok_string = "Bond Transporter to Target"
 
 		--only one link
 		local tran_target = meta_tran:get_string("target_pos")
 		if tran_target ~= "" then
-			minetest.chat_send_player(player_name, minetest.colorize("#cc6600", "TRANSPORTER ALREADY BONDED"))
-			minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
-			return
+			ok_string = "Replace Transporter Bond with NEW Target"
+
 			--[[--requires area to be loaded to work
 			--check if target is even usable
 			local dest_ok = check_teleport_dest(minetest.string_to_pos(tran_target), pt_under, range)
@@ -486,7 +486,6 @@ local function set_from_key(itemstack, placer, pointed_thing)
 			end
 			]]
 		end
-
 		--get meta and see if key has a saved location
 		local meta = itemstack:get_meta()
 		local posstring = meta:get_string("target_pos")
@@ -520,7 +519,7 @@ local function set_from_key(itemstack, placer, pointed_thing)
 					"size[10,2.5]" ..
 					"label[1,1;Target name: "..target_name.."]"..
 					"button_exit[0.7,2;3,1;cancel;Cancel]"..
-					"button_exit[3.7,2;5,1;ok;Bond Transporter to Target]" )
+					"button_exit[3.7,2;5,1;ok;" .. ok_string .. "]" )
 
 		elseif posstring == "" then
 			minetest.chat_send_player(player_name, minetest.colorize("#cc6600", "KEY IS BLANK!: use leftclick to save this location"))
@@ -598,7 +597,7 @@ local function save_to_key(itemstack, player, pointed_thing)
 					"size[10,2.5]" ..
 					"label[1,1;Key's target name: "..target_name.."]"..
 					"button_exit[0.7,2;3,1;cancel;Cancel]"..
-					"button_exit[3.7,2;5,1;ok;Wipe Key]" )
+					"button_exit[3.7,2;5,1;ok;Wipe Key]")
 			return
 
 		elseif posstring == "" then
@@ -632,18 +631,17 @@ end
 
 --wipe transporter key
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname == "wipe_trans_key" and (fields.ok or fields.key_enter) then
+	if formname == "wipe_trans_key" and fields.ok then
 		local player_name = player:get_player_name()
 		local stack=player:get_wielded_item()
 		local meta=stack:get_meta()
+			meta:set_string("target_pos", "")
+			meta:set_string("target_name", "target_name")
+			meta:set_string("description", "Transporter Key")
 
-		meta:set_string("target_pos", "")
-		meta:set_string("target_name", "target_name")
-		meta:set_string("description", "Transporter Key")
+			minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
 
-		minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
-
-		player:set_wielded_item(stack)
+			player:set_wielded_item(stack)
 
 	end
 end)
