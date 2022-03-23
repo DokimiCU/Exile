@@ -56,6 +56,7 @@ minetest.register_node("artifacts:sun_stone", {
 	temp_effect_max = 40,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 3, oddly_breakable_by_hand = 3, attached_node = 1, temp_effect = 1, temp_pass = 1},
+	after_place_node = minimal.protection_after_place_node,
 })
 
 
@@ -105,6 +106,7 @@ minetest.register_node("artifacts:moon_stone", {
   temp_effect_max = 0,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 3, oddly_breakable_by_hand = 3, attached_node = 1, temp_effect = 1, temp_pass = 1},
+	after_place_node = minimal.protection_after_place_node,
 })
 
 ------------------------------------
@@ -115,7 +117,7 @@ minetest.register_node("artifacts:moon_stone", {
 minetest.register_node("artifacts:star_stone", {
 	description = "Star Stone",
 	tiles = {"artifacts_moon_glass.png"},
-  stack_max = minimal.stack_max_medium * 2,
+	stack_max = minimal.stack_max_medium * 2,
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -127,13 +129,14 @@ minetest.register_node("artifacts:star_stone", {
 			{-0.125, -0.5, 0.0625, -0.0625, -0.4375, 0.125}, -- NodeBox5
 		}
 	},
-  light_source = 3,
+	light_source = 3,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {oddly_breakable_by_hand = 3, attached_node = 1, temp_pass = 1},
+	after_place_node = minimal.protection_after_place_node,	
 
 })
 
@@ -145,7 +148,7 @@ minetest.register_node("artifacts:star_stone", {
 minetest.register_node("artifacts:antiquorium", {
 	description = "Antiquorium",
 	tiles = {"artifacts_antiquorium.png"},
-  stack_max = minimal.stack_max_bulky *4,
+	stack_max = minimal.stack_max_bulky *4,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
 })
@@ -157,7 +160,7 @@ minetest.register_node("artifacts:antiquorium", {
 minetest.register_node("artifacts:antiquorium_ladder", {
 	description = "Antiquorium Ladder",
 	drawtype = "signlike",
-  stack_max = minimal.stack_max_medium,
+	stack_max = minimal.stack_max_medium,
 	tiles = {"artifacts_antiquorium_ladder.png"},
 	inventory_image = "artifacts_antiquorium_ladder.png",
 	wield_image = "artifacts_antiquorium_ladder.png",
@@ -277,4 +280,5 @@ minetest.register_node('artifacts:conveyor', {
 	},
 	groups = {slippery = 1000, oddly_breakable_by_hand = 3, temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults({footstep = {name="artifacts_transport_fail", gain=0.5}}),
+	after_place_node = minimal.protection_after_place_node,
 })
