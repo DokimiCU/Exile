@@ -182,7 +182,8 @@ minetest.register_node(":ncrafting:dye_pot", {
 	on_punch = dyepot_punch,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 	   local node = minetest.get_node(pos)
-	   local color = itemstack:get_meta():get_string("palette_index") or 31
+	   local color = tonumber(itemstack:get_meta():get_string(
+				     "palette_index")) or 31*8
 	   node.param2 = 2 + color
 	   minetest.swap_node(pos, node)
 	   clear_pot(pos)
