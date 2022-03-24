@@ -38,6 +38,12 @@ local recent_teleports = {}
 ------------------------------------------------------------
 --TRANSPORTER PAD
 
+local function set_charging(pos, length, interval)
+	local meta = minetest.get_meta(pos)
+	meta:set_int("charging", length)
+	minetest.get_node_timer(pos):start(interval)
+end
+
 --actually move
 local function teleport_effects(target_pos, pos, player, player_name, regulator, power, random)
 	local origin = player:get_pos()
@@ -64,14 +70,15 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 
 
 	--swap out power core
-	
-	-- XXX all this to add infotext here.  
+
+	-- XXX all this to add infotext here.
 	local meta = minetest.get_meta(power)
 	local pn = meta:get_string("owner")
 	local description = minetest.registered_nodes["artifacts:transporter_power_dep"].description
 	-- XXX shouldn't be clobbering existing info text
 	meta:set_string("infotext", description .. "\n" .. "Owned by " .. pn)
 	minetest.swap_node(power, {name = "artifacts:transporter_power_dep"})
+	set_charging(power, 5, 20)
 	--go to target
 	player:set_pos(target_pos)
 
@@ -101,8 +108,8 @@ local function teleport_effects(target_pos, pos, player, player_name, regulator,
 		if node == 'air' then
 			--minetest.set_node(target_pos, {name = 'nodes_nature:lava_flowing'})
 			minetest.set_node(target_pos, {name = 'climate:air_temp'})
-			local meta = minetest.get_meta(target_pos)
-			meta:set_float("temp", 3000)
+			local rmeta = minetest.get_meta(target_pos)
+			rmeta:set_float("temp", 3000)
 		end
 	end
 
@@ -303,7 +310,6 @@ end
 --get the status of the transporter set up
 local function assess_transporter(pos)
 	--assume no Components, then check which are present
-	local power = false
 	local range = STAN_RANGE
 	local stabilizer = false
 	local regulator = false
@@ -338,7 +344,7 @@ end
 local function transporter_power_rightclick(pos, node, player, itemstack, pointed_thing)
 	local iName = itemstack:get_name()
 	local nName = node.name
-	local power = "artifacts:transporter_power" 
+	local power = "artifacts:transporter_power"
 	local depleted = "artifacts:transporter_power_dep"
 	local swap_a
 	local swap_b
@@ -551,7 +557,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local player_name = player:get_player_name()
 		minetest.sound_play( 'artifacts_key', { pos = pos_tran, gain = 1, max_hear_distance = 5,})
 		minetest.chat_send_player(player_name, minetest.colorize("#00ff00", "TRANSPORTER DESTINATION SET TO: "..target_name.." at "..target_pos))
-		minetest.sound_play("artifacts_transport_fail", {pos = pos, gain = 1, max_hear_distance = 6})
+		minetest.sound_play("artifacts_transport_fail", {pos = player:get_pos(), gain = 1, max_hear_distance = 6})
 
 		--clear temp
 		player_meta:set_string("tmp_tran_pos", "")
@@ -575,7 +581,6 @@ local function save_to_key(itemstack, player, pointed_thing)
 	local pt_under = pointed_thing.under
 	local node = minetest.get_node(pt_under).name
 	local player_name = player:get_player_name()
-	local pos = player:get_pos()
 
 	if node ~= "artifacts:transporter_pad" then
 		minetest.chat_send_player(player_name, minetest.colorize("#cc6600", "KEY CAN ONLY SAVE FROM TRANSPORTER PAD"))
@@ -632,14 +637,13 @@ end
 --wipe transporter key
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname == "wipe_trans_key" and fields.ok then
-		local player_name = player:get_player_name()
 		local stack=player:get_wielded_item()
 		local meta=stack:get_meta()
 			meta:set_string("target_pos", "")
 			meta:set_string("target_name", "target_name")
 			meta:set_string("description", "Transporter Key")
 
-			minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
+			minetest.sound_play("artifacts_transport_error", {pos = player:get_pos(), gain = 1, max_hear_distance = 6})
 
 			player:set_wielded_item(stack)
 
@@ -676,7 +680,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 
 		minetest.chat_send_player(player_name, minetest.colorize("#00ff00", "TRANSPORTER KEY CREATED TO: "..target_name))
-		minetest.sound_play("artifacts_transport_fail", {pos = pos, gain = 1, max_hear_distance = 6})
+		minetest.sound_play("artifacts_transport_fail", {pos = player:get_pos(), gain = 1, max_hear_distance = 6})
 
 
 		player:set_wielded_item(stack)
@@ -705,7 +709,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		meta:set_string("tmp_target_pos", "")
 
 		minetest.chat_send_player(player_name, minetest.colorize("#00ff00", "TRANSPORTER KEY CREATED TO: "..target_name))
-		minetest.sound_play("artifacts_transport_fail", {pos = pos, gain = 1, max_hear_distance = 6})
+		minetest.sound_play("artifacts_transport_fail", {pos = player:get_pos(), gain = 1, max_hear_distance = 6})
 
 
 		player:set_wielded_item(stack)
@@ -717,12 +721,6 @@ end)
 
 ------------------------------------------------------------------
 --RECHARGE POWER
-
-local function set_charging(pos, length, interval)
-	local meta = minetest.get_meta(pos)
-	meta:set_int("charging", length)
-	minetest.get_node_timer(pos):start(interval)
-end
 
 
 
