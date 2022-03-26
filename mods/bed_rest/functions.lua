@@ -5,6 +5,11 @@
 
 local pi = math.pi
 local store = minetest.get_mod_storage()
+--silence luacheck warnings about accessing globals:
+bed_rest = bed_rest
+player_api = player_api
+player_monoids = player_monoids
+clothing = clothing
 
 function load_bedrest()
    local loaded = minetest.deserialize(store:get_string("bedrest"), true)
@@ -313,13 +318,15 @@ end
 
 --------------------------------------------
 function bed_rest.can_dig(bed_pos, player)
-   if minetest.check_player_privs(player, "protection_bypass") then
-      return true
-   end
 	-- Check all players in bed which one is at the expected position
-	for _, player_bed_pos in pairs(bed_rest.bed_position) do
+	for nm, player_bed_pos in pairs(bed_rest.bed_position) do
 		if vector.equals(bed_pos, player_bed_pos) then
-			return false
+		   if minetest.check_player_privs(player, "protection_bypass") then
+		      --admins can remove old beds
+		      bed_rest.bed_position[nm] = nil
+		      return true
+		   end
+		   return false
 		end
 	end
 	return true
@@ -379,7 +386,7 @@ minetest.register_chatcommand("breaktaker", {
     description = "Switch the break taker off or on per user",
     func = function(name, param)
        if param == "" or param == "help" then
-	  wlist = "/breaktaker:\n"..
+	  local wlist = "/breaktaker:\n"..
 	  "Switch the breaktaker notice off or on for you."
 	  return false, wlist
        end
@@ -387,7 +394,7 @@ minetest.register_chatcommand("breaktaker", {
 	  return false, "Valid choices are on or off"
        end
        local player = minetest.get_player_by_name(name)
-       meta = player:get_meta()
+       local meta = player:get_meta()
        meta:set_string("BreaktakerPref", param)
     end,
 })
