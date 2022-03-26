@@ -320,29 +320,17 @@ minetest.register_tool("inferno:fire_sticks", {
 				return add_wear(player_name, itemstack, sound_pos)
 
 			elseif node_under == "tech:small_wood_fire_ext" then
-				local meta = minetest.get_meta(pointed_thing.under)
-				local fuel = meta:get_int("fuel")
-				minetest.set_node(pointed_thing.under, {name = "tech:small_wood_fire"})
-				meta:set_int("fuel", fuel)
+				minetest.swap_node(pointed_thing.under, {name = "tech:small_wood_fire"})
 				return add_wear(player_name, itemstack, sound_pos)
 			elseif node_under == "tech:large_wood_fire_ext" then
-				local meta = minetest.get_meta(pointed_thing.under)
-				local fuel = meta:get_int("fuel")
-				minetest.set_node(pointed_thing.under, {name = "tech:large_wood_fire"})
-				meta:set_int("fuel", fuel)
+				minetest.swap_node(pointed_thing.under, {name = "tech:large_wood_fire"})
 				return add_wear(player_name, itemstack, sound_pos)
 
 			elseif node_under == "tech:small_charcoal_fire_ext" then
-				local meta = minetest.get_meta(pointed_thing.under)
-				local fuel = meta:get_int("fuel")
-				minetest.set_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
-				meta:set_int("fuel", fuel)
+				minetest.swap_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
 				return add_wear(player_name, itemstack, sound_pos)
 			elseif node_under == "tech:large_charcoal_fire_ext" then
-				local meta = minetest.get_meta(pointed_thing.under)
-				local fuel = meta:get_int("fuel")
-				minetest.set_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
-				meta:set_int("fuel", fuel)
+				minetest.swap_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
 				return add_wear(player_name, itemstack, sound_pos)
 
 			end

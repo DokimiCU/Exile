@@ -40,7 +40,6 @@ local function can_smolder(pos, meta, fire_name, ash_name)
 		      "_smoldering",
 		      "_ext")
 		   minetest.swap_node(pos, {name = ext_name})
-		   meta:set_int("fuel", f)
 		end
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
@@ -49,8 +48,7 @@ local function can_smolder(pos, meta, fire_name, ash_name)
 	--check for the presence of air
 	if minetest.find_node_near(pos, 1, {"air"}) then
 		--air, roar back to full flame
-		minetest.set_node(pos, {name = fire_name})
-		meta:set_int("fuel", f)
+		minetest.swap_node(pos, {name = fire_name})
 		return false
 	else
 		return true
@@ -68,7 +66,6 @@ local function can_burn_air(pos, meta, smolder_name, ash_name)
 		else
 		   local ext_name = minetest.get_node(pos).name.."_ext"
 		   minetest.swap_node(pos, {name = ext_name})
-		   meta:set_int("fuel", f)
 		end
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 		return false
@@ -79,8 +76,7 @@ local function can_burn_air(pos, meta, smolder_name, ash_name)
 		return true
 	else
 		--smolder
-		minetest.set_node(pos, {name = smolder_name})
-		meta:set_int("fuel", f)
+		minetest.swap_node(pos, {name = smolder_name})
 		return false
 	end
 end
@@ -252,12 +248,7 @@ local function extinguish_fire(pos, puncher, ext_name)
 
 	if minetest.get_item_group(ist_name, "sediment") >= 1
 	then
-
-		--get meta and save to extinguished version
-		local meta = minetest.get_meta(pos)
-		local fuel = meta:get_int("fuel")
-		minetest.set_node(pos, {name = ext_name})
-		meta:set_int("fuel", fuel)
+		minetest.swap_node(pos, {name = ext_name})
 		minetest.sound_play("nodes_nature_cool_lava",	{pos = pos, max_hear_distance = 16, gain = 0.25})
 
 	else
