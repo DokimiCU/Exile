@@ -362,16 +362,18 @@ local function transporter_power_rightclick(pos, node, player, itemstack, pointe
 	local pInv = player:get_inventory()
 	local new = ItemStack(swap_b)
 
+	local meta = minetest.get_meta(pos)
+	local pn = meta:get_string('owner')
+	local description = itemstack:get_definition().description
+	itemstack:take_item()
+	-- XXX shouldn't be clobbering existing info text
+	meta:set_string("infotext", description .. "\n" .. S("Owned by @1", pn))
+	minetest.swap_node(pos, {name=swap_a})
 	if pInv:room_for_item("main", new) then
-		local meta = minetest.get_meta(pos)
-		local pn = meta:get_string('owner')
-		local description = itemstack:get_definition().description
-		pInv:add_item("main", new)
-		-- XXX shouldn't be clobbering existing info text
-		meta:set_string("infotext", description .. "\n" .. S("Owned by @1", pn))
-		minetest.swap_node(pos, {name=swap_a})
-		itemstack:take_item()
-		return itemstack
+	   pInv:add_item("main", new)
+	   return itemstack
+	else
+	   minetest.item_drop(new, player, pos)
 	end
 end
 
