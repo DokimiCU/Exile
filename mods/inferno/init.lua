@@ -288,6 +288,16 @@ local function add_wear(player_name, itemstack, sound_pos)
 
 end
 
+local lit = {
+   ["tech:small_wood_fire_unlit"] = "tech:small_wood_fire",
+   ["tech:large_wood_fire_unlit"] = "tech:large_wood_fire",
+   ["tech:charcoal"] = "tech:small_charcoal_fire",
+   ["tech:charcoal_block"] = "tech:large_charcoal_fire",
+   ["tech:small_wood_fire_ext"] = "tech:small_wood_fire",
+   ["tech:large_wood_fire_ext"] = "tech:large_wood_fire",
+   ["tech:small_charcoal_fire_ext"] = "tech:small_charcoal_fire",
+   ["tech:large_charcoal_fire_ext"] = "tech:large_charcoal_fire",
+}
 
 -- Fire Sticks
 minetest.register_tool("inferno:fire_sticks", {
@@ -304,37 +314,15 @@ minetest.register_tool("inferno:fire_sticks", {
 		local player_name = user:get_player_name()
 		if pointed_thing.type == "node" then
 			local node_under = minetest.get_node(pointed_thing.under).name
+			local pos_under = pointed_thing.under
 
-			if node_under == "tech:small_wood_fire_unlit" then
-				minetest.set_node(pointed_thing.under, {name = "tech:small_wood_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-			elseif node_under == "tech:large_wood_fire_unlit" then
-				minetest.set_node(pointed_thing.under, {name = "tech:large_wood_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-
-			elseif node_under == "tech:charcoal" then
-				minetest.set_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-			elseif node_under == "tech:charcoal_block" then
-				minetest.set_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-
-			elseif node_under == "tech:small_wood_fire_ext" then
-				minetest.swap_node(pointed_thing.under, {name = "tech:small_wood_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-			elseif node_under == "tech:large_wood_fire_ext" then
-				minetest.swap_node(pointed_thing.under, {name = "tech:large_wood_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-
-			elseif node_under == "tech:small_charcoal_fire_ext" then
-				minetest.swap_node(pointed_thing.under, {name = "tech:small_charcoal_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-			elseif node_under == "tech:large_charcoal_fire_ext" then
-				minetest.swap_node(pointed_thing.under, {name = "tech:large_charcoal_fire"})
-				return add_wear(player_name, itemstack, sound_pos)
-
+			for unl, l in pairs(lit) do
+			   if node_under == unl then
+			      minetest.swap_node(pointed_thing.under, {name = l})
+			      minetest.registered_nodes[l].on_construct(pos_under)
+			      return add_wear(player_name, itemstack, sound_pos)
+			   end
 			end
-
 
 			local nodedef = minetest.registered_nodes[node_under]
 			if not nodedef then
