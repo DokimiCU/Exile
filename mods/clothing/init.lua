@@ -83,11 +83,13 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 			if cloth_type == item_group then
 				if player_inv:get_stack("cloths", to_index):get_count() == 0 then --if put on an empty slot
 					if from_inv == "main" then
-						if player_inv:room_for_item("main", cloth_name) then
-							local removed = player_inv:remove_item("cloths", cloth_name)
-							player_inv:add_item("main", removed)
-							return 1
-						end
+					   local removed = player_inv:remove_item("cloths", cloth_name)
+					   if player_inv:room_for_item("main", removed) then
+					      player_inv:add_item("main", removed)
+					      return 1
+					   else
+					      minetest.item_drop(removed, player, player:get_pos())
+					   end
 					end
 				end
 				return 1 -- swapping in-place
