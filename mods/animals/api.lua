@@ -11,7 +11,7 @@ local min = math.min
 local tan = math.tan
 local pow = math.pow
 
-local max_objects = 50
+local max_objects = 30
 
 
 --------------------------------------------------------------------------
