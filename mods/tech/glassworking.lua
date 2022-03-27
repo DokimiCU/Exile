@@ -13,11 +13,13 @@ Calcium - stabilizing (potentially in the sand)
 
 Two types of glass - green and clear
 
-Green - made from ash and sand. Ash contains potash/soda ash and lime, but also iron impurities that color the glass green.
+Green - made from ash and sand. Ash contains potash/soda ash and lime,
+        but also iron impurities that color the glass green.
 	Good for things where clarity doesn't matter, like bottler
-Clear - made from refined potash (pearl ash), lime and sand. More expensive, as have to work to refine potash. Good for windows.
+Clear - made from refined potash (pearl ash), lime and sand. More expensive,
+        as have to work to refine potash. Good for windows.
 
-Potash - in this case get from wood ash. 
+Potash - in this case get from wood ash.
 Process:
 	1. Soak in water
 	2. Put water into pot
@@ -49,10 +51,11 @@ end
 
 local function roast(pos, selfname, name, heat)
 	local meta = minetest.get_meta(pos)
-	local roast = meta:get_int("roast")
+	local roasting = meta:get_int("roast")
 
 	--check if wet stop
-	if climate.get_rain(pos) or minetest.find_node_near(pos, 1, {"group:water"}) then
+	if climate.get_rain(pos) or
+	   minetest.find_node_near(pos, 1, {"group:water"}) then
 		return true
 	end
 
@@ -63,7 +66,7 @@ local function roast(pos, selfname, name, heat)
 	local temp = climate.get_point_temp(pos)
 	local fire_temp = heat
 
-	if roast <= 0 then
+	if roasting <= 0 then
 		--finished firing
     minetest.set_node(pos, {name = name})
     minetest.check_for_falling(pos)
@@ -73,7 +76,7 @@ local function roast(pos, selfname, name, heat)
     return true
 	elseif temp >= fire_temp then
     --do firing
-    meta:set_int("roast", roast - 1)
+    meta:set_int("roast", roasting - 1)
     return true
   end
 
@@ -83,7 +86,9 @@ end
 local function pane_cast_check(pos)
 
 	local pbelow = {x = pos.x, y = pos.y - 1, z = pos.z}
-	if minetest.get_node(pbelow).name == "tech:pane_tray" and climate.get_point_temp(pos) >= 1800 then -- Melting temperature of glass is approx 1800 C
+	if minetest.get_node(pbelow).name == "tech:pane_tray" and
+	   climate.get_point_temp(pos) >= 1800 then
+	   -- Melting temperature of glass is approx 1800 C
 		local name = minetest.get_node(pos).name
 		if name == "tech:green_glass_ingot" then
 			minetest.set_node(pos, {name = "air"})
@@ -112,7 +117,7 @@ minetest.register_node("tech:green_glass_mix",
 	paramtype = "light",
 	groups = {crumbly = 3, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_sand_defaults(),
-  	on_construct = function(pos)
+	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_roast(pos, 40, 10)
 	end,
@@ -128,7 +133,7 @@ minetest.register_node("tech:green_glass_ingot", {
 	description = "Green Glass Ingot",
 	tiles = {"tech_green_glass.png"},
 	inventory_image = "tech_glass_ingot_green_icon.png",
-  	drawtype = "nodebox",
+	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, -0.1, 0.3},
@@ -191,54 +196,54 @@ local post_alpha = 140
 
 -- Potash solution (More like lye in this case)
 minetest.register_node("tech:potash_source", {
-  	description = "Potash Solution Source",
-  	drawtype = "liquid",
-  	tiles = {"tech_potash.png"},
+	description = "Potash Solution Source",
+	drawtype = "liquid",
+	tiles = {"tech_potash.png"},
 	--	use_texture_alpha = "blend",
-  	paramtype = "light",
-  	walkable = false,
-  	pointable = false,
-  	diggable = false,
-  	buildable_to = true,
-  	is_ground_content = false,
-  	drop = "",
-  	drowning = 1,
-  	liquidtype = "source",
-  	liquid_alternative_flowing = "tech:potash_flowing",
-  	liquid_alternative_source = "tech:potash_source",
-  	liquid_viscosity = 1,
+	paramtype = "light",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "source",
+	liquid_alternative_flowing = "tech:potash_flowing",
+	liquid_alternative_source = "tech:potash_source",
+	liquid_viscosity = 1,
 	liquid_range = 2,
 	liquid_renewable = false,
 	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = 2, cools_lava = 1, puts_out_fire = 1},
-  	sounds = nodes_nature.node_sound_water_defaults(),
+	groups = {water = 2, cools_lava = 1, puts_out_fire = 1},
+	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
 
   minetest.register_node("tech:potash_flowing", {
-  	description = "Flowing Potash Solution",
-  	drawtype = "flowingliquid",
-  	tiles = {"tech_potash.png"},
-  	special_tiles = {"tech_potash.png"},
+	description = "Flowing Potash Solution",
+	drawtype = "flowingliquid",
+	tiles = {"tech_potash.png"},
+	special_tiles = {"tech_potash.png"},
 	use_texture_alpha = "blend",
-  	paramtype = "light",
-  	paramtype2 = "flowingliquid",
-  	walkable = false,
-  	pointable = false,
-  	diggable = false,
-  	buildable_to = true,
-  	is_ground_content = false,
-  	drop = "",
-  	drowning = 1,
-  	liquidtype = "flowing",
-		liquid_range = 2,
-  	liquid_alternative_flowing = "tech:potash_flowing",
-  	liquid_alternative_source = "tech:potash_source",
-  	liquid_viscosity = 1,
-		liquid_renewable = false,
-  	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
-  	groups = {water = 2, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
-  	sounds = nodes_nature.node_sound_water_defaults(),
+	paramtype = "light",
+	paramtype2 = "flowingliquid",
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	is_ground_content = false,
+	drop = "",
+	drowning = 1,
+	liquidtype = "flowing",
+	liquid_range = 2,
+	liquid_alternative_flowing = "tech:potash_flowing",
+	liquid_alternative_source = "tech:potash_source",
+	liquid_viscosity = 1,
+	liquid_renewable = false,
+	post_effect_color = {a = post_alpha, r = 30, g = 60, b = 90},
+	groups = {water = 2, not_in_creative_inventory = 1, puts_out_fire = 1, cools_lava = 1},
+	sounds = nodes_nature.node_sound_water_defaults(),
   })
 
 -- Solution in pot
@@ -277,13 +282,15 @@ local function potash_soak_check(pos, node)
 		local p_name = minetest.get_node(p_water).name
 		--check water type. Salt wouldn't work probably
 		local water_type = minetest.get_item_group(p_name, "water")
-  		if water_type == 1 then
-  			minetest.set_node(pos, {name = "tech:potash_source"})
-        		minetest.set_node(p_water, {name = "air"})
-        		minetest.sound_play("tech_boil", {pos = pos, max_hear_distance = 8, gain = 1})
-  		elseif water_type == 2 then
-  			return false
-  		end
+		if water_type == 1 then
+		   minetest.set_node(pos, {name = "tech:potash_source"})
+		   minetest.set_node(p_water, {name = "air"})
+		   minetest.sound_play("tech_boil",
+				       {pos = pos,
+					max_hear_distance = 8, gain = 1})
+		elseif water_type == 2 then
+			return false
+		end
 	end
 end
 
@@ -351,7 +358,7 @@ minetest.override_item("tech:clay_water_pot_potash",
 
 		return true
 	end,
-	
+
 })
 
 -- The actual glassmaking... finally
@@ -365,7 +372,7 @@ minetest.register_node("tech:clear_glass_mix",
 	paramtype = "light",
 	groups = {crumbly = 3, falling_node = 1, heatable = 20},
 	sounds = nodes_nature.node_sound_sand_defaults(),
-  	on_construct = function(pos)
+	on_construct = function(pos)
 		--length(i.e. difficulty of firing), interval for checks (speed)
 		set_roast(pos, 40, 10)
 	end,
@@ -381,7 +388,7 @@ minetest.register_node("tech:clear_glass_ingot", {
 	description = "Clear Glass Ingot",
 	tiles = {"tech_clear_glass.png"},
 	inventory_image = "tech_glass_ingot_clear_icon.png",
-  	drawtype = "nodebox",
+	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, -0.1, 0.3},
@@ -433,6 +440,7 @@ minetest.register_node("tech:pane_tray",
 
 	},
 	stack_max = minimal.stack_max_bulky * 2,
+	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sunlight_propagates = true,
@@ -457,6 +465,7 @@ minetest.register_node("tech:pane_tray_green",
 
 	},
 	stack_max = minimal.stack_max_bulky * 2,
+	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
@@ -475,7 +484,8 @@ minetest.register_node("tech:pane_tray_green",
 minetest.register_node("tech:pane_tray_clear",
 {
 	description = "Pane Casting Tray With Clear Glass Pane",
-	tiles = {"tech_tray_clear.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
+	tiles = {"tech_tray_clear.png", "tech_iron.png", "tech_iron.png",
+		 "tech_iron.png", "tech_iron.png", "tech_iron.png"},
 	drawtype = "nodebox",
 	node_box =
 	{
@@ -490,6 +500,7 @@ minetest.register_node("tech:pane_tray_clear",
 
 	},
 	stack_max = minimal.stack_max_bulky * 2,
+	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {dig_immediate = 3},
 	sunlight_propagates = true,
@@ -543,7 +554,7 @@ minetest.register_node("tech:pane_clear",
 	tiles = {"tech_clear_glass.png"},
 	inventory_image = "tech_clear_pane_icon.png",
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {{-1/2 + 1/10, -1/2, -1/32, 1/2 - 1/10, 1/2 - 2/10, 1/32}}, -- Modified from xpanes
@@ -562,10 +573,12 @@ minetest.register_node("tech:pane_clear",
 minetest.register_node("tech:window_green",
 {
 	description = "Green Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_green_glass_window.png", "tech_green_glass_window.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png",
+		 "tech_oiled_wood.png", "tech_oiled_wood.png",
+		 "tech_green_glass_window.png", "tech_green_glass_window.png"},
 	inventory_image = "tech_green_glass_window.png^[noalpha",
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
@@ -582,10 +595,12 @@ minetest.register_node("tech:window_green",
 minetest.register_node("tech:window_clear",
 {
 	description = "Clear Glass Window",
-	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_oiled_wood.png", "tech_clear_glass_window.png", "tech_clear_glass_window.png"},
+	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png",
+		 "tech_oiled_wood.png", "tech_oiled_wood.png",
+		 "tech_clear_glass_window.png", "tech_clear_glass_window.png"},
 	inventory_image = "tech_clear_glass_window.png^[noalpha",
 	drawtype = "nodebox",
-	node_box = 
+	node_box =
 	{
 		type = "fixed",
 		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}}, -- From xpanes
@@ -704,7 +719,7 @@ liquid_store.register_stored_liquid(
 	},
 	{
 		type = "fixed",
-		fixed = 
+		fixed =
 		{
 			{-0.2, -0.5, -0.2, 0.2, -0.4, 0.2}, -- base
 			{-0.3, -0.5, -0.2, -0.2, 0.2, 0.2}, -- z-wall
@@ -715,7 +730,7 @@ liquid_store.register_stored_liquid(
 			{0.3, 0.2, 0.3, 0.1, 0.3, -0.3}, -- top
 			{0.1, 0.2, 0.3, -0.1, 0.3, 0.1}, -- top
 			{-0.1, 0.2, -0.3, 0.1, 0.3, -0.1}, -- top
-			
+
 			{-0.2, 0.3, -0.2, -0.1, 0.5, 0.2}, -- lip
 			{0.2, 0.3, 0.2, 0.1, 0.5, -0.2}, -- lip
 			{0.1, 0.3, 0.2, -0.1, 0.5, 0.1}, -- lip
@@ -748,7 +763,7 @@ liquid_store.register_stored_liquid(
 	},
 	{
 		type = "fixed",
-		fixed = 
+		fixed =
 		{
 			{-0.2, -0.5, -0.2, 0.2, -0.4, 0.2}, -- base
 			{-0.3, -0.5, -0.2, -0.2, 0.2, 0.2}, -- z-wall
@@ -759,7 +774,7 @@ liquid_store.register_stored_liquid(
 			{0.3, 0.2, 0.3, 0.1, 0.3, -0.3}, -- top
 			{0.1, 0.2, 0.3, -0.1, 0.3, 0.1}, -- top
 			{-0.1, 0.2, -0.3, 0.1, 0.3, -0.1}, -- top
-			
+
 			{-0.2, 0.3, -0.2, -0.1, 0.5, 0.2}, -- lip
 			{0.2, 0.3, 0.2, 0.1, 0.5, -0.2}, -- lip
 			{0.1, 0.3, 0.2, -0.1, 0.5, 0.1}, -- lip
@@ -794,7 +809,7 @@ liquid_store.register_stored_liquid(
 	},
 	{
 		type = "fixed",
-		fixed = 
+		fixed =
 		{
 			{-0.2, -0.5, -0.2, 0.2, -0.4, 0.2}, -- base
 			{-0.3, -0.5, -0.2, -0.2, 0.2, 0.2}, -- z-wall
@@ -805,7 +820,7 @@ liquid_store.register_stored_liquid(
 			{0.3, 0.2, 0.3, 0.1, 0.3, -0.3}, -- top
 			{0.1, 0.2, 0.3, -0.1, 0.3, 0.1}, -- top
 			{-0.1, 0.2, -0.3, 0.1, 0.3, -0.1}, -- top
-			
+
 			{-0.2, 0.3, -0.2, -0.1, 0.5, 0.2}, -- lip
 			{0.2, 0.3, 0.2, 0.1, 0.5, -0.2}, -- lip
 			{0.1, 0.3, 0.2, -0.1, 0.5, 0.1}, -- lip
@@ -860,7 +875,7 @@ liquid_store.register_stored_liquid(
 	},
 	{
 		type = "fixed",
-		fixed = 
+		fixed =
 		{
 			{-0.2, -0.5, -0.2, 0.2, -0.4, 0.2}, -- base
 			{-0.3, -0.5, -0.2, -0.2, 0.2, 0.2}, -- z-wall
@@ -871,7 +886,7 @@ liquid_store.register_stored_liquid(
 			{0.3, 0.2, 0.3, 0.1, 0.3, -0.3}, -- top
 			{0.1, 0.2, 0.3, -0.1, 0.3, 0.1}, -- top
 			{-0.1, 0.2, -0.3, 0.1, 0.3, -0.1}, -- top
-			
+
 			{-0.2, 0.3, -0.2, -0.1, 0.5, 0.2}, -- lip
 			{0.2, 0.3, 0.2, 0.1, 0.5, -0.2}, -- lip
 			{0.1, 0.3, 0.2, -0.1, 0.5, 0.1}, -- lip
@@ -910,7 +925,9 @@ minetest.override_item("tech:glass_bottle_clear_freshwater",
 
 			meta:set_int("thirst", thirst)
 			minetest.set_node(pos, {name = "tech:glass_bottle_clear"})
-			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
+			minetest.sound_play("nodes_nature_slurp",
+					    {pos = pos,
+					     max_hear_distance = 3, gain = 0.25})
 		end
 	end
 
