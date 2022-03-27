@@ -234,7 +234,9 @@ if minetest.settings:get_bool("enable_damage") then
 
 				local health = player:get_hp()
 				-- if we're dead, no more healing/etc
-				if health > 0 then
+				if health > 0 and
+				   player:get_armor_groups().immortal ~= 1 then
+				   print(player:get_armor_groups().immortal)
 				local thirst = meta:get_int("thirst")
 				local hunger = meta:get_int("hunger")
 				local energy = meta:get_int("energy")
