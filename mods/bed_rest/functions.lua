@@ -9,7 +9,8 @@ local store = minetest.get_mod_storage()
 bed_rest = bed_rest
 player_api = player_api
 player_monoids = player_monoids
-clothing = clothing
+--clothing = clothing
+--#TODO: circular dependency: clothing requires bed_rest, bed_rest needs clothing
 
 function load_bedrest()
    local loaded = minetest.deserialize(store:get_string("bedrest"), true)
