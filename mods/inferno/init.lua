@@ -318,8 +318,7 @@ minetest.register_tool("inferno:fire_sticks", {
 
 			for unl, l in pairs(lit) do
 			   if node_under == unl then
-			      minetest.swap_node(pointed_thing.under, {name = l})
-			      minetest.registered_nodes[l].on_construct(pos_under)
+			      minimal.switch_node(pointed_thing.under, {name = l})
 			      return add_wear(player_name, itemstack, sound_pos)
 			   end
 			end

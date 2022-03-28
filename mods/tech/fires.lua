@@ -48,7 +48,7 @@ local function can_smolder(pos, meta, fire_name, ash_name)
 	--check for the presence of air
 	if minetest.find_node_near(pos, 1, {"air"}) then
 		--air, roar back to full flame
-		minetest.swap_node(pos, {name = fire_name})
+		minimal.switch_node(pos, {name = fire_name})
 		return false
 	else
 		return true
@@ -76,7 +76,7 @@ local function can_burn_air(pos, meta, smolder_name, ash_name)
 		return true
 	else
 		--smolder
-		minetest.swap_node(pos, {name = smolder_name})
+		minimal.switch_node(pos, {name = smolder_name})
 		return false
 	end
 end
