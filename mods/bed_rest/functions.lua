@@ -270,7 +270,7 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		wear_blanket(player, true)
 
 		-- physics, eye_offset, etc
-		player:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})
+		player:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = -4.5, z = 0})
 		local yaw, param2 = get_look_yaw(bed_pos)
 		player:set_look_horizontal(yaw)
 		local dir = minetest.facedir_to_dir(param2)
