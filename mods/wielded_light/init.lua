@@ -638,10 +638,10 @@ if minetest.get_modpath("exile_env_sounds") then
 	--specifics for Exile game
 
 	--water
-	wielded_light.register_lightable_node("nodes_nature:freshwater_source", {groups={liquid=1}}, "freshwater_")
-	wielded_light.register_lightable_node("nodes_nature:freshwater_flowing", {groups={liquid=1,floodable=0}}, "freshwater_flowing_")
-	wielded_light.register_lightable_node("nodes_nature:salt_water_source", {groups={liquid=1}}, "salt_water_")
-	wielded_light.register_lightable_node("nodes_nature:salt_water_flowing", {groups={liquid=1,floodable=0}}, "salt_water_flowing_")
+	wielded_light.register_lightable_node("nodes_nature:freshwater_source", {groups={liquid=1,not_in_creative_inventory=1}}, "freshwater_")
+	wielded_light.register_lightable_node("nodes_nature:freshwater_flowing", {groups={liquid=1,floodable=0,not_in_creative_inventory=1}}, "freshwater_flowing_")
+	wielded_light.register_lightable_node("nodes_nature:salt_water_source", {groups={liquid=1,not_in_creative_inventory=1}}, "salt_water_")
+	wielded_light.register_lightable_node("nodes_nature:salt_water_flowing", {groups={liquid=1,floodable=0,not_in_creative_inventory=1}}, "salt_water_flowing_")
 
 	-- Trees
 	wielded_light.register_lightable_node("nodes_nature:tree_mark", nil, "trees_")
@@ -651,6 +651,14 @@ if minetest.get_modpath("exile_env_sounds") then
 	wielded_light.register_lightable_node("ropes:rope", nil, "rope_")
 	wielded_light.register_lightable_node("tech:wooden_ladder", nil, "tech_")
 	wielded_light.register_lightable_node("artifacts:antiquorium_ladder", nil, "artifacts_")
+
+	-- Tall plants
+	wielded_light.register_lightable_node("nodes_nature:cana", nil, "cana_")
+	wielded_light.register_lightable_node("nodes_nature:chalin", nil, "chalin_")
+	wielded_light.register_lightable_node("nodes_nature:gemedi", nil, "gemedi_")
+	wielded_light.register_lightable_node("nodes_nature:tiken", nil, "tiken_")
+	wielded_light.register_lightable_node("nodes_nature:kelp", nil, "kelp_")
+
 
 	-- Set light levels for wielded items
 	-- Original illumination mod set 4 light level ranges
