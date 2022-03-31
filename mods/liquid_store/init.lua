@@ -182,6 +182,7 @@ function liquid_store.register_stored_liquid(source, nodename, nodename_empty, t
 			tiles = tiles,
 			drawtype = "nodebox",
 			node_box = node_box,
+			paramtype = "light",
 			stack_max = 1,
 			liquids_pointable = true,
 			groups = groups,
