@@ -107,7 +107,6 @@ local function hearth_fire_on(pos)
 
 	end
 
-	local meta = minetest.get_meta(pos)
 	--flames
 	minetest.add_particlespawner({
 		amount = 6,
@@ -171,6 +170,7 @@ minetest.register_node("tech:wood_ash_block", {
 	description = "Wood Ash Block",
 	tiles = {"tech_wood_ash.png"},
 	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
 	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 	on_place = function (itemstack, placer, pointed_thing)
@@ -185,6 +185,7 @@ minetest.register_node("tech:wood_ash", {
 	tiles = {"tech_wood_ash.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	drawtype = "nodebox",
+	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
@@ -201,6 +202,7 @@ minetest.register_node("tech:wood_ash", {
 minetest.register_node("tech:charcoal_block", {
 	description = "Charcoal Block",
 	tiles = {"tech_charcoal.png"},
+	paramtype = "light",
 	stack_max = minimal.stack_max_bulky,
 	groups = {crumbly = 3, falling_node = 1, fertilizer = 1, flammable = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
@@ -215,6 +217,7 @@ minetest.register_node("tech:charcoal", {
 	description = "Charcoal",
 	tiles = {"tech_charcoal.png"},
 	drawtype = "nodebox",
+	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
@@ -365,7 +368,6 @@ minetest.register_node('tech:large_wood_fire', {
 	on_construct = function(pos)
 		--duration of burn
 		local meta = minetest.get_meta(pos)
-		local fuel = meta:get_int("fuel")
 		if not meta:contains("fuel") then
 		   meta:set_int("fuel", base_fuel*2)
 		end
