@@ -115,21 +115,16 @@ end
 
 -----------------
 local function get_weather_table(name, registered_weathers)
-	local t = false
-  for i, reg_weather in ipairs(registered_weathers) do
-    if name == reg_weather.name then
-      local active_weather = reg_weather
-			t = true
-      return active_weather
-		end
+	for i, reg_weather in ipairs(registered_weathers) do
+	   if name == reg_weather.name then
+	      local active_weather = reg_weather
+	      return active_weather
+	   end
 	end
-
-	if not t then
-		--error, got a name it can't find
-		--currently will likely make it crash
-		minetest.log("error", "Climate: "..name.." not found")
-		return
-	end
+	--error, got a name it can't find
+	--currently will likely make it crash
+	minetest.log("error", "Climate: "..name.." not found")
+	return
 
 end
 
@@ -247,7 +242,7 @@ local function select_new_active_weather()
        --set sky and clouds for new state using the new active_weather
        set_sky_clouds(player)
     end
-end	 
+end
 
 local function get_seasonal_waves()
    --get seasonal wave
@@ -270,7 +265,7 @@ local function set_world_temperature()
     --this is a universal temperature for the whole map
     --we treat the whole map as one coherent region, with a single climate
     --specific player temp adjusted from this (e.g. by altitude)
-    
+
     --get day night wave
     local tod = minetest.get_timeofday()
     --diff between day and night is this x2
@@ -353,10 +348,8 @@ minetest.register_globalstep(function(dtime)
      elseif pos.y < -11 and sound then
 	local x = 1-(-1*pos.y-12)/5
 	if x < 0 then
-	   x = 0
 	   minetest.sound_stop(sound)
 	   sound_handlers[p_name] = nil
-	   sound = nil
 	else
 	   minetest.sound_fade(sound, 0.5, x)
 	end
@@ -488,7 +481,7 @@ minetest.register_chatcommand("set_tempscale", {
     description = "Sets the temperature scale used for your own display",
     func = function(name, param)
        if param == "" or param == "help" then
-	  wlist = "/set_tempscale:\n"..
+	  local wlist = "/set_tempscale:\n"..
 	  "Sets the temperature scale used for your own display.\n" ..
 	  "Valid settings are f for Fahrenheit, c for Celsius, and "..
 	  "k for Kelvin."
@@ -498,7 +491,7 @@ minetest.register_chatcommand("set_tempscale", {
 	  return false, "Invalid scale. Use f, c, or k."
        end
        local player = minetest.get_player_by_name(name)
-       meta = player:get_meta()
+       local meta = player:get_meta()
        if param == "f" then
 	  meta:set_string("TempScalePref", "Fahrenheit")
        elseif param == "k" then
