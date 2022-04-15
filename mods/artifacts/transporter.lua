@@ -14,15 +14,16 @@ Components
 -stabilizer: locks onto actual location, not just general area
 -focalizer: increases range to full distance
 
--locator ley: allows linking (item)
+-transporter key: allows linking (item)
 
 Components must be 1 block radius around the pad. Above pad must be kept clear.
 Only need one of each
 
 ]]
 
-
-local S = minetest.get_translator("transporter")
+artifacts = artifacts
+local S = artifacts.S()
+local FS = artifacts.FS()
 ------------------------------------
 local rand = math.random
 --minimum distance transporters muct be apart (nodes)

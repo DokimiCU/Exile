@@ -16,6 +16,10 @@ minimal = {
 
 }
 
+minimal.S = minetest.get_translator("minimal")
+minimal.FS = function(...)
+	return minetest.formspec_escape(minimal.S(...))
+end
 
 dofile(minetest.get_modpath('minimal')..'/item_names.lua')
 dofile(minetest.get_modpath('minimal')..'/settingswarn.lua')
