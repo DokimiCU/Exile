@@ -6,6 +6,10 @@ males and females, must mate to reproduce.
 lives off flora, spreading surface and insects
 ]]
 ---------------------------------------------------------------------
+
+-- Internationalization
+local S = animals.S
+
 local random = math.random
 local floor = math.floor
 
@@ -371,7 +375,7 @@ end
 
 --eggs
 minetest.register_node("animals:pegasun_eggs", {
-	description = 'Pegasun Egg',
+	description = S('Pegasun Egg'),
 	tiles = {"animals_gundu_eggs.png"},
 	stack_max = minimal.stack_max_medium,
 	drawtype = "nodebox",
@@ -516,7 +520,7 @@ minetest.register_entity("animals:pegasun_male",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:pegasun_male", "Live Pegasun (male)", "animals_pegasun_item.png", minimal.stack_max_medium, energy_egg)
+animals.register_egg("animals:pegasun_male", S("Live Pegasun (male)"), "animals_pegasun_item.png", minimal.stack_max_medium, energy_egg)
 
 
 
@@ -630,4 +634,4 @@ minetest.register_entity("animals:pegasun",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:pegasun", "Live Pegasun (female)", "animals_pegasun_item.png", minimal.stack_max_medium, energy_egg)
+animals.register_egg("animals:pegasun", S("Live Pegasun (female)"), "animals_pegasun_item.png", minimal.stack_max_medium, energy_egg)

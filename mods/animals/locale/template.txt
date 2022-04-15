@@ -1,0 +1,35 @@
+# textdomain: animals
+
+# crafts.lua
+@1 Carcass=
+Cooked @1=
+Burned @1=
+
+# darkasthaan.lua
+Darkasthaan Eggs=
+Live Darkasthaan=
+
+# gundu.lua
+Gundu Eggs=
+Live Gundu=
+
+# impethu.lua
+Impethu Eggs=
+Live Impethu=
+
+# kubwakubwa.lua
+Kubwakubwa Eggs=
+Live Kubwakubwa=
+
+# pegasun.lua
+Pegasun Egg=Œuf de pegasun
+Live Pegasun (male)=
+Live Pegasun (female)=
+
+# sarkamos.lua
+Sarkamos Eggs=
+Live Sarkamos=
+
+# sneachan.lua
+Sneachan Eggs=
+Live Sneachan=

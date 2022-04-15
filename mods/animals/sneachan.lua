@@ -6,6 +6,10 @@ Land living
 Dislikes bright light, eats sediment, plants,
 ]]
 ---------------------------------------------------------------------
+
+-- Internationalization
+local S = animals.S
+
 local random = math.random
 local floor = math.floor
 
@@ -152,7 +156,7 @@ end
 
 --eggs
 minetest.register_node("animals:sneachan_eggs", {
-	description = 'Sneachan Eggs',
+	description = S('Sneachan Eggs'),
 	tiles = {"animals_gundu_eggs.png"},
 	stack_max = minimal.stack_max_medium,
 	drawtype = "nodebox",
@@ -269,4 +273,4 @@ minetest.register_entity("animals:sneachan",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:sneachan", "Live Sneachan", "animals_sneachan_item.png", minimal.stack_max_medium, energy_egg)
+animals.register_egg("animals:sneachan", S("Live Sneachan"), "animals_sneachan_item.png", minimal.stack_max_medium, energy_egg)

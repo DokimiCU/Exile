@@ -6,6 +6,10 @@ Predator in shallow caves
 ]]
 
 ---------------------------------------------------------------------
+
+-- Internationalization
+local S = animals.S
+
 local random = math.random
 local floor = math.floor
 
@@ -119,7 +123,7 @@ end
 
 --eggs
 minetest.register_node("animals:kubwakubwa_eggs", {
-	description = 'Kubwakubwa Eggs',
+	description = S('Kubwakubwa Eggs'),
 	tiles = {"animals_gundu_eggs.png"},
 	stack_max = minimal.stack_max_medium,
 	drawtype = "nodebox",
@@ -233,4 +237,4 @@ minetest.register_entity("animals:kubwakubwa",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:kubwakubwa", "Live Kubwakubwa", "animals_kubwakubwa_item.png", minimal.stack_max_medium, energy_egg)
+animals.register_egg("animals:kubwakubwa", S("Live Kubwakubwa"), "animals_kubwakubwa_item.png", minimal.stack_max_medium, energy_egg)

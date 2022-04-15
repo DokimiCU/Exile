@@ -16,6 +16,8 @@ small, large
 leather, Bone, skin, sinews, feathers?
 ]]
 
+-- Internationalization
+local S = animals.S
 
 local random = math.random
 local floor = math.floor
@@ -114,7 +116,7 @@ for i in ipairs(list) do
 
   --raw
   minetest.register_node("animals:carcass_"..name, {
-  	description = desc..' Carcass',
+	description = S('@1 Carcass', desc),
     tiles = {"animals_carcass.png"},
     drawtype = "nodebox",
   	paramtype = "light",
@@ -129,7 +131,7 @@ for i in ipairs(list) do
 
   --cooked
   minetest.register_node("animals:carcass_"..name.. "_cooked", {
-    description = 'Cooked '..desc,
+    description = S('Cooked @1', desc),
     tiles = {"nodes_nature_silt.png"},
     drawtype = "nodebox",
     paramtype = "light",
@@ -144,7 +146,7 @@ for i in ipairs(list) do
 
 --burned
   minetest.register_node("animals:carcass_"..name.. "_burned", {
-    description = 'Burned '..desc,
+    description = S('Burned @1', desc),
     tiles = {"animals_carcass_burned.png"},
     drawtype = "nodebox",
     paramtype = "light",

@@ -5,6 +5,9 @@ predator fish
 ]]
 ---------------------------------------------------------------------
 
+-- Internationalization
+local S = animals.S
+
 local random = math.random
 local floor = math.floor
 
@@ -118,7 +121,7 @@ end
 
 --eggs
 minetest.register_node("animals:sarkamos_eggs", {
-	description = 'Sarkamos Eggs',
+	description = S('Sarkamos Eggs'),
 	tiles = {"animals_gundu_eggs.png"},
 	stack_max = minimal.stack_max_bulky,
 	groups = {snappy = 3},
@@ -224,4 +227,4 @@ minetest.register_entity("animals:sarkamos",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:sarkamos", "Live Sarkamos", "animals_sarkamos_item.png", minimal.stack_max_medium/2, energy_egg)
+animals.register_egg("animals:sarkamos", S("Live Sarkamos"), "animals_sarkamos_item.png", minimal.stack_max_medium/2, energy_egg)

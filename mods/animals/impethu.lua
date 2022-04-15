@@ -5,6 +5,10 @@
 Bottom of shallow cave food chain
 ]]
 ---------------------------------------------------------------------
+
+-- Internationalization
+local S = animals.S
+
 local random = math.random
 local floor = math.floor
 
@@ -134,7 +138,7 @@ end
 
 --eggs
 minetest.register_node("animals:impethu_eggs", {
-	description = 'Impethu Eggs',
+	description = S('Impethu Eggs'),
 	tiles = {"animals_gundu_eggs.png"},
 	stack_max = minimal.stack_max_medium,
 	drawtype = "nodebox",
@@ -251,4 +255,4 @@ minetest.register_entity("animals:impethu",{
 
 
 --spawn egg (i.e. live animal in inventory)
-animals.register_egg("animals:impethu", "Live Impethu", "animals_impethu_item.png", minimal.stack_max_medium, energy_egg)
+animals.register_egg("animals:impethu", S("Live Impethu"), "animals_impethu_item.png", minimal.stack_max_medium, energy_egg)

@@ -1,5 +1,8 @@
 animals = {}
 
+-- Internationalization
+animals.S = minetest.get_translator("animals")
+
 local path = minetest.get_modpath(minetest.get_current_modname())
 
 dofile(path.."/crafts.lua")
