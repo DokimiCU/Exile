@@ -112,7 +112,7 @@ local function break_taker(name, prefs)
 	local tn = os.time()
 
 	local nobreaks = minetest.settings:get('exile_nobreaktaker') or false
-	if prefs == "off" or ( prefs == nil and nobreaks == true ) then
+	if prefs == "off" or ( prefs == "" and nobreaks == true ) then
 	   return
 	end
 
