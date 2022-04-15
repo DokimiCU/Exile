@@ -1,0 +1,35 @@
+# textdomain: animals
+
+# crafts.lua
+@1 Carcass=Carcasse de @1
+Cooked @1=@1 cuit
+Burned @1=@1 brulé
+
+# darkasthaan.lua
+Darkasthaan Eggs=Œufs de darkasthaan
+Live Darkasthaan=Darkasthaan
+
+# gundu.lua
+Gundu Eggs=Œufs de gundu
+Live Gundu=Gundu
+
+# impethu.lua
+Impethu Eggs=Œufs d'impethu
+Live Impethu=Impethu
+
+# kubwakubwa.lua
+Kubwakubwa Eggs=Œufs de kubwakubwa
+Live Kubwakubwa=Kubwakubwa
+
+# pegasun.lua
+Pegasun Egg=Œuf de pegasun
+Live Pegasun (male)=Pegasun (male)
+Live Pegasun (female)=Pegasun (femelle)
+
+# sarkamos.lua
+Sarkamos Eggs=Œufs de sarkamos
+Live Sarkamos=Sarkamos
+
+# sneachan.lua
+Sneachan Eggs=Œufs de sneachan
+Live Sneachan=Sneachan
