@@ -1,0 +1,79 @@
+# textdomain: nodes_nature
+
+# data_plant.lua
+Moss=Mousse
+Moss Spores=Spores de mousse
+Anperla Tuber=Tubercule d'anperla
+Reshedaar Spores=Spores de reshedaar
+Mahal Spores=Spores de mahal
+Lambakap Spores=Spores de lambakap
+Kelp=Varech
+Seagrass=Herbier marin
+Sea Lettuce=Laitue de mer
+Maraka Nut=Noix de maraka
+Tangkal Fruit=Fruit de tangkal
+Sasaran Cone=Pomme de Sasaran
+Kagum Pod=Cosse de kagum
+
+# data_rock.lua
+Sandstone=Grès
+Siltstone=Grès fin
+Claystone=Pierre argileuse
+Conglomerate=Conglomérat
+Limestone=Calcaire
+Ironstone=Pierre ferugineuse
+Granite=Granit
+Basalt=Basalte
+Gneiss=Gneiss
+Jade=Jade
+Sand=Sable
+Silt=Vase
+Clay=Argile
+Gravel=Gravier
+Loam=Terreau
+Grassland Soil=Sol de prairie
+Marshland Soil=Sol de marécage
+Duneland Soil=Sol de dune
+Highland Soil=Sol de montagne
+Woodland Soil=Sol de bois
+Barren Grassland Soil=Sol de prairie aride
+Dry Woodland Soil=Sol de bois aride
+Clay Agricultural Soil=Terre agricole argileuse
+Silty Agricultural Soil=Terre agricole vaseuse
+Sandy Agricultural Soil=Terre agricole sableuse
+Stony Agricultural Soil=Terre agricole caillouteuse
+Loamy Agricultural Soil=Terreau agricole
+
+# life.lua
+Young @1=Jeune pousse de @1
+@1 Spores=Spores de @1
+@1 Seeds=Graines de @1
+Cana=Canne à sucre
+Glow Worm=Ver luisant
+
+# liquids.lua
+Salt Water=Eau salée
+Freshwater=Eau fraiche
+@1 Source=@1 courrante
+@1 Flowing=@1 courrante
+Snow=Neige
+Snow Block=Bloc de neige
+Ice=Glace
+Sea Ice=Glace de l'océan
+Lava Source=Source de lave
+Lava Flowing=Lave courrante
+
+# rocks.lua
+@1 Boulder=Rocher de @1
+@1 Brick=Brique de @1
+@1 Block=Bloc de @1
+
+# sediment.lua
+Wet @1=@1 humide
+Salty Wet @1=@1 humide (salé-e)
+Depleted @1=@1 épuisé-e
+Wet Depleted @1=@1 humide épuisé-e
+
+# trees.lua
+Tree Marker=Marqueur d'arbre
+@1 Log=Tronc de @1
