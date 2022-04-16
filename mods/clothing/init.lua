@@ -2,6 +2,12 @@
 --CLOTHING init
 ------------------------------------------------------------
 
+-- Internationalization
+local S = minetest.get_translator("clothing")
+local FS = function(...)
+    return minetest.formspec_escape(S(...))
+end
+
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 
 dofile(modpath.."/api.lua")
@@ -23,15 +29,15 @@ local clothing_formspec = "size[8,8.5]"..
 "list[current_player;main;0,5.85;8,3;8]"
 
 sfinv.register_page("clothing:clothing", {
-	title = "Clothing",
+	title = S("Clothing"),
 	get = function(self, player, context)
 		local meta = player:get_meta()
 		local cur_tmin = climate.get_temp_string(meta:get_int("clothing_temp_min"), meta)
 		local cur_tmax = climate.get_temp_string(meta:get_int("clothing_temp_max"), meta)
 
 		local formspec = clothing_formspec..
-		"label[3,0.4; Min Temperature Tolerance: " .. cur_tmin .. " ]"..
-		"label[3,1; Max Temperature Tolerance: " .. cur_tmax .. " ]"..
+		"label[3,0.4;" .. FS("Min Temperature Tolerance: @1", cur_tmin) .. " ]"..
+		"label[3,1;" .. FS("Max Temperature Tolerance: @1", cur_tmax) .. " ]"..
 		--"list[detached:"..name.."_clothing;clothing;0,0.5;2,3;]"..
 		"list[current_player;cloths;0,0.5;2,3;]" ..
 		"listring[current_player;main]"..
