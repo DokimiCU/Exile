@@ -1,6 +1,14 @@
 # Changelog:
 
-## [2022-01-25][2022-01-25__0.3.5b] — 0.3.5b and 0.2.8b
+## [2022-04-16][2022-04-16__0.3.6] — 0.3.6 and 0.2.9
+ - Craftable dyes, made from randomly selected plants
+ - Wielded_light replaces Illumination mod
+ - Iron chests and basic protection for valuable items
+ - Trees regrow after a rainy season, not only during rain
+ - Transfer water directly between pots and bottles
+ - Further cooking pot improvements
+
+## [2022-02-25][2022-02-25__0.3.5b] — 0.3.5b and 0.2.8b
  - flowing water no longer supports player weight in MT 5.5.0
  - /suicide command for players who are stuck
  - added frost overlay to the HUD when you're dangerously cold
