@@ -11,7 +11,8 @@ Currently the following meshes are choosable:
   * 4 = a "#" shaped plant with 4 faces that lean
 ]]
 
-
+-- Internationalization
+local S = nodes_nature.S
 
 local random = math.random
 local floor = math.floor
@@ -87,7 +88,7 @@ end
 --used to regrow fruit, leaves, trunks on trees
 
 minetest.register_node("nodes_nature:tree_mark", {
-	description = "Tree Marker",
+	description = S("Tree Marker"),
 	drawtype = "airlike",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -178,7 +179,7 @@ for i in ipairs(tree_list) do
 
 	--dropped log
 	minetest.register_node("nodes_nature:"..treename.."_log", {
-		description = treedesc.." Log",
+		description = S("@1 Log", treedesc),
 		tiles = {
 			"nodes_nature_"..treename.."_log_top.png",
 			"nodes_nature_"..treename.."_log_top.png",
@@ -227,7 +228,7 @@ for i in ipairs(tree_list) do
 
 	--leaves
 	minetest.register_node("nodes_nature:"..treename.."_leaves", {
-		description = treedesc.." Leaves",
+		description = S("@1 Leaves", treedesc),
 		drawtype =  "plantlike",
 		visual_scale = 1,
 		tiles ={"nodes_nature_"..treename.."_leaves.png" },

@@ -1,0 +1,79 @@
+# textdomain: nodes_nature
+
+# data_plant.lua
+Moss=
+Moss Spores=
+Anperla Tuber=
+Reshedaar Spores=
+Mahal Spores=
+Lambakap Spores=
+Kelp=
+Seagrass=
+Sea Lettuce=
+Maraka Nut=
+Tangkal Fruit=
+Sasaran Cone=
+Kagum Pod=
+
+# data_rock.lua
+Sandstone=
+Siltstone=
+Claystone=
+Conglomerate=
+Limestone=
+Ironstone=
+Granite=
+Basalt=
+Gneiss=
+Jade=
+Sand=
+Silt=
+Clay=
+Gravel=
+Loam=
+Grassland Soil=
+Marshland Soil=
+Duneland Soil=
+Highland Soil=
+Woodland Soil=
+Barren Grassland Soil=
+Dry Woodland Soil=
+Clay Agricultural Soil=
+Silty Agricultural Soil=
+Sandy Agricultural Soil=
+Stony Agricultural Soil=
+Loamy Agricultural Soil=
+
+# life.lua
+Young @1=
+@1 Spores=
+@1 Seeds=
+Cana=
+Glow Worm=
+
+# liquids.lua
+Salt Water=
+Freshwater=
+@1 Source=
+@1 Flowing=
+Snow=
+Snow Block=
+Ice=
+Sea Ice=
+Lava Source=
+Lava Flowing=
+
+# rocks.lua
+@1 Boulder=
+@1 Brick=
+@1 Block=
+
+# sediment.lua
+Wet @1=
+Salty Wet @1=
+Depleted @1=
+Wet Depleted @1=
+
+# trees.lua
+Tree Marker=
+@1 Log=

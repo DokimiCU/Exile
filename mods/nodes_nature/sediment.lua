@@ -3,6 +3,9 @@
 --
 ----------------------------------------------------------
 
+-- Internationalization
+local S = nodes_nature.S
+
 --recipes
 --loam
 crafting.register_recipe({
@@ -289,7 +292,7 @@ for i in ipairs(sed_list) do
 
 	--register wet
 	minetest.register_node("nodes_nature:"..name.."_wet", {
-		description = "Wet "..desc,
+		description = S("Wet @1", desc),
 		tiles = {"nodes_nature_"..name..".png^nodes_nature_mud.png"},
 		stack_max = minimal.stack_max_bulky,
 		groups = g2,
@@ -299,7 +302,7 @@ for i in ipairs(sed_list) do
 	})
 
 	minetest.register_node("nodes_nature:"..name.."_wet_salty", {
-		description = "Salty Wet "..desc,
+		description = S("Salty Wet @1", desc),
 		tiles = {"nodes_nature_"..name..".png^nodes_nature_mud.png^nodes_nature_mud_salt.png"},
 		stack_max = minimal.stack_max_bulky,
 		groups = g3,
@@ -364,7 +367,7 @@ for i in ipairs(soil_list) do
 
 	--register wet
 	minetest.register_node("nodes_nature:"..name.."_wet", {
-		description = "Wet "..desc,
+		description = S("Wet @1", desc),
 		tiles = {"nodes_nature_"..name..".png^nodes_nature_mud.png",
 		{name = "nodes_nature_"..dropped..".png^nodes_nature_"..name.."_side.png^nodes_nature_mud.png"}},
 		stack_max = minimal.stack_max_bulky,
@@ -481,7 +484,7 @@ for i in ipairs(agri_soil_list) do
 
 	--register wet agricultural soil
 	minetest.register_node("nodes_nature:"..name.."_wet", {
-		description = "Wet "..desc,
+		description = S("Wet @1", desc),
 		tiles = {
 			{name = "nodes_nature_"..type..".png^nodes_nature_ag_top.png^nodes_nature_mud.png"},
 			"nodes_nature_"..type..".png^nodes_nature_mud.png",
@@ -504,7 +507,7 @@ for i in ipairs(agri_soil_list) do
 
 	--register depleted soil
 	minetest.register_node("nodes_nature:"..name.."_depleted", {
-		description = "Depleted "..desc,
+		description = S("Depleted @1", desc),
 		tiles = {
 			{name = "nodes_nature_"..type..".png^nodes_nature_ag_dep_top.png"},
 			"nodes_nature_"..type..".png",
@@ -529,7 +532,7 @@ for i in ipairs(agri_soil_list) do
 
 	--register wet depleted soil
 	minetest.register_node("nodes_nature:"..name.."_wet_depleted", {
-		description = "Wet Depleted "..desc,
+		description = S("Wet Depleted @1", desc),
 		tiles = {
 			{name = "nodes_nature_"..type..".png^nodes_nature_ag_dep_top.png^nodes_nature_mud.png"},
 			"nodes_nature_"..type..".png^nodes_nature_mud.png",

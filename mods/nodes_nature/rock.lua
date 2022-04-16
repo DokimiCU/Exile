@@ -1,7 +1,8 @@
 ---------------------------------------------------------
 --STONE
 
-
+-- Internationalization
+local S = nodes_nature.S
 
 
 for i in ipairs(stone_list) do
@@ -64,7 +65,7 @@ for i in ipairs(rock_list) do
 
 		--boulder
 		minetest.register_node("nodes_nature:"..name.."_boulder",{
-			description = desc.." Boulder",
+			description = S("@1 Boulder", desc),
 			drawtype = "mesh",
 			mesh = "nodes_nature_boulder.obj",
 			tiles = {"nodes_nature_"..name..".png"},
@@ -88,7 +89,7 @@ for i in ipairs(rock_list) do
 		--drystone construction. (see tech for the mortared version)
 		--Bricks are more portable.
 		minetest.register_node("nodes_nature:"..name.."_brick", {
-			description = desc.." Brick",
+			description = S("@1 Brick", desc),
 			tiles = {"nodes_nature_"..name.."_brick.png"},
 			paramtype2 = "facedir",
 			stack_max = minimal.stack_max_bulky *3,
@@ -98,7 +99,7 @@ for i in ipairs(rock_list) do
 
 		--block is a shaped boulder, so has similar properties
 		minetest.register_node("nodes_nature:"..name.."_block", {
-			description = desc.. " Block",
+			description = S("@1 Block", desc),
 			tiles = {"nodes_nature_"..name.."_block.png"},
 			--drawtype = "nodebox",
 			--paramtype = "light",

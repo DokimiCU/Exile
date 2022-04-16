@@ -11,6 +11,8 @@ Currently the following meshes are choosable:
   * 4 = a "#" shaped plant with 4 faces that lean
 ]]
 
+-- Internationalization
+local S = nodes_nature.S
 
 ---------------------------------------
 local random = math.random
@@ -329,7 +331,7 @@ for i in ipairs(plantlist) do
 
 		--seedling
 		minetest.register_node("nodes_nature:"..plantname.."_seedling", {
-			description = "Young "..plantdesc,
+			description = S("Young @1", plantdesc),
 			drawtype = "nodebox",
 			node_box = {
 				type = "fixed",
@@ -412,7 +414,7 @@ for i in ipairs(plantlist) do
 
 		--seedling
 		minetest.register_node("nodes_nature:"..plantname.."_seedling", {
-      description = "Young "..plantdesc,
+      description = S("Young @1", plantdesc),
       drawtype = draw or "plantlike",
       waving = 1,
       visual_scale = vscale,
@@ -490,9 +492,9 @@ for i in ipairs(plantlist) do
 
 	if not seed_desc then
 		if type == "mushroom" then
-			seed_desc = plantdesc.." Spores"
+			seed_desc = S("@1 Spores", plantdesc)
 		else
-			seed_desc = plantdesc.." Seeds"
+			seed_desc = S("@1 Seeds", plantdesc)
 		end
 	end
 
@@ -602,7 +604,7 @@ minetest.register_node("nodes_nature:gemedi", {
 })
 
 minetest.register_node("nodes_nature:cana", {
-	description = "Cana",
+	description = S("Cana"),
 	drawtype = "plantlike",
 	tiles = {"nodes_nature_cana.png"},
 	inventory_image = "nodes_nature_cana.png",
@@ -843,7 +845,7 @@ minetest.register_node("nodes_nature:chalin", {
 
 --a bit experimental, doesn't reproduce
 minetest.register_node("nodes_nature:glow_worm", {
-			  description = "Glow Worm",
+			  description = S("Glow Worm"),
 			  drawtype = "plantlike",
 			  waving = 1,
 			  visual_scale = 1,

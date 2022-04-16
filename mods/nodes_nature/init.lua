@@ -1,5 +1,8 @@
 nodes_nature = {}
 
+-- Internationalization
+nodes_nature.S = minetest.get_translator("nodes_nature")
+
 -- Load files
 local path = minetest.get_modpath("nodes_nature")
 
