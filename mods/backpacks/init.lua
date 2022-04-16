@@ -1,5 +1,8 @@
 backpacks = {}
 
+-- Internationalization
+local S = minetest.get_translator("backpacks")
+
 local function get_formspec(pos, w, h)
 	local main_offset = 0.85 + h
 
@@ -16,7 +19,7 @@ end
 local on_construct = function(pos, width, height)
 	local meta = minetest.get_meta(pos)
 
-	meta:set_string("infotext", "Backpack")
+	meta:set_string("infotext", S("Backpack"))
 	local form = get_formspec(pos, width, height)
 	meta:set_string("formspec", form)
 
@@ -61,7 +64,7 @@ local on_dig = function(pos, node, digger, width, height)
 		end
 	end
 	local new_list = {inventory = {main = list},
-			fields = {infotext = "Backpack", formspec = get_formspec(pos, width, height), meta:set_string("description", desc)}}
+			fields = {infotext = S("Backpack"), formspec = get_formspec(pos, width, height), meta:set_string("description", desc)}}
 	local new_list_as_string = minetest.serialize(new_list)
 	local new = ItemStack(node)
 	new:set_metadata(new_list_as_string)
