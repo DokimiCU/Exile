@@ -5,6 +5,8 @@
 
 inferno = {}
 
+-- Internationalization
+local S = minetest.get_translator("inferno")
 
 -- 'Enable fire' setting
 
@@ -301,7 +303,7 @@ local lit = {
 
 -- Fire Sticks
 minetest.register_tool("inferno:fire_sticks", {
-	description = "Fire Sticks",
+	description = S("Fire Sticks"),
 	inventory_image = "inferno_fire_sticks.png",
 	sound = {breaks = "tech_tool_breaks"},
 
