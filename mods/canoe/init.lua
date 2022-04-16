@@ -1,5 +1,8 @@
 -- canoe/init.lua
 
+-- Internationalization
+local S = minetest.get_translator("canoe")
+
 --
 -- Helper functions
 --
@@ -252,7 +255,7 @@ minetest.register_entity("canoe:canoe", canoe)
 
 
 minetest.register_craftitem("canoe:canoe", {
-	description = "Dugout Canoe",
+	description = S("Dugout Canoe"),
 	inventory_image = "canoe.png",
 	wield_image = "canoe.png",
 	wield_scale = {x = 3, y = 3, z = 1},
