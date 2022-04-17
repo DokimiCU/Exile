@@ -22,8 +22,8 @@ Only need one of each
 ]]
 
 artifacts = artifacts
-local S = artifacts.S()
-local FS = artifacts.FS()
+local S = artifacts.S
+local FS = artifacts.FS
 ------------------------------------
 local rand = math.random
 --minimum distance transporters muct be apart (nodes)
