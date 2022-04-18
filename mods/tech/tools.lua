@@ -12,6 +12,8 @@ which should be useful given the limits on resources and space they face.
 
 ]]
 
+-- Internationalization
+local S = tech.S
 
 local base_use = 500
 local base_punch_int = minimal.hand_punch_int
@@ -109,7 +111,7 @@ local lvl_1_chop2 = (minimal.hand_chop * minimal.t_scale2) * lvl_1
 
 --a crude chipped stone: 1.snap. 2. chop 3.crum
 minetest.register_tool("tech:stone_chopper", {
-	description = "Stone Knife",
+	description = S("Stone Knife"),
 	inventory_image = "tech_tool_stone_chopper.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int,
@@ -133,7 +135,7 @@ minetest.register_tool("tech:stone_chopper", {
 
 -- digging stick... specialist for digging. Can also till
 minetest.register_tool("tech:digging_stick", {
-	description = "Digging Stick",
+	description = S("Digging Stick"),
 	inventory_image = "tech_tool_digging_stick.png^[transformR90",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int*1.1,
@@ -188,7 +190,7 @@ local lvl_2_chop2 = lvl_1_chop2 * lvl_2
 
 --stone adze. best for chopping
 minetest.register_tool("tech:adze_granite", {
-	description = "Granite Adze",
+	description = S("Granite Adze"),
 	inventory_image = "tech_tool_adze_granite.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.1,
@@ -206,7 +208,7 @@ minetest.register_tool("tech:adze_granite", {
 
 --less uses than granite bc softer stone
 minetest.register_tool("tech:adze_basalt", {
-	description = "Basalt Adze",
+	description = S("Basalt Adze"),
 	inventory_image = "tech_tool_adze_basalt.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.1,
@@ -225,7 +227,7 @@ minetest.register_tool("tech:adze_basalt", {
 
 --many more uses than granite.
 minetest.register_tool("tech:adze_jade", {
-	description = "Jade Adze",
+	description = S("Jade Adze"),
 	inventory_image = "tech_tool_adze_jade.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.1,
@@ -245,7 +247,7 @@ minetest.register_tool("tech:adze_jade", {
 --stone club. A weapon. Not very good for anything else
 --can stun catch animals
 minetest.register_tool("tech:stone_club", {
-	description = "Stone Club",
+	description = S("Stone Club"),
 	inventory_image = "tech_tool_stone_club.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.2,
@@ -298,7 +300,7 @@ local lvl_3_crac2 = (minimal.hand_crac * minimal.t_scale2) * lvl_1 * lvl_2 * lvl
 
 --Axe. best for chopping, snappy
 minetest.register_tool("tech:axe_iron", {
-	description = "Iron Axe",
+	description = S("Iron Axe"),
 	inventory_image = "tech_tool_axe_iron.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.1,
@@ -317,7 +319,7 @@ minetest.register_tool("tech:axe_iron", {
 
 -- shovel... best for digging. Can also till
 minetest.register_tool("tech:shovel_iron", {
-	description = "Iron Shovel",
+	description = S("Iron Shovel"),
 	inventory_image = "tech_tool_shovel_iron.png^[transformR90",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int*1.1,
@@ -339,7 +341,7 @@ minetest.register_tool("tech:shovel_iron", {
 --Mace.  A weapon. Not very good for anything else
 --can stun catch animals
 minetest.register_tool("tech:mace_iron", {
-	description = "Iron Mace",
+	description = S("Iron Mace"),
 	inventory_image = "tech_tool_mace_iron.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.2,
@@ -358,7 +360,7 @@ minetest.register_tool("tech:mace_iron", {
 
 --Pick Axe. mining, digging
 minetest.register_tool("tech:pickaxe_iron", {
-	description = "Iron Pickaxe",
+	description = S("Iron Pickaxe"),
 	inventory_image = "tech_tool_pickaxe_iron.png",
 	tool_capabilities = {
 		full_punch_interval = base_punch_int * 1.1,

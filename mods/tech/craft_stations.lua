@@ -3,6 +3,10 @@
 --work tables etc
 -----------------------------------
 -------------------------------------------------
+
+-- Internationalization
+local S = tech.S
+
 --Register
 --some crafts are more convienently registered at the same time as the resource,
 --hence why not all are here.
@@ -25,7 +29,7 @@ crafting.register_type("glass_furnace")
 --Entry level --equivalent to sitting down to make stuff
 --crafting spot--basic crafts
 minetest.register_node("tech:crafting_spot", {
-	description   = "Crafting Spot",
+	description   = S("Crafting Spot"),
 	tiles         = {"tech_station_crafting_spot.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -52,7 +56,7 @@ minetest.register_node("tech:crafting_spot", {
 --Mixing spot
 --rearranging previously existing stuff (e.g. stairs, slabs)
 minetest.register_node("tech:mixing_spot", {
-	description   = "Mixing Spot",
+	description   = S("Mixing Spot"),
 	tiles         = {"tech_station_mixing_spot.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -79,7 +83,7 @@ minetest.register_node("tech:mixing_spot", {
 --Threshing spot
 --extracting seeds from plants
 minetest.register_node("tech:threshing_spot", {
-	description       = "Threshing Spot",
+	description       = S("Threshing Spot"),
 	tiles             = {"tech_station_threshing_spot.png"},
 	drawtype          = "nodebox",
 	node_box          = {
@@ -111,7 +115,7 @@ minetest.register_node("tech:threshing_spot", {
 --weaving_frame
 --fa primitive loom, for simple woven crafts
 minetest.register_node("tech:weaving_frame",{
-	description   = "Weaving Frame",
+	description   = S("Weaving Frame"),
 	drawtype      = "nodebox",
 	tiles         = {"tech_stick.png"},
 	stack_max     = minimal.stack_max_bulky,
@@ -143,7 +147,7 @@ minetest.register_node("tech:weaving_frame",{
 --grinding stone
 --for grinding stone tools
 minetest.register_node("tech:grinding_stone",{
-	description   = "Grinding stone",
+	description   = S("Grinding stone"),
 	drawtype      = "nodebox",
 	tiles         = {"nodes_nature_granite.png"},
 	stack_max     = minimal.stack_max_bulky,
@@ -169,7 +173,7 @@ minetest.register_node("tech:grinding_stone",{
 --mortar and pestle.
 --for grinding food etc
 minetest.register_node("tech:mortar_pestle_basalt",{
-	description   = "Basalt Mortar and Pestle",
+	description   = S("Basalt Mortar and Pestle"),
 	drawtype      = "nodebox",
 	tiles         = {"nodes_nature_basalt.png"},
 	stack_max     = minimal.stack_max_bulky *2,
@@ -193,7 +197,7 @@ minetest.register_node("tech:mortar_pestle_basalt",{
 	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:mortar_pestle_granite",{
-	description   = "Granite Mortar and Pestle",
+	description   = S("Granite Mortar and Pestle"),
 	drawtype      = "nodebox",
 	tiles         = {"nodes_nature_granite.png"},
 	stack_max     = minimal.stack_max_bulky *2,
@@ -217,7 +221,7 @@ minetest.register_node("tech:mortar_pestle_granite",{
 	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:mortar_pestle_limestone",{
-	description   = "Limestone Mortar and Pestle",
+	description   = S("Limestone Mortar and Pestle"),
 	drawtype      = "nodebox",
 	tiles         = {"nodes_nature_limestone.png"},
 	stack_max     = minimal.stack_max_bulky *2,
@@ -242,7 +246,7 @@ minetest.register_node("tech:mortar_pestle_limestone",{
 	})
 --chopping_block --crude wood crafts,
 minetest.register_node("tech:chopping_block", {
-	description   = "Chopping Block",
+	description   = S("Chopping Block"),
 	tiles         = {
 		"tech_chopping_block_top.png",
 		"tech_chopping_block_top.png",
@@ -266,7 +270,7 @@ minetest.register_node("tech:chopping_block", {
 --hammering_block
 --crude hammering crushing jobs,
 minetest.register_node("tech:hammering_block", {
-	description   = "Hammering Block",
+	description   = S("Hammering Block"),
 	tiles         = {
 		"tech_hammering_block_top.png",
 		"tech_chopping_block_top.png",
@@ -290,7 +294,7 @@ minetest.register_node("tech:hammering_block", {
 -------------------
 --3rd Level. --metal working, and things dependant on it
 minetest.register_node("tech:anvil", { --anvil--metal  working
-	description   = "Anvil",
+	description   = S("Anvil"),
 	tiles         = {"tech_iron.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -311,7 +315,7 @@ minetest.register_node("tech:anvil", { --anvil--metal  working
 	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:carpentry_bench", { --carpentry_bench--more sophisticated wood working
-	description   = "Carpentry Bench",
+	description   = S("Carpentry Bench"),
 	tiles         = {"nodes_nature_maraka_log.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -334,7 +338,7 @@ minetest.register_node("tech:carpentry_bench", { --carpentry_bench--more sophist
 	after_place_node = minimal.protection_after_place_node,
 	})
 minetest.register_node("tech:masonry_bench", { --masonry_bench--more sophisticated stone crafts
-	description   = "Masonry Bench",
+	description   = S("Masonry Bench"),
 	tiles         = {"nodes_nature_maraka_log.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -362,7 +366,7 @@ minetest.register_node("tech:masonry_bench", { --masonry_bench--more sophisticat
 --brick_makers_bench
 --for fired bricks and associated crafts
 minetest.register_node("tech:brick_makers_bench", {
-	description   = "Brick Maker's Bench",
+	description   = S("Brick Maker's Bench"),
 	tiles         = {"nodes_nature_maraka_log.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -396,7 +400,7 @@ minetest.register_node("tech:brick_makers_bench", {
 --turn raw fibres into spun fibre
 --including steps here that in reality would require their own equipment
 minetest.register_node("tech:spinning_wheel", {
-	description   = "Spinning Wheel",
+	description   = S("Spinning Wheel"),
 	tiles         = {"nodes_nature_maraka_log.png"},
 	drawtype      = "nodebox",
 	node_box      = {
@@ -421,7 +425,7 @@ minetest.register_node("tech:spinning_wheel", {
 	})
 --Loom--turn fibre into fabric items
 minetest.register_node("tech:loom", {
-	description   = "Loom",
+	description   = S("Loom"),
 	tiles         = {"nodes_nature_maraka_log.png"},
 	drawtype      = "nodebox",
 	paramtype     = "light",
@@ -454,7 +458,7 @@ minetest.register_node("tech:loom", {
 --Glassworking Furnace
 --Glassblowing and similar
 minetest.register_node("tech:glass_furnace", {
-	description   = "Glass furnace",
+	description   = S("Glass furnace"),
 	tiles         = {
 		"tech_bricks_and_mortar.png",
 		"tech_bricks_and_mortar.png",

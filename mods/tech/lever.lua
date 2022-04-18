@@ -2,6 +2,8 @@
 -- lever
 --rotate tool
 
+-- Internationalization
+local S = tech.S
 
 lever = {}
 
@@ -150,7 +152,7 @@ end
 
 -- lever
 minetest.register_tool("tech:lever", {
-	description = "lever" .. "\n" .. "(left-click rotates face, right-click rotates axis)",
+	description = S("lever") .. "\n" .. S("(left-click rotates face, right-click rotates axis)"),
 	inventory_image = "tech_tool_lever.png",
 	groups = {tool = 1},
 	on_use = function(itemstack, user, pointed_thing)

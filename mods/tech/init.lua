@@ -3,6 +3,12 @@
 ------------------------------------
 tech = {}
 
+-- Internationalization
+tech.S = minetest.get_translator("tech")
+tech.FS = function(...)
+    return minetest.formspec_escape(tech.S(...))
+end
+
 local modpath = minetest.get_modpath('tech')
 
 

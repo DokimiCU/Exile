@@ -3,6 +3,10 @@
 -- all made from clay
 --unfired versions must reach right temperature for long enough to fire.
 -----------------------------------------------
+
+-- Internationalization
+local S = tech.S
+
 --firing difficulty
 local base_firing = ncrafting.base_firing
 local firing_int = ncrafting.firing_int
@@ -12,7 +16,7 @@ local firing_int = ncrafting.firing_int
 --Broken Pottery
 --if you smash it up, or from failed firings
 minetest.register_node("tech:broken_pottery", {
-	description = "Broken Pottery",
+	description = S("Broken Pottery"),
 	tiles = {"tech_broken_pottery.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
@@ -66,7 +70,7 @@ local function water_pot(pos)
 		elseif (name_a == "nodes_nature:ice" or
 			name_a == "nodes_nature:snow_block" or
 			name_a == "nodes_nature:freshwater_source" ) then
-			if climate.get_point_temp(pos) > 0 then
+			if climate.can_thaw(posa) then
 				minetest.set_node(pos, {name = "tech:clay_water_pot_freshwater"})
 				minetest.remove_node(posa)
 				return
@@ -83,7 +87,7 @@ end
 --for collecting water, catching rain water
 --fired
 minetest.register_node("tech:clay_water_pot", {
-	description = "Clay Water Pot",
+	description = S("Clay Water Pot"),
 	tiles = {
 		"tech_water_pot_empty.png",
 		"tech_pottery.png",
@@ -125,7 +129,7 @@ minetest.register_node("tech:clay_water_pot", {
 
 --unfired
 minetest.register_node("tech:clay_water_pot_unfired", {
-	description = "Clay Water Pot (unfired)",
+	description = S("Clay Water Pot (unfired)"),
 	tiles = {
 		"nodes_nature_clay.png",
 		"nodes_nature_clay.png",
@@ -163,7 +167,7 @@ minetest.register_node("tech:clay_water_pot_unfired", {
 --------------------------------------
 --unfired storage pot (see storage for fired version)
 minetest.register_node("tech:clay_storage_pot_unfired", {
-	description = "Clay Storage Pot (unfired)",
+	description = S("Clay Storage Pot (unfired)"),
 	tiles = {
 		"nodes_nature_clay.png",
 		"nodes_nature_clay.png",
@@ -205,19 +209,19 @@ minetest.register_node("tech:clay_storage_pot_unfired", {
 --convert fuel number to a string
 local fuel_string = function(fuel)
    if not fuel or fuel < 1 then
-      return ("Oil lamp (empty)")
+      return S("Oil lamp (empty)")
    elseif fuel > 2159 then
-      return ("Oil lamp (full)")
+      return S("Oil lamp (full)")
    elseif fuel < 200 then
-      return ("Oil lamp (almost empty)")
+      return S("Oil lamp (almost empty)")
    elseif fuel < 800 then
-      return ("Oil lamp (1/4 full)")
+      return S("Oil lamp (1/4 full)")
    elseif fuel < 1600 then
-      return ("Oil lamp (1/2 full)")
+      return S("Oil lamp (1/2 full)")
    elseif fuel < 2200 then
-      return ("Oil lamp (3/4 full)")
+      return S("Oil lamp (3/4 full)")
    else
-      return ("Oil lamp")
+      return S("Oil lamp")
    end
 end
 
@@ -259,7 +263,7 @@ end
 
 --unfired oil clay lamp
 minetest.register_node("tech:clay_oil_lamp_unfired", {
-	description = "Clay Oil Lamp (unfired)",
+	description = S("Clay Oil Lamp (unfired)"),
 	tiles = {
 		"nodes_nature_clay.png",
 		"nodes_nature_clay.png",
@@ -301,7 +305,7 @@ minetest.register_node("tech:clay_oil_lamp_unfired", {
 
 --fired oil clay lamp
 minetest.register_node("tech:clay_oil_lamp_unlit", {
-	description = "Clay Oil Lamp",
+	description = S("Clay Oil Lamp"),
 	tiles = {
 		"tech_oil_lamp_top.png",
 		"tech_oil_lamp_bottom.png",
@@ -376,7 +380,7 @@ minetest.register_node("tech:clay_oil_lamp_unlit", {
 
 --full oil clay lamp
 minetest.register_node("tech:clay_oil_lamp", {
-	description = "Clay Oil Lamp (lit)",
+	description = S("Clay Oil Lamp (lit)"),
 	tiles = {
 		"tech_oil_lamp_top.png",
 		"tech_oil_lamp_bottom.png",
@@ -576,7 +580,7 @@ liquid_store.register_stored_liquid(
 			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
 		}
 	},
-	"Clay Water Pot with Freshwater",
+	S("Clay Water Pot with Freshwater"),
 	{dig_immediate = 2})
 
 

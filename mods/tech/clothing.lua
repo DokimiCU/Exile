@@ -1,7 +1,8 @@
 ----------------------------------------------------------
 --CLOTHING
 
-
+-- Internationalization
+local S = tech.S
 
 ----------------------------------------------------------------
 --PRIMITIVE
@@ -9,7 +10,7 @@
 
 --Hat
 player_api.register_cloth("tech:woven_hat", {
-	description = "Woven Hat",
+	description = S("Woven Hat"),
 	inventory_image = "tech_inv_woven_hat.png",
 	texture = "tech_uv_woven_hat.png",
 	stack_max = minimal.stack_max_bulky,
@@ -28,7 +29,7 @@ crafting.register_recipe({
 
 --Cape
 player_api.register_cloth("tech:woven_cape", {
-	description = "Woven Cape",
+	description = S("Woven Cape"),
 	inventory_image = "tech_inv_woven_cape.png",
 	texture = "tech_uv_woven_cape.png",
 	stack_max = minimal.stack_max_bulky,
@@ -47,7 +48,7 @@ crafting.register_recipe({
 
 --Poncho
 player_api.register_cloth("tech:woven_poncho", {
-	description = "Woven Poncho",
+	description = S("Woven Poncho"),
 	inventory_image = "tech_inv_woven_poncho.png",
 	texture = "tech_uv_woven_poncho.png",
 	stack_max = minimal.stack_max_bulky,
@@ -67,7 +68,7 @@ crafting.register_recipe({
 
 --Leggings
 player_api.register_cloth("tech:woven_leggings", {
-	description = "Woven Leggings",
+	description = S("Woven Leggings"),
 	inventory_image = "tech_inv_woven_leggings.png",
 	texture = "tech_uv_woven_leggings.png",
 	stack_max = minimal.stack_max_bulky,
@@ -85,7 +86,7 @@ crafting.register_recipe({
 
 --Blanket
 player_api.register_cloth("tech:woven_blanket", {
-	description = "Woven Blanket",
+	description = S("Woven Blanket"),
 	inventory_image = "tech_woven_blanket.png",
 	texture = "tech_woven_blanket.png",
 	stack_max = minimal.stack_max_bulky,
@@ -110,7 +111,7 @@ crafting.register_recipe({
 
 --Light Hat
 player_api.register_cloth("tech:light_fabric_hat", {
-	description = "Light Fabric Hat",
+	description = S("Light Fabric Hat"),
 	inventory_image = "tech_inv_light_fabric_hat.png",
 	texture = "tech_uv_light_fabric_hat.png",
 	stack_max = minimal.stack_max_bulky,
@@ -129,7 +130,7 @@ crafting.register_recipe({
 
 --Thick Hat
 player_api.register_cloth("tech:thick_fabric_hat", {
-	description = "Thick Fabric Hat",
+	description = S("Thick Fabric Hat"),
 	inventory_image = "tech_inv_thick_fabric_hat.png",
 	texture = "tech_uv_thick_fabric_hat.png",
 	stack_max = minimal.stack_max_bulky,
@@ -148,7 +149,7 @@ crafting.register_recipe({
 
 --light Cape
 player_api.register_cloth("tech:light_fabric_cape", {
-	description = "Light Fabric Cape",
+	description = S("Light Fabric Cape"),
 	inventory_image = "tech_inv_light_fabric_cape.png",
 	texture = "tech_uv_light_fabric_cape.png",
 	stack_max = minimal.stack_max_bulky,
@@ -166,7 +167,7 @@ crafting.register_recipe({
 
 --Thick Cape
 player_api.register_cloth("tech:thick_fabric_cape", {
-	description = "Thick Fabric Cape",
+	description = S("Thick Fabric Cape"),
 	inventory_image = "tech_inv_thick_fabric_cape.png",
 	texture = "tech_uv_thick_fabric_cape.png",
 	stack_max = minimal.stack_max_bulky,
@@ -185,7 +186,7 @@ crafting.register_recipe({
 
 --Light Trousers
 player_api.register_cloth("tech:light_fabric_trousers", {
-	description = "Light Fabric Trousers",
+	description = S("Light Fabric Trousers"),
 	inventory_image = "tech_inv_light_fabric_trousers.png",
 	texture = "tech_uv_light_fabric_trousers.png",
 	stack_max = minimal.stack_max_bulky,
@@ -204,7 +205,7 @@ crafting.register_recipe({
 
 --Thick Trousers
 player_api.register_cloth("tech:thick_fabric_trousers", {
-	description = "Thick Fabric Trousers",
+	description = S("Thick Fabric Trousers"),
 	inventory_image = "tech_inv_thick_fabric_trousers.png",
 	texture = "tech_uv_thick_fabric_trousers.png",
 	stack_max = minimal.stack_max_bulky,
@@ -223,7 +224,7 @@ crafting.register_recipe({
 
 --Light Tunic
 player_api.register_cloth("tech:light_fabric_tunic", {
-	description = "Light Fabric Tunic",
+	description = S("Light Fabric Tunic"),
 	inventory_image = "tech_inv_light_fabric_tunic.png",
 	texture = "tech_uv_light_fabric_tunic.png",
 	stack_max = minimal.stack_max_bulky,
@@ -242,7 +243,7 @@ crafting.register_recipe({
 
 --Thick Tunic
 player_api.register_cloth("tech:thick_fabric_tunic", {
-	description = "Thick Fabric Tunic",
+	description = S("Thick Fabric Tunic"),
 	inventory_image = "tech_inv_thick_fabric_tunic.png",
 	texture = "tech_uv_thick_fabric_tunic.png",
 	stack_max = minimal.stack_max_bulky,

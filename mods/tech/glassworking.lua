@@ -38,6 +38,9 @@ Panes: cast on to an iron tray, then polished. Only get small panes.
 ]]
 -----------------------------------------------------------
 
+-- Internationalization
+local S = tech.S
+
 -- Pre-roast  functions
 local function set_roast(pos, length, interval)
 	-- and firing count
@@ -111,7 +114,7 @@ end
 -- Mix - sand and ash 50/50
 minetest.register_node("tech:green_glass_mix",
 {
-	description = "Green Glass Sand Mix",
+	description = S("Green Glass Sand Mix"),
 	tiles = {"tech_sand_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
@@ -130,7 +133,7 @@ minetest.register_node("tech:green_glass_mix",
 -- Finished Products
 -- Glass ingot - 1/4 block
 minetest.register_node("tech:green_glass_ingot", {
-	description = "Green Glass Ingot",
+	description = S("Green Glass Ingot"),
 	tiles = {"tech_green_glass.png"},
 	inventory_image = "tech_glass_ingot_green_icon.png",
 	drawtype = "nodebox",
@@ -171,7 +174,7 @@ crafting.register_recipe({
 -- Potash
 
 minetest.register_node("tech:potash_block", {
-	description = "Potash Block",
+	description = S("Potash Block"),
 	tiles = {"tech_potash.png"},
 	stack_max = minimal.stack_max_bulky,
 	groups = {crumbly = 3, falling_node = 1, fertilizer = 1},
@@ -180,7 +183,7 @@ minetest.register_node("tech:potash_block", {
 
 
 minetest.register_node("tech:potash", {
-	description = "Potash",
+	description = S("Potash"),
 	tiles = {"tech_potash.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	drawtype = "nodebox",
@@ -196,7 +199,7 @@ local post_alpha = 140
 
 -- Potash solution (More like lye in this case)
 minetest.register_node("tech:potash_source", {
-	description = "Potash Solution Source",
+	description = S("Potash Solution Source"),
 	drawtype = "liquid",
 	tiles = {"tech_potash.png"},
 	--	use_texture_alpha = "blend",
@@ -221,7 +224,7 @@ minetest.register_node("tech:potash_source", {
 
 
   minetest.register_node("tech:potash_flowing", {
-	description = "Flowing Potash Solution",
+	description = S("Flowing Potash Solution"),
 	drawtype = "flowingliquid",
 	tiles = {"tech_potash.png"},
 	special_tiles = {"tech_potash.png"},
@@ -269,7 +272,7 @@ liquid_store.register_stored_liquid(
 			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
 		}
 	},
-	"Clay Water Pot with Potash Solution",
+	S("Clay Water Pot with Potash Solution"),
 	{dig_immediate = 2})
 
 liquid_store.register_liquid("tech:potash_source", "tech:potash_flowing", false)
@@ -309,7 +312,7 @@ minetest.register_abm(
 -- Evaporation result; water is gone, just potash left
 
 minetest.register_node("tech:dry_potash_pot", {
-	description = "Clay Water Pot With Potash",
+	description = S("Clay Water Pot With Potash"),
 	tiles = {
 		"tech_water_pot_empty.png",
 		"tech_pottery.png",
@@ -366,7 +369,7 @@ minetest.override_item("tech:clay_water_pot_potash",
 -- Mix - sand, potash and lime
 minetest.register_node("tech:clear_glass_mix",
 {
-	description = "Clear Glass Sand Mix",
+	description = S("Clear Glass Sand Mix"),
 	tiles = {"tech_sand_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
@@ -385,7 +388,7 @@ minetest.register_node("tech:clear_glass_mix",
 -- Finished Products
 -- Glass ingot - 1/4 block
 minetest.register_node("tech:clear_glass_ingot", {
-	description = "Clear Glass Ingot",
+	description = S("Clear Glass Ingot"),
 	tiles = {"tech_clear_glass.png"},
 	inventory_image = "tech_glass_ingot_clear_icon.png",
 	drawtype = "nodebox",
@@ -424,7 +427,7 @@ crafting.register_recipe({
 -- Pane casting tray - heat up a glass ingot above it to cast a pane
 minetest.register_node("tech:pane_tray",
 {
-	description = "Pane Casting Tray",
+	description = S("Pane Casting Tray"),
 	tiles = {"tech_iron.png"},
 	drawtype = "nodebox",
 	node_box =
@@ -449,7 +452,7 @@ minetest.register_node("tech:pane_tray",
 -- Trays with glass panes
 minetest.register_node("tech:pane_tray_green",
 {
-	description = "Pane Casting Tray With Green Glass Pane",
+	description = S("Pane Casting Tray With Green Glass Pane"),
 	tiles = {"tech_tray_green.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png", "tech_iron.png"},
 	drawtype = "nodebox",
 	node_box =
@@ -483,7 +486,7 @@ minetest.register_node("tech:pane_tray_green",
 
 minetest.register_node("tech:pane_tray_clear",
 {
-	description = "Pane Casting Tray With Clear Glass Pane",
+	description = S("Pane Casting Tray With Clear Glass Pane"),
 	tiles = {"tech_tray_clear.png", "tech_iron.png", "tech_iron.png",
 		 "tech_iron.png", "tech_iron.png", "tech_iron.png"},
 	drawtype = "nodebox",
@@ -530,7 +533,7 @@ crafting.register_recipe({
 -- Panes - raw, cast from glass with no framing
 minetest.register_node("tech:pane_green",
 {
-	description = "Green Glass Pane",
+	description = S("Green Glass Pane"),
 	tiles = {"tech_green_glass.png"},
 	inventory_image = "tech_green_pane_icon.png",
 	drawtype = "nodebox",
@@ -550,7 +553,7 @@ minetest.register_node("tech:pane_green",
 
 minetest.register_node("tech:pane_clear",
 {
-	description = "Clear Glass Pane",
+	description = S("Clear Glass Pane"),
 	tiles = {"tech_clear_glass.png"},
 	inventory_image = "tech_clear_pane_icon.png",
 	drawtype = "nodebox",
@@ -572,7 +575,7 @@ minetest.register_node("tech:pane_clear",
 
 minetest.register_node("tech:window_green",
 {
-	description = "Green Glass Window",
+	description = S("Green Glass Window"),
 	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png",
 		 "tech_oiled_wood.png", "tech_oiled_wood.png",
 		 "tech_green_glass_window.png", "tech_green_glass_window.png"},
@@ -594,7 +597,7 @@ minetest.register_node("tech:window_green",
 
 minetest.register_node("tech:window_clear",
 {
-	description = "Clear Glass Window",
+	description = S("Clear Glass Window"),
 	tiles = {"tech_oiled_wood.png", "tech_oiled_wood.png",
 		 "tech_oiled_wood.png", "tech_oiled_wood.png",
 		 "tech_clear_glass_window.png", "tech_clear_glass_window.png"},
@@ -635,7 +638,7 @@ crafting.register_recipe({
 -- Need inventory images, otherwise clear glass ones will be invisible
 
 minetest.register_node("tech:glass_bottle_green", {
-	description = "Green Glass Bottle",
+	description = S("Green Glass Bottle"),
 	tiles = {"tech_green_glass.png"},
 	inventory_image = "tech_bottle_green_icon.png",
 	drawtype = "mesh",
@@ -661,7 +664,7 @@ minetest.register_node("tech:glass_bottle_green", {
 })
 
 minetest.register_node("tech:glass_bottle_clear", {
-	description = "Clear Glass Bottle",
+	description = S("Clear Glass Bottle"),
 	tiles = {"tech_clear_glass.png"},
 	inventory_image = "tech_bottle_clear_icon.png",
 	drawtype = "mesh",

@@ -2,8 +2,9 @@
 --Storage
 --e.g. for chests, pots etc
 
--- Load support for MT game translation.
-local S = minetest.get_translator("storage")
+-- Internationalization
+local S = tech.S
+
 ---------------------------------------------------
 local function get_storage_formspec(pos, w, h)
 	local main_offset = 0.85 + h
@@ -46,7 +47,7 @@ end
 ----------------------------------------------------
 --Clay pot (see pottery for unfired version)
 minetest.register_node("tech:clay_storage_pot", {
-	description = "Clay Storage Pot",
+	description = S("Clay Storage Pot"),
 	tiles = {"tech_pottery.png",
 	"tech_pottery.png",
 	"tech_pottery.png",
@@ -112,7 +113,7 @@ minetest.register_node("tech:clay_storage_pot", {
 ----------------------------------------------------
 --Wooden chest
 minetest.register_node("tech:wooden_chest", {
-	description = "Wooden Chest",
+	description = S("Wooden Chest"),
 	tiles = {"tech_wooden_chest_top.png",
 			"tech_wooden_chest_bottom.png",
 			"tech_wooden_chest_side.png",
@@ -182,7 +183,7 @@ minetest.register_node("tech:wooden_chest", {
 
 --iron chest
 minetest.register_node("tech:iron_chest", {
-	description = "Iron Chest",
+	description = S("Iron Chest"),
 	tiles = {"tech_iron_chest_top.png",
 			"tech_iron_chest_bottom.png",
 			"tech_iron_chest_side.png",

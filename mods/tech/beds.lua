@@ -3,7 +3,9 @@
 --and crafts...
 ------------------------------------
 
-
+-- Internationalization
+local S = tech.S
+local FS = tech.FS
 
 --------------------------------
 --Free and ineffective bed
@@ -11,7 +13,7 @@
 --a bit like crafing spots
 
 bed_rest.register_bed("tech:sleeping_spot", {
-	description = "Sleeping Spot",
+	description = S("Sleeping Spot"),
 	inventory_image = "tech_sleeping_spot_inv.png",
 	wield_image = "tech_sleeping_spot_inv.png",
 	stack_max = 1,
@@ -59,7 +61,7 @@ bed_rest.register_bed("tech:sleeping_spot", {
 --Cheap bed
 --for travel, early game
 bed_rest.register_bed("tech:sleeping_mat", {
-	description = "Sleeping Mat",
+	description = S("Sleeping Mat"),
 	inventory_image = "tech_sleeping_mat.png",
 	wield_image = "tech_sleeping_mat.png",
 	stack_max = minimal.stack_max_medium/2,
@@ -94,7 +96,7 @@ bed_rest.register_bed("tech:sleeping_mat", {
 --primitive bed
 --decent cave man bed
 bed_rest.register_bed("tech:primitive_bed", {
-	description = "Primitive Bed",
+	description = S("Primitive Bed"),
 	inventory_image = "tech_primitive_bed.png",
 	wield_image = "tech_primitive_bed.png",
 	stack_max = minimal.stack_max_bulky,
@@ -135,7 +137,7 @@ bed_rest.register_bed("tech:primitive_bed", {
 --mattress (upgraded version of sleeping mat)
 --as good as primitive_bed
 bed_rest.register_bed("tech:mattress", {
-	description = "Mattress",
+	description = S("Mattress"),
 	inventory_image = "tech_mattress.png",
 	wield_image = "tech_mattress.png",
 	stack_max = minimal.stack_max_medium/4,
@@ -171,7 +173,7 @@ bed_rest.register_bed("tech:mattress", {
 --bed
 --decent bed
 bed_rest.register_bed("tech:bed", {
-	description = "Bed",
+	description = S("Bed"),
 	inventory_image = "tech_bed.png",
 	wield_image = "tech_bed.png",
 	stack_max = minimal.stack_max_bulky,

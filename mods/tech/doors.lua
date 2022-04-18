@@ -3,11 +3,14 @@
 --and crafts...
 ------------------------------------
 
+-- Internationalization
+local S = tech.S
+
 --Wattle
 
 doors.register("door_wattle", {
 		tiles = {{ name = "tech_door_wattle.png", backface_culling = true }},
-		description = "Wattle Door",
+		description = S("Wattle Door"),
 		inventory_image = "tech_door_wattle_item.png",
 		groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 1},
 		sounds = nodes_nature.node_sound_wood_defaults(),
@@ -15,7 +18,7 @@ doors.register("door_wattle", {
 
 
 doors.register_trapdoor("tech:trapdoor_wattle", {
-	description = "Wattle Trapdoor",
+	description = S("Wattle Trapdoor"),
 	inventory_image = "tech_trapdoor_wattle.png",
 	wield_image = "tech_trapdoor_wattle.png",
 	tile_front = "tech_trapdoor_wattle.png",
@@ -32,7 +35,7 @@ doors.register_trapdoor("tech:trapdoor_wattle", {
 
 doors.register("door_wooden", {
 		tiles = {{ name = "tech_wooden_door.png", backface_culling = true }},
-		description = "Wooden Door",
+		description = S("Wooden Door"),
 		stack_max = minimal.stack_max_bulky *4,
 		inventory_image = "tech_wooden_door_item.png",
 		groups = {choppy = 3, oddly_breakable_by_hand = 1, flammable = 1},
@@ -41,7 +44,7 @@ doors.register("door_wooden", {
 
 
 doors.register_trapdoor("tech:trapdoor_wooden", {
-	description = "Wooden Trapdoor",
+	description = S("Wooden Trapdoor"),
 	stack_max = minimal.stack_max_bulky *4,
 	inventory_image = "tech_wooden_trapdoor.png",
 	wield_image = "tech_wooden_trapdoor.png",
@@ -57,7 +60,7 @@ doors.register_trapdoor("tech:trapdoor_wooden", {
 
 doors.register("door_iron", {
 		tiles = {{ name = "tech_iron_door.png", backface_culling = true }},
-		description = "Iron Door",
+		description = S("Iron Door"),
 		protected = true,
 		stack_max = minimal.stack_max_bulky *2,
 		inventory_image = "tech_iron_door_item.png",
@@ -66,7 +69,7 @@ doors.register("door_iron", {
 })
 
 doors.register_trapdoor("tech:trapdoor_iron", {
-	description = "Iron Trapdoor",
+	description = S("Iron Trapdoor"),
 	stack_max = minimal.stack_max_bulky *2,
 	inventory_image = "tech_trapdoor_iron.png",
 	wield_image = "tech_trapdoor_iron.png",

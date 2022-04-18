@@ -1,5 +1,8 @@
 -- torch.lua
 
+-- Internationalization
+local S = tech.S
+
 --interval
 local base_burn_rate = 6
 --how much to burn
@@ -175,7 +178,7 @@ end
 -------------------------------------------
 
 minetest.register_node("tech:torch", {
-	description = "Torch",
+	description = S("Torch"),
 	drawtype = "mesh",
 	mesh = "torch_floor.obj",
 	inventory_image = "tech_torch_on_floor.png",

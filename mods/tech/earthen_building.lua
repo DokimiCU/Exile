@@ -2,6 +2,8 @@
 --EARTHEN BUILDING
 -- construction from loose stones, mud etc
 
+-- Internationalization
+local S = tech.S
 
 ---------------------------------
 --DRYSTACK
@@ -9,7 +11,7 @@
 -- made from loose found stones
 
 minetest.register_node("tech:drystack", {
-	description = "Drystack",
+	description = S("Drystack"),
 	tiles = {"tech_drystack.png"},
 	stack_max = minimal.stack_max_bulky *1.5,
 	groups = {cracky = 3, crumbly = 1, falling_node = 1, oddly_breakable_by_hand = 1},
@@ -37,7 +39,7 @@ stairs.register_stair_and_slab(
 --MUDBRICK
 
 minetest.register_node('tech:mudbrick', {
-	description = 'Mudbrick',
+	description = S('Mudbrick'),
 	tiles = {"tech_mudbrick.png"},
 	drop = "nodes_nature:clay",
 	stack_max = minimal.stack_max_bulky *2,
@@ -64,7 +66,7 @@ stairs.register_stair_and_slab(
 --RAMMED EARTH
 
 minetest.register_node('tech:rammed_earth', {
-	description = 'Rammed Earth',
+	description = S('Rammed Earth'),
 	tiles = {
 		"tech_rammed_earth.png",
 		"tech_rammed_earth_side.png",
@@ -103,7 +105,7 @@ stairs.register_stair_and_slab(
 	--WATTLE
 
 minetest.register_node('tech:wattle', {
-	description = 'Wattle',
+	description = S('Wattle'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "connected",
@@ -145,7 +147,7 @@ minetest.register_node('tech:wattle', {
 
 --a crude window... or for resource saving
 minetest.register_node('tech:wattle_loose', {
-	description = 'Loose Wattle',
+	description = S('Loose Wattle'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "connected",
@@ -227,7 +229,7 @@ local function wdf_connect_to_door(pos)
 end
 
 minetest.register_node('tech:wattle_door_frame', {
-	description = 'Wattle Door Frame',
+	description = S('Wattle Door Frame'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -258,7 +260,7 @@ minetest.register_node('tech:wattle_door_frame', {
 --THATCH
 
 minetest.register_node('tech:thatch', {
-	description = 'Thatch',
+	description = S('Thatch'),
 	tiles = {"tech_thatch.png"},
 	stack_max = minimal.stack_max_bulky * 4,
 	groups = {snappy=3, flammable=1},

@@ -1,7 +1,8 @@
 ----------------------------------------------------------
 --IRON WORKING
 
-
+-- Internationalization
+local S = tech.S
 
 ----------------------------------------------------------------------
 --NODES
@@ -150,7 +151,7 @@ end
 --crushed_iron_ore
 --raw ore broken into gravel
 minetest.register_node("tech:crushed_iron_ore", {
-	description = "Crushed Iron Ore",
+	description = S("Crushed Iron Ore"),
 	tiles = {"tech_crushed_iron_ore.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
@@ -179,7 +180,7 @@ crafting.register_recipe({
 --roasted_iron_ore
 --crushed ore pre-roasted
 minetest.register_node("tech:roasted_iron_ore", {
-	description = "Roasted Iron Ore",
+	description = S("Roasted Iron Ore"),
 	tiles = {"tech_roasted_iron_ore.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	paramtype = "light",
@@ -190,7 +191,7 @@ minetest.register_node("tech:roasted_iron_ore", {
 --roasted iron ore powder
 --more smelting prep
 minetest.register_node("tech:roasted_iron_ore_powder", {
-	description = "Roasted Iron Ore Powder",
+	description = S("Roasted Iron Ore Powder"),
 	tiles = {"tech_roasted_iron_ore_powder.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
@@ -211,7 +212,7 @@ crafting.register_recipe({
 --mix of charcoal blocks and roasted iron ore powder, ready for smelting
 --initial heating turns it into slag and iron mix, which continues actual smelt
 minetest.register_node("tech:iron_smelting_mix", {
-	description = "Iron Smelting Mix",
+	description = S("Iron Smelting Mix"),
 	tiles = {"tech_iron_smelting_mix.png"},
 	stack_max = minimal.stack_max_bulky *4,
 	paramtype = "light",
@@ -273,7 +274,7 @@ end
 --iron and slag
 --unseperated iron and impurities
 minetest.register_node("tech:iron_and_slag", {
-	description = "Iron and Slag",
+	description = S("Iron and Slag"),
 	tiles = {"tech_iron_and_slag.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
@@ -301,7 +302,7 @@ minetest.register_node("tech:iron_and_slag", {
 --iron bloom
 --smelted iron seperated from bulk of slag, but still not useable
 minetest.register_node("tech:iron_bloom", {
-	description = "Iron Bloom",
+	description = S("Iron Bloom"),
 	tiles = {"tech_iron_and_slag.png"},
   drawtype = "nodebox",
   node_box = {
@@ -319,7 +320,7 @@ minetest.register_node("tech:iron_bloom", {
 --iron ingot
 --iron seperated from remainder of slag, finished product
 minetest.register_node("tech:iron_ingot", {
-	description = "Iron Ingot",
+	description = S("Iron Ingot"),
 	tiles = {"tech_iron.png"},
   drawtype = "nodebox",
 	node_box = {
@@ -354,7 +355,7 @@ crafting.register_recipe({
 --slag
 --waste product (cooled)
 minetest.register_node("tech:slag", {
-	description = "Slag",
+	description = S("Slag"),
 	tiles = {"tech_iron_and_slag.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
@@ -368,7 +369,7 @@ local lava_temp_effect = 6
 local lava_heater = 1350
 
 minetest.register_node("tech:molten_slag_source", {
-	description = "Molten Slag",
+	description = S("Molten Slag"),
 	drawtype = "liquid",
 	tiles = {
 		{
@@ -428,7 +429,7 @@ minetest.register_node("tech:molten_slag_source", {
 })
 
 minetest.register_node("tech:molten_slag_flowing", {
-	description = "Flowing Molten Slag",
+	description = S("Flowing Molten Slag"),
 	drawtype = "flowingliquid",
 	tiles = {"nodes_nature_lava.png"},
 	special_tiles = {
@@ -496,7 +497,7 @@ minetest.register_node("tech:molten_slag_flowing", {
 --e.g. bolts, nails, locks, screws, hinges
 --metal content equivalent to enough hinges for one door
 minetest.register_craftitem("tech:iron_fittings", {
-	description = "Iron Fittings",
+	description = S("Iron Fittings"),
 	inventory_image = "tech_iron_fittings.png",
 	stack_max = minimal.stack_max_medium *2,
 })

@@ -1,6 +1,8 @@
 ----------------------------------------------------------
 --WOODWORKING
 
+-- Internationalisaton
+local S = tech.S
 
 -----------------------------------------------------------
 --Wooden planks?
@@ -21,7 +23,7 @@ crafting.register_recipe({
 -----------------------------------------------------------
 --Ladder
 minetest.register_node("tech:wooden_ladder", {
- description = "Wooden Ladder",
+ description = S("Wooden Ladder"),
  drawtype = "nodebox",
  node_box = {
 		type = "fixed",
@@ -85,7 +87,7 @@ crafting.register_recipe({
 
 
 minetest.register_node("tech:wooden_floor_boards", {
- description = "Wooden Floor Boards",
+ description = S("Wooden Floor Boards"),
  drawtype = "nodebox",
  node_box = {
 		type = "fixed",
@@ -125,7 +127,7 @@ crafting.register_recipe({
 
 
 minetest.register_node("tech:wooden_stairs", {
- description = "Wooden Stairs",
+ description = S("Wooden Stairs"),
  tiles = {"tech_oiled_wood.png"},
  drawtype = "nodebox",
 	node_box = {

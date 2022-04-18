@@ -4,6 +4,9 @@
 
 -----------------------------------
 
+-- Internationalization
+local S = tech.S
+
 local random = math.random
 
 -----------------------------------
@@ -16,7 +19,7 @@ local random = math.random
 --can heal certain health effects
 --a restorative anti-bacterial/anti-parasitic
 minetest.register_craftitem("tech:herbal_medicine", {
-	description = "Herbal Medicine",
+	description = S("Herbal Medicine"),
 	inventory_image = "tech_herbal_medicine.png",
 	stack_max = minimal.stack_max_medium *2,
 	groups = {flammable = 1},
@@ -85,7 +88,7 @@ Specific toxins can have anti-toxins (a fairly modern treatment)
 -- stimulant drug
 -- gets you high
 minetest.register_craftitem("tech:tiku", {
-	description = "Tiku (stimulant)",
+	description = S("Tiku (stimulant)"),
 	inventory_image = "tech_tiku.png",
 	stack_max = minimal.stack_max_medium *2,
 	groups = {flammable = 1},
@@ -93,7 +96,7 @@ minetest.register_craftitem("tech:tiku", {
   on_use = function(itemstack, user, pointed_thing)
 
     --begin the bender
-		HEALTH.add_new_effect(user, {"Tiku High", 1})
+		HEALTH.add_new_effect(user, {S("Tiku High"), 1})
 
     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
     return HEALTH.use_item(itemstack, user, 0, 0, -24, 96, 0)
@@ -111,7 +114,7 @@ minetest.register_craftitem("tech:tiku", {
 
 --Pot of Tang
 minetest.register_node("tech:tang", {
-  description = "Tang",
+  description = S("Tang"),
 	tiles = {
 		"tech_pot_tang.png",
 		"tech_pottery.png",
@@ -216,7 +219,7 @@ end
 
 --Pot of new Tang, must be left to ferment
 minetest.register_node("tech:tang_unfermented", {
-  description = "Tang (unfermented)",
+  description = S("Tang (unfermented)"),
 	tiles = {
 		"tech_pot_tang_uf.png",
 		"tech_pottery.png",

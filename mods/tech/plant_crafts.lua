@@ -5,11 +5,15 @@
 -----------------------------------
 
 ---------------------------------------
+
+-- Internationalization
+local S = tech.S
+
 --Craft items
 
 
 minetest.register_node("tech:stick", {
- description = "Stick",
+ description = S("Stick"),
  drawtype = "nodebox",
  node_box = {
 	 type ="fixed",
@@ -75,7 +79,7 @@ minetest.register_node("tech:stick", {
 --bitter maraka flour
 -- unusable flour. Requires water treatment.
 minetest.register_node('tech:maraka_flour_bitter', {
-	description = 'Bitter Maraka Flour',
+	description = S('Bitter Maraka Flour'),
   tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
@@ -94,7 +98,7 @@ minetest.register_node('tech:maraka_flour_bitter', {
 -- maraka flour
 --usable flour.
 minetest.register_node('tech:maraka_flour', {
-	description = 'Maraka Flour',
+	description = S('Maraka Flour'),
   tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_bulky * 4,
 	paramtype = "light",
@@ -105,7 +109,7 @@ minetest.register_node('tech:maraka_flour', {
 
 --maraka cake, prior to baking
 minetest.register_node("tech:maraka_bread", {
-	description = "Unbaked Maraka Cake",
+	description = S("Unbaked Maraka Cake"),
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_medium,
   paramtype = "light",
@@ -122,7 +126,7 @@ minetest.register_node("tech:maraka_bread", {
 
 --maraka cake,baked
 minetest.register_node("tech:maraka_bread_cooked", {
-	description = "Maraka Cake",
+	description = S("Maraka Cake"),
 	tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_medium * 4,
   paramtype = "light",
@@ -139,7 +143,7 @@ minetest.register_node("tech:maraka_bread_cooked", {
 
 --maraka cake, burned
 minetest.register_node("tech:maraka_bread_burned", {
-  description = "Maraka Cake Burned",
+  description = S("Maraka Cake Burned"),
   tiles = {"tech_flour_burned.png"},
   stack_max = minimal.stack_max_medium * 4,
   paramtype = "light",
@@ -161,7 +165,7 @@ exile_add_food_hooks("tech:maraka_bread_burned")
 -----------
 --Anperla
 minetest.register_node("tech:peeled_anperla", {
-	description = "Peeled Anperla Tuber",
+	description = S("Peeled Anperla Tuber"),
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_medium,
   paramtype = "light",
@@ -176,7 +180,7 @@ minetest.register_node("tech:peeled_anperla", {
 })
 
 minetest.register_node("tech:peeled_anperla_burned", {
-	description = "Burned Anperla Tuber",
+	description = S("Burned Anperla Tuber"),
 	tiles = {"tech_flour_burned.png"},
 	stack_max = minimal.stack_max_medium * 2,
   paramtype = "light",
@@ -191,7 +195,7 @@ minetest.register_node("tech:peeled_anperla_burned", {
 })
 
 minetest.register_node("tech:peeled_anperla_cooked", {
-	description = "Cooked Anperla Tuber",
+	description = S("Cooked Anperla Tuber"),
 	tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_medium * 2,
   paramtype = "light",
@@ -211,7 +215,7 @@ exile_add_food_hooks("tech:peeled_anperla_burned")
 
 --mash (a way to bulk cook tubers - 6 at once)
 minetest.register_node("tech:mashed_anperla", {
-	description = "Mashed Anperla (uncooked)",
+	description = S("Mashed Anperla (uncooked)"),
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_medium/6,
   paramtype = "light",
@@ -226,7 +230,7 @@ minetest.register_node("tech:mashed_anperla", {
 })
 
 minetest.register_node("tech:mashed_anperla_cooked", {
-	description = "Mashed Anperla",
+	description = S("Mashed Anperla"),
 	tiles = {"tech_flour_bitter.png"},
 	stack_max = minimal.stack_max_medium/3,
   paramtype = "light",
@@ -241,7 +245,7 @@ minetest.register_node("tech:mashed_anperla_cooked", {
 })
 
 minetest.register_node("tech:mashed_anperla_burned", {
-  description = "Burned Anperla",
+  description = S("Burned Anperla"),
   tiles = {"tech_flour_burned.png"},
   stack_max = minimal.stack_max_medium/3,
   paramtype = "light",
@@ -264,7 +268,7 @@ exile_add_food_hooks("tech:mashed_anperla_burned")
 
 --vegetable oil
 minetest.register_craftitem("tech:vegetable_oil", {
-	description = "Vegetable Oil",
+	description = S("Vegetable Oil"),
 	inventory_image = "tech_vegetable_oil.png",
 	stack_max = minimal.stack_max_medium *2,
 	groups = {flammable = 1},

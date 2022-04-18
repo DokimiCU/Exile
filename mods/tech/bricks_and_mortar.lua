@@ -25,6 +25,11 @@ crush limestone - > crushed lime
 
 ]]
 -----------------------------------------------------------
+
+-- Internationalization
+local S = tech.S
+local FS = tech.FS
+
 local random = math.random
 
 --LIME MORTAR
@@ -81,7 +86,7 @@ end
 --broken into gravel
 --fire into quicklime
 minetest.register_node("tech:crushed_lime", {
-	description = "Crushed Lime",
+	description = S("Crushed Lime"),
 	tiles = {"tech_crushed_lime.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	groups = {crumbly = 3, falling_node = 1, heatable =10},
@@ -102,7 +107,7 @@ minetest.register_node("tech:crushed_lime", {
 --quicklime
 --turns back into lime when exposed to air
 minetest.register_node("tech:quicklime", {
-	description = "Quicklime",
+	description = S("Quicklime"),
 	tiles = {"tech_quicklime.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	groups = {crumbly = 3, falling_node = 1},
@@ -153,7 +158,7 @@ minetest.register_node("tech:quicklime", {
 --slaked lime
 --turns back into lime when exposed to air
 minetest.register_node("tech:slaked_lime", {
-	description = "Slaked Lime",
+	description = S("Slaked Lime"),
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	groups = {crumbly = 3, falling_node = 1},
@@ -190,7 +195,7 @@ minetest.register_node("tech:slaked_lime", {
 --but can't find what would happen
 --turns back into lime when exposed to air
 minetest.register_node("tech:slaked_lime_ruined", {
-	description = "Slaked Lime (ruined)",
+	description = S("Slaked Lime (ruined)"),
 	tiles = {"tech_flour.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	groups = {crumbly = 3, falling_node = 1},
@@ -227,7 +232,7 @@ minetest.register_node("tech:slaked_lime_ruined", {
 --Hooray... the product we actually want. Slaked lime with sand
 --really should set to something, but creates logical mass balance problems
 minetest.register_node("tech:lime_mortar", {
-	description = "Lime Mortar",
+	description = S("Lime Mortar"),
 	tiles = {"tech_lime_mortar.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	groups = {crumbly = 3, falling_node = 1},
@@ -341,7 +346,7 @@ end
 
 
 minetest.register_node('tech:loose_brick_unfired', {
-	description = 'Loose Bricks (unfired)',
+	description = S('Loose Bricks (unfired)'),
 	tiles = {"nodes_nature_clay.png"},
 	stack_max = minimal.stack_max_bulky *2,
   drawtype = "nodebox",
@@ -388,7 +393,7 @@ minetest.register_node('tech:loose_brick_unfired', {
 
 
 minetest.register_node('tech:loose_brick', {
-	description = 'Loose Bricks',
+	description = S('Loose Bricks'),
 	tiles = {"tech_roof_tiles.png"},
 	stack_max = minimal.stack_max_bulky *3,
   drawtype = "nodebox",
@@ -432,7 +437,7 @@ minetest.register_node('tech:loose_brick', {
 --Mortared Bricks
 
 minetest.register_node("tech:bricks_and_mortar", {
-	description = "Brick and Mortar",
+	description = S("Brick and Mortar"),
 	tiles = {"tech_bricks_and_mortar.png"},
 	stack_max = minimal.stack_max_medium/2,
 	paramtype2 = "facedir",
@@ -486,7 +491,7 @@ crafting.register_recipe({
 
 --loose tiles allow for bulk firing, later craft into usable tile
 minetest.register_node("tech:roof_tile_loose_unfired", {
-	description = "Loose Roof Tile (unfired)",
+	description = S("Loose Roof Tile (unfired)"),
 	tiles = {"nodes_nature_clay.png"},
 	stack_max = minimal.stack_max_medium/2,
   drawtype = "nodebox",
@@ -557,7 +562,7 @@ minetest.register_node("tech:roof_tile_loose_unfired", {
 })
 
 minetest.register_node("tech:roof_tile_loose", {
-	description = "Loose Roof Tile",
+	description = S("Loose Roof Tile"),
 	tiles = {"tech_roof_tiles.png"},
 	stack_max = minimal.stack_max_medium/2,
   drawtype = "nodebox",
@@ -622,7 +627,7 @@ minetest.register_node("tech:roof_tile_loose", {
 
 
 minetest.register_node("tech:roof_tile", {
-	description = "Roof Tile",
+	description = S("Roof Tile"),
 	tiles = {"tech_roof_tiles.png"},
 	stack_max = minimal.stack_max_medium,
   drawtype = "nodebox",
@@ -655,7 +660,7 @@ minetest.register_node("tech:roof_tile", {
 
 
 minetest.register_node("tech:roof_tile_oc", {
-	description = "Roof Tile (outer corner)",
+	description = S("Roof Tile (outer corner)"),
 	tiles = {"tech_roof_tiles.png"},
 	stack_max = minimal.stack_max_medium,
   drawtype = "nodebox",
@@ -689,7 +694,7 @@ minetest.register_node("tech:roof_tile_oc", {
 
 
 minetest.register_node("tech:roof_tile_ic", {
-	description = "Roof Tile (inner corner)",
+	description = S("Roof Tile (inner corner)"),
 	tiles = {"tech_roof_tiles.png"},
 	stack_max = minimal.stack_max_medium,
   drawtype = "nodebox",
@@ -804,7 +809,7 @@ for i in ipairs(list) do
 	--blocks and bricks
 	--Bricks
 	minetest.register_node("tech:"..name.."_brick_mortar", {
-		description = desc.." Brick with Mortar",
+		description = S("@1 Brick with Mortar", desc),
 		tiles = {"nodes_nature_"..name.."_brick.png^tech_mortar_brick.png"},
 		drop = "nodes_nature:"..name.."_brick",
 		paramtype2 = "facedir",
@@ -815,7 +820,7 @@ for i in ipairs(list) do
 
 	--block
 	minetest.register_node("tech:"..name.."_block_mortar", {
-		description = desc.. " Block with Mortar",
+		description = S("@1 Block with Mortar", desc),
 		tiles = {"nodes_nature_"..name.."_block.png^tech_mortar_block.png"},
 		paramtype2 = "facedir",
 		drop = "nodes_nature:"..name.."_block",

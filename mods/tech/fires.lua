@@ -3,6 +3,10 @@
 --crafts for temperature changing things (and associated things)
 --e.g. fires
 -----------------------------------
+
+-- Internationalization
+local S = tech.S
+
 --interval
 local base_burn_rate = 4
 --how much to burn (for small fire)
@@ -167,7 +171,7 @@ end
 
 --wood_ash
 minetest.register_node("tech:wood_ash_block", {
-	description = "Wood Ash Block",
+	description = S("Wood Ash Block"),
 	tiles = {"tech_wood_ash.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
@@ -181,7 +185,7 @@ minetest.register_node("tech:wood_ash_block", {
 
 
 minetest.register_node("tech:wood_ash", {
-	description = "Wood Ash",
+	description = S("Wood Ash"),
 	tiles = {"tech_wood_ash.png"},
 	stack_max = minimal.stack_max_bulky *2,
 	drawtype = "nodebox",
@@ -200,7 +204,7 @@ minetest.register_node("tech:wood_ash", {
 
 --Charcoal
 minetest.register_node("tech:charcoal_block", {
-	description = "Charcoal Block",
+	description = S("Charcoal Block"),
 	tiles = {"tech_charcoal.png"},
 	paramtype = "light",
 	stack_max = minimal.stack_max_bulky,
@@ -214,7 +218,7 @@ minetest.register_node("tech:charcoal_block", {
 
 
 minetest.register_node("tech:charcoal", {
-	description = "Charcoal",
+	description = S("Charcoal"),
 	tiles = {"tech_charcoal.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -267,7 +271,7 @@ end
 
 --unlit wood fires
 minetest.register_node('tech:small_wood_fire_unlit', {
-	description = 'Small Wood Fire (unlit)',
+	description = S('Small Wood Fire (unlit)'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -285,7 +289,7 @@ minetest.register_node('tech:small_wood_fire_unlit', {
 })
 
 minetest.register_node('tech:large_wood_fire_unlit', {
-	description = 'Large Wood Fire (unlit)',
+	description = S('Large Wood Fire (unlit)'),
 	tiles = {"tech_wood_fire_unlit.png"},
 	stack_max = minimal.stack_max_bulky,
 	paramtype = "light",
@@ -299,7 +303,7 @@ minetest.register_node('tech:large_wood_fire_unlit', {
 
 --lit wood fires
 minetest.register_node('tech:small_wood_fire', {
-	description = 'Small Wood Fire',
+	description = S('Small Wood Fire'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -349,7 +353,7 @@ minetest.register_node('tech:small_wood_fire', {
 
 
 minetest.register_node('tech:large_wood_fire', {
-	description = 'Large Wood Fire',
+	description = S('Large Wood Fire'),
 	tiles = {"tech_coal_bed.png"},
 	light_source= 8,
 	paramtype = "light",
@@ -397,7 +401,7 @@ minetest.register_node('tech:large_wood_fire', {
 --colder and flameless
 --
 minetest.register_node('tech:small_wood_fire_smoldering', {
-	description = 'Small Wood Fire (smoldering)',
+	description = S('Small Wood Fire (smoldering)'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -442,7 +446,7 @@ minetest.register_node('tech:small_wood_fire_smoldering', {
 })
 
 minetest.register_node('tech:large_wood_fire_smoldering', {
-	description = 'Large Wood Fire (smoldering)',
+	description = S('Large Wood Fire (smoldering)'),
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	paramtype = "light",
@@ -489,7 +493,7 @@ minetest.register_node('tech:large_wood_fire_smoldering', {
 --hotter than wood
 --
 minetest.register_node('tech:small_charcoal_fire', {
-	description = 'Small Charcoal Fire',
+	description = S('Small Charcoal Fire'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -538,7 +542,7 @@ minetest.register_node('tech:small_charcoal_fire', {
 
 
 minetest.register_node('tech:large_charcoal_fire', {
-	description = 'Large Charcoal Fire',
+	description = S('Large Charcoal Fire'),
 	tiles = {"tech_coal_bed.png"},
 	light_source= 8,
 	temp_effect = char_temp_effect *2,
@@ -587,7 +591,7 @@ minetest.register_node('tech:large_charcoal_fire', {
 --colder and flameless...reduce to ash
 --
 minetest.register_node('tech:small_charcoal_fire_smoldering', {
-	description = 'Small Charcoal Fire (smoldering)',
+	description = S('Small Charcoal Fire (smoldering)'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -632,7 +636,7 @@ minetest.register_node('tech:small_charcoal_fire_smoldering', {
 })
 
 minetest.register_node('tech:large_charcoal_fire_smoldering', {
-	description = 'Large Charcoal Fire (smoldering)',
+	description = S('Large Charcoal Fire (smoldering)'),
 	tiles = {"tech_coal_bed.png"},
 	light_source= 3,
 	temp_effect = (char_temp_effect*2)/3,
@@ -718,7 +722,7 @@ end
 
 -- wood fires
 minetest.register_node('tech:small_wood_fire_ext', {
-	description = 'Small Wood Fire (extinguished)',
+	description = S('Small Wood Fire (extinguished)'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -736,7 +740,7 @@ minetest.register_node('tech:small_wood_fire_ext', {
 
 
 minetest.register_node('tech:large_wood_fire_ext', {
-	description = 'Large Wood Fire (extinguished)',
+	description = S('Large Wood Fire (extinguished)'),
 	tiles = {"tech_fire_ext.png"},
 	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
@@ -750,7 +754,7 @@ minetest.register_node('tech:large_wood_fire_ext', {
 
 -- charcoal fires
 minetest.register_node('tech:small_charcoal_fire_ext', {
-	description = 'Small Charcoal Fire (extinguished)',
+	description = S('Small Charcoal Fire (extinguished)'),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -768,7 +772,7 @@ minetest.register_node('tech:small_charcoal_fire_ext', {
 
 
 minetest.register_node('tech:large_charcoal_fire_ext', {
-	description = 'Large Charcoal Fire (extinguished)',
+	description = S('Large Charcoal Fire (extinguished)'),
 	tiles = {"tech_fire_ext.png"},
 	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_dirt_defaults(),

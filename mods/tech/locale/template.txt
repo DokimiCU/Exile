@@ -1,0 +1,215 @@
+# textdomain: tech
+
+# backpacks.lua
+Woven Bag=
+Fabric Bag=
+
+# beds.lua
+Sleeping Spot=
+Sleeping Mat=
+Primitive Bed=
+Mattress=
+Bed=
+
+# bricks_and_mortar.lua
+Crushed Lime=
+Quicklime=
+Slaked Lime=
+Slaked Lime (ruined)=
+Lime Mortar=
+Loose Bricks (unfired)=
+Loose Bricks=
+Brick and Mortar=
+Loose Roof Tile (unfired)=
+Loose Roof Tile=
+Roof Tile=
+Roof Tile (outer corner)=
+Roof Tile (inner corner)=
+@1 Brick with Mortar=
+@1 Block with Mortar=
+
+# clothing.lua
+Woven Hat=
+Woven Cape=
+Woven Poncho=
+Woven Leggings=
+Woven Blanket=
+Light Fabric Hat=
+Thick Fabric Hat=
+Light Fabric Cape=
+Thick Fabric Cape=
+Light Fabric Trousers=
+Thick Fabric Trousers=
+Light Fabric Tunic=
+Thick Fabric Tunic=
+
+# doors.lua
+Wattle Door=
+Wattle Trapdoor=
+Wooden Door=
+Wooden Trapdoor=
+Iron Door=
+Iron Trapdoor=
+
+# drugs.lua
+Herbal Medicine=
+Tang=
+Tang (unfermented)=
+Tiku (stimulant)=
+Tiku High=
+
+# fibreworking.lua
+Unretted Cana Bundle=
+Retted Cana Bundle=
+Coarse Fibre=
+Fine Fibre=
+Coarse Fabric=
+Fine Fabric=
+
+# fires.lua
+Wood Ash Block=
+Wood Ash=
+Charcoal Block=
+Charcoal=
+Small Wood Fire (unlit)=
+Large Wood Fire (unlit)=
+Small Wood Fire=
+Large Wood Fire=
+Small Wood Fire (smoldering)=
+Large Wood Fire (smoldering)=
+Small Charcoal Fire=
+Large Charcoal Fire=
+Small Charcoal Fire (smoldering)=
+Large Charcoal Fire (smoldering)=
+Small Wood Fire (extinguished)=
+Large Wood Fire (extinguished)=
+Small Charcoal Fire (extinguished)=
+Large Charcoal Fire (extinguished)=
+
+# glassworking.lua
+Green Glass Sand Mix=
+Green Glass Ingot=
+Potash Block=
+Potash=
+Potash Solution Source=
+Flowing Potash Solution=
+Clay Water Pot With Potash Solution=
+Clay Water Pot With Potash=
+Clear Glass Sand Mix=
+Clear Glass Ingot=
+Pane Casting Tray=
+Pane Casting Tray With Green Glass Pane=
+Pane Casting Tray With Clear Glass Pane=
+Green Glass Pane=
+Clear Glass Pane=
+Green Glass Window=
+Clear Glass Window=
+Green Glass Bottle=
+Clear Glass Bottle=
+
+# graffiti.lua
+Painting Kit (lime white)=
+Painting Kit (glow paint)=
+
+# hearthen_building.lua
+Drystack=
+Mudbrick=
+Rammed Earth=
+Wattle=
+Loose Wattle=
+Wattle Door Frame=
+Thatch=
+
+# ironworking.lua
+Crushed Iron Ore=
+Roasted Iron Ore=
+Roasted Iron Ore Powder=
+Iron Smelting Mix=
+Iron and Slag=
+Iron Bloom=
+Iron Ingot=
+Slag=
+Molten Slag=
+Flowing Molten Slag=
+Iron Fittings=
+
+# plant_crafts.lua
+Stick=
+Bitter Maraka Flour=
+Maraka Flour=
+Unbaked Maraka Cake=
+Maraka Cake=
+Maraka Cake Burned=
+Peeled Anperla Tuber=
+Burned Anperla Tuber=
+Cooked Anperla Tuber=
+Mashed Anperla (uncooked)=
+Mashed Anperla=
+Burned Anperla=
+Vegetable Oil=
+
+# pottery.lua
+Broken Pottery=
+Clay Water Pot=
+Clay Water Pot (unfired)=
+Clay Storage Pot (unfired)=
+Clay Oil Lamp (unfired)=
+Clay Oil Lamp=
+Clay Oil Lamp (lit)=
+Oil lamp (empty)=
+Oil lamp (full)=
+Oil lamp (almost empty)=
+Oil lamp (1/4 full)=
+Oil lamp (1/2 full)=
+Oil lamp (3/4 full)=
+Oil lamp=
+Clay Water Pot with Freshwater=
+
+# storage.lua
+Clay Storage Pot=
+Wooden Chest=
+Iron Chest=
+Owned by @1=
+
+# tools.lua
+Stone Knife=
+Digging Stick=
+Granite Adze=
+Basalt Adze=
+Jade Adze=
+Stone Club=
+Iron Axe=
+Iron Shovel=
+Iron Mace=
+Iron Pickaxe=
+
+# torch.lua
+Torch=
+
+# lever.lua
+lever=
+(left-click rotates face, right-click rotates axis)=
+
+# craft-stations.lua
+Crafting Spot=
+Mixing Spot=
+Threshing Spot=
+Weaving Frame=
+Grinding stone=
+Basalt Mortar and Pestle=
+Granite Mortar and Pestle=
+Limestone Mortar and Pestle=
+Chopping Block=
+Hammering Block=
+Anvil=
+Carpentry Bench=
+Masonry Bench=
+Brick Maker's Bench=
+Spinning Wheel=
+Loom=
+Glass furnace=
+
+# woodworking.lua
+Wooden Ladder=
+Wooden Floor Boards=
+Wooden Stairs=
