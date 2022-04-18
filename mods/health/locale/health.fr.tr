@@ -1,0 +1,13 @@
+# textdomain: health
+
+# hud.lua
+Health:=Santé : 
+Energy:=Énergie : 
+Thirst:=Soif : 
+Hunger:=Faim : 
+Body Temp:=Corps : 
+Temp:=Temp : 
+Effects:=Effets : 
+
+# food.lua
+This is inedible.=Ceci n'est pas comestible.
