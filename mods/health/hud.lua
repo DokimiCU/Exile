@@ -4,6 +4,10 @@
 
 ----------------------------------------------------------------------
 local hud = {}
+
+-- Internationalization
+local S = HEALTH.S
+
 local hudupdateseconds = tonumber(minetest.settings:get("exile_hud_update"))
 local overlaid = {}
 
@@ -25,7 +29,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 	  number = col, offset = {x = 0, y = 0},
-		position = {x = 0.694, y = 0.925}, text = "Health:"
+		position = {x = 0.694, y = 0.925}, text = S("Health:")
 	})
 
 	hud_data.hp_hud = player:hud_add({
@@ -40,7 +44,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 	  number = col, offset = {x = 0, y = 0},
-		position = {x = 0.44, y = 0.88}, text = "Energy:"
+		position = {x = 0.44, y = 0.88}, text = S("Energy:")
 	})
 
 	hud_data.energy_hud  = player:hud_add({
@@ -55,7 +59,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 		number = col, offset = {x = 0, y = 0},
-		position = {x = 0.261, y = 0.925}, text = "Thirst:"
+		position = {x = 0.261, y = 0.925}, text = S("Thirst:")
 	})
 
 	hud_data.thirst_hud  = player:hud_add({
@@ -69,7 +73,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 		number = col, offset = {x = 0, y = 0},
-		position = {x = 0.265, y = 0.97}, text = "Hunger:"
+		position = {x = 0.265, y = 0.97}, text = S("Hunger:")
 	})
 
 	hud_data.hunger_hud  = player:hud_add({
@@ -83,7 +87,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 		number = col, offset = {x = 0, y = 0},
-		position = {x = 0.705, y = 0.97}, text = "Body Temp:"
+		position = {x = 0.705, y = 0.97}, text = S("Body Temp:")
 	})
 
 	hud_data.body_temp_hud  = player:hud_add({
@@ -98,7 +102,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 		number = col, offset = {x = 0, y = 0},
-		position = {x = 0.351, y = 0.88}, text = "Temp:"
+		position = {x = 0.351, y = 0.88}, text = S("Temp:")
 	})
 
 	hud_data.enviro_temp_hud  = player:hud_add({
@@ -113,7 +117,7 @@ local setup_hud = function(player)
 		alignment = "right",
 		hud_elem_type = "text",
 		number = col, offset = {x = 0, y = 0},
-		position = {x = 0.265, y = 0.88}, text = "Effects:"
+		position = {x = 0.265, y = 0.88}, text = S("Effects:")
 	})
 
 	hud_data.effects_hud  = player:hud_add({

@@ -21,6 +21,9 @@ over a fire.
 #TODO: Test this ^^ after the cooking pot supports both tables
 ]]--
 
+-- Internationalization
+local S = HEALTH.S
+
 dofile(minetest.get_modpath('health')..'/data_food.lua')
 
 local function do_food_harm(user, nodename)
@@ -53,7 +56,7 @@ function exile_eatdrink(itemstack, user)
    end
    if not food_table[name] then
       minetest.chat_send_player(user:get_player_name(),
-				"This is inedible.")
+				S("This is inedible."))
       return
    end
    do_food_harm(user, name)

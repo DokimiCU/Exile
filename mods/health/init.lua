@@ -13,6 +13,12 @@ Slow applies internal metabolism effects (here)
 
 HEALTH = {}
 
+-- Internationalization
+HEALTH.S = minetest.get_translator("health")
+HEALTH.FS = function(...)
+    return minetest.formspec_escape(HEALTH.S(...))
+end
+
 dofile(minetest.get_modpath('health')..'/health_effects.lua')
 dofile(minetest.get_modpath('health')..'/on_actions.lua')
 dofile(minetest.get_modpath('health')..'/hud.lua')
