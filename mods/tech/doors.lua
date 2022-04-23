@@ -70,6 +70,7 @@ doors.register("door_iron", {
 
 doors.register_trapdoor("tech:trapdoor_iron", {
 	description = S("Iron Trapdoor"),
+	protected = true,
 	stack_max = minimal.stack_max_bulky *2,
 	inventory_image = "tech_trapdoor_iron.png",
 	wield_image = "tech_trapdoor_iron.png",
