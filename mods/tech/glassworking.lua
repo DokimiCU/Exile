@@ -549,6 +549,7 @@ minetest.register_node("tech:pane_green",
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = minimal.protection_after_place_node,
 })
 
 minetest.register_node("tech:pane_clear",
@@ -569,6 +570,7 @@ minetest.register_node("tech:pane_clear",
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = minimal.protection_after_place_node,
 })
 
 -- Windows - glass panes with framing
@@ -647,6 +649,7 @@ minetest.register_node("tech:glass_bottle_green", {
 	paramtype = "light",
 	liquids_pointable = true,
 	sunlight_prpagates = true,
+--	after_place_node = minimal.protection_after_place_node,
 	on_use = function(itemstack, user, pointed_thing)
 		return liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 	end,
@@ -673,6 +676,7 @@ minetest.register_node("tech:glass_bottle_clear", {
 	paramtype = "light",
 	liquids_pointable = true,
 	sunlight_prpagates = true,
+--	after_place_node = minimal.protection_after_place_node,
 	on_use = function(itemstack, user, pointed_thing)
 		return liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 	end,
@@ -755,6 +759,7 @@ minetest.override_item("tech:glass_bottle_green_saltwater",
 		fixed={-0.25, -0.5, -0.25, 0.25, 0.35, 0.25},
 	},
 	inventory_image = "tech_bottle_green_icon.png",
+--	after_place_node = minimal.protection_after_place_node,
 })
 
 liquid_store.register_stored_liquid(
@@ -800,6 +805,7 @@ minetest.override_item("tech:glass_bottle_clear_saltwater",
 	},
 
 	inventory_image = "tech_bottle_clear_icon.png",
+--	after_place_node = minimal.protection_after_place_node,
 })
 
 
@@ -861,10 +867,12 @@ minetest.override_item("tech:glass_bottle_green_freshwater",
 			--e.g. rain vs mud puddle
 
 			meta:set_int("thirst", thirst)
+--			minetest.swap_node(pos, {name = "tech:glass_bottle_green"})
 			minetest.set_node(pos, {name = "tech:glass_bottle_green"})
 			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
 		end
-	end
+	end,
+--	after_place_node = minimal.protection_after_place_node,
 
 })
 
@@ -927,11 +935,13 @@ minetest.override_item("tech:glass_bottle_clear_freshwater",
 			--e.g. rain vs mud puddle
 
 			meta:set_int("thirst", thirst)
+--			minetest.swap_node(pos, {name = "tech:glass_bottle_clear"})
 			minetest.set_node(pos, {name = "tech:glass_bottle_clear"})
 			minetest.sound_play("nodes_nature_slurp",
 					    {pos = pos,
 					     max_hear_distance = 3, gain = 0.25})
 		end
-	end
+	end,
+--	after_place_node = minimal.protection_after_place_node,
 
 })

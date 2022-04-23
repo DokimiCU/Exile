@@ -154,7 +154,9 @@ minetest.register_node('artifacts:bell', {
 		-- minetest.chat_send_all(puncher:get_player_name()..' has rung the bell!')
 	end,
 
-	after_place_node = function(pos, placer)
+	after_place_node = function(pos, placer, itemstack, pointed_thing )
+		-- Add protection to bell.
+		minimal.protection_after_place_node(pos,placer, itemstack, pointed_thing )
 		if( placer ~= nil ) then
 			-- minetest.chat_send_all(placer:get_player_name()..' has placed a new bell at '..tostring( minetest.pos_to_string( pos )));
 		end

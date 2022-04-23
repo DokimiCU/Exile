@@ -20,6 +20,7 @@ minetest.register_node("artifacts:moon_glass", {
 	use_texture_alpha = "clip",
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
+	after_place_node = minimal.protection_after_place_node,
 })
 
 ------------------------------------
@@ -151,6 +152,7 @@ minetest.register_node("artifacts:antiquorium", {
 	stack_max = minimal.stack_max_bulky *4,
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
+	after_place_node = minimal.protection_after_place_node,	
 })
 
 ------------------------------------
@@ -260,10 +262,11 @@ minetest.register_node('artifacts:trampoline', {
 	},
 	groups = {fall_damage_add_percent=-70, bouncy=85, oddly_breakable_by_hand = 3, temp_pass = 1},
 	sounds = nodes_nature.node_sound_defaults({footstep = {name="artifacts_bouncy", gain=0.8}}),
+	after_place_node = minimal.protection_after_place_node,
 })
 
 ------------------------------------
---TRAMPOLINE
+--CONVEYOR
 ------------------------------------
 minetest.register_node('artifacts:conveyor', {
 	description = 'Conveyor',

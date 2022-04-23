@@ -359,6 +359,7 @@ for i in ipairs(list) do
 		sunlight_propagates = true,
 		sounds = sound,
 		groups = {oddly_breakable_by_hand = hardness, attached_node = 1, temp_pass = 1},
+		after_place_node = minimal.protection_after_place_node,
 	})
 
 end

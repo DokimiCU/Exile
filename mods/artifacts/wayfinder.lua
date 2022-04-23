@@ -214,4 +214,5 @@ minetest.register_node("artifacts:waystone", {
 	},
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 2, temp_pass = 1},
+	after_place_node = minimal.protection_after_place_node,
 })
