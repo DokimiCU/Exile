@@ -595,6 +595,7 @@ minetest.register_node("tech:window_green",
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = minimal.protection_after_place_node,
 })
 
 minetest.register_node("tech:window_clear",
@@ -617,6 +618,7 @@ minetest.register_node("tech:window_clear",
 	use_texture_alpha = "blend",
 	sunlight_propagates = true,
 	sounds = nodes_nature.node_sound_glass_defaults(),
+	after_place_node = minimal.protection_after_place_node,
 })
 
 -- Windows from oiled wood frames and glass panes
