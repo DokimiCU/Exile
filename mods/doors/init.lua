@@ -164,6 +164,7 @@ function doors.door_toggle(pos, node, clicker, itemstack)
 	      else
 		 minetest.item_drop(ItemStack("tech:stick"), clicker, pos)
 	      end
+
 	      minetest.chat_send_player(cname, "You unbar the door.")
 	      if not def.protected then -- unprotected only gets temporary owner
 		 meta:set_string("owner", "")
@@ -459,8 +460,12 @@ function doors.trapdoor_toggle(pos, node, clicker)
 		return false
 	end
 ]]--
-
 	local def = minetest.registered_nodes[node.name]
+	local cname = clicker:get_player_name()
+	if def.protected and minetest.is_protected(pos, cname) then
+	   minetest.chat_send_player(cname,"You can't open this door, ",cname)
+	   return false
+	end
 
 	if string.sub(node.name, -5) == "_open" then
 		minetest.sound_play(def.sound_close,
@@ -475,13 +480,13 @@ function doors.trapdoor_toggle(pos, node, clicker)
 	end
 end
 
-local function Seek(pos, node, transform, func, skip)
+local function Seek(pos, node, clicker, transform, func, skip)
    local npos = pos
    if skip == true then npos = vector.add(pos, transform) end
    local newnode = minetest.get_node(npos)
    while ( newnode.param2 == node.param2 and
 	   newnode.name == node.name ) do
-      func(npos)
+      func(npos, newnode, clicker)
       npos = vector.add(npos, transform)
       newnode = minetest.get_node(npos)
    end
@@ -496,16 +501,23 @@ function doors.register_trapdoor(name, def)
 	local name_opened = name.."_open"
 
 	def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local def = minetest.registered_nodes[node.name]
+		local cname = clicker:get_player_name()
+		if def.protected and minetest.is_protected(pos, cname) then
+		   minetest.chat_send_player(cname,"You can't open this door, ",cname)
+		   return false
+		end
+
 		--0,2,6, 8 = X;  1,3,15,17 Z
 		if node.param2 % 2 == 1 then -- Z
-		   Seek(pos, node,  { x = 0, y = 0, z =  1 },
+		   Seek(pos, node, clicker, { x = 0, y = 0, z =  1 },
 			doors.trapdoor_toggle, true)
-		   Seek(pos, node,  { x = 0, y = 0, z = -1 },
+		   Seek(pos, node, clicker, { x = 0, y = 0, z = -1 },
 			doors.trapdoor_toggle)
 		else
-		   Seek(pos, node, { x =  1, y = 0, z = 0 },
+		   Seek(pos, node, clicker, { x =  1, y = 0, z = 0 },
 			doors.trapdoor_toggle, true)
-		   Seek(pos, node, { x = -1, y = 0, z = 0 },
+		   Seek(pos, node, clicker, { x = -1, y = 0, z = 0 },
 			  doors.trapdoor_toggle)
 		end
 		return itemstack
