@@ -15,7 +15,7 @@ local dyecolor = { [0] = "#ffffff", -- white or none
      [10] = "#263e28", [11] = "#5d806f", [12] = "#90b1a6", -- green
      [13] = "#245eaa", [14] = "#3c76a9", [15] = "#6fa4cd", -- blue
      [16] = "#444171", [17] = "#607597", [18] = "#8f86af", -- indigo
-     [19] = "#1c1b1b", [20] = "#3c3b3b", [21] = "#5f5e5e", -- black/grey
+     [19] = "#202020", [20] = "#404040", [21] = "#606060", -- black/grey
    }
 
 function dye_to_colorstring(palette)
