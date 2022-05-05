@@ -137,7 +137,7 @@ function liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
 	   end
 	   local new_wield = handle_stacks(user, user:get_wielded_item(),
 					   giving_back)
-	   minetest.swap_node(pointed_thing.under,
+	   minimal.switch_node(pointed_thing.under,
 			      {name = storeddef.nodename_empty})
 	   return new_wield
 	else
@@ -232,7 +232,7 @@ function liquid_store.register_stored_liquid(source, nodename, nodename_empty, t
 					return
 				end
 				if stored then -- Dump contents into liquid store
-				   minetest.swap_node(lpos, {name = stored})
+				   minimal.switch_node(lpos, {name = stored})
 				   return handle_stacks(user, itemstack, nodename_empty)
 				end
 
