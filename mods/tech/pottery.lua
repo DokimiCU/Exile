@@ -358,7 +358,6 @@ minetest.register_node("tech:clay_oil_lamp_unlit", {
 
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		--hit it with oil to restore
-		local itemstack = clicker:get_wielded_item()
 		local ist_name = itemstack:get_name()
 		local meta = minetest.get_meta(pos)
 		local fuel = meta:get_int("fuel")
@@ -443,8 +442,6 @@ minetest.register_node("tech:clay_oil_lamp", {
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		-- to snuff it out
-		local itemstack = clicker:get_wielded_item()
-		local ist_name = itemstack:get_name()
 		local meta = minetest.get_meta(pos)
 		local fuel = meta:get_int("fuel")
 		minetest.swap_node(pos, {name = 'tech:clay_oil_lamp_unlit'})
