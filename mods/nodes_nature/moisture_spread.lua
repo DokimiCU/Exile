@@ -95,7 +95,12 @@ local function thaw_frozen(pos, node)
       elseif name == "nodes_nature:snow" then
 	 minetest.remove_node(p)
       elseif name == "nodes_nature:ice" then
-	 minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+	 local under = minetest.get_node({x = p.x, y = p.y-1, z =p.z})
+	 if under.name == "nodes_nature:salt_water_source" then
+	    minetest.remove_node(p)
+	 else
+	    minetest.set_node(p, {name = "nodes_nature:freshwater_source"})
+	 end
       elseif name == "nodes_nature:sea_ice" then
 	 minetest.set_node(p, {name = "nodes_nature:salt_water_source"})
 	 return
