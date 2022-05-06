@@ -13,7 +13,7 @@ local function destruct_bed(pos, n)
 	end
 
 	local odef = minetest.registered_nodes[minetest.get_node(other).name]
-	if odef.groups.bed > 0  then
+	if odef.groups.bed and odef.groups.bed > 0  then
 		--swap node leaves meta, but doesn't call destruct_bed again
 		minetest.swap_node(other, {name = "air"})
 		minetest.set_node(other, {name = "air"}) -- now clear meta
