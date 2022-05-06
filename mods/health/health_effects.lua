@@ -121,6 +121,7 @@ end
 local function organ_failure(player, repeat_min, repeat_max, delay_min, delay_max, dam_min, dam_max)
 
 	local ranrep = random(repeat_min, repeat_max)
+	local name = player:get_player_name()
 	minetest.sound_play("health_heart", {to_player = name, gain = 0.5})
 
 	local randel = 0
