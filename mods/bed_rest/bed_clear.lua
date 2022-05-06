@@ -29,6 +29,7 @@ if minetest.settings:get_bool('exile_bed_clear') then
 	      canExist = true
 	   end
 	   if not canExist then
+	      minetest.log("warning", "Removing an unconnected bed half at "..pos.x..", "..pos.z)
 	      minetest.remove_node(pos)
 	   end
 	end
