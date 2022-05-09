@@ -213,6 +213,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	   bed_rest.player[name] = nil
 	   bed_rest.bed_position[name] = nil
 	   bed_rest.level[name] = nil
+	   bed_rest.type[name] = nil
+	   bed_rest.dir[name] = nil
 
 		-- skip here to prevent sending player specific changes (used for leaving players)
 		if skip then
@@ -254,10 +256,13 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 			   return false
 			end
 		end
+		local bed = minetest.get_node(bed_pos)
 		bed_rest.pos[name] = pos
 		bed_rest.bed_position[name] = bed_pos
 		bed_rest.player[name] = 1
 		bed_rest.level[name] = level
+		bed_rest.type[name] = bed.name
+		bed_rest.dir[name] = bed.param2
 		if not minetest.is_singleplayer() then
 		   minetest.get_meta(bed_pos):set_string("infotext",
 							 name.."'s bed")
@@ -296,6 +301,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	brtemp.player = bed_rest.player
 	brtemp.pos = bed_rest.pos
 	brtemp.bed_position = bed_rest.bed_position
+	brtemp.type = bed_rest.type
+	brtemp.dir = bed_rest.dir
 
 	store:set_string("bedrest", minetest.serialize(brtemp))
 	player:hud_set_flags(hud_flags)
@@ -309,6 +316,9 @@ function bed_rest.on_rightclick(pos, player, level)
 	local tod = minetest.get_timeofday()
 
 	if bed_rest.player[name] then
+	   if bed_rest.player[name] == "2" then
+	      --stored bed, rebuild it or give it to player
+	   end
 	   lay_down(player, nil, nil, nil, false)
 	else
 	   -- move to bed
