@@ -41,7 +41,11 @@ if minetest.global_exists("sfinv") then
 		-- Allow the stack to be placed and remove it in on_put()
 		-- This allows the creative inventory to restore the stack
 		allow_put = function(inv, listname, index, stack, player)
-			return stack:get_count()
+		   --#TODO: allow trashing empty backpacks?
+		   if not string.match(stack:get_name(), "backpacks:") then
+		      return stack:get_count()
+		   end
+		   return 0
 		end,
 		on_put = function(inv, listname)
 			inv:set_list(listname, {})
