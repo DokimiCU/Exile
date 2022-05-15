@@ -48,6 +48,7 @@ minetest.register_node("tech:crafting_spot", {
 	floodable     = true,
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
+	sunlight_propagates = true,
 	on_rightclick = crafting.make_on_rightclick("crafting_spot", 2, { x = 8, y = 3 }),
 	on_punch      = function(pos, node, player)
 		minetest.remove_node(pos)
@@ -75,6 +76,7 @@ minetest.register_node("tech:mixing_spot", {
 	floodable     = true,
 	groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
 	sounds        = nodes_nature.node_sound_wood_defaults(),
+	sunlight_propagates = true,
 	on_rightclick = crafting.make_on_rightclick("mixing_spot", 2, { x = 8, y = 3 }),
 	on_punch      = function(pos, node, player)
 		minetest.remove_node(pos)
@@ -102,6 +104,7 @@ minetest.register_node("tech:threshing_spot", {
 	floodable         = true,
 	groups            = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
 	sounds            = nodes_nature.node_sound_wood_defaults(),
+	sunlight_propagates = true,
 	on_rightclick     = crafting.make_on_rightclick("threshing_spot", 2, { x = 8, y = 3 }),
 	on_punch          = function(pos, node, player)
 		minetest.remove_node(pos)
