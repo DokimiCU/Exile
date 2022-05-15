@@ -237,7 +237,7 @@ local adjust_active_temp = function(pos, temp)
 
    -------------------------------
    --Underground
-   if pos.y < -12 and water ==0  then
+   if pos.y < -12 then
       --average temp, heating under the earth. ~ 25C/km
       temp = -0.025*pos.y + av_temp
       temp = adjust_for_heatable(pos, name, temp)
