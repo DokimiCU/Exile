@@ -157,12 +157,13 @@ local function check_teleport_dest(dest, pos, range, random)
 	local dist = vector.distance(pos, dest)
 
 	if random == "locked" then
-		if dist > range or dist < MIN_DIST then
+		if dist < MIN_DIST then
 			dest_ok = false
 			return dest_ok
 		end
 	else
 		if dist > range then
+		   minetest.log("action", "Attempted to teleport too far: "..dump(dist).." > "..dump(range))
 			dest_ok = false
 			return dest_ok
 		end
@@ -181,6 +182,7 @@ local function check_teleport_dest(dest, pos, range, random)
 		and dest_bot.name ~= 'artifacts:transporter_pad'
 		and dest_bot.name ~= 'artifacts:transporter_pad_charging'
 		and dest_bot.name ~= 'artifacts:transporter_pad_active' then
+			minetest.log("action", "Attempted to teleport to non-transporter pad: "..dest_bot.name)
 			dest_ok = false
 			return dest_ok
 		end
@@ -189,6 +191,7 @@ local function check_teleport_dest(dest, pos, range, random)
 	if dest_mid.name ~= 'ignore' and dest_mid.name ~= 'air' then
 		local def = minetest.registered_nodes[dest_mid.name]
 		if def and def.walkable then
+			minetest.log("action", "Attempt to teleport blocked by lower node: "..dest_mid.name)
 			dest_ok = false
 			return dest_ok
 		end
@@ -197,6 +200,7 @@ local function check_teleport_dest(dest, pos, range, random)
 	if dest_top.name ~= 'ignore' and dest_top.name ~= 'air' then
 		local def = minetest.registered_nodes[dest_top.name]
 		if def and def.walkable then
+			minetest.log("action", "Attempt to teleport blocked by upper node: "..dest_top.name)
 			dest_ok = false
 			return dest_ok
 		end
@@ -240,11 +244,14 @@ local function do_teleport(pos, target_pos, random, player, range, regulator, po
 		return
 	end
 
+	minetest.log("action", "Transporter activated by: "..player_name.." at "..pos.x.."/"..pos.y.."/"..pos.z)
+
 	if random == "random" then
 		target_pos = find_random_dest(target_pos)
 		if not target_pos then
 			--failed to find a viable spot
 			minetest.sound_play("artifacts_transport_error", {pos = pos, gain = 1, max_hear_distance = 6})
+			minetest.log("action", "Attempted to teleport randomly but could not find a target")
 			return
 		end
 	end
