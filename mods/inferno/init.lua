@@ -43,7 +43,7 @@ end
 
 -- Flame nodes
 
-minetest.register_node("inferno:basic_flame", {
+flame_def = {
 	drawtype = "firelike",
 	tiles = {
 		{
@@ -66,12 +66,14 @@ minetest.register_node("inferno:basic_flame", {
 	sunlight_propagates = true,
 	floodable = true,
 	damage_per_second = 4,
-	groups = {igniter = 2, dig_immediate = 3, not_in_creative_inventory = 1, temp_effect = 1, temp_pass = 1},
+	groups = {igniter = 2, flames = 1, dig_immediate = 3,
+		  not_in_creative_inventory = 1,
+		  temp_effect = 1, temp_pass = 1},
 	drop = "",
 
 	on_timer = function(pos)
 		local f = minetest.find_node_near(pos, 1, {"group:flammable"})
-		if not fire_enabled or not f then
+		if not f then
 			minetest.remove_node(pos)
 			return
 		end
@@ -86,16 +88,20 @@ minetest.register_node("inferno:basic_flame", {
 	end,
 
 	on_construct = function(pos)
-		if not fire_enabled then
-			minetest.remove_node(pos)
-		else
-			minetest.get_node_timer(pos):start(math.random(30, 60))
-		end
+	   minetest.get_node_timer(pos):start(math.random(30, 60))
 	end,
 
 	on_flood = flood_flame,
-})
+}
 
+minetest.register_node("inferno:hungry_flame", flame_def)
+if not fire_enabled then
+   flame_def.groups = {flames = 1, dig_immediate = 3,
+		       not_in_creative_inventory = 1,
+		       temp_effect = 1, temp_pass = 1}
+end
+
+minetest.register_node("inferno:basic_flame", flame_def)
 
 
 --
@@ -129,10 +135,11 @@ if flame_sound then
 		local fpos, num = minetest.find_nodes_in_area(
 			areamin,
 			areamax,
-			{"inferno:basic_flame"}
+			{"group:flames"}
 		)
 		-- Total number of flames in radius
 		local flames = (num["inferno:basic_flame"] or 0)
+		flames = flames + (num["inferno:hungry_flame"] or 0)
 		-- Stop previous sound
 		if handles[player_name] then
 			minetest.sound_stop(handles[player_name])
@@ -218,57 +225,47 @@ end
 -- ABMs
 --
 
-if fire_enabled then
+-- Ignite neighboring nodes, add basic flames
 
-	-- Ignite neighboring nodes, add basic flames
+minetest.register_abm({
+      label = "Ignite flame",
+      nodenames = {"group:flammable"},
+      neighbors = {"group:igniter"},
+      interval = 25,
+      chance = 32,
+      catch_up = false,
+      action = function(pos)
+	 local p = minetest.find_node_near(pos, 1, {"air"})
+	 if p then
+	    minetest.set_node(p, {name = "inferno:basic_flame"})
+	 end
+      end,
+})
 
-	minetest.register_abm({
-		label = "Ignite flame",
-		nodenames = {"group:flammable"},
-		neighbors = {"group:igniter"},
-		interval = 25,
-		chance = 3,
-		catch_up = false,
-		action = function(pos)
-			local p = minetest.find_node_near(pos, 1, {"air"})
-			if p then
-				minetest.set_node(p, {name = "inferno:basic_flame"})
-			end
-		end,
-	})
-
-	-- Remove/convert flammable nodes around basic flame
-	--remember to set on_burn for the registered node where suitable
-	-- e.g. to turn trees into tech large fire
-	minetest.register_abm({
-		label = "Remove flammable nodes",
-		nodenames = {"inferno:basic_flame"},
-		neighbors = "group:flammable",
-		interval = 26,
-		chance = 32,
-		catch_up = false,
-		action = function(pos)
-			local p = minetest.find_node_near(pos, 1, {"group:flammable"})
-			if not p then
-				return
-			end
-
-			local flammable_node = minetest.get_node(p)
-			local def = minetest.registered_nodes[flammable_node.name]
-			if def.on_burn then
-				def.on_burn(p)
-			elseif minetest.get_item_group(flammable_node.name, "tree") >= 1
-			or minetest.get_item_group(flammable_node.name, "log") >= 1 then
-				minetest.set_node(p, {name = "tech:large_wood_fire"})
-			else
-				minetest.remove_node(p)
-				minetest.check_for_falling(p)
-			end
-		end,
-	})
-
-end
-
+-- Remove/convert flammable nodes around basic flame
+--remember to set on_burn for the registered node where suitable
+-- e.g. to turn trees into tech large fire
+minetest.register_abm({
+      label = "Remove flammable nodes",
+      nodenames = {"group:flammable"},
+      neighbors = {"group:flames"},
+      interval = 26,
+      chance = 8,
+      catch_up = false,
+      action = function(pos)
+	 local flammable_node = minetest.get_node(pos)
+	 local def = minetest.registered_nodes[flammable_node.name]
+	 if def.on_burn then
+	    def.on_burn(pos)
+	 elseif minetest.get_item_group(flammable_node.name, "tree") >= 1
+	    or minetest.get_item_group(flammable_node.name, "log") >= 1 then
+	    minetest.set_node(pos, {name = "tech:large_wood_fire"})
+	 else
+	    minetest.remove_node(pos)
+	    minetest.check_for_falling(pos)
+	 end
+      end,
+})
 
 
 --------------------------------------------------

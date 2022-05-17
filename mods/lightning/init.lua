@@ -25,8 +25,6 @@ local rng = PcgRandom(32321123312123)
 local ps = {}
 local ttl = 1
 
-local fire_enabled = minetest.settings:get_bool("enable_fire")
-
 local revertsky = function()
 	if ttl == 0 then
 		return
@@ -169,8 +167,8 @@ lightning.strike = function(pos)
 				return
 			end
 			-- very rarely, potentially cause a fire
-			if fire_enabled and rng:next(1,200) == 1 then
-				minetest.set_node(pos2, {name = "inferno:basic_flame"})
+			if rng:next(1,200) == 1 then
+				minetest.set_node(pos2, {name = "inferno:hungry_flame"})
 			end
 		end
 	end
