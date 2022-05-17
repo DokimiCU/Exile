@@ -155,6 +155,9 @@ function bed_rest.register_bed(name, def)
 		can_dig = function(pos, player)
 			return bed_rest.can_dig(pos, player)
 		end,
+		on_timer = function(pos, elapsed)
+		   return bed_rest.on_timer(pos, elapsed)
+		end,
 	})
 
 	minetest.register_node(name .. "_top", {

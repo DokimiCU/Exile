@@ -12,6 +12,9 @@ player_monoids = player_monoids
 --clothing = clothing
 --#TODO: circular dependency: clothing requires bed_rest, bed_rest needs clothing
 
+-- after this many days, beds in multiplayer will no longer be protected
+local days_until_timeout = 7
+
 function load_bedrest()
    local loaded = minetest.deserialize(store:get_string("bedrest"), true)
    return loaded
@@ -261,6 +264,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		if not minetest.is_singleplayer() then
 		   minetest.get_meta(bed_pos):set_string("infotext",
 							 name.."'s bed")
+		   minetest.get_node_timer(bed_pos):start(60 * 60 * 24 *
+							  days_until_timeout)
 		end
 
 		--check with break taker
@@ -331,6 +336,20 @@ function bed_rest.can_dig(bed_pos, player)
 		end
 	end
 	return true
+end
+
+function bed_rest.on_timer(pos, elapsed)
+-- Called after configured timeout to clear bed ownership
+   local meta = minetest.get_meta(pos)
+   for nm, other_pos in pairs(bed_rest.bed_position) do
+      if vector.distance(pos, other_pos) < 0.1 then
+	 bed_rest.bed_position[nm] = nil
+	 if not minetest.is_singleplayer() then
+	    meta:set_string("infotext", nm.."'s bed (old)")
+	 end
+	 return false
+      end
+   end
 end
 
 --------------------------------------------
