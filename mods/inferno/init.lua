@@ -43,7 +43,7 @@ end
 
 -- Flame nodes
 
-local flame_def = {
+flame_def = {
 	drawtype = "firelike",
 	tiles = {
 		{
@@ -251,7 +251,7 @@ minetest.register_abm({
       label = "Remove flammable nodes",
       nodenames = {"group:flammable"},
       neighbors = {"group:flames", "group:igniter"},
-      interval = 6,
+      interval = 26,
       chance = 8,
       catch_up = false,
       action = function(pos)
@@ -303,19 +303,6 @@ local lit = {
    ["tech:large_charcoal_fire_ext"] = "tech:large_charcoal_fire",
 }
 
-function inferno.ignite(pos, nodename)
-   if nodename == nil or nodename == "" then
-      nodename = minetest.get_node(pos).name
-   end
-   for unl, l in pairs(lit) do
-      if nodename == unl then
-	 minimal.switch_node(pos, {name = l})
-	 return true
-      end
-   end
-   return false
-end
-
 -- Fire Sticks
 minetest.register_tool("inferno:fire_sticks", {
 	description = S("Fire Sticks"),
@@ -332,8 +319,12 @@ minetest.register_tool("inferno:fire_sticks", {
 		if pointed_thing.type == "node" then
 			local node_under = minetest.get_node(pointed_thing.under).name
 			local pos_under = pointed_thing.under
-			if inferno.ignite(pos_under, node_under) then
-			   return add_wear(player_name, itemstack, sound_pos)
+
+			for unl, l in pairs(lit) do
+			   if node_under == unl then
+			      minimal.switch_node(pointed_thing.under, {name = l})
+			      return add_wear(player_name, itemstack, sound_pos)
+			   end
 			end
 
 			local nodedef = minetest.registered_nodes[node_under]
