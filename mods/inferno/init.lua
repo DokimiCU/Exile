@@ -235,7 +235,9 @@ minetest.register_abm({
       chance = 32,
       catch_up = false,
       action = function(pos)
-	 local p = minetest.find_node_near(pos, 1, {"air"})
+	 local p = minetest.find_node_near(pos, 1, {"air",
+						    "climate:air_temp",
+						    "climate:air_temp_visible"})
 	 if p then
 	    minetest.set_node(p, {name = "inferno:basic_flame"})
 	 end
@@ -248,7 +250,7 @@ minetest.register_abm({
 minetest.register_abm({
       label = "Remove flammable nodes",
       nodenames = {"group:flammable"},
-      neighbors = {"group:flames"},
+      neighbors = {"group:flames", "group:igniter"},
       interval = 26,
       chance = 8,
       catch_up = false,
@@ -260,6 +262,9 @@ minetest.register_abm({
 	 elseif minetest.get_item_group(flammable_node.name, "tree") >= 1
 	    or minetest.get_item_group(flammable_node.name, "log") >= 1 then
 	    minetest.set_node(pos, {name = "tech:large_wood_fire"})
+	    if math.random(1,4) == 1 then
+	       minetest.check_for_falling(pos)
+	    end
 	 else
 	    minetest.remove_node(pos)
 	    minetest.check_for_falling(pos)
