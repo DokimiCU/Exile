@@ -43,7 +43,7 @@ end
 
 -- Flame nodes
 
-flame_def = {
+local flame_def = {
 	drawtype = "firelike",
 	tiles = {
 		{
@@ -231,7 +231,7 @@ minetest.register_abm({
       label = "Ignite flame",
       nodenames = {"group:flammable"},
       neighbors = {"group:igniter"},
-      interval = 25,
+      interval = 5,
       chance = 32,
       catch_up = false,
       action = function(pos)
@@ -250,8 +250,8 @@ minetest.register_abm({
 minetest.register_abm({
       label = "Remove flammable nodes",
       nodenames = {"group:flammable"},
-      neighbors = {"group:flames"},
-      interval = 26,
+      neighbors = {"group:flames", "group:igniter"},
+      interval = 6,
       chance = 8,
       catch_up = false,
       action = function(pos)
@@ -266,7 +266,11 @@ minetest.register_abm({
 	       minetest.check_for_falling(pos)
 	    end
 	 else
-	    minetest.remove_node(pos)
+	    if minetest.find_node_near(pos, 1, "group:flames") == nil then
+	       minetest.set_node(pos, {name = "inferno:basic_flame"})
+	    else
+	       minetest.remove_node(pos)
+	    end
 	    minetest.check_for_falling(pos)
 	 end
       end,
@@ -303,6 +307,19 @@ local lit = {
    ["tech:large_charcoal_fire_ext"] = "tech:large_charcoal_fire",
 }
 
+function inferno.ignite(pos, nodename)
+   if nodename == nil or nodename == "" then
+      nodename = minetest.get_node(pos).name
+   end
+   for unl, l in pairs(lit) do
+      if nodename == unl then
+	 minimal.switch_node(pos, {name = l})
+	 return true
+      end
+   end
+   return false
+end
+
 -- Fire Sticks
 minetest.register_tool("inferno:fire_sticks", {
 	description = S("Fire Sticks"),
@@ -319,12 +336,8 @@ minetest.register_tool("inferno:fire_sticks", {
 		if pointed_thing.type == "node" then
 			local node_under = minetest.get_node(pointed_thing.under).name
 			local pos_under = pointed_thing.under
-
-			for unl, l in pairs(lit) do
-			   if node_under == unl then
-			      minimal.switch_node(pointed_thing.under, {name = l})
-			      return add_wear(player_name, itemstack, sound_pos)
-			   end
+			if inferno.ignite(pos_under, node_under) then
+			   return add_wear(player_name, itemstack, sound_pos)
 			end
 
 			local nodedef = minetest.registered_nodes[node_under]
