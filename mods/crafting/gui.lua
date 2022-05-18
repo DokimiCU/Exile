@@ -160,7 +160,7 @@ function crafting.make_result_selector(player, type, level, size, context)
 end
 
 local function sanitize(badstring)
-   local disallowed = { "\\", "{", "}", "(", ")", "[", "]" }
+   local disallowed = { "\\", "{", "}" }
    badstring:trim():lower()
    for i in ipairs(disallowed) do
       badstring = badstring:gsub(disallowed[i],"")
