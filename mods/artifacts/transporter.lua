@@ -753,6 +753,7 @@ local function charge_power(pos, selfname, name, length)
 		-- XXX shouldn't be clobbering existing info text
 		meta:set_string("infotext", description .. "\n" .. "Owned by " .. pn)
 		minetest.swap_node(pos, {name=name})
+		meta:set_float("temp", 14)
 		return false
 	elseif temp < charge_temp then
 		return true
