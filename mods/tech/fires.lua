@@ -7,6 +7,9 @@
 -- Internationalization
 local S = tech.S
 
+--inferno = inferno
+--#TODO: circular dependency: tech and inferno each use things from the other
+
 --interval
 local base_burn_rate = 4
 --how much to burn (for small fire)

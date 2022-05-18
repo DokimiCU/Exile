@@ -43,7 +43,6 @@ note: ranges are
    if not player then
 		return
 	end
-	local name = player:get_player_name()
 	local inv = player:get_inventory():get_list("cloths")
 	local armorgroups = {fleshy = 100}
 	for i=1, #inv do

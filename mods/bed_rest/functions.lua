@@ -9,8 +9,7 @@ local store = minetest.get_mod_storage()
 bed_rest = bed_rest
 player_api = player_api
 player_monoids = player_monoids
---clothing = clothing
---#TODO: circular dependency: clothing requires bed_rest, bed_rest needs clothing
+clothing = clothing
 
 -- after this many days, beds in multiplayer will no longer be protected
 local days_until_timeout = 7
