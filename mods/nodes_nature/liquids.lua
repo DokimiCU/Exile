@@ -413,7 +413,6 @@ minetest.register_abm({
 --plumes
 local erupt = function(pos, aname)
 	local height = 0
-	print("erupt!")
 	--erupt
 	while (aname == "air" or aname == "climate:air_temp") and height < 7 do
 		if ran()<0.8 then
