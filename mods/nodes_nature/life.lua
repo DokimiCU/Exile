@@ -695,7 +695,10 @@ local function rooted_place(itemstack, placer, pointed_thing, node_name, substra
 	local pos_top = {x = pos.x, y = pos.y + height, z = pos.z}
 	local node_top = minetest.get_node(pos_top)
 	local def_top = minetest.registered_nodes[node_top.name]
-	local player_name = placer:get_player_name()
+	local player_name = ""
+	if placer then
+	   player_name = placer:get_player_name()
+	end
 
 	if def_top and def_top.liquidtype == "source" and
 			minetest.get_item_group(node_top.name, "water") > 0 then
@@ -735,10 +738,10 @@ for i in ipairs(searooted_list) do
 	local dyecandidate = searooted_list[i][11]
 	local dominantcolor = searooted_list[i][12] or "green"
 
-	local g = {snappy = 3}
+	local g = {snappy = 3, flora = 1, flora_sea = 1}
 	--use seaweed as fertilizer
 	if type == "seaweed" then
-		g = {snappy = 3, fertilizer = 1}
+		g.fertilizer = 1
 	end
 
 	if dyecandidate then

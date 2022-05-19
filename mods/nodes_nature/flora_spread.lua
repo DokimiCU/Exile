@@ -68,6 +68,38 @@ local function flora_spread(pos, node)
 	end
 end
 
+local function undersea_flora_spread(pos, node)
+   local nodedef = minetest.registered_nodes[node.name]
+   local substrate = nodedef.node_dig_prediction
+   local pos0 = vector.subtract(pos, 4)
+   local pos1 = vector.add(pos, 4)
+   -- Testing shows that a threshold of 3 results in an appropriate maximum
+   -- density of approximately 7 flora per 9x9 area.
+   if #minetest.find_nodes_in_area(pos0, pos1, "group:flora") > 3 then
+      return
+   end
+   pos0 = vector.subtract(pos, {x=4,y=2,z=4})
+   pos1 = vector.add(pos, {x=4,y=2,z=4})
+   --find a random saltwater node
+   local tgts = minetest.find_nodes_in_area(pos0, pos1,
+				       "nodes_nature:salt_water_source")
+   if #tgts == 0 then return end
+   local tgt = tgts[math.random(1,#tgts)]
+   -- seek down until we hit the seabed
+   local down = vector.new(0, -1, 0)
+   local under = vector.add(tgt, down)
+   local uname = minetest.get_node(under).name
+   while uname == "nodes_nature:salt_water_source" do
+      tgt = under
+      under = vector.add(tgt, down)
+      uname = minetest.get_node(under).name
+   end
+   if uname ~= substrate then -- it's not the right soil for this plant
+      return
+   end
+   minetest.place_node(tgt, { name = node.name })
+end
+
 ---------------
 
 minetest.register_abm({
@@ -75,8 +107,14 @@ minetest.register_abm({
 	nodenames = {"group:flora"},
 	interval = 260,
 	chance = 60,
-	action = function(...)
-		flora_spread(...)
+	max_y = 800,
+	min_y = -15,
+	action = function(pos, node)
+	   if minetest.get_item_group(node.name, "flora_sea") == 0 then
+	      flora_spread(pos, node)
+	   else
+	      undersea_flora_spread(pos, node)
+	   end
 	end,
 })
 
