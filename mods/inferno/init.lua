@@ -250,7 +250,7 @@ minetest.register_abm({
 minetest.register_abm({
       label = "Remove flammable nodes",
       nodenames = {"group:flammable"},
-      neighbors = {"group:flames", "group:igniter"},
+      neighbors = {"group:flames"},
       interval = 26,
       chance = 8,
       catch_up = false,
