@@ -8,5 +8,7 @@ function minimal.switch_node(pos, node)
       return
    end
    minetest.swap_node(pos, node)
-   minetest.registered_nodes[node.name].on_construct(pos)
+   if minetest.registered_nodes[node.name].on_construct then
+      minetest.registered_nodes[node.name].on_construct(pos)
+   end
 end
