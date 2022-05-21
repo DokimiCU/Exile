@@ -263,7 +263,7 @@ minetest.register_node('tech:thatch', {
 	description = S('Thatch'),
 	tiles = {"tech_thatch.png"},
 	stack_max = minimal.stack_max_bulky * 4,
-	groups = {snappy=3, flammable=1},
+	groups = {snappy=3, flammable=1, fall_damage_add_percent = -30},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
 	on_burn = function(pos)
 		if math.random()<0.5 then
@@ -280,7 +280,7 @@ stairs.register_stair_and_slab(
 	"tech:thatch",
 	"mixing_spot",
 	"true",
-	{snappy=3, flammable=1},
+	{snappy=3, flammable=1, fall_damage_add_percent = -15},
 	{"tech_thatch.png"},
 	"Thatch Stair",
 	"Thatch Slab",
