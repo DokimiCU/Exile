@@ -222,37 +222,18 @@ end
 
 
 --
--- ABMs
+-- ABM
 --
-
--- Ignite neighboring nodes, add basic flames
-
-minetest.register_abm({
-      label = "Ignite flame",
-      nodenames = {"group:flammable"},
-      neighbors = {"group:igniter"},
-      interval = 5,
-      chance = 32,
-      catch_up = false,
-      action = function(pos)
-	 local p = minetest.find_node_near(pos, 1, {"air",
-						    "climate:air_temp",
-						    "climate:air_temp_visible"})
-	 if p then
-	    minetest.set_node(p, {name = "inferno:basic_flame"})
-	 end
-      end,
-})
-
 -- Remove/convert flammable nodes around basic flame
 --remember to set on_burn for the registered node where suitable
 -- e.g. to turn trees into tech large fire
+
 minetest.register_abm({
-      label = "Remove flammable nodes",
+      label = "Ignite flammable nodes",
       nodenames = {"group:flammable"},
       neighbors = {"group:flames", "group:igniter"},
-      interval = 6,
-      chance = 8,
+      interval = 21,
+      chance = 6,
       catch_up = false,
       action = function(pos)
 	 local flammable_node = minetest.get_node(pos)
@@ -266,12 +247,19 @@ minetest.register_abm({
 	       minetest.check_for_falling(pos)
 	    end
 	 else
-	    if minetest.find_node_near(pos, 1, "group:flames") == nil then
+	    local p = minetest.find_node_near(pos, 1, {"air",
+						    "climate:air_temp",
+						    "climate:air_temp_visible"})
+	    if p and math.random(1,10) < 10 then
+	       minetest.set_node(p, {name = "inferno:basic_flame"})
+	    elseif minetest.find_node_near(pos, 1, "group:flames") == nil then
 	       minetest.set_node(pos, {name = "inferno:basic_flame"})
 	    else
 	       minetest.remove_node(pos)
 	    end
-	    minetest.check_for_falling(pos)
+	    if math.random(1,4) == 1 then
+	       minetest.check_for_falling(pos)
+	    end
 	 end
       end,
 })
