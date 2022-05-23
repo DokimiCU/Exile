@@ -440,6 +440,7 @@ minetest.after(0, function()
   options['artifacts:potters_probe'] =  { 1, 5, nil }
   options['artifacts:chefs_probe'] =  { 1, 5, nil }
   options['artifacts:farmers_probe'] =  { 1, 5, nil }
+  options['artifacts:animal_probe'] =  { 1, 5, nil }
 
   options['artifacts:spyglass'] =  { 1, 5, nil }
   options['artifacts:bell'] =  { 1, 5, nil }

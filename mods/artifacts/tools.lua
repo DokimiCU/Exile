@@ -4,6 +4,7 @@
 --for debug, and gameplay
 ------------------------------------
 
+mobkit = mobkit
 
 
 
@@ -58,7 +59,6 @@ local temp_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 	minetest.chat_send_player(name, minetest.colorize("#00ff00", "OBJECT TEMPERATURE MEASUREMENT:"))
 
@@ -106,7 +106,6 @@ local fuel_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 
   local meta = minetest.get_meta(pointed_thing.under)
@@ -154,7 +153,6 @@ local smelter_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 
   local meta = minetest.get_meta(pointed_thing.under)
@@ -204,7 +202,6 @@ local potters_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 
   local meta = minetest.get_meta(pointed_thing.under)
@@ -253,7 +250,6 @@ local chefs_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 
   local meta = minetest.get_meta(pointed_thing.under)
@@ -302,7 +298,6 @@ local farmers_probe = function(user, pointed_thing)
 
 
   local name =user:get_player_name()
-  local pos = user:get_pos()
 
 
   local meta = minetest.get_meta(pointed_thing.under)
@@ -382,7 +377,6 @@ minetest.register_craftitem("artifacts:spyglass", {
 
 
 
---crashes when used on non-mobkit entities, bug testing tool only!
 ------------------------------------
 --ANIMAL PROBE
 --get condition of an animal
@@ -395,6 +389,10 @@ local animal_probe = function(user, pointed_thing)
   end
 
   local ent = pointed_thing.ref:get_luaentity()
+
+  if not ent.memory then -- not a mobkit entity with a memory
+     return
+  end
 
   local r_ent_e = mobkit.recall(ent,'energy')
   local r_ent_a = mobkit.recall(ent,'age')
