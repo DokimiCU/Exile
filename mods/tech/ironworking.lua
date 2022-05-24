@@ -60,7 +60,7 @@ local function roast(pos, selfname, name, length, heat, smelt)
 		--need to transfer heat to smelt
 		--for others doesn't matter
 		if name == "tech:iron_and_slag" then
-			local temp = meta:get_float("temp")
+			temp = meta:get_float("temp")
 			minetest.set_node(pos, {name = name})
 			meta:set_float("temp", temp)
 			minetest.check_for_falling(pos)
@@ -240,6 +240,7 @@ crafting.register_recipe({
 ---------------------
 --save usage into inventory, to prevent infinite supply
 local on_dig_iron_and_slag = function(pos, node, digger)
+	if not digger then return end
 	if minetest.is_protected(pos, digger:get_player_name()) then
 		return false
 	end
@@ -250,7 +251,6 @@ local on_dig_iron_and_slag = function(pos, node, digger)
 	local new_stack = ItemStack("tech:iron_and_slag")
 	local stack_meta = new_stack:get_meta()
 	stack_meta:set_int("roast", roast)
-
 
 	minetest.remove_node(pos)
 	local player_inv = digger:get_inventory()
