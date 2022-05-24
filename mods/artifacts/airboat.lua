@@ -1,5 +1,8 @@
 local random = math.random
 
+player_api = player_api
+creative = creative
+
 -- Functions
 
 local function get_sign(i)
@@ -104,16 +107,6 @@ function airboat.on_punch(self, puncher)
 
 	local name = puncher:get_player_name()
         local pos = puncher:get_pos()
-	if self.driver and name == self.driver then
-		-- Detach
-		--only use on_rightclick
-		--[[
-		self.driver = nil
-		puncher:set_detach()
-		puncher:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
-		player_api.player_attached[name] = false
-		]]
-	end
 	if not self.driver then
 		-- Move to inventory
 		self.removed = true
@@ -133,6 +126,23 @@ function airboat.on_punch(self, puncher)
 	end
 end
 
+local function clonk(pos)
+   if random()>0.98 then
+      minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
+   end
+end
+
+local function limit_and_reduce(vec, cap, decay)
+   local s = get_sign(vec)
+   vec = vec - decay * s
+   if s ~= get_sign(vec) then
+      vec = 0
+   end
+   if math.abs(vec) > cap then
+      vec = cap * get_sign(vec)
+   end
+   return vec
+end
 
 function airboat.on_step(self, dtime)
 	self.v = get_v(self.object:get_velocity()) * get_sign(self.v)
@@ -142,58 +152,50 @@ function airboat.on_step(self, dtime)
 	-- Controls
 	if self.driver then
 
-		local driver_objref = minetest.get_player_by_name(self.driver)
-		if driver_objref then
-			local ctrl = driver_objref:get_player_control()
-			if (ctrl.up and ctrl.down) or (ctrl.left and ctrl.right) then
-				if not self.auto then
-					self.auto = true
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-					minetest.chat_send_player(self.driver,
-						"[airboat] Cruise on")
-				end
-			elseif ctrl.down then
-				self.v = self.v - 0.1
-				if self.auto then
-					self.auto = false
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-					minetest.chat_send_player(self.driver,
-						"[airboat] Cruise off")
-				end
-			elseif ctrl.up or self.auto then
-				self.v = self.v + 0.1
-			end
-			if ctrl.left then
-				self.rot = self.rot + 0.005
-				if random()>0.98 then
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
-				end
-			elseif ctrl.right then
-				self.rot = self.rot - 0.005
-				if random()>0.98 then
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
-				end
-			end
-			if ctrl.jump then
-				self.vy = self.vy + 0.06
-				if random()>0.98 then
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
-				end
-			elseif ctrl.sneak then
-				self.vy = self.vy - 0.06
-				if random()>0.98 then
-					minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 0.25, max_hear_distance = 6})
-				end
-			end
-		else
-			-- Player left server while driving
-			-- In MT 5.0.0 use 'airboat:on_detach_child()' to do this
-			self.driver = nil
-			self.auto = false
-			minetest.log("warning", "[airboat] Driver left server while" ..
-				" driving. This may cause some 'Pushing ObjectRef to" ..
-				" removed/deactivated object' warnings.")
-		end
+	   local driver_objref = minetest.get_player_by_name(self.driver)
+	   if driver_objref then
+	      local ctrl = driver_objref:get_player_control()
+	      if (ctrl.up and ctrl.down) or (ctrl.left and ctrl.right) then
+		 if not self.auto then
+		    self.auto = true
+		    minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
+		    minetest.chat_send_player(self.driver,
+					      "[airboat] Cruise on")
+		 end
+	      elseif ctrl.down then
+		 self.v = self.v - 0.1
+		 if self.auto then
+		    self.auto = false
+		    minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
+		    minetest.chat_send_player(self.driver,
+					      "[airboat] Cruise off")
+		 end
+	      elseif ctrl.up or self.auto then
+		 self.v = self.v + 0.1
+	      end
+	      if ctrl.left then
+		 self.rot = self.rot + 0.005
+		 clonk(pos)
+	      elseif ctrl.right then
+		 self.rot = self.rot - 0.005
+		 clonk(pos)
+	      end
+	      if ctrl.jump then
+		 self.vy = self.vy + 0.06
+		 clonk(pos)
+	      elseif ctrl.sneak then
+		 self.vy = self.vy - 0.06
+		 clonk(pos)
+	      end
+	   else
+	      -- Player left server while driving
+	      -- In MT 5.0.0 use 'airboat:on_detach_child()' to do this
+	      self.driver = nil
+	      self.auto = false
+	      minetest.log("warning", "[airboat] Driver left server while" ..
+			   " driving. This may cause some 'Pushing ObjectRef to" ..
+			   " removed/deactivated object' warnings.")
+	   end
 	end
 
 	-- Early return for stationary vehicle
@@ -203,34 +205,13 @@ function airboat.on_step(self, dtime)
 	end
 
 	-- Reduction and limiting of linear speed
-	local s = get_sign(self.v)
-	self.v = self.v - 0.02 * s
-	if s ~= get_sign(self.v) then
-		self.v = 0
-	end
-	if math.abs(self.v) > 4 then
-		self.v = 4 * get_sign(self.v)
-	end
+	self.v = limit_and_reduce(self.v, 4, 0.02)
 
 	-- Reduction and limiting of rotation
-	local sr = get_sign(self.rot)
-	self.rot = self.rot - 0.0003 * sr
-	if sr ~= get_sign(self.rot) then
-		self.rot = 0
-	end
-	if math.abs(self.rot) > 0.015 then
-		self.rot = 0.015 * get_sign(self.rot)
-	end
+	self.rot = limit_and_reduce(self.rot, 0.015, 0.0003)
 
 	-- Reduction and limiting of vertical speed
-	local sy = get_sign(self.vy)
-	self.vy = self.vy - 0.03 * sy
-	if sy ~= get_sign(self.vy) then
-		self.vy = 0
-	end
-	if math.abs(self.vy) > 2 then
-		self.vy = 2 * get_sign(self.vy)
-	end
+	self.vy = limit_and_reduce(self.vy, 2, 0.03)
 
 	local new_acce = {x = 0, y = 0, z = 0}
 	-- Bouyancy in liquids
@@ -278,18 +259,20 @@ minetest.register_craftitem("artifacts:airboat", {
 		end
 
 		pointed_thing.under.y = pointed_thing.under.y + 2
-		local airboat = minetest.add_entity(pointed_thing.under,
+		local air_boat = minetest.add_entity(pointed_thing.under,
 			"artifacts:airboat")
-			minetest.sound_play("artifacts_airboat_gear", {pos = pointed_thing.under, gain = 1, max_hear_distance = 6})
-		if airboat then
-			if placer then
-				airboat:set_yaw(placer:get_look_horizontal())
-			end
-			local player_name = placer and placer:get_player_name() or ""
-			if not (creative and creative.is_enabled_for and
-					creative.is_enabled_for(player_name)) then
-				itemstack:take_item()
-			end
+		minetest.sound_play("artifacts_airboat_gear",
+				    {pos = pointed_thing.under,
+				     gain = 1, max_hear_distance = 6})
+		if air_boat then
+		   if placer then
+		      air_boat:set_yaw(placer:get_look_horizontal())
+		   end
+		   local player_name = placer and placer:get_player_name() or ""
+		   if not (creative and creative.is_enabled_for and
+			   creative.is_enabled_for(player_name)) then
+		      itemstack:take_item()
+		   end
 		end
 		return itemstack
 	end,
