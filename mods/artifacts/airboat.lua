@@ -14,9 +14,9 @@ local function get_sign(i)
 end
 
 
-local function get_velocity(v, yaw, y)
-	local x = -math.sin(yaw) * v
-	local z =  math.cos(yaw) * v
+local function get_velocity(v, yaw, y, vx)
+	local x = -math.sin(yaw) * v + -math.sin(yaw - 1.57) * vx
+	local z =  math.cos(yaw) * v + math.cos(yaw - 1.57) * vx
 	return {x = x, y = y, z = z}
 end
 
@@ -45,6 +45,7 @@ local airboat = {
 	driver = nil,
 	removed = false,
 	v = 0,
+	vx = 0,
 	vy = 0,
 	rot = 0,
 	auto = false,
@@ -145,8 +146,10 @@ local function limit_and_reduce(vec, cap, decay)
 end
 
 function airboat.on_step(self, dtime)
-	self.v = get_v(self.object:get_velocity()) * get_sign(self.v)
-	self.vy = self.object:get_velocity().y
+	local velocity = self.object:get_velocity()
+	self.v = get_v(velocity) * get_sign(self.v)
+	--#TODO: calculate vz/vx from current velocity
+	self.vy = velocity.y
 	local pos = self.object:get_pos()
 
 	-- Controls
@@ -174,10 +177,18 @@ function airboat.on_step(self, dtime)
 		 self.v = self.v + 0.1
 	      end
 	      if ctrl.left then
-		 self.rot = self.rot + 0.005
+		 if ctrl.aux1 then
+		    self.vx = self.vx - 0.2
+		 else
+		    self.rot = self.rot + 0.005
+		 end
 		 clonk(pos)
 	      elseif ctrl.right then
-		 self.rot = self.rot - 0.005
+		 if ctrl.aux1 then
+		    self.vx = self.vx + 0.2
+		 else
+		    self.rot = self.rot - 0.005
+		 end
 		 clonk(pos)
 	      end
 	      if ctrl.jump then
@@ -199,7 +210,7 @@ function airboat.on_step(self, dtime)
 	end
 
 	-- Early return for stationary vehicle
-	if self.v == 0 and self.rot == 0 and self.vy == 0 then
+	if self.v == 0 and self.rot == 0 and self.vy == 0 and self.vx == 0 then
 		self.object:set_pos(self.object:get_pos())
 		return
 	end
@@ -212,6 +223,7 @@ function airboat.on_step(self, dtime)
 
 	-- Reduction and limiting of vertical speed
 	self.vy = limit_and_reduce(self.vy, 2, 0.03)
+	self.vx = limit_and_reduce(self.vx, 1, 0.1)
 
 	local new_acce = {x = 0, y = 0, z = 0}
 	-- Bouyancy in liquids
@@ -223,7 +235,7 @@ function airboat.on_step(self, dtime)
 	end
 
 	self.object:set_pos(self.object:get_pos())
-	self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.vy))
+	self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.vy, self.vx))
 	self.object:set_acceleration(new_acce)
 	self.object:set_yaw(self.object:get_yaw() + (1 + dtime) * self.rot)
 end
