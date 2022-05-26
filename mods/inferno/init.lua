@@ -238,6 +238,11 @@ minetest.register_abm({
       action = function(pos)
 	 local flammable_node = minetest.get_node(pos)
 	 local def = minetest.registered_nodes[flammable_node.name]
+	 if not minetest.is_singleplayer and
+	    minetest.find_node_near(pos, 1, "group:igniter") == nil and
+	    math.random(1,5) > 1 then
+	    return
+	 end
 	 if def.on_burn then
 	    def.on_burn(pos)
 	 elseif minetest.get_item_group(flammable_node.name, "tree") >= 1
