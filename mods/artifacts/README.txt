@@ -37,3 +37,4 @@ Authors of media (textures)
 Unless stated, Dokimi (CC BY-SA 3.0)
 
 mapping_kit.png, TumeniNodes & paramat (CC BY-SA 3.0)
+airboat_door_locked.wav, "robotic" sound pack, Lee Barkovich (CC-BY 3.0)

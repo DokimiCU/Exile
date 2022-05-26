@@ -46,39 +46,55 @@ function airboat.on_rightclick(self, clicker)
 	local name = clicker:get_player_name()
 	local pos = clicker:get_pos()
 	if self.driver and name == self.driver then
-		-- Detach
-		self.driver = nil
-		self.auto = false
-		clicker:set_detach()
-		player_api.player_attached[name] = false
-		minetest.after(0.2, function()
-			player_api.set_animation(clicker, "stand" , 30)
-			clicker:set_eye_offset({x = 0, y = 0, z = 0}, {x = 0, y = 0, z = 0})
-		end)
-		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-		minetest.after(0.1, function()
-			clicker:set_pos(pos)
-		end)
+	   local node local height = 0 local tgt = pos
+	   repeat
+	      tgt = vector.add(tgt, vector.new(0, -1, 0))
+	      height = height + 1
+	      node = minetest.get_node(tgt)
+	   until minetest.registered_nodes[node.name].walkable == true
+					   or height > 5
+	   if height > 5 then
+	      minetest.sound_play("artifacts_airboat_doorlocked", {pos = pos, gain = 1, max_hear_distance = 6})
+	      return
+	   end
+	   -- Detach
+	   self.driver = nil
+	   self.auto = false
+	   clicker:set_detach()
+	   player_api.player_attached[name] = false
+	   minetest.after(0.2, function()
+			     player_api.set_animation(clicker, "stand" , 30)
+			     clicker:set_eye_offset({x = 0, y = 0, z = 0},
+				{x = 0, y = 0, z = 0})
+	   end)
+	   minetest.sound_play("artifacts_airboat_gear",
+			       {pos = pos, gain = 1, max_hear_distance = 6})
+	   minetest.after(0.1, function()
+			     clicker:set_pos(pos)
+	   end)
 	elseif not self.driver then
-		-- Attach
-		local attach = clicker:get_attach()
-		if attach and attach:get_luaentity() then
-			local luaentity = attach:get_luaentity()
-			if luaentity.driver then
-				luaentity.driver = nil
-			end
-			clicker:set_detach()
-		end
-		self.driver = name
-		clicker:set_attach(self.object, "",
-			{x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
-		player_api.player_attached[name] = true
-		minetest.after(0.2, function()
-			player_api.set_animation(clicker, "sit" , 30)
-			clicker:set_eye_offset({x = 0, y = -12, z = 0}, {x = 0, y = 0, z = 0})
-		end)
-		minetest.sound_play("artifacts_airboat_gear", {pos = pos, gain = 1, max_hear_distance = 6})
-		clicker:set_look_horizontal(self.object:get_yaw())
+	   -- Attach
+	   local attach = clicker:get_attach()
+	   if attach and attach:get_luaentity() then
+	      local luaentity = attach:get_luaentity()
+	      if luaentity.driver then
+		 luaentity.driver = nil
+	      end
+	      clicker:set_detach()
+	   end
+	   self.driver = name
+	   clicker:set_attach(self.object, "",
+			      {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
+	   player_api.player_attached[name] = true
+	   minetest.after(0.2, function()
+			     player_api.set_animation(clicker, "sit" , 30)
+			     clicker:set_eye_offset(
+				{x = 0, y = -12, z = 0},
+				{x = 0, y = 0, z = 0})
+	   end)
+	   minetest.sound_play("artifacts_airboat_gear",
+			       {pos = pos, gain = 1, max_hear_distance = 6})
+	   clicker:set_look_horizontal(self.object:get_yaw())
 	end
 end
 
