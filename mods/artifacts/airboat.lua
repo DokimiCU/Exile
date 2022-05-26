@@ -14,28 +14,15 @@ local function get_sign(i)
 end
 
 
-local function get_velocity(v, yaw, y, vx)
-	local x = -math.sin(yaw) * v + -math.sin(yaw - 1.57) * vx
-	local z =  math.cos(yaw) * v + math.cos(yaw - 1.57) * vx
-	return {x = x, y = y, z = z}
-end
-
-
-local function get_v(v)
-	return math.sqrt(v.x ^ 2 + v.z ^ 2)
-end
-
-
-
-
 
 -- Airboat entity
 
 local airboat = {
 		initial_properties = {
 		physical = true,
-		collide_with_objects = false, -- Workaround fix for a MT engine bug
-		collisionbox = {-0.9, 0.3, -0.9, 0.9, 1.7, 0.9},
+		collide_with_objects = true,
+		selectionbox = {-0.9, 0.5, -0.9, 0.9, 1.7, 0.9},
+		collisionbox = {-1.4, -1.2, -1.4, 1.4, 2, 1.4},
 		visual = "wielditem",
 		visual_size = {x = 2.0, y = 2.0}, -- Scale up of nodebox is these * 1.5
 		textures = {"artifacts:airboat_nodebox"},
@@ -145,11 +132,23 @@ local function limit_and_reduce(vec, cap, decay)
    return vec
 end
 
+local steplimit = 0
 function airboat.on_step(self, dtime)
-	local velocity = self.object:get_velocity()
-	self.v = get_v(velocity) * get_sign(self.v)
-	--#TODO: calculate vz/vx from current velocity
-	self.vy = velocity.y
+	steplimit = steplimit + dtime
+	if not minetest.is_singleplayer and steplimit < 0.4 then
+	   return
+	end
+	steplimit = 0
+	local lyaw = self.object:get_yaw()
+	local lvelocity = vector.rotate_around_axis(
+	   self.object:get_velocity(),
+	   {x=0, y=1, z=0},
+	   lyaw * -1)
+	local accel = vector.new()
+	--Using three digits of precision
+	self.v = math.floor(lvelocity.z * 1000) / 1000 -- forward speed
+	self.vx = math.floor(lvelocity.x * 1000) / 1000 -- lateral speed
+	self.vy = math.floor(lvelocity.y * 1000) / 1000 -- vertical speed
 	local pos = self.object:get_pos()
 
 	-- Controls
@@ -178,7 +177,7 @@ function airboat.on_step(self, dtime)
 	      end
 	      if ctrl.left then
 		 if ctrl.aux1 then
-		    self.vx = self.vx - 0.2
+		    self.vx = self.vx + -0.2
 		 else
 		    self.rot = self.rot + 0.005
 		 end
@@ -215,29 +214,26 @@ function airboat.on_step(self, dtime)
 		return
 	end
 
-	-- Reduction and limiting of linear speed
-	self.v = limit_and_reduce(self.v, 4, 0.02)
-
 	-- Reduction and limiting of rotation
 	self.rot = limit_and_reduce(self.rot, 0.015, 0.0003)
-
-	-- Reduction and limiting of vertical speed
+	-- Reduction and limiting of speed: forward, vertical, lateral
+	self.v  = limit_and_reduce(self.v,  4, 0.02)
 	self.vy = limit_and_reduce(self.vy, 2, 0.03)
-	self.vx = limit_and_reduce(self.vx, 1, 0.1)
+	self.vx = limit_and_reduce(self.vx, 2, 0.03)
 
-	local new_acce = {x = 0, y = 0, z = 0}
 	-- Bouyancy in liquids
 	local p = self.object:get_pos()
 	p.y = p.y - 1.5
 	local def = minetest.registered_nodes[minetest.get_node(p).name]
 	if def and (def.liquidtype == "source" or def.liquidtype == "flowing") then
-		new_acce = {x = 0, y = 10, z = 0}
+	   accel = vector.add(accel, {x = 0, y = 10, z = 0})
 	end
+	local newvec = vector.rotate_around_axis(
+	   vector.new(self.vx, self.vy, self.v), { x = 0, y = 1, z = 0 }, lyaw)
 
-	self.object:set_pos(self.object:get_pos())
-	self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.vy, self.vx))
-	self.object:set_acceleration(new_acce)
-	self.object:set_yaw(self.object:get_yaw() + (1 + dtime) * self.rot)
+	self.object:set_velocity(newvec)
+	self.object:set_acceleration(accel)
+	self.object:set_yaw(lyaw + (1 + dtime) * self.rot)
 end
 
 
