@@ -22,7 +22,7 @@ local airboat = {
 		physical = true,
 		collide_with_objects = true,
 		selectionbox = {-0.9, 0.5, -0.9, 0.9, 1.7, 0.9},
-		collisionbox = {-1.4, -1.2, -1.4, 1.4, 2, 1.4},
+		collisionbox = {-1.4, -2, -1.4, 1.4, 2, 1.4},
 		visual = "wielditem",
 		visual_size = {x = 2.0, y = 2.0}, -- Scale up of nodebox is these * 1.5
 		textures = {"artifacts:airboat_nodebox"},
@@ -244,10 +244,11 @@ function airboat.on_step(self, dtime)
 	if def and (def.liquidtype == "source" or def.liquidtype == "flowing") then
 	   accel = vector.add(accel, {x = 0, y = 10, z = 0})
 	end
-	local newvec = vector.rotate_around_axis(
-	   vector.new(self.vx, self.vy, self.v), { x = 0, y = 1, z = 0 }, lyaw)
-
-	self.object:set_velocity(newvec)
+	local newvec = vector.subtract(vector.new(self.vx, self.vy, self.v),
+				       lvelocity)
+	newvec = vector.rotate_around_axis(newvec,
+					   { x = 0, y = 1, z = 0 }, lyaw)
+	self.object:add_velocity(newvec)
 	self.object:set_acceleration(accel)
 	self.object:set_yaw(lyaw + (1 + dtime) * self.rot)
 end
