@@ -344,7 +344,6 @@ crafting.register_recipe({
 })
 
 
-
 ----Wattle from sticks
 crafting.register_recipe({
 	type = "crafting_spot",
@@ -430,6 +429,15 @@ crafting.register_recipe({
 	type = "weaving_frame",
 	output = "tech:thatch",
 	items = {"group:fibrous_plant 8"},
+	level = 1,
+	always_known = true,
+})
+
+----Wicker basket from sticks
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:wicker_storage_basket",
+	items = {"tech:stick 96"},
 	level = 1,
 	always_known = true,
 })

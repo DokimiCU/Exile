@@ -7,6 +7,16 @@ local S = tech.S
 
 
 
+-----------------------------------------------------------
+--primitive_wooden_chest -- see storage
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:primitive_wooden_chest",
+	items = {'group:log 4'},
+	level = 1,
+	always_known = true,
+})
+
 
 -----------------------------------------------------------
 --Wooden Water pot
