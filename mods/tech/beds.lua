@@ -87,7 +87,8 @@ bed_rest.register_bed("tech:sleeping_mat", {
 	},
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, -0.4, 1.5},
 	sounds =  nodes_nature.node_sound_leaves_defaults(),
-	groups = {snappy = 3, dig_immediate = 3, flammable = 3, bed = 1, temp_pass = 1},
+	groups = {snappy = 3, dig_immediate = 3, flammable = 3, bed = 1,
+		  temp_pass = 1, fall_damage_add_percent = -5},
 	bed_level = 1,
 })
 
@@ -121,7 +122,8 @@ bed_rest.register_bed("tech:primitive_bed", {
 		top = {-0.5, -0.5, -0.5, 0.5, 0.06, 0.5},
 	},
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.06, 1.5},
-	groups = {choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, bed = 1, temp_pass = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 3, flammable = 3,
+		  bed = 1, temp_pass = 1, fall_damage_add_percent = -20},
 	sounds =  nodes_nature.node_sound_wood_defaults(),
 	bed_level = 2,
 })
@@ -163,7 +165,8 @@ bed_rest.register_bed("tech:mattress", {
 	},
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, -0.3, 1.5},
 	sounds =  nodes_nature.node_sound_leaves_defaults(),
-	groups = {snappy = 3, dig_immediate = 3, flammable = 3, bed = 1, temp_pass = 1},
+	groups = {snappy = 3, dig_immediate = 3, flammable = 3,
+		  bed = 1, temp_pass = 1, fall_damage_add_percent = -35},
 	bed_level = 2,
 })
 
@@ -198,7 +201,8 @@ bed_rest.register_bed("tech:bed", {
 		top = {-0.5, -0.5, -0.5, 0.5, 0.06, 0.5},
 	},
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.06, 1.5},
-	groups = {choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, bed = 1, temp_pass = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 3, flammable = 3,
+		  bed = 1, temp_pass = 1, fall_damage_add_percent = -35},
 	sounds =  nodes_nature.node_sound_wood_defaults(),
 	bed_level = 3,
 })
