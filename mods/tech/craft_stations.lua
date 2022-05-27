@@ -192,6 +192,10 @@ minetest.register_node("tech:threshing_spot", {
 	sounds            = nodes_nature.node_sound_wood_defaults(),
 	sunlight_propagates = true,
 	on_rightclick     = crafting.make_on_rightclick("threshing_spot", 2, { x = 8, y = 3 }),
+  on_place = function(itemstack, placer, pointed_thing)
+		 return on_place_loclim_spot(itemstack, placer, pointed_thing, {},
+		  {}, "dry ground", {{'puts_out_fire', 1}}, {})
+	end,
 	on_punch          = function(pos, node, player)
 		minetest.remove_node(pos)
 		end
