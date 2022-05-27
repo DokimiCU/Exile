@@ -23,18 +23,6 @@ local function get_sign(i)
 end
 
 
-local function get_velocity(v, yaw, y)
-	local x = -math.sin(yaw) * v
-	local z =  math.cos(yaw) * v
-	return {x = x, y = y, z = z}
-end
-
-
-local function get_v(v)
-	return math.sqrt(v.x ^ 2 + v.z ^ 2)
-end
-
-
 --
 -- canoe entity
 --
@@ -148,10 +136,37 @@ function canoe.on_punch(self, puncher)
 	end
 end
 
+local function limit_and_reduce(vec, cap, decay)
+   local s = get_sign(vec)
+   vec = vec - decay * s
+   if s ~= get_sign(vec) then
+      vec = 0
+   end
+   if math.abs(vec) > cap then
+      vec = cap * get_sign(vec)
+   end
+   return vec
+end
 
+
+local steplimit = 0
 function canoe.on_step(self, dtime)
-	self.v = get_v(self.object:get_velocity()) * get_sign(self.v)
+	steplimit = steplimit + dtime
+	if not minetest.is_singleplayer()
+	   and steplimit < 0.2 then
+	   return
+	end
+	dtime = dtime + steplimit
+	steplimit = 0
+	local lyaw = self.object:get_yaw()
+	local lvelocity = vector.rotate_around_axis(
+	   self.object:get_velocity(),
+	   {x=0, y=1, z=0},
+	   lyaw * -1)
 	local pos = self.object:get_pos()
+	--Using three digits of precision
+	self.v = math.floor(lvelocity.z * 1000) / 1000 -- forward speed
+	self.y = math.floor(lvelocity.y * 1000) / 1000 -- vertical speed
 	--paddle canoe
 	if self.driver then
 		local driver_objref = minetest.get_player_by_name(self.driver)
@@ -187,66 +202,53 @@ function canoe.on_step(self, dtime)
 		end
 	end
 
-	local velo = self.object:get_velocity()
-	if self.v == 0 and velo.x == 0 and velo.y == 0 and velo.z == 0 then
-		self.object:set_pos(self.object:get_pos())
+	self.v = limit_and_reduce(self.v, 5, dtime * 0.3)
+	--self.v = self.v - dtime * 0.6 * s
+
+	--early return if motionless
+	if self.v == 0 and lvelocity.x == 0
+	   and lvelocity.y == 0 and lvelocity.x == 0 then
 		return
 	end
 
-	local s = get_sign(self.v)
-	self.v = self.v - dtime * 0.6 * s
-	if s ~= get_sign(self.v) then
-		self.object:set_velocity({x = 0, y = 0, z = 0})
-		self.v = 0
-		return
-	end
-	if math.abs(self.v) > 5 then
-		self.v = 5 * get_sign(self.v)
+	local below = vector.new(pos.x, pos.y - 0.5, pos.z)
+	local above = vector.new(pos.x, pos.y + 0.5, pos.z)
+	local new_acce
+	if is_water(above) then -- water over us
+	   if self.y < 0 then -- rise hard if falling
+	      new_acce = {x = 0, y = 10, z = 0}
+	   else
+	      new_acce = {x = 0, y = 4, z = 0}
+	   end
+	elseif is_water(below) then -- we're on the surface
+	   new_acce = {x = 0, y = 0, z = 0}
+
+	   if math.abs(self.y) < 1
+	      and pos.y - 0.5 > math.floor(pos.y - 0.5) then
+	      pos.y = math.floor(pos.y + 1) - 0.5
+	      self.object:set_pos(pos)
+	   end
+	   self.y = 0
+	else -- no water below either
+	   local nodedef = minetest.registered_nodes[minetest.get_node(below).name]
+	   if (not nodedef) or nodedef.walkable then
+	      --beached, stop
+	      self.v = 0
+	      new_acce = {x = 0, y = 0, z = 0}
+	   else
+	      --out of water, begin falling
+	      new_acce = {x = 0, y = -9.8, z = 0}
+	   end
 	end
 
-	local p = self.object:get_pos()
-	p.y = p.y - 0.5
-	local new_velo
-	local new_acce = {x = 0, y = 0, z = 0}
-	if not is_water(p) then
-		local nodedef = minetest.registered_nodes[minetest.get_node(p).name]
-		if (not nodedef) or nodedef.walkable then
-			self.v = 0
-			new_acce = {x = 0, y = 1, z = 0}
-		else
-			new_acce = {x = 0, y = -9.8, z = 0}
-		end
-		new_velo = get_velocity(self.v, self.object:get_yaw(),
-			self.object:get_velocity().y)
-		self.object:set_pos(self.object:get_pos())
-	else
-		p.y = p.y + 1
-		if is_water(p) then
-			local y = self.object:get_velocity().y
-			if y >= 4 then
-				y = 4
-			elseif y < 0 then
-				new_acce = {x = 0, y = 10, z = 0}
-			else
-				new_acce = {x = 0, y = 4, z = 0}
-			end
-			new_velo = get_velocity(self.v, self.object:get_yaw(), y)
-			self.object:set_pos(self.object:get_pos())
-		else
-			new_acce = {x = 0, y = 0, z = 0}
-			if math.abs(self.object:get_velocity().y) < 1 then
-				local pos = self.object:get_pos()
-				pos.y = math.floor(pos.y) + 0.5
-				self.object:set_pos(pos)
-				new_velo = get_velocity(self.v, self.object:get_yaw(), 0)
-			else
-				new_velo = get_velocity(self.v, self.object:get_yaw(),
-					self.object:get_velocity().y)
-				self.object:set_pos(self.object:get_pos())
-			end
-		end
-	end
-	self.object:set_velocity(new_velo)
+	local new_velo = vector.subtract(
+	   vector.new(0, self.y, self.v),
+	   lvelocity)
+	new_velo = vector.rotate_around_axis(
+	   new_velo,
+	   { x = 0, y = 1, z = 0},
+	   lyaw)
+	self.object:add_velocity(new_velo)
 	self.object:set_acceleration(new_acce)
 end
 
