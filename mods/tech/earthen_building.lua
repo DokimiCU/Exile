@@ -221,7 +221,7 @@ local function wdf_connect_to_door(pos)
 	 if dnode.param2 == 0 then pnode.param2 = 18 end
 	 if dnode.param2 == 3 then pnode.param2 = 9  end
 	 if dnode.param2 == 1 then pnode.param2 = 7  end
-      end   
+      end
    minetest.swap_node(pos, {name = "tech:wattle_door_frame",
 			   param1 = pnode.param1,
 			   param2 = pnode.param2})
@@ -316,21 +316,17 @@ crafting.register_recipe({
 })
 
 
-----mudbrick from clay + sand and fibre
---(other recipes could be done also, but limit it for simplicity)
+----mudbrick from clay and fibre
 crafting.register_recipe({
-	--type = "crafting_spot",
 	type = "brick_makers_bench",
 	output = "tech:mudbrick 4",
-	items = {"nodes_nature:clay_wet 3", "nodes_nature:sand_wet", "group:fibrous_plant"},
-	--items = {"nodes_nature:clay", "nodes_nature:sand_wet", "group:fibrous_plant"},
+	items = {"nodes_nature:clay_wet 4", "group:fibrous_plant"},
 	level = 1,
 	always_known = true,
 })
 
 ----Rammed earth by compacting clay
 crafting.register_recipe({
-	--type = "crafting_spot",
 	type = "brick_makers_bench",
 	output = "tech:rammed_earth",
 	items = {"nodes_nature:clay 2"},
