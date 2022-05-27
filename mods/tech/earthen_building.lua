@@ -441,3 +441,12 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
+
+----woven basket from fibrous_plant
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:woven_storage_basket",
+	items = {"group:fibrous_plant 96"},
+	level = 1,
+	always_known = true,
+})
