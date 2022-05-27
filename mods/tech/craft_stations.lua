@@ -35,6 +35,7 @@ local on_place_loclim_spot = function(itemstack, placer, pointed_thing, grouplis
    local ground = minetest.get_node(pointed_thing.under)
 	 local above = minetest.get_node(pointed_thing.above)
 
+
 	 --check lists to see if it's a valid substrate
 	 local valid = false
 	 local vcheck = false
