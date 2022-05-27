@@ -150,10 +150,8 @@ local function pot_cook(pos, elapsed)
       if baking <= 0 then
 	 local firstingr = inv[1]:get_description()
 	 if firstingr then
-	    print("before: ",firstingr)
 	    firstingr = firstingr:gsub(" %(uncooked%)","")
 	    firstingr = firstingr.." "
-	    print("after : ",firstingr)
 	 end
 	 for i = 1, #inv do
 	    inv[i]:clear()
