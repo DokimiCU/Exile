@@ -278,7 +278,7 @@ minetest.register_node('tech:thatch', {
 stairs.register_stair_and_slab(
 	"thatch",
 	"tech:thatch",
-	"mixing_spot",
+	"weaving_frame",
 	"true",
 	{snappy=3, flammable=1, fall_damage_add_percent = -15},
 	{"tech_thatch.png"},
@@ -427,7 +427,7 @@ crafting.register_recipe({
 
 ----Thatch from  fibre
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "tech:thatch",
 	items = {"group:fibrous_plant 8"},
 	level = 1,
