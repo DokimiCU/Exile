@@ -31,7 +31,7 @@ crafting.register_type("glass_furnace")
 -- grouplist/banlistg {{group1, group_number}, {'stone', 1}}
 -- blocklist/banlistn {node_name, 'nodes_nature:sandstone'}
 -- msg string "stone or sandstone"
-local on_place_loclim_spot = function(itemstack, placer, pointed_thing, grouplist, blocklist, msg, banlistg, banlistn)
+local function on_place_loclim_spot(itemstack, placer, pointed_thing, grouplist, blocklist, msg, banlistg, banlistn)
    local ground = minetest.get_node(pointed_thing.under)
 	 local above = minetest.get_node(pointed_thing.above)
 
@@ -294,6 +294,40 @@ minetest.register_node("tech:hammering_block",{
 		minetest.remove_node(pos)
 	end
 	})
+
+
+------------------------------
+--Tool based
+--chopping_block (stone knife/adze/axe)
+-- To do... but fiddly...
+-- placing tool down creates the crafting spot,
+-- carry around the tool, not the lump of wood.
+-- better tool opens up more crafts
+
+--chopping_block --crude wood crafts,
+minetest.register_node("tech:chopping_block", {
+	description   = S("Chopping Block"),
+	tiles         = {
+		"tech_chopping_block_top.png",
+		"tech_chopping_block_top.png",
+		"tech_chopping_block.png",
+		"tech_chopping_block.png",
+		"tech_chopping_block.png",
+		"tech_chopping_block.png",
+		},
+	drawtype      = "nodebox",
+	node_box      = {
+		type  = "fixed",
+		fixed = {-0.43, -0.5, -0.43, 0.43, 0.38, 0.43},
+		},
+	stack_max     = minimal.stack_max_bulky,
+	paramtype     = "light",
+	groups        = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+	sounds        = nodes_nature.node_sound_wood_defaults(),
+	on_rightclick = crafting.make_on_rightclick("chopping_block", 2, { x = 8, y = 3 }),
+	after_place_node = minimal.protection_after_place_node,
+	})
+
 ------------------------------
 --mortar and pestle.
 --for grinding food etc
@@ -369,31 +403,8 @@ minetest.register_node("tech:mortar_pestle_limestone",{
 	on_rightclick = crafting.make_on_rightclick("mortar_and_pestle", 2, { x = 8, y = 3 }),
 	after_place_node = minimal.protection_after_place_node,
 	})
---chopping_block --crude wood crafts,
-minetest.register_node("tech:chopping_block", {
-	description   = S("Chopping Block"),
-	tiles         = {
-		"tech_chopping_block_top.png",
-		"tech_chopping_block_top.png",
-		"tech_chopping_block.png",
-		"tech_chopping_block.png",
-		"tech_chopping_block.png",
-		"tech_chopping_block.png",
-		},
-	drawtype      = "nodebox",
-	node_box      = {
-		type  = "fixed",
-		fixed = {-0.43, -0.5, -0.43, 0.43, 0.38, 0.43},
-		},
-	stack_max     = minimal.stack_max_bulky,
-	paramtype     = "light",
-	groups        = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
-	sounds        = nodes_nature.node_sound_wood_defaults(),
-	on_rightclick = crafting.make_on_rightclick("chopping_block", 2, { x = 8, y = 3 }),
-	after_place_node = minimal.protection_after_place_node,
-	})
 -------------------
---3rd Level. --metal working, and things dependant on it
+--metal working, and things dependant on it
 minetest.register_node("tech:anvil", { --anvil--metal  working
 	description   = S("Anvil"),
 	tiles         = {"tech_iron.png"},
