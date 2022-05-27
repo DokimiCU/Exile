@@ -3,6 +3,10 @@ local random = math.random
 player_api = player_api
 creative = creative
 
+local store = minetest.get_mod_storage()
+local saved_airboats = minetest.deserialize(store:get_string("savedab"), true)
+   or {}
+
 -- Functions
 
 local function get_sign(i)
@@ -12,8 +16,6 @@ local function get_sign(i)
 		return i / math.abs(i)
 	end
 end
-
-
 
 -- Airboat entity
 
@@ -31,6 +33,7 @@ local airboat = {
 	-- Custom fields
 	driver = nil,
 	removed = false,
+	redundant = false,
 	v = 0,
 	vx = 0,
 	vy = 0,
@@ -38,6 +41,29 @@ local airboat = {
 	auto = false,
 }
 
+function airboat.attach (self, player, pname)
+   local attach = player:get_attach()
+   if attach and attach:get_luaentity() then
+      local luaentity = attach:get_luaentity()
+      if luaentity.driver then
+	 luaentity.driver = nil
+      end
+      player:set_detach()
+   end
+   self.driver = pname or player:get_name()
+   player:set_attach(self.object, "",
+		     {x = 0, y = -9, z = -2}, {x = 0, y = 0, z = 0})
+   player_api.player_attached[pname] = true
+   minetest.after(0.2, function()
+		     player_api.set_animation(player, "sit" , 30)
+		     player:set_eye_offset(
+			{x = 0, y = -12, z = 0},
+			{x = 0, y = 0, z = 0})
+   end)
+   minetest.sound_play("artifacts_airboat_gear",
+		       {pos = self.pos, gain = 1, max_hear_distance = 6})
+   player:set_look_horizontal(self.object:get_yaw())
+end
 
 function airboat.on_rightclick(self, clicker)
 	if not clicker or not clicker:is_player() then
@@ -73,36 +99,9 @@ function airboat.on_rightclick(self, clicker)
 			     clicker:set_pos(pos)
 	   end)
 	elseif not self.driver then
-	   -- Attach
-	   local attach = clicker:get_attach()
-	   if attach and attach:get_luaentity() then
-	      local luaentity = attach:get_luaentity()
-	      if luaentity.driver then
-		 luaentity.driver = nil
-	      end
-	      clicker:set_detach()
-	   end
-	   self.driver = name
-	   clicker:set_attach(self.object, "",
-			      {x = 0, y = -8, z = 0}, {x = 0, y = 0, z = 0})
-	   player_api.player_attached[name] = true
-	   minetest.after(0.2, function()
-			     player_api.set_animation(clicker, "sit" , 30)
-			     clicker:set_eye_offset(
-				{x = 0, y = -12, z = 0},
-				{x = 0, y = 0, z = 0})
-	   end)
-	   minetest.sound_play("artifacts_airboat_gear",
-			       {pos = pos, gain = 1, max_hear_distance = 6})
-	   clicker:set_look_horizontal(self.object:get_yaw())
+	   self:attach(clicker, name)
 	end
 end
-
-
-function airboat.on_activate(self, staticdata, dtime_s)
-	self.object:set_armor_groups({immortal = 1})
-end
-
 
 function airboat.on_punch(self, puncher)
 	if not puncher or not puncher:is_player() or self.removed then
@@ -155,6 +154,14 @@ function airboat.on_step(self, dtime)
 	   return
 	end
 	steplimit = 0
+	if self.redundant == true then
+	   if self.driver == nil then
+	      self.object:remove()
+	   else
+	      self.redundant = false
+	   end
+	   return
+	end
 	local lyaw = self.object:get_yaw()
 	local lvelocity = vector.rotate_around_axis(
 	   self.object:get_velocity(),
@@ -213,14 +220,11 @@ function airboat.on_step(self, dtime)
 		 self.vy = self.vy - 0.06
 		 clonk(pos)
 	      end
-	   else
-	      -- Player left server while driving
-	      -- In MT 5.0.0 use 'airboat:on_detach_child()' to do this
-	      self.driver = nil
-	      self.auto = false
-	      minetest.log("warning", "[airboat] Driver left server while" ..
-			   " driving. This may cause some 'Pushing ObjectRef to" ..
-			   " removed/deactivated object' warnings.")
+	   else -- has a driver but no driver object, driver has been lost
+	      minetest.log("action","An airboat at "..pos.x.."/"..pos.y.."/"..
+			   pos.z.." has lost its driver due to crash or "..
+			   "disconnect, removing it.")
+	      self:on_detach_child()
 	   end
 	end
 
@@ -303,6 +307,41 @@ minetest.register_craftitem("artifacts:airboat", {
 	end,
 })
 
+function airboat.on_activate(self, staticdata, dtime_s)
+   local mypos = self.object:get_pos()
+   if mypos and saved_airboats then
+      mypos = vector.floor(mypos)
+      for _, data in pairs(saved_airboats) do
+	 if mypos == vector.floor(data[1]) then
+	    self.redundant = true
+	 end
+      end
+   end
+   self.object:set_armor_groups({immortal = 1})
+end
+
+function airboat.on_detach_child(self, child)
+   print("on_detach")
+   if self.driver then -- player was disconnected while inside
+      saved_airboats[self.driver] = { self.object:get_pos(),
+				      self.object:get_yaw() }
+      self.object:remove()
+      store:set_string("savedab",minetest.serialize(saved_airboats))
+   else
+      self.driver = nil
+      self.auto = false
+   end
+end
+
+function airboat.on_deactivate(self) -- server shutting down??
+   if not self.driver then
+      return
+   end
+   saved_airboats[self.driver] = { self.object:get_pos(),
+				   self.object:get_yaw() }
+   store:set_string("savedab",minetest.serialize(saved_airboats))
+end
+
 
 -- Nodebox for entity wielditem visual
 
@@ -333,3 +372,23 @@ minetest.register_node("artifacts:airboat_nodebox", {
 	},
 	groups = {not_in_creative_inventory = 1},
 })
+
+minetest.register_on_joinplayer(function(player)
+      local plname = player:get_player_name()
+      if saved_airboats and saved_airboats[plname] then
+	 local pos = saved_airboats[plname][1]
+	 local yaw = saved_airboats[plname][2]
+	 local air_boat = minetest.add_entity(pos,
+					      "artifacts:airboat")
+	 if air_boat then
+	       air_boat:set_yaw(yaw)
+	       local ab = air_boat:get_luaentity()
+	       ab:attach(player, plname)
+	 end
+	 minetest.after(5, function()
+			   saved_airboats[plname] = nil
+			   store:set_string("savedab",
+					    minetest.serialize(saved_airboats))
+	 end)
+      end
+end)
