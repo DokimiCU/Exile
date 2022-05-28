@@ -50,7 +50,7 @@ minetest.register_node('tech:mudbrick', {
 stairs.register_stair_and_slab(
 	"mudbrick",
 	"tech:mudbrick",
-	"mixing_spot",
+	"brick_makers_bench",
 	"true",
 	{crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1},
 	{"tech_mudbrick.png"},
@@ -83,7 +83,7 @@ minetest.register_node('tech:rammed_earth', {
 stairs.register_stair_and_slab(
 	"rammed_earth",
 	"tech:rammed_earth",
-	"mixing_spot",
+	"brick_makers_bench",
 	"true",
 	{crumbly = 1, cracky = 3, falling_node = 1},
 	{
@@ -319,8 +319,8 @@ crafting.register_recipe({
 ----mudbrick from clay and fibre
 crafting.register_recipe({
 	type = "brick_makers_bench",
-	output = "tech:mudbrick 4",
-	items = {"nodes_nature:clay_wet 4", "group:fibrous_plant"},
+	output = "tech:mudbrick",
+	items = {"nodes_nature:clay_wet", "group:fibrous_plant"},
 	level = 1,
 	always_known = true,
 })
