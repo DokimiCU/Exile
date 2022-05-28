@@ -1,5 +1,15 @@
 # Changelog:
 
+## [2022-05-28][2022-05-28__0.3.7] — 0.3.7 and 0.2.10
+- balance: limited fire spread for multiplayer
+  - many airboat improvements, including strafe movement with AUX1
+  - Haze overlay warns of extreme heat
+  - animal probes to watch the health and age of livestock
+  - underwater plants spread and replenish
+  - beds and thatch reduce fall damage
+  - some valuable nodes have protection in multiplayer
+  - beginnings of i18n French translation, early translation support
+
 ## [2022-04-16][2022-04-16__0.3.6] — 0.3.6 and 0.2.9
  - Craftable dyes, made from randomly selected plants
  - Wielded_light replaces Illumination mod
