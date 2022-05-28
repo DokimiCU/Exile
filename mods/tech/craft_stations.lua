@@ -90,7 +90,7 @@ local function on_place_loclim_spot(itemstack, placer, pointed_thing, grouplist,
 
 	--block invalid
 	if banned == true
-	or above.name ~= "air"
+	--or above.name ~= "air"
 	or (vcheck == true and valid == false) then
 
 		minetest.chat_send_player(placer:get_player_name(),
