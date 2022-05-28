@@ -646,21 +646,21 @@ crafting.register_recipe({ --hammering block for free (location limited)
 crafting.register_recipe({
 	type   = "grinding_stone",
 	output = "tech:mortar_pestle_basalt",
-	items  = {'nodes_nature:basalt_boulder 2', 'nodes_nature:sand 2'},
+	items  = {'nodes_nature:basalt_boulder 2', 'nodes_nature:sand'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({
 	type   = "grinding_stone",
 	output = "tech:mortar_pestle_granite",
-	items  = {'nodes_nature:granite_boulder 2', 'nodes_nature:sand 2'},
+	items  = {'nodes_nature:granite_boulder 2', 'nodes_nature:sand'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({
 	type   = "grinding_stone",
 	output = "tech:mortar_pestle_limestone",
-	items  = {'nodes_nature:limestone_boulder 2', 'nodes_nature:sand 2'},
+	items  = {'nodes_nature:limestone_boulder 2', 'nodes_nature:sand'},
 	level  = 1,
 	always_known = true,
 	})

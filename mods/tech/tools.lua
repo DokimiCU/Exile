@@ -413,7 +413,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:adze_granite",
-	items = {'nodes_nature:granite_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand 2'},
+	items = {'nodes_nature:granite_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand'},
 	level = 1,
 	always_known = true,
 })
@@ -421,7 +421,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:adze_jade",
-	items = {'nodes_nature:jade_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand 2'},
+	items = {'nodes_nature:jade_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand'},
 	level = 1,
 	always_known = true,
 })
@@ -429,7 +429,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:adze_basalt",
-	items = {'nodes_nature:basalt_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand 2'},
+	items = {'nodes_nature:basalt_boulder', 'tech:stick', 'group:fibrous_plant 4', 'nodes_nature:sand'},
 	level = 1,
 	always_known = true,
 })
@@ -439,7 +439,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type = "grinding_stone",
 	output = "tech:stone_club",
-	items = {'nodes_nature:granite_boulder', 'nodes_nature:sand 2'},
+	items = {'nodes_nature:granite_boulder', 'nodes_nature:sand'},
 	level = 1,
 	always_known = true,
 })
