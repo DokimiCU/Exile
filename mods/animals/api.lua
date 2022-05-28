@@ -13,6 +13,8 @@ local pow = math.pow
 
 local max_objects = 30
 
+animals = animals
+mobkit = mobkit
 
 --------------------------------------------------------------------------
 --basic
@@ -132,6 +134,9 @@ function animals.core_life(self, lifespan, pos)
     if temp < self.min_temp or temp > self.max_temp then
       energy = energy - 6
     end
+    if temp > self.max_temp * 4 then
+       mobkit.hurt(self,2)
+    end
   end
 
 
@@ -174,7 +179,9 @@ end
 --release offspring from an egg (called from timers)
 function animals.hatch_egg(pos, medium_name, replace_name, name, energy_egg, young_per_egg)
 
-  local air = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {medium_name})
+   local air = minetest.find_nodes_in_area(
+      {x=pos.x-1, y=pos.y-1, z=pos.z-1},
+      {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {medium_name})
   --if can't find the stuff this mob moves through then it dies
 	if #air < 1 then
 		minetest.set_node(pos, {name = replace_name})
@@ -210,19 +217,18 @@ end
 --roam to places with equal or lesser darkness
 function animals.hq_roam_dark(self,prty)
   local timer = time() + 30
-
-	local func=function(self)
+  local func=function(self)
     if time() > timer then
       return true
     end
 
-		if mobkit.is_queue_empty_low(self) and self.isonground then
-			local pos = mobkit.get_stand_pos(self)
-			local neighbor = random(8)
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+       local pos = mobkit.get_stand_pos(self)
+       local neighbor = random(8)
 
-			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
+       local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
 
-			if height and not liquidflag then
+       if height and not liquidflag then
        local light = minetest.get_node_light(pos, 0.5) or 0
        local lightn = minetest.get_node_light(tpos, 0.5) or 0
        if lightn <= light then
@@ -248,27 +254,27 @@ function animals.hq_roam_comfort_temp(self,prty, opt_temp)
       return true
     end
 
-		if mobkit.is_queue_empty_low(self) and self.isonground then
-			local pos = mobkit.get_stand_pos(self)
-			local neighbor = random(8)
+    if mobkit.is_queue_empty_low(self) and self.isonground then
+       local pos = mobkit.get_stand_pos(self)
+       local neighbor = random(8)
 
-			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
+       local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self,neighbor)
 
-			if height and not liquidflag then
-       local temp = climate.get_point_temp(pos)
-       local tempn = climate.get_point_temp(tpos)
-       local dif = abs(opt_temp - temp)
-       local difn = abs(opt_temp - tempn)
+       if height and not liquidflag then
+	  local temp = climate.get_point_temp(pos)
+	  local tempn = climate.get_point_temp(tpos)
+	  local dif = abs(opt_temp - temp)
+	  local difn = abs(opt_temp - tempn)
 
-       if difn <= dif then
-         mobkit.dumbstep(self,height,tpos,0.3)
-       else
-         return true
+	  if difn <= dif then
+	     mobkit.dumbstep(self,height,tpos,0.3)
+	  else
+	     return true
+	  end
        end
-     end
-		end
-	end
-	mobkit.queue_high(self,func,prty)
+    end
+  end
+  mobkit.queue_high(self,func,prty)
 end
 
 
@@ -284,12 +290,11 @@ function animals.hq_roam_surface_group(self, group, prty)
     end
 
     if mobkit.is_queue_empty_low(self) and self.isonground then
-      local pos = mobkit.get_stand_pos(self)
-			local neighbor = random(8)
+      local neighbor = random(8)
 
-			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+      local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
 
-			if height and not liquidflag then
+      if height and not liquidflag then
         --is it the correct group?
         local s_pos = tpos
         s_pos.y = s_pos.y - 1
@@ -320,12 +325,12 @@ function animals.hq_roam_walkable_group(self, group, prty)
     end
 
     if mobkit.is_queue_empty_low(self) and self.isonground then
-      local pos = mobkit.get_stand_pos(self)
-			local neighbor = random(8)
+       local neighbor = random(8)
 
-			local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(self, neighbor)
+       local height, tpos, liquidflag = mobkit.is_neighbor_node_reachable(
+	  self, neighbor)
 
-			if height and not liquidflag then
+       if height and not liquidflag then
         --is it the correct?
         local n_node = minetest.get_node(tpos).name
 
@@ -358,7 +363,7 @@ local function aqua_radar_dumb(pos,yaw,range,reverse)
          return false
        end
      else
-       local h,l = mobkit.get_terrain_height(p)
+       local h,_ = mobkit.get_terrain_height(p)
        if h then
          local node2 = mobkit.nodeatpos({x=p.x,y=h+1.99,z=p.z})
          if node2 and node2.drawtype == 'liquid' then return true, h end
@@ -381,7 +386,7 @@ local function aqua_radar_dumb(pos,yaw,range,reverse)
      ffrom, fto, fstep = 1,3,1
    end
    for i=ffrom, fto, fstep  do
-     local ok,h = okpos(mobkit.pos_translate2d(pos,yaw+i,range))
+     ok,h = okpos(mobkit.pos_translate2d(pos,yaw+i,range))
      if ok then
        return yaw+i,h
      end
@@ -788,9 +793,9 @@ function animals.hq_aqua_attack_eat(self,prty,tgtobj,speed)
 		end
 
 		local tpos = tgtobj:get_pos()
-		local tyaw=minetest.dir_to_yaw(vector.direction(pos,tpos))
+		tyaw=minetest.dir_to_yaw(vector.direction(pos,tpos))
 		mobkit.turn2yaw(self,tyaw,3)
-		local yaw = self.object:get_yaw()
+		yaw = self.object:get_yaw()
 		if mobkit.timer(self,1) then
 			if not mobkit.is_in_deep(tgtobj) then return true end
 			local vel = self.object:get_velocity()
@@ -824,11 +829,9 @@ end
 --to hit is to catch... for predators, where the chewing does the killing
 local function lq_jumpattack_eat(self,height,target)
 	local phase=1
-	local timer=0.5
 	local tgtbox = target:get_properties().collisionbox
 
 	local func=function(self)
-
 		if not mobkit.is_alive(target) then return true end
 
 		if self.isonground then
@@ -1145,9 +1148,10 @@ function animals.hq_mate(self,prty,tgtobj)
       local tpos = mobkit.get_stand_pos(tgtobj)
       local dist = vector.distance(pos,tpos)
       if dist <= self.attack.range then
+	 print("Mating!")
         mobkit.lq_idle(self,1)
         mobkit.make_sound(self,'mating')
-        if sex == male then
+        if self.sex == "male" then
           --get the other one pregnant
           mobkit.remember(tgtobj,'pregnant',true)
         else

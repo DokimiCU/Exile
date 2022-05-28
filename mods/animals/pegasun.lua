@@ -434,6 +434,7 @@ minetest.register_entity("animals:pegasun_male",{
 	prey = {"animals:sneachan", "animals:impethu"},
 	friends = {"animals:pegasun"},
 	rivals = {"animals:pegasun_male"},
+	sex = "male",
 
 	on_step = mobkit.stepfunc,
 	on_activate = mobkit.actfunc,
