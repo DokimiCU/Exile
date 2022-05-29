@@ -387,7 +387,7 @@ minetest.register_tool("tech:pickaxe_iron", {
 
 ----craft stone chopper from gravel
 crafting.register_recipe({
-	type = "grinding_stone",
+	type = "crafting_spot",
 	output = "tech:stone_chopper 1",
 	items = {"nodes_nature:gravel"},
 	level = 1,
