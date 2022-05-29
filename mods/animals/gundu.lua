@@ -67,7 +67,7 @@ local function brain(self)
 			local rival
 			if pred then
 				animals.flock(self, 21, 1, self.max_speed)
-			elseif random() <0.25 then
+			elseif random() <0.15 then
 				rival = animals.territorial_water(self, energy, false)
 			elseif random() <0.01 then
 				rival = animals.territorial_water(self, energy, true)
