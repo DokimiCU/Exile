@@ -33,12 +33,13 @@ minetest.register_node("tech:broken_pottery", {
 
 
 -------------------------------------------------------------------
-local function water_pot(pos)
+--THIS SHOULD BE MOVED somewhere GENERALIZED to handle non-pottery pots
+function water_pot(pos, pot_name)
 	local light = minetest.get_natural_light({x=pos.x, y=pos.y + 1, z=pos.z}, 0.5)
 	--collect rain
 	if light == 15 then
 		if climate.get_rain(pos, light) then
-			minetest.set_node(pos, {name = "tech:clay_water_pot_freshwater"})
+			minetest.set_node(pos, {name = pot_name.."_freshwater"})
 			return
 		end
 	else
@@ -71,7 +72,7 @@ local function water_pot(pos)
 			name_a == "nodes_nature:snow_block" or
 			name_a == "nodes_nature:freshwater_source" ) then
 			if climate.can_thaw(posa) then
-				minetest.set_node(pos, {name = "tech:clay_water_pot_freshwater"})
+				minetest.set_node(pos, {name = pot_name.."_freshwater"})
 				minetest.remove_node(posa)
 				return
 			end
@@ -118,7 +119,7 @@ minetest.register_node("tech:clay_water_pot", {
 		minetest.get_node_timer(pos):start(math.random(30,60))
 	end,
 	on_timer =function(pos, elapsed)
-		return water_pot(pos)
+		return water_pot(pos, "tech:clay_water_pot")
 	end,
 	groups = {dig_immediate = 3, pottery = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),

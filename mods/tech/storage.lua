@@ -111,6 +111,186 @@ minetest.register_node("tech:clay_storage_pot", {
 
 
 ----------------------------------------------------
+--primitive wooden chest
+minetest.register_node("tech:primitive_wooden_chest", {
+	description = S("Primitive Wooden Chest"),
+	tiles = {"tech_primitive_wood.png"},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+				{-0.375, -0.5, -0.375, 0.375, -0.375, 0.375},
+				{-0.375, 0.375, -0.375, 0.375, 0.5, 0.375},
+				{-0.4375, -0.375, -0.4375, 0.4375, -0.25, 0.4375},
+				{-0.4375, 0.25, -0.4375, 0.4375, 0.375, 0.4375},
+				{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5},
+			}
+		},
+	groups = {dig_immediate = 3},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+
+	on_construct = function(pos)
+		on_construct(pos, 8, 4)
+	end,
+
+	can_dig = function(pos, player)
+		local inv = minetest.get_meta(pos):get_inventory()
+		local name = ""
+		if player then
+			name = player:get_player_name()
+		end
+		return is_owner(pos, name) and inv:is_empty("main")
+	end,
+
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		if is_owner(pos, player:get_player_name()) then
+			return count
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name())
+		and not string.match(stack:get_name(), "backpacks:") then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name()) then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	on_blast = function(pos)
+	end,
+})
+
+----------------------------------------------------
+--wicker basket
+minetest.register_node("tech:wicker_storage_basket", {
+	description = S("Wicker Storage Basket"),
+	tiles = {"tech_wicker.png"},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+				{-0.375, -0.5, -0.375, 0.375, -0.375, 0.375},
+				{-0.375, 0.375, -0.375, 0.375, 0.5, 0.375},
+				{-0.4375, -0.375, -0.4375, 0.4375, -0.25, 0.4375},
+				{-0.4375, 0.25, -0.4375, 0.4375, 0.375, 0.4375},
+				{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5},
+			}
+		},
+	groups = {dig_immediate = 3},
+	sounds = nodes_nature.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		on_construct(pos, 8, 4)
+	end,
+
+	can_dig = function(pos, player)
+		local inv = minetest.get_meta(pos):get_inventory()
+		local name = ""
+		if player then
+			name = player:get_player_name()
+		end
+		return is_owner(pos, name) and inv:is_empty("main")
+	end,
+
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		if is_owner(pos, player:get_player_name()) then
+			return count
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name())
+		and not string.match(stack:get_name(), "backpacks:") then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name()) then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	on_blast = function(pos)
+	end,
+})
+
+----------------------------------------------------
+--woven basket
+minetest.register_node("tech:woven_storage_basket", {
+	description = S("Woven Storage Basket"),
+	tiles = {"tech_woven.png"},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+				{-0.375, -0.5, -0.375, 0.375, -0.375, 0.375},
+				{-0.375, 0.375, -0.375, 0.375, 0.5, 0.375},
+				{-0.4375, -0.375, -0.4375, 0.4375, -0.25, 0.4375},
+				{-0.4375, 0.25, -0.4375, 0.4375, 0.375, 0.4375},
+				{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5},
+			}
+		},
+	groups = {dig_immediate = 3},
+	sounds = nodes_nature.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		on_construct(pos, 8, 4)
+	end,
+
+	can_dig = function(pos, player)
+		local inv = minetest.get_meta(pos):get_inventory()
+		local name = ""
+		if player then
+			name = player:get_player_name()
+		end
+		return is_owner(pos, name) and inv:is_empty("main")
+	end,
+
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		if is_owner(pos, player:get_player_name()) then
+			return count
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name())
+		and not string.match(stack:get_name(), "backpacks:") then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		if is_owner(pos, player:get_player_name()) then
+			return stack:get_count()
+		end
+		return 0
+	end,
+
+	on_blast = function(pos)
+	end,
+})
+
+----------------------------------------------------
 --Wooden chest
 minetest.register_node("tech:wooden_chest", {
 	description = S("Wooden Chest"),
@@ -264,4 +444,3 @@ minetest.register_node("tech:iron_chest", {
 	on_blast = function(pos)
 	end,
 })
-

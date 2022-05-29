@@ -50,7 +50,7 @@ minetest.register_node('tech:mudbrick', {
 stairs.register_stair_and_slab(
 	"mudbrick",
 	"tech:mudbrick",
-	"mixing_spot",
+	"brick_makers_bench",
 	"true",
 	{crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1},
 	{"tech_mudbrick.png"},
@@ -83,7 +83,7 @@ minetest.register_node('tech:rammed_earth', {
 stairs.register_stair_and_slab(
 	"rammed_earth",
 	"tech:rammed_earth",
-	"mixing_spot",
+	"brick_makers_bench",
 	"true",
 	{crumbly = 1, cracky = 3, falling_node = 1},
 	{
@@ -221,7 +221,7 @@ local function wdf_connect_to_door(pos)
 	 if dnode.param2 == 0 then pnode.param2 = 18 end
 	 if dnode.param2 == 3 then pnode.param2 = 9  end
 	 if dnode.param2 == 1 then pnode.param2 = 7  end
-      end   
+      end
    minetest.swap_node(pos, {name = "tech:wattle_door_frame",
 			   param1 = pnode.param1,
 			   param2 = pnode.param2})
@@ -278,7 +278,7 @@ minetest.register_node('tech:thatch', {
 stairs.register_stair_and_slab(
 	"thatch",
 	"tech:thatch",
-	"mixing_spot",
+	"weaving_frame",
 	"true",
 	{snappy=3, flammable=1, fall_damage_add_percent = -15},
 	{"tech_thatch.png"},
@@ -316,21 +316,17 @@ crafting.register_recipe({
 })
 
 
-----mudbrick from clay + sand and fibre
---(other recipes could be done also, but limit it for simplicity)
+----mudbrick from clay and fibre
 crafting.register_recipe({
-	--type = "crafting_spot",
 	type = "brick_makers_bench",
-	output = "tech:mudbrick 4",
-	items = {"nodes_nature:clay_wet 3", "nodes_nature:sand_wet", "group:fibrous_plant"},
-	--items = {"nodes_nature:clay", "nodes_nature:sand_wet", "group:fibrous_plant"},
+	output = "tech:mudbrick",
+	items = {"nodes_nature:clay_wet", "group:fibrous_plant"},
 	level = 1,
 	always_known = true,
 })
 
 ----Rammed earth by compacting clay
 crafting.register_recipe({
-	--type = "crafting_spot",
 	type = "brick_makers_bench",
 	output = "tech:rammed_earth",
 	items = {"nodes_nature:clay 2"},
@@ -346,7 +342,6 @@ crafting.register_recipe({
 	level = 1,
 	always_known = true,
 })
-
 
 
 ----Wattle from sticks
@@ -431,9 +426,27 @@ crafting.register_recipe({
 
 ----Thatch from  fibre
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "tech:thatch",
 	items = {"group:fibrous_plant 8"},
+	level = 1,
+	always_known = true,
+})
+
+----Wicker basket from sticks
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:wicker_storage_basket",
+	items = {"tech:stick 96"},
+	level = 1,
+	always_known = true,
+})
+
+----woven basket from fibrous_plant
+crafting.register_recipe({
+	type = "weaving_frame",
+	output = "tech:woven_storage_basket",
+	items = {"group:fibrous_plant 96"},
 	level = 1,
 	always_known = true,
 })

@@ -72,7 +72,7 @@ for i in ipairs(rock_list) do
 			stack_max = minimal.stack_max_bulky,
 			paramtype = "light",
 			paramtype2 = "facedir",
-			groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
+			groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1, boulder = 1},
 			selection_box = {
 				type = "fixed",
 				fixed = {-7/16, -8/16, -7/16, 7/16, 7/16, 7/16},

@@ -4,9 +4,153 @@
 -- Internationalisaton
 local S = tech.S
 
------------------------------------------------------------
---Wooden planks?
 
+
+
+-----------------------------------------------------------
+--primitive_wooden_chest -- see storage
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:primitive_wooden_chest",
+	items = {'group:log 4'},
+	level = 1,
+	always_known = true,
+})
+
+
+-----------------------------------------------------------
+--Wooden Water pot
+--for collecting water, catching rain water
+minetest.register_node("tech:wooden_water_pot", {
+	description = S("Wooden Water Pot"),
+	tiles = {
+		"tech_wooden_water_pot_empty.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png"
+	},
+	drawtype = "nodebox",
+	stack_max = minimal.stack_max_bulky,
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25, 0.375, -0.25, 0.25, 0.5, 0.25}, -- NodeBox1
+			{-0.375, -0.25, -0.375, 0.375, 0.3125, 0.375}, -- NodeBox2
+			{-0.3125, -0.375, -0.3125, 0.3125, -0.25, 0.3125}, -- NodeBox3
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- NodeBox4
+			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
+		}
+	},
+	liquids_pointable = true,
+	on_use = function(itemstack, user, pointed_thing)
+		return liquid_store.on_use_empty_bucket(itemstack, user, pointed_thing)
+	end,
+		--collect rain water
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(30,60))
+	end,
+	on_timer =function(pos, elapsed)
+		return water_pot(pos, "tech:wooden_water_pot")
+	end,
+	groups = {dig_immediate = 3, flammable = 1, temp_pass = 1},
+	sounds = nodes_nature.node_sound_wood_defaults(),
+
+})
+
+
+crafting.register_recipe({
+	type = "chopping_block",
+	output = "tech:wooden_water_pot",
+	items = {'group:log 2'},
+	level = 1,
+	always_known = true,
+})
+
+
+-----------------------------------------------
+--Register water stores
+--source, nodename, nodename_empty, tiles, node_box, desc, groups
+
+-- pot with salt water
+liquid_store.register_stored_liquid(
+	"nodes_nature:salt_water_source",
+	"tech:wooden_water_pot_salt_water",
+	"tech:wooden_water_pot",
+	{
+		"tech_wooden_water_pot_water.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png"
+	},
+	{
+		type = "fixed",
+		fixed = {
+			{-0.25, 0.375, -0.25, 0.25, 0.5, 0.25}, -- NodeBox1
+			{-0.375, -0.25, -0.375, 0.375, 0.3125, 0.375}, -- NodeBox2
+			{-0.3125, -0.375, -0.3125, 0.3125, -0.25, 0.3125}, -- NodeBox3
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- NodeBox4
+			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
+		}
+	},
+	"Wooden Water Pot with Salt Water",
+	{dig_immediate = 2})
+
+
+--pot with freshwater
+liquid_store.register_stored_liquid(
+	"nodes_nature:freshwater_source",
+	"tech:wooden_water_pot_freshwater",
+	"tech:wooden_water_pot",
+	{
+		"tech_wooden_water_pot_water.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png",
+		"tech_primitive_wood.png"
+	},
+	{
+		type = "fixed",
+		fixed = {
+			{-0.25, 0.375, -0.25, 0.25, 0.5, 0.25}, -- NodeBox1
+			{-0.375, -0.25, -0.375, 0.375, 0.3125, 0.375}, -- NodeBox2
+			{-0.3125, -0.375, -0.3125, 0.3125, -0.25, 0.3125}, -- NodeBox3
+			{-0.25, -0.5, -0.25, 0.25, -0.375, 0.25}, -- NodeBox4
+			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
+		}
+	},
+	S("Wooden Water Pot with Freshwater"),
+	{dig_immediate = 2})
+
+
+--make freshwater Pot drinkable on click
+minetest.override_item("tech:wooden_water_pot_freshwater",{
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local meta = clicker:get_meta()
+		local thirst = meta:get_int("thirst")
+		--only drink if thirsty
+		if thirst < 100 then
+
+			local water = 100 --you're skulling a whole bucket
+			thirst = thirst + water
+			if thirst > 100 then
+				thirst = 100
+			end
+
+			--could add disease risk, but different sources have different risks
+			--e.g. rain vs mud puddle
+
+			meta:set_int("thirst", thirst)
+			minetest.set_node(pos, {name = "tech:wooden_water_pot"})
+			minetest.sound_play("nodes_nature_slurp",	{pos = pos, max_hear_distance = 3, gain = 0.25})
+		end
+	end
+})
 
 -----------------------------------------------------------
 --Chest ...see storage

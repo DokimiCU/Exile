@@ -226,7 +226,7 @@ crafting.register_recipe({
 
 --sleeping_mat from cheap thatch
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "tech:sleeping_mat",
 	items = {"tech:thatch"},
 	level = 1,
@@ -235,21 +235,13 @@ crafting.register_recipe({
 
 --Primitve bed from sticks and mats
 crafting.register_recipe({
-	type = "crafting_spot",
+	type = "weaving_frame",
 	output = "tech:primitive_bed",
 	items = {"tech:sleeping_mat 4", "tech:stick 36"},
 	level = 1,
 	always_known = true,
 })
 
-
-crafting.register_recipe({
-	type = "chopping_block",
-	output = "tech:primitive_bed",
-	items = {"tech:sleeping_mat 4", "tech:stick 36"},
-	level = 1,
-	always_known = true,
-})
 
 
 

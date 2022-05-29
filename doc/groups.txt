@@ -36,7 +36,7 @@ stone
 ------
 `stone`: naturally occurring hard rock
 `soft_stone`: naturally occurring soft sedimentary semi-rock, drops the sediment
-
+`boulder`: stone boulder
 
 Sediment
 ---------
