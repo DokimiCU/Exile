@@ -39,7 +39,8 @@ bed_rest.register_bed("tech:sleeping_spot", {
 	},
 	selectionbox = {-0.5, -0.5, -0.5, 0.5, -0.45, 1.5},
 	sounds =  nodes_nature.node_sound_wood_defaults(),
-	groups = {snappy = 3, dig_immediate = 3, falling_node = 1, bed = 1, temp_pass = 1},
+	groups = {snappy = 3, dig_immediate = 3, falling_node = 1, bed = 1,
+		  temp_pass = 1, nobones = 1},
 	bed_level = 0.5,
 
 

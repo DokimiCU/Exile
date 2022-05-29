@@ -6,6 +6,8 @@
 -- Load support for MT game translation.
 local S = minetest.get_translator("bones")
 
+creative = creative
+
 bones = {}
 
 local function is_owner(pos, name)
@@ -261,10 +263,14 @@ minetest.register_on_dieplayer(function(player)
 
 	if bones_mode == "drop" then
 		for _, list_name in ipairs(player_inventory_lists) do
-			for i = 1, player_inv:get_size(list_name) do
-				drop(pos, player_inv:get_stack(list_name, i))
-			end
-			player_inv:set_list(list_name, {})
+		   for i = 1, player_inv:get_size(list_name) do
+		      local stack = player_inv:get_stack(list_name, i)
+		      if minetest.get_item_group(stack:get_name(),
+						 "nobones") < 1 then
+			 drop(pos, stack)
+		      end
+		   end
+		   player_inv:set_list(list_name, {})
 		end
 		drop(pos, ItemStack("bones:bones"))
 		minetest.log("action", player_name .. " dies at " .. pos_string ..
@@ -298,12 +304,15 @@ minetest.register_on_dieplayer(function(player)
 
 	for _, list_name in ipairs(player_inventory_lists) do
 		for i = 1, player_inv:get_size(list_name) do
-			local stack = player_inv:get_stack(list_name, i)
-			if inv:room_for_item("main", stack) then
-				inv:add_item("main", stack)
-			else -- no space left
-				drop(pos, stack)
-			end
+		   local stack = player_inv:get_stack(list_name, i)
+		   if minetest.get_item_group(stack:get_name(),
+					      "nobones") == 0 then
+		      if inv:room_for_item("main", stack) then
+			 inv:add_item("main", stack)
+		      else -- no space left
+			 drop(pos, stack)
+		      end
+		   end
 		end
 		player_inv:set_list(list_name, {})
 	end

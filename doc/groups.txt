@@ -7,7 +7,7 @@ not_in_creative_inventory
 slippery
 falling_node
 attached_node
-
+`nobones`: Don't put this item into bones piles. e.g. crafting spots
 
 Digging:
 ---------
