@@ -195,7 +195,7 @@ local function color_envirotemp(v, meta)
 	   overlay = "weather_hud_frost.png"
 	end
 	if v > stress_high then
-	   overlay = "weather_hud_haze.png"
+	   overlay = "weather_hud_heat.png"
 	end
 
 	return col, overlay

@@ -38,3 +38,5 @@ and http://soundbible.com/1071-Bouncing-Golf-Ball.html Attribution 3.0 Mike Koen
 and http://soundbible.com/1412-Yahoo.html  sampling Plus 1.0, UncleSigmund
 Health_heart http://soundbible.com/672-Beating-Heart.html Sampling Plus 1.0  greyseraohim
 weather_hud_frost.png https://github.com/t-affeldt/climate CC-BY-SA, cap
+weather_hud_heat.png CC-BY-SA IAmInnocent
+
