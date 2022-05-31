@@ -17,6 +17,7 @@ minetest.register_node("artifacts:moon_glass", {
 	stack_max = minimal.stack_max_bulky *4,
 	light_source = 5,
 	paramtype = "light",
+	sunlight_propagates  = true,
 	use_texture_alpha = "clip",
 	sounds = nodes_nature.node_sound_glass_defaults(),
 	groups = {cracky = 1,},
