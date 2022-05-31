@@ -7,6 +7,9 @@
 -- Internationalization
 local S = tech.S
 
+local legacy_stations = true
+local legacy_station_recipes = false
+
 --Register
 --some crafts are more convienently registered at the same time as the resource,
 --hence why not all are here.
@@ -33,8 +36,6 @@ crafting.register_type("glass_furnace")
 -- msg string "stone or sandstone"
 local function on_place_loclim_spot(itemstack, placer, pointed_thing, grouplist, blocklist, msg, banlistg, banlistn)
    local ground = minetest.get_node(pointed_thing.under)
-	 local above = minetest.get_node(pointed_thing.above)
-
 
 	 --check lists to see if it's a valid substrate
 	 local valid = false
@@ -56,7 +57,7 @@ local function on_place_loclim_spot(itemstack, placer, pointed_thing, grouplist,
 		 vcheck = true
 		 local gname = ground.name
 		 for i in ipairs(blocklist) do
-		 	local name = blocklist[i]
+		    local name = blocklist[i]
 			if gname == name then
 				valid = true
 				break
@@ -206,7 +207,7 @@ minetest.register_node("tech:threshing_spot", {
 -------------------
 --Location limited
 --weaving spot
-minetest.register_node("tech:weaving_frame",{
+minetest.register_node("tech:weaving_spot",{
 	description   = S("Weaving Spot"),
 	tiles         = {"tech_station_weaving_spot.png"},
 	drawtype      = "nodebox",
@@ -239,7 +240,7 @@ minetest.register_node("tech:weaving_frame",{
 	})
 --grinding spot
 --for grinding stone tools
-minetest.register_node("tech:grinding_stone",{
+minetest.register_node("tech:grinding_spot",{
 	description   = S("Grinding Spot"),
 	tiles         = {"tech_station_grinding_spot.png"},
 	drawtype      = "nodebox",
@@ -272,7 +273,7 @@ minetest.register_node("tech:grinding_stone",{
 	})
 --hammering_block
 --crude hammering crushing jobs,
-minetest.register_node("tech:hammering_block",{
+minetest.register_node("tech:hammering_spot",{
 	description   = S("Hammering Spot"),
 	tiles         = {"tech_station_hammering_spot.png"},
 	drawtype      = "nodebox",
@@ -628,21 +629,21 @@ crafting.register_recipe({ ----craft threshing spot for free
 	})
 crafting.register_recipe({ --weaving_frame for free (location limited)
 	type   = "inv",
-	output = "tech:weaving_frame",
+	output = "tech:weaving_spot",
 	items  = {},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({ ----grinding_stone for free (location limited)
 	type   = "inv",
-	output = "tech:grinding_stone",
+	output = "tech:grinding_spot",
 	items  = {},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({ --hammering block for free (location limited)
 	type   = "inv",
-	output = "tech:hammering_block",
+	output = "tech:hammering_spot",
 	items  = {},
 	level  = 1,
 	always_known = true,
@@ -748,4 +749,151 @@ crafting.register_recipe({ -- Glass furnace from bricks for the main structure a
 	items  = {'tech:iron_ingot', 'tech:loose_brick 3', 'tech:lime_mortar'},
 	level  = 1,
 	always_known = true,
-	})
+})
+
+
+-- legacy stations
+if legacy_stations == true then
+   minetest.register_node("tech:weaving_frame",{
+        description   = S("Weaving Frame"),
+        drawtype      = "nodebox",
+        tiles         = {"tech_stick.png"},
+        stack_max     = minimal.stack_max_bulky,
+        paramtype     = "light",
+        paramtype2    = "facedir",
+        groups        = {falling_node = 1, dig_immediate=3},
+        node_box      = {
+	   type  = "fixed",
+	   fixed = {
+	      {-0.3750, -0.3750, -0.3750,  0.3750, -0.2500, -0.2500}, -- NodeBox1
+	      {-0.5000, -0.5000, -0.3750, -0.3750, -0.1250, -0.2500}, -- NodeBox2
+	      { 0.3750, -0.5000, -0.3750,  0.5000, -0.1250, -0.2500}, -- NodeBox3
+	      { 0.3750, -0.5000,  0.3750,  0.5000,  0.0625,  0.5000}, -- NodeBox4
+	      {-0.5000, -0.5000,  0.3750, -0.3750,  0.0625,  0.5000}, -- NodeBox5
+	      {-0.3750, -0.0625,  0.3750,  0.3750,  0.0625,  0.5000}, -- NodeBox6
+	      {-0.3125, -0.5000,  0.3750, -0.2500, -0.0625,  0.4375}, -- NodeBox7
+	      { 0.2500, -0.5000,  0.3750,  0.3125, -0.0625,  0.4375}, -- NodeBox8
+	      { 0.1250, -0.5000,  0.3750,  0.1875, -0.0625,  0.4375}, -- NodeBox9
+	      {-0.1875, -0.5000,  0.3750, -0.1250, -0.0625,  0.4375}, -- NodeBox10
+	      {-0.0625, -0.5000,  0.3750,  0.0625, -0.0625,  0.5000}, -- NodeBox11
+	      {-0.5000, -0.0625,  0.3125,  0.5000,  0.0000,  0.3750}, -- NodeBox12
+	      {-0.5000, -0.4375,  0.3125,  0.5000, -0.3750,  0.3750}, -- NodeBox13
+	   }
+                },
+        sounds        = nodes_nature.node_sound_wood_defaults(),
+        on_rightclick = crafting.make_on_rightclick("weaving_frame", 2, { x = 8, y = 3 }),
+        after_place_node = minimal.protection_after_place_node,
+   })
+   --grinding stone
+   --for grinding stone tools
+   minetest.register_node("tech:grinding_stone",{
+        description   = S("Grinding stone"),
+        drawtype      = "nodebox",
+        tiles         = {"nodes_nature_granite.png"},
+        stack_max     = minimal.stack_max_bulky,
+        paramtype     = "light",
+        paramtype2    = "facedir",
+        groups        = {falling_node = 1, dig_immediate=3},
+        node_box      = {
+                type  = "fixed",
+                fixed = {
+                        {-0.3750, -0.5000, -0.3125,  0.3750, -0.4375,  0.3125},
+                        {-0.4375, -0.4375, -0.3750,  0.4375, -0.1875,  0.3750},
+                        {-0.1875, -0.1875,  0.0000,  0.0000, -0.0625,  0.2500},
+                        { 0.4375, -0.3750, -0.3125,  0.5000, -0.1875,  0.3125},
+                        {-0.5000, -0.3750, -0.3125, -0.4375, -0.1875,  0.3125},
+                        {-0.3750, -0.3750, -0.4375,  0.3750, -0.1875, -0.3750},
+                        {-0.3750, -0.3750,  0.3750,  0.3750, -0.1875,  0.4375},
+                        }
+                },
+        sounds        = nodes_nature.node_sound_stone_defaults(),
+        on_rightclick = crafting.make_on_rightclick("grinding_stone", 2, { x = 8, y = 3 }),
+        after_place_node = minimal.protection_after_place_node,
+   })
+   --chopping_block --crude wood crafts,
+   minetest.register_node("tech:chopping_block", {
+        description   = S("Chopping Block"),
+        tiles         = {
+                "tech_chopping_block_top.png",
+                "tech_chopping_block_top.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                },
+        drawtype      = "nodebox",
+        node_box      = {
+                type  = "fixed",
+                fixed = {-0.43, -0.5, -0.43, 0.43, 0.38, 0.43},
+                },
+        stack_max     = minimal.stack_max_bulky,
+        paramtype     = "light",
+        groups        = {dig_immediate = 3, falling_node = 1, temp_pass = 1},
+        sounds        = nodes_nature.node_sound_wood_defaults(),
+        on_rightclick = crafting.make_on_rightclick("chopping_block", 2, { x = 8, y = 3 }),
+        after_place_node = minimal.protection_after_place_node,
+   })
+   --hammering_block
+   --crude hammering crushing jobs,
+   minetest.register_node("tech:hammering_block", {
+        description   = S("Hammering Block"),
+        tiles         = {
+                "tech_hammering_block_top.png",
+                "tech_chopping_block_top.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                "tech_chopping_block.png",
+                },
+        drawtype      = "nodebox",
+        node_box      = {
+                type  = "fixed",
+                fixed = {-0.47, -0.5, -0.47, 0.47, 0.31, 0.47},
+                },
+        stack_max     = minimal.stack_max_bulky,
+        paramtype     = "light",
+        groups        = {dig_immediate=3, falling_node = 1, temp_pass = 1},
+        sounds        = nodes_nature.node_sound_wood_defaults(),
+        on_rightclick = crafting.make_on_rightclick("hammering_block", 2, { x = 8, y = 3 }),
+        after_place_node = minimal.protection_after_place_node,
+   })
+end
+
+if legacy_station_recipes == true then
+   --grinding_stone from craft spot
+   crafting.register_recipe({
+	 type   = "crafting_spot",
+	 output = "tech:grinding_stone",
+	 items  = {'nodes_nature:granite_boulder', 'nodes_nature:sand 8'},
+	 level  = 1,
+	 always_known = true,
+   })
+   crafting.register_recipe({ --weaving_frame
+	 type   = "crafting_spot",
+	 output = "tech:weaving_frame",
+	 items  = {'tech:stick 12', 'group:fibrous_plant 8'},
+	 level  = 1,
+	 always_known = true,
+   })
+   crafting.register_recipe({ --chopping_block
+	 type   = "crafting_spot",
+	 output = "tech:chopping_block",
+	 items  = {'group:log'},
+	 level  = 1,
+	 always_known = true,
+   })
+   crafting.register_recipe({
+	 type   = "chopping_block",
+	 output = "tech:chopping_block",
+	 items  = {'group:log'},
+	 level  = 1,
+	 always_known = true,
+   })
+   crafting.register_recipe({ --hammering block
+	 type   = "chopping_block",
+	 output = "tech:hammering_block",
+	 items  = {'group:log'},
+	 level  = 1,
+	 always_known = true,
+   })
+end
