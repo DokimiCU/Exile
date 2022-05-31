@@ -844,15 +844,26 @@ minetest.register_node("nodes_nature:chalin", {
 			  sounds = nodes_nature.node_sound_wood_defaults(),
 
 			  on_place = function(itemstack, placer, pointed_thing)
-			     if minetest.get_node(pointed_thing.under).name ==
-				"nodes_nature:chalin" then
+			     local under = pointed_thing.under
+			     local node = minetest.get_node(under)
+			     local udef = minetest.registered_nodes[node.name]
+
+			     if node.name == "nodes_nature:chalin" then
 				return
 			     end
+			     -- Run any on_rightclick function of pointed node
+			     if udef and udef.on_rightclick and
+                                not (placer and placer:is_player() and
+				     placer:get_player_control().sneak) then
+				return udef.on_rightclick(under, node, placer,
+					itemstack, pointed_thing) or itemstack
+			     end
+
 			     local face = vector.direction(pointed_thing.above,
 							   pointed_thing.under)
 			     if face.y == -1 then
-				minetest.item_place_node(itemstack, placer, pointed_thing)
-				itemstack:take_item(1)
+				minetest.item_place_node(itemstack, placer,
+							 pointed_thing)
 				return itemstack
 			     else
 				return itemstack
