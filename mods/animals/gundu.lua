@@ -14,7 +14,7 @@ local floor = math.floor
 
 --energy
 local energy_max = 8000--secs it can survive without food
-local energy_egg = energy_max/8 --energy that goes to egg
+local energy_egg = energy_max/6 --energy that goes to egg
 local egg_timer  = 60*45
 local young_per_egg = 5		--will get this/energy_egg starting energy
 
@@ -84,13 +84,13 @@ local function brain(self)
 				if light >= 9 then
 					--much light much food
 					if energy < energy_max then
-						energy = energy + 4
+						energy = energy + 5
 					end
 
 				elseif light >= 5 then
 					--some light
 					if energy < energy_max then
-						energy = energy + 1
+						energy = energy + 2
 					end
 				end
 			end
@@ -126,6 +126,7 @@ local function brain(self)
 			and not rival
 			and not pred
 			and lightm <= 11
+			and ( tod <0.5 ) -- only lay at night
 			and self.hp >= self.max_hp
 			and energy >= energy_max - 100 then
 				energy = animals.place_egg(pos, "animals:gundu_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
