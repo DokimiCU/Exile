@@ -554,20 +554,21 @@ minetest.register_node("artifacts:singing_stone", {
 	on_punch = function(pos, node, player)
 		--hit to start "life"
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
+		minimal.switch_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
 	end,
 
 	on_construct = function(pos)
 		minetest.get_node_timer(pos):start(1)
 	end,
 
+	after_place_node = minimal.protection_after_place_node,
 	on_timer =function(pos, elapsed)
 		--look on node nearby, turn on if neighbor is on
 		local lnode = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {"artifacts:singing_stone_b"})
 		--local lnode = minetest.find_node_near(pos, 1, "artifacts:singing_stone_b")
 		if #lnode > 1 then
 			local p2 = minetest.get_node(pos).param2
-			minetest.set_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
+			minimal.switch_node(pos, {name = "artifacts:singing_stone_b", param2 = p2})
 		else
 			--no life, remains off
 			return true
@@ -598,7 +599,7 @@ minetest.register_node("artifacts:singing_stone_b", {
 	on_punch = function(pos, node, player)
 		--turn off
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:singing_stone", param2 = p2})
+		minimal.switch_node(pos, {name = "artifacts:singing_stone", param2 = p2})
 	end,
 
 	on_construct = function(pos)
@@ -611,7 +612,7 @@ minetest.register_node("artifacts:singing_stone_b", {
 
 		--go to resting state
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:singing_stone_c", param2 = p2})
+		minimal.switch_node(pos,{name = "artifacts:singing_stone_c", param2 = p2})
 	end,
 })
 
@@ -642,7 +643,7 @@ minetest.register_node("artifacts:singing_stone_c", {
 	on_timer =function(pos, elapsed)
 		--return to off
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:singing_stone", param2 = p2})
+		minimal.switch_node(pos,{name = "artifacts:singing_stone", param2 = p2})
 	end,
 })
 
@@ -675,6 +676,7 @@ minetest.register_node("artifacts:drumming_stone", {
 		minetest.get_node_timer(pos):start(math.floor(math.random(1,2)))
 	end,
 
+	after_place_node = minimal.protection_after_place_node,
 	on_timer =function(pos, elapsed)
 
 		--look nearby for a friend
@@ -688,7 +690,7 @@ minetest.register_node("artifacts:drumming_stone", {
 		end
 
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:drumming_stone_b", param2 = p2})
+		minimal.switch_node(pos, {name = "artifacts:drumming_stone_b", param2 = p2})
 
 	end,
 })
@@ -731,6 +733,6 @@ minetest.register_node("artifacts:drumming_stone_b", {
 		end
 
 		local p2 = minetest.get_node(pos).param2
-		minetest.set_node(pos, {name = "artifacts:drumming_stone", param2 = p2})
+		minimal.switch_node(pos, {name = "artifacts:drumming_stone", param2 = p2})
 	end,
 })
