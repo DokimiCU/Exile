@@ -69,12 +69,10 @@ local nobj_3d_r = noise_handler.get_noise_object(np_3d_ring, chunk_size)
 local data = {}
 
 minetest.register_on_generated(function(minp, maxp, blockseed)
-      if maxp.y < 40 or minp.y > 80 or -- not too high or low
-	 -- and not too close to the center of the map
-	 (math.abs(minp.x) + math.abs(minp.y) < 1000 ) then
+      if maxp.y < 40 or minp.y > 80 then  -- not too high or low
 	 return
       end
-      if math.random() > 1/75 then return end
+      if math.floor(blockseed / 100) % 70 > 0 then return end
       local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
       local area = VoxelArea:new({MinEdge=emin, MaxEdge=emax})
       vm:get_data(data)
