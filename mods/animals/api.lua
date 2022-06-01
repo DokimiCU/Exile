@@ -189,7 +189,7 @@ function animals.hatch_egg(pos, medium_name, replace_name, name, energy_egg, you
 	end
 
   local cnt = 0
-  local start_e = energy_egg/young_per_egg
+  local start_e = math.floor(energy_egg/young_per_egg)
   local objcount = #minetest.get_objects_inside_radius(pos, 30)
   while cnt < young_per_egg and objcount < max_objects do
     local ran_pos = air[random(#air)]
