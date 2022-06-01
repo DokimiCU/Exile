@@ -394,8 +394,8 @@ local animal_probe = function(user, pointed_thing)
      return
   end
 
-  local r_ent_e = mobkit.recall(ent,'energy')
-  local r_ent_a = mobkit.recall(ent,'age')
+  local r_ent_e = math.floor(mobkit.recall(ent,'energy'))
+  local r_ent_a = math.floor(mobkit.recall(ent,'age'))
 
   if not r_ent_e or not r_ent_a then
     return
