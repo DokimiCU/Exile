@@ -376,7 +376,7 @@ local function transporter_power_rightclick(pos, node, player, itemstack, pointe
 	itemstack:take_item()
 	-- XXX shouldn't be clobbering existing info text
 	meta:set_string("infotext", description .. "\n" .. S("Owned by @1", pn))
-	minetest.swap_node(pos, {name=swap_a})
+	minimal.switch_node(pos, {name=swap_a})
 	if pInv:room_for_item("main", new) then
 	   pInv:add_item("main", new)
 	   return itemstack
