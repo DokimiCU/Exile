@@ -24,7 +24,7 @@ sed_list = {
 	{"sand", S("Sand"), 3, "sand"},
 	{"silt", S("Silt"), 3, "silt" },
 	{"clay", S("Clay"), 2, "clay"},
-	{"gravel", S("Gravel"), 2, "gravel"},
+	{"gravel", S("Gravel"), 3, "gravel"},
 	{"loam", S("Loam"), 3, "loam"},
 
 
@@ -32,11 +32,30 @@ sed_list = {
 
 
 soil_list = {
-	{"grassland_soil", S("Grassland Soil"), 2, "clay", "clay"},
+	--Forest & Woodland
+	{"rich_forest_soil", S("Rich Forest Soil"), 3, "loam", "loam"},
+	{"rich_woodland_soil", S("Rich Woodland Soil"), 3, "loam", "loam"},
+	{"forest_soil", S("Forest Soil"), 3, "silt", "silt"},
+	{"woodland_soil", S("Woodland Soil"), 3, "silt", "silt"},
+	{"upland_forest_soil", S("Upland Forest Soil"), 2, "clay", "clay"},
+	{"upland_woodland_soil", S("Upland Woodland Soil"), 2, "clay", "clay"},
+
+	--Wetlands
 	{"marshland_soil", S("Marshland Soil"), 3, "silt", "silt"},
+	{"swamp_forest_soil", S("Swamp Forest Soil"), 3, "silt", "silt"},
+
+	--Shrubland & Grassland
+	{"coastal_shrubland_soil", S("Coastal Shrubland Soil"), 3, "silt", "silt"},
+	{"coastal_grassland_soil", S("Coastal Grassland Soil"), 2, "clay", "clay"},
+	{"grassland_soil", S("Grassland Soil"), 2, "clay", "clay"},
+	{"shrubland_soil", S("Shrubland Soil"), 2, "clay", "clay"},
+
+	--Barrenland & Duneland
+	{"barrenland_soil", S("Barren Grassland Soil"), 3, "gravel", "gravel"},
 	{"duneland_soil", S("Duneland Soil"), 3, "sand", "sand"},
+
+	--Legacy
 	{"highland_soil", S("Highland Soil"), 2, "gravel", "gravel"},
-	{"woodland_soil", S("Woodland Soil"), 3, "loam", "loam"},
 	{"grassland_barren_soil", S("Barren Grassland Soil"), 3, "gravel", "gravel"},
 	{"woodland_dry_soil", S("Dry Woodland Soil"), 3, "silt", "silt"},
 

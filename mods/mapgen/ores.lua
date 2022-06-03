@@ -227,3 +227,59 @@ minetest.register_ore({
     column_height_max = 4,
     column_midpoint_factor = 0.5
 })
+
+
+
+----------------------------------------------------
+--SOIL INTRUSIONS
+--soil intrusions
+local loam_in = {"nodes_nature:silt", "nodes_nature:clay"}
+local wet_loam_in = {"nodes_nature:loam", "nodes_nature:silt_wet", "nodes_nature:clay_wet"}
+
+local silt_in = {"nodes_nature:gravel", "nodes_nature:clay", "nodes_nature:sand"}
+local wet_silt_in = {"nodes_nature:silt", "nodes_nature:gravel_wet", "nodes_nature:clay_wet", "nodes_nature:sand_wet"}
+
+local clay_in = {"nodes_nature:silt", "nodes_nature:gravel", "nodes_nature:sand"}
+local wet_clay_in = {"nodes_nature:clay", "nodes_nature:silt_wet", "nodes_nature:sand_wet"}
+
+local gravel_in = {"nodes_nature:silt", "nodes_nature:clay", "nodes_nature:sand"}
+local wet_gravel_in = {"nodes_nature:gravel", "nodes_nature:silt_wet", "nodes_nature:clay_wet", "nodes_nature:sand_wet"}
+
+local sand_in = {"nodes_nature:silt", "nodes_nature:clay", "nodes_nature:gravel"}
+local wet_sand_in = {"nodes_nature:sand", "nodes_nature:silt_wet", "nodes_nature:clay_wet", "nodes_nature:gravel_wet"}
+
+local s = 8
+local spw = {x =  8, y =  8, z =  8}
+local spd = {x =  32, y =  32, z =  32}
+local pw = 0.6
+
+local soil_list = {
+  --Soil intrusions
+  { "nodes_nature:loam"        , loam_in       ,  {offset = -0.00, scale = s, spread = spd, seed =   1995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:loam_wet"    , wet_loam_in   ,  {offset = -0.00, scale = s, spread = spw, seed =   1295, octaves = 2, persist = pw},  },
+  { "nodes_nature:silt"        , silt_in       ,  {offset = -0.00, scale = s, spread = spd, seed =   2995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:silt_wet"    , wet_silt_in   ,  {offset = -0.00, scale = s, spread = spw, seed =   2295, octaves = 2, persist = pw},  },
+  { "nodes_nature:clay"        , clay_in       ,  {offset = -0.00, scale = s, spread = spd, seed =   3995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:clay_wet"    , wet_clay_in   ,  {offset = -0.00, scale = s, spread = spw, seed =   3295, octaves = 2, persist = pw},  },
+  { "nodes_nature:gravel"      , gravel_in     ,  {offset = -0.00, scale = s, spread = spd, seed =   4995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:gravel_wet"  , wet_gravel_in ,  {offset = -0.00, scale = s, spread = spw, seed =   4295, octaves = 2, persist = pw},  },
+  { "nodes_nature:sand"        , sand_in       ,  {offset = -0.00, scale = s, spread = spd, seed =   5995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:sand_wet"    , wet_sand_in   ,  {offset = -0.00, scale = s, spread = spw, seed =   5295, octaves = 2, persist = pw},  },
+
+}
+
+for i in ipairs(soil_list) do
+  minetest.register_ore({
+  		ore_type = "sheet",
+  		ore = soil_list[i][01],
+  		wherein = soil_list[i][02],
+  		clust_size = 4,
+  		y_min = 1,
+  		y_max = 600,
+      noise_threshold = 0.5,
+  		noise_params = soil_list[i][03],
+      column_height_min = 1,
+      column_height_max = 4,
+      column_midpoint_factor = 0.5
+  })
+end
