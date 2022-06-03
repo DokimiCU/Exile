@@ -26,6 +26,7 @@ sed_list = {
 	{"clay", S("Clay"), 2, "clay"},
 	{"gravel", S("Gravel"), 3, "gravel"},
 	{"loam", S("Loam"), 3, "loam"},
+	{"red_ochre", S("Red Ochre"), 2, "clay"},
 
 
 }

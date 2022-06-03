@@ -132,13 +132,13 @@ local biome_list = {
 	--[[16]]  { "Coastal Duneland"  ,   nil,          dune,    1,        sand,     2,       limestone,   nil,   nil,  air     ,  gravel_w       ,   2,    {potable},   5,      coastal_max       ,  beach_max          ,  middle+10      ,  extreme_low        ,  },
 	--[[17]]  { "Lowland Barrenland",   nil,        barren,    1,      gravel,     3,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   5,      lowland_max       ,  coastal_max        ,  middle-10      ,  extreme_low        ,  },
 	--[[18]]  { "Lowland Duneland"  ,   nil,          dune,    1,        sand,     3,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   5,      lowland_max       ,  coastal_max        ,  middle+10      ,  extreme_low        ,  },
-	--[[19]]  { "Upland Barrenland" ,   nil,        barren,    1,      gravel,     1,       limestone,   nil,   nil,  air     ,  air            ,   1,    {potable},   25,      upland_max       ,  lowland_max        ,  middle-10      ,  extreme_low        ,  },
-	--[[20]]  { "Upland Duneland"   ,   nil,          dune,    1,        sand,     1,       limestone,   nil,   nil,  air     ,  air            ,   1,    {potable},   25,      upland_max       ,  lowland_max        ,  middle+10      ,  extreme_low        ,  },
+	--[[19]]  { "Upland Barrenland" ,   nil,        barren,    1,      gravel,     1,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upland_max       ,  lowland_max        ,  middle-10      ,  extreme_low        ,  },
+	--[[20]]  { "Upland Duneland"   ,   nil,          dune,    1,        sand,     1,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upland_max       ,  lowland_max        ,  middle+10      ,  extreme_low        ,  },
 
 	--Highland
 	--[[21]]  { "Highland"          ,   nil,         hland,    1,      gravel,     1,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upper_limit      ,  upland_max         ,  middle         ,  middle             ,  },
 	--[[22]]  { "Highland Scree"    ,   nil,        gravel,    1,        silt,     1,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upper_limit      ,  upland_max         ,  extreme_low    ,  low                ,  },
-	--[[23]]  { "Highland Rock"    ,   nil,            air,    1,       gravel,    2,       limestone,   nil,   nil,  air     ,  air            ,   1,    {potable},   25,      upper_limit      ,  upland_max         ,  extreme_high   ,  low                ,  },
+	--[[23]]  { "Highland Rock"    ,   nil,            air,    1,       gravel,    2,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upper_limit      ,  upland_max         ,  extreme_high   ,  low                ,  },
 
 	--Coasts
 	--[[24]]  { "Sandy Beach"       ,   nil,          sand,    3,     sand_ws,     1,       limestone,   nil,   nil,  air     ,  sand_ws        ,   2,    {potable},   1,      beach_max          ,  2                 ,  high          ,  low               ,  },
