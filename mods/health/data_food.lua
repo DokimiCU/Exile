@@ -35,6 +35,7 @@ food_table = {
 	["nodes_nature:lambakap"]           = { 0, 10,  10,  0,  0 },
 	["nodes_nature:tangkal_fruit"]      = { 0,  5,  10, 10,  0 },
 	["nodes_nature:panasee_fruit"]      = { 0,  5,   5,  0,  0 },
+	["nodes_nature:amma_nut"]           = { 0,  0,   1,  1,  0 },
 	["nodes_nature:momo"]               = { 0,  1,  12,  0,  0 },
 	--meat
    ["animals:carcass_invert_small"]       = { 0,  0,   2, -2,  0 },
@@ -116,6 +117,7 @@ food_harm_table = {
 	["nodes_nature:tangkal_fruit"]   = { { "Food Poisoning",      0.001, 1},
 	                                     { "Drunk",               0.005, 1} },
   ["nodes_nature:panasee_fruit"]   = { { "Food Poisoning",      0.001, 1} },
+	["nodes_nature:amma_nut"]        = { { "Food Poisoning",      0.001, 1} },
 
 	--meat
 	["animals:carcass_invert_small"] = { { "Food Poisoning",      0.1,   1},

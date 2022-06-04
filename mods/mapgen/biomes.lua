@@ -116,8 +116,8 @@ local biome_list = {
 	--[[06]]  { "Upland Woodland"   ,   nil,      up_woodl,    1,        clay,     2,       limestone,   nil,   nil,  air     ,  up_woodl_wet   ,   1,    {potable},   25,      upland_max       ,  lowland_max        ,  middle        ,  extreme_high      ,  },
 
 	--Wetlands
-	--[[07]]  { "Swamp Forest"      ,   nil, sw_forest_wet,    1,    silt_wet,     3,       limestone,   nil,   nil,   air    ,  clay_wet       ,   3,    {potable},   5,      coastal_max       ,  beach_max          ,  extreme_low   ,  extreme_high+5    ,  },
-	--[[08]]  { "Marshland"         ,   nil,     marsh_wet,    1,    silt_wet,     3,       limestone,   nil,   nil,   air    ,  clay_wet       ,   3,    {potable},   5,      coastal_max       ,  beach_max          ,  middle        ,  extreme_high+5    ,  },
+	--[[07]]  { "Swamp Forest"      ,   nil, sw_forest_wet,    1,    silt_wet,     3,       limestone,   nil,   nil,   air    ,  clay_wet       ,   3,    {potable},   5,      coastal_max+5     ,  beach_max          ,  extreme_low   ,  extreme_high+5    ,  },
+	--[[08]]  { "Marshland"         ,   nil,     marsh_wet,    1,    silt_wet,     3,       limestone,   nil,   nil,   air    ,  clay_wet       ,   3,    {potable},   5,      coastal_max+8     ,  beach_max          ,  middle        ,  extreme_high+5    ,  },
 
 	--Shrublands & Grasslands
 	--[[09]]  { "Coastal Shrubland" ,   nil,      c_shland,    1,        silt,     2,       limestone,   nil,   nil,  air     ,  gravel_w       ,   2,    {potable},   5,      coastal_max       ,  beach_max          ,  low           ,  middle             ,  },

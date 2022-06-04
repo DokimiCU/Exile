@@ -80,4 +80,5 @@ tree_list = {
 	{"sasaran", "Sasaran Tree", "sasaran_cone", S("Sasaran Cone"), 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2, 1, "yellow"},
 	{"kagum", "Kagum Tree", "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, 1},
 	{"panasee", "Panasee Tree", "panasee_fruit", S("Panasee Fruit"), 2, {-0.1, -0.2, -0.1, 0.1, 0.5, 0.1},1, 1, "yellow"},
+	{"amma", "Amma Tree", "amma_nut", S("Amma nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},2, 1, "black"},
 }

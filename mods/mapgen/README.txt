@@ -111,6 +111,7 @@ Highlands:
 ---------
 Extreme difficulty. High altitude barren areas. Almost no resources.
 Awe, fearful.
+(note: not snowy, nothing in this game gets high enough to freeze on its own)
 
 Beaches,  Coasts, and Salt Lakes:
 ------------------
