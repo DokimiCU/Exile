@@ -55,8 +55,10 @@ soil_list = {
 	{"barrenland_soil", S("Barren Grassland Soil"), 3, "gravel", "gravel"},
 	{"duneland_soil", S("Duneland Soil"), 3, "sand", "sand"},
 
-	--Legacy
+	-- Highland
 	{"highland_soil", S("Highland Soil"), 2, "gravel", "gravel"},
+
+	--Legacy
 	{"grassland_barren_soil", S("Barren Grassland Soil"), 3, "gravel", "gravel"},
 	{"woodland_dry_soil", S("Dry Woodland Soil"), 3, "silt", "silt"},
 
