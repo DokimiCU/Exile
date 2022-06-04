@@ -14,7 +14,7 @@ Dokimi (GPLv3)
 
 Guide to Biomes
 ================
-
+Exile_Biomes.mt is the biomes file for Amidst
 
 Biome Axis
 -----------
