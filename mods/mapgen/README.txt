@@ -90,7 +90,7 @@ Full Biome List:
 Forests & Woodlands:
 --------------------
 Easy part of the map. Abundant resources, shelter, and food.
-A place of peace and calm.
+A place of peace and calm, or mystery and enchantment.
 
 Wetlands:
 ---------
@@ -116,7 +116,7 @@ Awe, fearful.
 Beaches,  Coasts, and Salt Lakes:
 ------------------
 Abundant in specific resources, but with survival difficulties.
-Enchanted, mysterious, disorientating.
+Peaceful, enchanted, mysterious, disorientating.
 
 Underground:
 -----------

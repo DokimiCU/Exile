@@ -258,17 +258,17 @@ local pw = 0.3
 
 local soil_list = {
   --Soil intrusions
-  { "nodes_nature:loam"        , loam_in       ,  {offset = 0, scale = s, spread = spd, seed =   1995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:loam"        , loam_in       ,  {offset = 0, scale = s, spread = spd, seed =   1695, octaves = 2, persist = 1.00},  },
   { "nodes_nature:loam_wet"    , wet_loam_in   ,  {offset = ow, scale = s, spread = spw, seed =   1295, octaves = 2, persist = pw},  },
-  { "nodes_nature:silt"        , silt_in       ,  {offset = 0, scale = s, spread = spd, seed =   2995, octaves = 2, persist = 1.00},  },
-  { "nodes_nature:silt_wet"    , wet_silt_in   ,  {offset = ow, scale = s, spread = spw, seed =   2295, octaves = 2, persist = pw},  },
+  { "nodes_nature:silt"        , silt_in       ,  {offset = 0, scale = s, spread = spd, seed =   9995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:silt_wet"    , wet_silt_in   ,  {offset = ow, scale = s, spread = spw, seed =   2225, octaves = 2, persist = pw},  },
   { "nodes_nature:clay"        , clay_in       ,  {offset = 0, scale = s, spread = spd, seed =   3995, octaves = 2, persist = 1.00},  },
-  { "nodes_nature:clay_wet"    , wet_clay_in   ,  {offset = ow, scale = s, spread = spw, seed =   3295, octaves = 2, persist = pw},  },
+  { "nodes_nature:clay_wet"    , wet_clay_in   ,  {offset = ow, scale = s, spread = spw, seed =   7295, octaves = 2, persist = pw},  },
   { "nodes_nature:gravel"      , gravel_in     ,  {offset = 0, scale = s, spread = spd, seed =   4995, octaves = 2, persist = 1.00},  },
   { "nodes_nature:gravel_wet"  , wet_gravel_in ,  {offset = ow, scale = s, spread = spw, seed =   4295, octaves = 2, persist = pw},  },
-  { "nodes_nature:sand"        , sand_in       ,  {offset = 0, scale = s, spread = spd, seed =   5995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:sand"        , sand_in       ,  {offset = 0, scale = s, spread = spd, seed =   5990, octaves = 2, persist = 1.00},  },
   { "nodes_nature:sand_wet"    , wet_sand_in   ,  {offset = ow, scale = s, spread = spw, seed =   5295, octaves = 2, persist = pw},  },
-  { "nodes_nature:red_ochre"   , ochre_in      ,  {offset = 0, scale = 6, spread = spd, seed =   5995, octaves = 2, persist = 1.00},  },
+  { "nodes_nature:red_ochre"   , ochre_in      ,  {offset = 0, scale = 2, spread = spd, seed =   7795, octaves = 2, persist = 0.8},  },
 
 }
 
