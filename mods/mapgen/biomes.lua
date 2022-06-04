@@ -141,9 +141,9 @@ local biome_list = {
 	--[[23]]  { "Highland Rock"    ,   nil,            air,    1,       gravel,    2,       limestone,   nil,   nil,  air     ,  gravel         ,   1,    {potable},   25,      upper_limit      ,  upland_max         ,  extreme_high   ,  low                ,  },
 
 	--Coasts
-	--[[24]]  { "Sandy Beach"       ,   nil,          sand,    3,     sand_ws,     1,       limestone,   nil,   nil,  air     ,  sand_ws        ,   2,    {potable},   1,      beach_max          ,  2                 ,  high          ,  low               ,  },
+	--[[24]]  { "Sandy Beach"       ,   nil,          sand,    3,     sand_ws,     1,       limestone,   nil,   nil,  air     ,  sand_ws        ,   2,    {potable},   1,      beach_max          ,  2                 ,  high          ,  middle            ,  },
 	--[[25]]  { "Silty Beach"       ,   nil,          silt,    3,     silt_ws,     1,       limestone,   nil,   nil,  air     ,  silt_ws        ,   2,    {potable},   1,      beach_max          ,  2                 ,  middle        ,  high              ,  },
-	--[[26]]  { "Gravel Beach"      ,   nil,        gravel,    3,   gravel_ws,     1,       limestone,   nil,   nil,  air     ,  gravel_ws      ,   2,    {potable},   1,      beach_max          ,  2                 ,  low           ,  low               ,  },
+	--[[26]]  { "Gravel Beach"      ,   nil,        gravel,    3,   gravel_ws,     1,       limestone,   nil,   nil,  air     ,  gravel_ws      ,   2,    {potable},   1,      beach_max          ,  2                 ,  low           ,  middle            ,  },
 	--[[27]]  { "Sandy Coast"       ,   nil,       sand_ws,    1,     sand_ws,     2,       limestone,   nil,   nil,  air     ,  sand_ws        ,   3,    {potable},   2,      1                  ,  beach_min         ,  high          ,  low               ,  },
 	--[[28]]  { "Silty Coast"       ,   nil,       silt_ws,    1,     silt_ws,     2,       limestone,   nil,   nil,  air     ,  silt_ws        ,   3,    {potable},   2,      1                  ,  beach_min         ,  middle        ,  high              ,  },
 	--[[29]]  { "Gravel Coast"      ,   nil,     gravel_ws,    1,   gravel_ws,     2,       limestone,   nil,   nil,  air     ,  gravel_ws      ,   3,    {potable},   2,      1                  ,  beach_min         ,  low           ,  low               ,  },

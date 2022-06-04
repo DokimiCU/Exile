@@ -321,22 +321,6 @@ minetest.override_item("nodes_nature:maraka_leaves",{damage_per_second = 1})
 --tangkal fruit is good food, but bulky
 minetest.override_item("nodes_nature:tangkal_fruit",{stack_max = minimal.stack_max_medium/2})
 
---exile_experimental trees
-minetest.override_item("nodes_nature:sasaran_cone",{
-			  on_use = function(itemstack, user, pointed_thing)
-
-			     --food poisoning
-			     if random() < 0.08 then
-				HEALTH.add_new_effect(user, {"Food Poisoning", 1})
-			     end
-
-			     --hp_change, thirst_change, hunger_change, energy_change, temp_change, replace_with_item
-			     return HEALTH.use_item(itemstack, user, 0, 0, 1, 0, 0)
-
-			  end,
-})
-
-
 local kagum_groups = table.copy(minetest.registered_nodes["nodes_nature:kagum_pod"].groups)
 kagum_groups.bioluminescent = 1
 
