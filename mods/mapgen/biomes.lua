@@ -25,7 +25,7 @@
 	--- Misc Nodes
 		local air              = "air"
 		local potable          = "nodes_nature:freshwater_source"
-		local lava      = "nodes_nature:lava_source"
+		local lava             = "nodes_nature:lava_source"
 	---Top Soil Nodes
 		local forest           = "nodes_nature:forest_soil"
 		local forest_wet       = "nodes_nature:forest_soil_wet"
