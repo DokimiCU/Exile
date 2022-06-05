@@ -116,13 +116,13 @@ tree_base_tree_growth = 31000
 tree_base_leaf_growth = 21000
 tree_base_fruit_growth = 19000
 
-
+--name, Desc, fruit name, fruit desc, p2 fruit,selbox_fruit, wood hardness, hardwood, dyecandidate, dye
 tree_list = {
-	{"maraka", "Maraka Tree", "maraka_nut", S("Maraka Nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1, 1, "black"},
-	{"tangkal", "Tangkal Tree", "tangkal_fruit", S("Tangkal Fruit"), 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2, 1, "crimson"},
-	{"sasaran", "Sasaran Tree", "sasaran_cone", S("Sasaran Cone"), 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2, 1, "yellow"},
-	{"kagum", "Kagum Tree", "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, 1},
-	{"panasee", "Panasee Tree", "panasee_fruit", S("Panasee Fruit"), 2, {-0.1, -0.2, -0.1, 0.1, 0.5, 0.1},1, 1, "yellow"},
-	{"amma", "Amma Tree", "amma_nut", S("Amma nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},2, 1, "black"},
-	{"daoja", "Daoja Tree", "daoja_berry", S("Daoja Berry"), 1, {-0.1, -0.5, -0.1, 0.1, -0.3, 0.1},1, 1, "crimson"},
+	{"maraka", "Maraka Tree", "maraka_nut", S("Maraka Nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1, true, 1, "black"},
+	{"tangkal", "Tangkal Tree", "tangkal_fruit", S("Tangkal Fruit"), 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2, false, 1, "crimson"},
+	{"sasaran", "Sasaran Tree", "sasaran_cone", S("Sasaran Cone"), 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2, false, 1, "yellow"},
+	{"kagum", "Kagum Tree", "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, false, 1},
+	{"panasee", "Panasee Tree", "panasee_fruit", S("Panasee Fruit"), 2, {-0.1, -0.2, -0.1, 0.1, 0.5, 0.1},1, true, 1, "yellow"},
+	{"amma", "Amma Tree", "amma_nut", S("Amma nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},2, false, 1, "black"},
+	{"daoja", "Daoja Tree", "daoja_berry", S("Daoja Berry"), 1, {-0.1, -0.5, -0.1, 0.1, -0.3, 0.1},1, true, 1, "crimson"},
 }

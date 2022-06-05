@@ -67,6 +67,7 @@ Plant groups
 `fibrous_plant`: tough stringy plant matter. Anything you might try using for string.
 `mushroom`: can grow in dark, likely a mushroom.
 `tree`: a tree trunk.
+`hard_wood`: dense wood, too hard for an adze, suitable for sturdy carpentry.
 `log`: dropped on felling tree. Used for timber crafts
 `cane_plant`: cane like plant, grows on top of itself in a pillar
 `seed`: a plant seed or spore. Will grow into a seedling.

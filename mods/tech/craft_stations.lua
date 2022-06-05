@@ -711,35 +711,35 @@ crafting.register_recipe({
 crafting.register_recipe({ --carpentary from logs for bench and iron for tools
 	type   = "chopping_block",
 	output = "tech:carpentry_bench",
-	items  = {'tech:iron_ingot 4', 'nodes_nature:maraka_log 2'},
+	items  = {'tech:iron_ingot 4', 'group:hard_wood 2'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({
 	type   = "carpentry_bench",
 	output = "tech:carpentry_bench",
-	items  = {'tech:iron_ingot 4', 'nodes_nature:maraka_log 2'},
+	items  = {'tech:iron_ingot 4', 'group:hard_wood 2'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({ --masonry_bench from logs for bench and iron for tools
 	type   = "carpentry_bench",
 	output = "tech:masonry_bench",
-	items  = {'tech:iron_ingot 4', 'nodes_nature:maraka_log 2'},
+	items  = {'tech:iron_ingot 4', 'group:hard_wood 2'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({ --spinning wheel. wood,
 	type   = "carpentry_bench",
 	output = "tech:spinning_wheel",
-	items  = {'nodes_nature:maraka_log 2'},
+	items  = {'group:hard_wood 2'},
 	level  = 1,
 	always_known = true,
 	})
 crafting.register_recipe({ --loom. wood, fibre for mechanisms
 	type   = "carpentry_bench",
 	output = "tech:loom",
-	items  = {'nodes_nature:maraka_log 2', 'tech:coarse_fibre 12'},
+	items  = {'group:hard_wood 2', 'tech:coarse_fibre 12'},
 	level  = 1,
 	always_known = true,
 	})
