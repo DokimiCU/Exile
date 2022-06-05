@@ -21,8 +21,8 @@ Biome Axis
 In general:
 
 Humidity divides major ecosystem types between abundant and hostile.
-
 Rich areas are wet, lifeless ones dry. e.g. Forests (wet), dunelands (dry).
+
 Heat divides ecosystem subtypes between dense and open.
 Dense areas are cold, open are hot. e.g. woodland (hot) vs forest (cold).
 

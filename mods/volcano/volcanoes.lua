@@ -52,8 +52,8 @@ local radius_vent = 8 -- approximate minimum radius of vent - noise adds a lot t
 local depth_maxwidth_dist = depth_maxwidth-depth_base
 
 --nodes
-local snow_line = 165 -- above this elevation snow is added to the dirt type
-local snow_border = 15 -- transitional zone
+local snow_line = 350 -- above this elevation snow is added to the dirt type
+local snow_border = 25 -- transitional zone
 
 local c_ocean_sed = minetest.get_content_id("nodes_nature:gravel_wet_salty")
 local c_dune_soil = minetest.get_content_id("nodes_nature:duneland_soil")
