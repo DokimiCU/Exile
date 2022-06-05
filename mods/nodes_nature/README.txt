@@ -83,3 +83,6 @@ From Australia, by demon_boy (https://github.com/vlapsley) CC BY-SA 3.0:
   jogalan - aus_saltbush.png
   orom - aus_darling_lily.png
   veke - aus_silver_daisy.png
+  nagaeo - aus_staghorn_coral_pink.png
+  koaeako - aus_sea_grass.png
+  imoaru - aus_kelp_giant_brown.png
