@@ -2,15 +2,6 @@
 --LIFE
 --living things e.g. plants
 
---[[param2
-Currently the following meshes are choosable:
-  * 0 = a "x" shaped plant (ordinary plant)
-  * 1 = a "+" shaped plant (just rotated 45 degrees)
-  * 2 = a "*" shaped plant with 3 faces instead of 2
-  * 3 = a "#" shaped plant with 4 faces instead of 2
-  * 4 = a "#" shaped plant with 4 faces that lean
-]]
-
 -- Internationalization
 local S = nodes_nature.S
 

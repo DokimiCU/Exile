@@ -1,3 +1,15 @@
+
+--[[
+# 7 on the list
+param2
+Currently the following meshes are choosable:
+  * 0 = a "x" shaped plant (ordinary plant)
+  * 1 = a "+" shaped plant (just rotated 45 degrees)
+  * 2 = a "*" shaped plant with 3 faces instead of 2
+  * 3 = a "#" shaped plant with 4 faces instead of 2
+  * 4 = a "#" shaped plant with 4 faces that lean
+]]
+
 -- Internationalization
 local S = nodes_nature.S
 
@@ -19,10 +31,12 @@ plantlist = {
 	{"vansano", "Vansano", nil, 1, "herbaceous_plant", nil, 2, nil, nil, plant_base_growth * 1.2, 1, "green"},
 	{"anperla", "Anperla", nil, 1, "herbaceous_plant", nil, 3, S('Anperla Tuber'), 'nodes_nature_tuber.png', plant_base_growth * 2, 1, "green"},
 	{"tashvish", "Tashvish", nil, 1, "fibrous_plant", nil, 4, nil, nil, plant_base_growth*1.5},
+	{"jogalan", "Jogalan", nil, 1, "woody_plant", nil, 0, nil, nil, plant_base_growth * 2, 1, "black"},
 
 	--artifact
 	{"reshedaar", "Reshedaar", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, S("Reshedaar Spores"), "nodes_nature_spores.png", plant_base_growth *3, 1, "indigo"},
 	{"mahal", "Mahal", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", nil, S("Mahal Spores"), "nodes_nature_spores.png", plant_base_growth *3, 1},
+	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "mushroom", "nodebox", 0, S("Lambakap Spores"), "nodes_nature_spores.png", plant_base_growth *3, 1, "red"},
 --Consumables
   --drugs
 	{"tikusati", "Tikusati", nil, 1, "herbaceous_plant", nil, 2,  nil, nil, plant_base_growth, nil, "yellow"},
@@ -37,8 +51,9 @@ plantlist = {
 	{"zufani", "Zufani", nil, 1, "mushroom", nil, 2, nil, nil, plant_base_growth * 2, 1, "yellow"},
 	{"galanta", "Galanta", nil, 1, "herbaceous_plant", nil, 4, nil, nil, plant_base_growth *0.8, 1, "green"},
 	{"momo", "Momo", nil, 1, "herbaceous_plant", nil, 2, nil, nil, plant_base_growth *2, 1, "red"},
-	--artifact
-	{"lambakap", "Lambakap", {-0.25, -0.5, -0.25, 0.25, -0.125, 0.25}, 1, "crumbly", "nodebox", 0, S("Lambakap Spores"), "nodes_nature_spores.png", plant_base_growth *3, 1, "red"},
+	--No function/decorative (when new features get added, consider using these for something)
+	{"orom", "Orom", nil, 1, "herbaceous_plant", nil, 1, nil, nil, plant_base_growth *2, 1, "black"},
+	{"veke", "Veke", nil, 1, "herbaceous_plant", nil, 0, nil, nil, plant_base_growth *2, 1, "black"},
 
 }
 
