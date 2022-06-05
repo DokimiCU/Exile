@@ -35,7 +35,7 @@ food_table = {
 	["nodes_nature:lambakap"]           = { 0, 10,  10,  0,  0 },
 	["nodes_nature:tangkal_fruit"]      = { 0,  5,  10, 10,  0 },
 	["nodes_nature:panasee_fruit"]      = { 0,  5,   4,  1,  0 },
-	["nodes_nature:amma_nut"]           = { 0,  0,   1,  5,  0 },
+	["nodes_nature:amma_nut"]           = { 0,  0,   1, 10,  0 },
 	["nodes_nature:daoja_berry"]        = { 0,  0,   4,  0,  0 },
 	["nodes_nature:momo"]               = { 0,  1,  12,  0,  0 },
 	--meat
