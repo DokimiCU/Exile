@@ -33,9 +33,24 @@ minetest.register_node("rings:antiquorium", {
 	after_place_node = minimal.protection_after_place_node,
 	drop = "artifacts:antiquorium"
 })
+minetest.register_node("rings:moon_glass", {
+	description = "Moon Glass",
+	drawtype = "glasslike",
+	tiles = {"artifacts_moon_glass.png"},
+	stack_max = minimal.stack_max_bulky *4,
+	light_source = 5,
+	paramtype = "light",
+	sunlight_propagates  = true,
+	use_texture_alpha = "clip",
+	sounds = nodes_nature.node_sound_glass_defaults(),
+	groups = {cracky = 1,},
+	after_place_node = minimal.protection_after_place_node,
+	drop = "artifacts:moon_glass",
+})
+
 
 local c_ring = minetest.get_content_id("rings:antiquorium")
-local c_ring_i = minetest.get_content_id("artifacts:moon_glass") -- TODO: replace this with a glowing material
+local c_ring_i = minetest.get_content_id("rings:moon_glass") -- TODO: replace this with a glowing material
 
 --noise parameters
 -- base terrain height
