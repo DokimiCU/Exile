@@ -81,4 +81,5 @@ tree_list = {
 	{"kagum", "Kagum Tree", "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, 1},
 	{"panasee", "Panasee Tree", "panasee_fruit", S("Panasee Fruit"), 2, {-0.1, -0.2, -0.1, 0.1, 0.5, 0.1},1, 1, "yellow"},
 	{"amma", "Amma Tree", "amma_nut", S("Amma nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},2, 1, "black"},
+	{"daoja", "Daoja Tree", "daoja_berry", S("Daoja Berry"), 1, {-0.1, -0.5, -0.1, 0.1, -0.3, 0.1},1, 1, "crimson"},
 }
