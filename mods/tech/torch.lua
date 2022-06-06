@@ -197,7 +197,7 @@ minetest.register_node("tech:torch", {
 	light_source = light_power,
 	temp_effect = temp,
 	temp_effect_max = heat,
-	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1, ingniter = 1, temp_effect = 1, temp_pass = 1},
+	groups = {choppy=2, dig_immediate=3, attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
 	drop = "tech:torch",
 	on_drop = function(itemstack, dropper, pos)
 	   on_throw(itemstack, dropper, pos)
@@ -291,7 +291,7 @@ minetest.register_node("tech:torch_wall", {
 	light_source = light_power,
 	temp_effect = temp,
 	temp_effect_max = heat,
-	groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1, ingniter = 1, temp_effect = 1, temp_pass = 1},
+	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1, attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
 	drop = "tech:torch",
 	selection_box = {
 		type = "wallmounted",
@@ -344,7 +344,7 @@ minetest.register_node("tech:torch_ceiling", {
 	light_source = light_power,
 	temp_effect = temp,
 	temp_effect_max = heat,
-	groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1, ingniter = 1, temp_effect = 1, temp_pass = 1},
+	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1, attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
 	drop = "tech:torch",
 	selection_box = {
 		type = "wallmounted",
