@@ -24,19 +24,26 @@ local lifespan = energy_max * 6
 
 -----------------------------------
 local function brain(self)
+	local pos = mobkit.get_stand_pos(self)
+	local yaw = self.object:get_yaw()
+	local fpos = mobkit.pos_translate2d(pos,yaw,1)
+	local node = mobkit.nodeatpos(fpos)
 
-	--die from damage
-	if not animals.core_hp_water(self) then
-		return
+	if node and node.drawtype ~= 'liquid' then
+		mobkit.clear_queue_high(self)
+		mobkit.hq_aqua_turn(self,68,yaw+2,2)
 	end
 
+
 	if mobkit.timer(self,1) then
-
-		local pos = mobkit.get_stand_pos(self)
-
 		local age, energy = animals.core_life(self, lifespan, pos)
 		--die from exhaustion or age
 		if not age then
+			return
+		end
+
+		--die from damage
+		if not animals.core_hp_water(self) then
 			return
 		end
 
@@ -47,7 +54,6 @@ local function brain(self)
 		local pred = nil
 
 		if prty < 50 then
-
 			--Threats
 			local plyr = mobkit.get_nearby_player(self)
 			if plyr then
@@ -56,6 +62,11 @@ local function brain(self)
 
 			pred = animals.predator_avoid_water(self, 55, 0)
 
+			--Return to water
+			if not self.isinliquid then
+				mobkit.clear_queue_high(self)
+				animals.hq_swimfrompos(self,66,pos,1)
+			end
 		end
 
 

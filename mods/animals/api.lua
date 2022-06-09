@@ -89,9 +89,14 @@ function animals.core_hp_water(self)
   if not self.isinliquid then
     mobkit.hurt(self,1)
   end
-
   --die from damage
   local hp = self.hp
+
+
+local energy = mobkit.recall(self,'energy')
+local age = mobkit.recall(self,'age')
+if not age then age=0 end
+if not energy then energy = 0 end
   if hp <= 0 then
     mobkit.clear_queue_high(self)
     animals.handle_drops(self)
@@ -346,18 +351,31 @@ function animals.hq_roam_walkable_group(self, group, prty)
   mobkit.queue_high(self,func,prty)
 end
 
+
+local function aqua_path_safe(start_pos,p)
+	local path=minetest.raycast(start_pos,p,false,true)
+	for pointed_thing in path do
+		local node=mobkit.nodeatpos(pointed_thing.intersection_point)
+		if node and node.drawtype ~= 'liquid' then
+			return false
+		end
+	end
+	return true
+end
+
+
  ---------------------------------------------------
 --(currently duplicated in mobkit, but only as a local function)
 local function aqua_radar_dumb(pos,yaw,range,reverse)
  range = range or 4
-
- local function okpos(p)
+ local function okpos(p,start_pos)
    local node = mobkit.nodeatpos(p)
    if node then
      if node.drawtype == 'liquid' then
        local nodeu = mobkit.nodeatpos(mobkit.pos_shift(p,{y=1}))
        local noded = mobkit.nodeatpos(mobkit.pos_shift(p,{y=-1}))
-       if (nodeu and nodeu.drawtype == 'liquid') or (noded and noded.drawtype == 'liquid') then
+       if ((nodeu and nodeu.drawtype == 'liquid') or (noded and noded.drawtype == 'liquid')) 
+	       and aqua_path_safe(start_pos,p) then
          return true
        else
          return false
@@ -366,7 +384,9 @@ local function aqua_radar_dumb(pos,yaw,range,reverse)
        local h,_ = mobkit.get_terrain_height(p)
        if h then
          local node2 = mobkit.nodeatpos({x=p.x,y=h+1.99,z=p.z})
-         if node2 and node2.drawtype == 'liquid' then return true, h end
+         if node2 and node2.drawtype == 'liquid' and aqua_path_safe(start_pos,{x=p.x,y=h+1.99,z=p.z}) then 
+		 return true, h 
+	 end
        else
          return false
        end
@@ -375,10 +395,14 @@ local function aqua_radar_dumb(pos,yaw,range,reverse)
      return false
    end
  end
-
+-- check node in front at range.
  local fpos = mobkit.pos_translate2d(pos,yaw,range)
- local ok,h = okpos(fpos)
+ local ok,h = okpos(fpos,pos)
+
+
  if not ok then
+--check nodes right and left of possition.
+--Reverse checks from back to front first
    local ffrom, fto, fstep
    if reverse then
      ffrom, fto, fstep = 3,1,-1
@@ -386,21 +410,60 @@ local function aqua_radar_dumb(pos,yaw,range,reverse)
      ffrom, fto, fstep = 1,3,1
    end
    for i=ffrom, fto, fstep  do
-     ok,h = okpos(mobkit.pos_translate2d(pos,yaw+i,range))
+     ok,h = okpos(mobkit.pos_translate2d(pos,yaw+i,range),pos)
      if ok then
        return yaw+i,h
      end
-     ok,h = okpos(mobkit.pos_translate2d(pos,yaw-i,range))
+     ok,h = okpos(mobkit.pos_translate2d(pos,yaw-i,range),pos)
      if ok then
        return yaw-i,h
      end
    end
+   -- No safe path so reverse direction.
    return yaw+pi,h
  else
    return yaw, h
  end
 end
 
+
+---------------------------------------------------
+-- turn around  from opos and swim away until out of sight
+function animals.hq_swimfrompos(self,prty,opos,speed)
+  local timer = time() + 2
+  local func = function(self)
+
+    if time() > timer then
+      return true
+    end
+
+    local pos = mobkit.get_stand_pos(self)
+    local distance = vector.distance(pos,opos)
+    -- rotate 30 degrees to right from current yaw
+    local yaw = self.object:get_yaw() - pi/6
+    if distance > 0.5 then
+	-- or 180 from pos we're running from if no longer close to it
+    	yaw = get_yaw_to_object(pos, opos) - pi
+    end
+
+
+    if (distance/1.5) < self.view_range then
+      local swimto, height = aqua_radar_dumb(pos,yaw,1)
+      if height and height > pos.y then
+        local vel = self.object:get_velocity()
+        vel.y = vel.y+0.2
+        self.object:set_velocity(vel)
+      end
+
+      mobkit.hq_aqua_turn(self,prty,swimto,speed)
+
+    else
+      return true
+    end
+
+  end
+  mobkit.queue_high(self,func,prty)
+ end
 
 
 
@@ -418,7 +481,6 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
     if not mobkit.is_alive(tgtobj) then
       return true
     end
-
     local pos = mobkit.get_stand_pos(self)
     local opos = tgtobj:get_pos()
 
@@ -426,7 +488,7 @@ function animals.hq_swimfrom(self,prty,tgtobj,speed)
     local distance = vector.distance(pos,opos)
 
     if (distance/1.5) < self.view_range then
-      local swimto, height = aqua_radar_dumb(pos,yaw,3)
+      local swimto, height = aqua_radar_dumb(pos,yaw,speed)
       if height and height > pos.y then
         local vel = self.object:get_velocity()
         vel.y = vel.y+0.1

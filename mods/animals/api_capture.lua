@@ -6,9 +6,20 @@
 local create_mob = function(placer, itemstack, name, pos)
 	local meta = itemstack:get_meta()
 	local meta_table = meta:to_table()
+	local memory
+	if meta_table.fields.memory then
+		memory=minetest.deserialize(meta_table.fields.memory)
+
+	end
 	local sdata = minetest.serialize(meta_table)
 	local mob = minetest.add_entity(pos, name, sdata)
+
 	local ent = mob:get_luaentity()
+	if memory then
+		for key,value in pairs(memory) do
+			mobkit.remember(ent,key,value)
+		end
+	end
 	itemstack:take_item() -- since mob is unique we remove egg once spawned
 	return ent
 end
@@ -105,6 +116,9 @@ animals.capture = function(self, clicker)
 		then
 			if what_type == "boolean" or what_type == "number" then
 				value = tostring(value)
+			end
+			if key == 'memory' then 
+				value = minetest.serialize(value)
 			end
 			stack_meta:set_string(key, value)
 		end
