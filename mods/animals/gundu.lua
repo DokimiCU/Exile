@@ -20,35 +20,52 @@ local young_per_egg = 5		--will get this/energy_egg starting energy
 
 local lifespan = energy_max * 6
 
-
+local function pos_is_liquid(pos)
+	local node=mobkit.nodeatpos(pos)
+	if node and node.drawtype ~= 'liquid' then
+		return false
+	else 
+		return true
+	end
+end
 
 -----------------------------------
 local function brain(self)
 	-- Make sure the block in front is liquid.
 	local pos = mobkit.get_stand_pos(self)
 	local yaw = self.object:get_yaw()
-	local fpos = mobkit.pos_translate2d(pos,yaw,1)
-	local node = mobkit.nodeatpos(fpos)
-	if node and node.drawtype ~= 'liquid' then
-		-- rise a little 
-		local vel = self.object:get_velocity()
+	local vel = self.object:get_velocity()
+
+	local fpos = mobkit.pos_translate2d(pos,yaw,1) --front position
+	local fu_pos = mobkit.pos_shift(fpos,{y=-1}) -- under front position
+	local u_pos = mobkit.pos_shift(pos,{y=-1})  -- under possition
+
+	if not pos_is_liquid(u_pos) or not pos_is_liquid(fu_pos) then
+		-- no water below risie up
+		vel.y = 0.2
+		self.object:set_velocity(vel)
+	end
+
+	if not pos_is_liquid(fpos) then
+		-- rise a little faster and turn
 		vel.y = vel.y+0.2
 		self.object:set_velocity(vel)
-
 		mobkit.clear_queue_high(self)
 		mobkit.hq_aqua_turn(self,68,yaw+2,2)
 	end
 
 
 	if mobkit.timer(self,1) then
-		local age, energy = animals.core_life(self, lifespan, pos)
-		--die from exhaustion or age
-		if not age then
+		-- die from damage - run before animals.core_life() 
+		--
+		if not animals.core_hp_water(self) then
 			return
 		end
+		-- Also recharges health from energy
+		local age, energy = animals.core_life(self, lifespan, pos)
 
-		--die from damage
-		if not animals.core_hp_water(self) then
+		--die from exhaustion or age
+		if not age then
 			return
 		end
 
