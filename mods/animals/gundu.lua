@@ -24,12 +24,17 @@ local lifespan = energy_max * 6
 
 -----------------------------------
 local function brain(self)
+	-- Make sure the block in front is liquid.
 	local pos = mobkit.get_stand_pos(self)
 	local yaw = self.object:get_yaw()
 	local fpos = mobkit.pos_translate2d(pos,yaw,1)
 	local node = mobkit.nodeatpos(fpos)
-
 	if node and node.drawtype ~= 'liquid' then
+		-- rise a little 
+		local vel = self.object:get_velocity()
+		vel.y = vel.y+0.2
+		self.object:set_velocity(vel)
+
 		mobkit.clear_queue_high(self)
 		mobkit.hq_aqua_turn(self,68,yaw+2,2)
 	end
