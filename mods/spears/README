@@ -1,0 +1,25 @@
+=== SPEARS for MINETEST by Echoes91 ===
+
+This mod adds spears to Minetest.
+
+How to download:
+If you have this file, you already know
+
+Forum topic:
+https://forum.minetest.net/viewtopic.php?f=11&t=13367
+
+How to install:
+http://wiki.minetest.com/wiki/Installing_Mods
+
+How to use the mod:
+Craft a spear with | stick | stick | (material) |, works also mirrored.
+Spears can be thrown using right mouse button, they either hurt someone or stick where they land on; damage depends on speed and material, flight trajectory is ballistic with (unrealistic) drag.
+Spears can be used to fight, but are slower and weaker than swords.
+Spears can be used to dig, but are slower and weaker and pickaxes.
+If you miss the target it's your fault, the spear is fine.
+You can grab a spear on the fly (or maybe wait until it falls?).
+You can stick a spear into a block, but if you remove the block then the spear falls (obviously).
+This mod contains the word "spear" more than 100 times, if you want the exact number count them yourself.
+If you feel clever, throw a spear right above you and look at it to see what happens.
+You can even throw a spear from above down to your foes, it's even easier to hit.
+Someone once reported to have hit its own foot but it takes practice to do that.

@@ -1,0 +1,24 @@
+Version 2.2:
+- "Hit detection" based on spearhead position
+- Spears go through buildable_to nodes (snow)
+- Ugly fix to not collide in air above slabs (works only if slabs are not rotated)
+
+Version 2.1:
+- Spears ding hard blocks (cracky < 3)
+- Fixed stick-into-node position to avoid spears turning black (#2467)
+- Player velocity added to throw (it's physics baby)
+
+Version 2.0:
+- Cleaner, streamlined code without deprecated functions
+- Spears hurt players
+- Spears animated in flight
+- Spears stick into nodes
+- New textures
+- New sound when hitting flesh
+- New receipt to fit with default tools
+- Drag depends on fluid
+- Improved instructions
+- New gold-plated spear to celebrate
+
+Version 1.1:
+- Make use of new on_secondary_use API, requires Minetest 5.2.0
