@@ -89,6 +89,15 @@ local function brain(self)
 				mobkit.clear_queue_high(self)
 				animals.hq_swimfrompos(self,66,pos,1)
 			end
+			-- Temp out of range
+			local temp = climate.get_point_temp(pos)
+			if temp < self.min_temp or temp > self.max_temp then
+				local vel = self.object:get_velocity()
+				vel.y = vel.y-0.2
+				self.object:set_velocity(vel)
+				mobkit.hq_aqua_roam(self,10,0.2)
+			end
+
 		end
 
 
