@@ -1,0 +1,84 @@
+# textdomain: nodes_nature
+
+# data_plant.lua
+Moss=Musgo
+Moss Spores=Esporas de Musgo
+Anperla Tuber=Tuberculo de Anperla
+Reshedaar Spores=Esporas de Reshedaar
+Mahal Spores=Esporas de Mahal
+Lambakap Spores=Esporas de Lambakap
+Kelp=Algas
+Seagrass=Hierba Marina
+Sea Lettuce=Lechuga de Mar
+Maraka Nut=Nueces de Maraka
+Tangkal Fruit=Fruta de Tangkal
+Sasaran Cone=Estróbilo de Sasaran
+Kagum Pod=Vaina de kagum
+Maraka Tree=Árbol Maraka
+Tangkal Tree=Árbol Tangkal
+Sasaran Tree=Árbol Sasaran
+Kagum Tree=Árbol Kagum
+
+# data_rock.lua
+Sandstone=Arenisca
+Siltstone=Limolita
+Claystone=Argilita
+Conglomerate=Conglomerado
+Limestone=Caliza
+Ironstone=Mineral de Hierro
+Granite=Granito
+Basalt=Basalto
+Gneiss=Gneis
+Jade=Jade
+Sand=Arena
+Silt=Limo
+Clay=Arcilla
+Gravel=Grava
+Loam=Suelo Margo
+Grassland Soil=Suelo de Pastizal
+Marshland Soil=Suelo de Pantanal
+Duneland Soil=Suelo Arenoso
+Highland Soil=Suelo de Paramo
+Woodland Soil=Suelo de Bosque
+Barren Grassland Soil=Suela de Pastizal Arido
+Dry Woodland Soil=Suelo de Bosque Seco
+Clay Agricultural Soil=Terreno Agricola Arcilloso
+Silty Agricultural Soil=Terreno Agricola Limoso
+Sandy Agricultural Soil=Terreno Agricola Arenoso
+Stony Agricultural Soil=Terreno Agricola Rocoso
+Loamy Agricultural Soil=Terreno Agricola Margo
+
+# life.lua
+Young @1=Brote de @1
+@1 Spores=Esporas de @1
+@1 Seeds=Semillas de @1
+Cana=Caña
+Glow Worm=Larvas Luminosas
+
+# liquids.lua
+Salt Water=Agua Salada
+Freshwater=Agua Fresca
+@1 Source=Fuente de @1
+@1 Flowing=Corriente de @1
+Snow=Nieve
+Snow Block=Bloque de nieve
+Ice=Hielo
+Sea Ice=Hielo Marino
+Lava Source=Fuente de Lava
+Lava Flowing=Corriente de Lava
+
+# rocks.lua
+@1 Boulder=Roca de @1
+@1 Brick=Ladrillo de @1
+@1 Block=Bloque de @1
+
+# sediment.lua
+Wet @1=@1 Humedecido
+Salty Wet @1=@1 Salado Humedecido
+Depleted @1=@1 Agotado
+Wet Depleted @1=@1 Humedecido Agotado
+
+# trees.lua
+Tree Marker=Marcador de Arbol
+@1 Log=Tronco de @1
+@1 Leaves=Ramas de @1

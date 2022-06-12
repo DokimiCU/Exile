@@ -749,7 +749,7 @@ liquid_store.register_stored_liquid(
 			{0.1, 0.3, -0.2, -0.1, 0.5, -0.1}, -- lip
 		}
 	},
-	"Green Glass Bottle With Salt Water",
+	S("Green Glass Bottle With Salt Water"),
 	{dig_immediate = 2})
 
 minetest.override_item("tech:glass_bottle_green_saltwater",
@@ -794,7 +794,7 @@ liquid_store.register_stored_liquid(
 			{0.1, 0.3, -0.2, -0.1, 0.5, -0.1}, -- lip
 		}
 	},
-	"Clear Glass Bottle With Salt Water",
+	S("Clear Glass Bottle With Salt Water"),
 	{dig_immediate = 2})
 
 minetest.override_item("tech:glass_bottle_clear_saltwater",
@@ -841,7 +841,7 @@ liquid_store.register_stored_liquid(
 			{0.1, 0.3, -0.2, -0.1, 0.5, -0.1}, -- lip
 		}
 	},
-	"Green Glass Bottle With Fresh Water",
+	S("Green Glass Bottle With Fresh Water"),
 	{dig_immediate = 2})
 
 minetest.override_item("tech:glass_bottle_green_freshwater",
@@ -909,7 +909,7 @@ liquid_store.register_stored_liquid(
 			{0.1, 0.3, -0.2, -0.1, 0.5, -0.1}, -- lip
 		}
 	},
-	"Clear Glass Bottle With Fresh Water",
+	S("Clear Glass Bottle With Fresh Water"),
 	{dig_immediate = 2})
 
 minetest.override_item("tech:glass_bottle_clear_freshwater",

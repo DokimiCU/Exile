@@ -2,5 +2,5 @@
 
 # init.lua
 Clothing=Habits
-Min Temperature Tolerance: @1=Température minimum tolérée : 
-Max Temperature Tolerance: @1=Température maximum tolérée : 
+Min Temperature Tolerance: @1=Température minimum tolérée : @1
+Max Temperature Tolerance: @1=Température maximum tolérée : @1

@@ -790,12 +790,12 @@ crafting.register_recipe({
 --drop unmortared stone.
 
 local list = {
-	{"limestone", "Limestone", 3},
-	{"ironstone", "Ironstone", 3},
-  {"granite", "Granite", 1},
-	{"basalt", "Basalt", 2},
-	{"gneiss", "Gneiss", 1},
-	{"jade", "Jade", 1},
+	{"limestone", S("Limestone"), 3},
+	{"ironstone", S("Ironstone"), 3},
+  {"granite", S("Granite"), 1},
+	{"basalt", S("Basalt"), 2},
+	{"gneiss", S("Gneiss"), 1},
+	{"jade", S("Jade"), 1},
 
 }
 

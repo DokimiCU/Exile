@@ -22,6 +22,10 @@ Save to inv meta
 
 ]]
 
+
+-- Internationalization
+local S = tech.S
+
 local cook_time = 1
 local cook_temp = { [""] = 101, ["Soup"] = 100 }
 local portions = 10 -- TODO: is this sane? Can we adjust it based on contents?
@@ -55,7 +59,7 @@ local pot_formspec = "size[8,4.1]"..
    "listring[current_player;main]"
 
 minetest.register_craftitem("tech:soup", {
-	description = "Soup",
+	description = S("Soup"),
 	inventory_image = "tech_vegetable_oil.png",
 	stack_max = minimal.stack_max_medium,
 	on_use = function(itemstack, user, pointed_thing)
@@ -163,7 +167,7 @@ local function pot_cook(pos, elapsed)
 	    portion[2] = portion[2] + (100 / portions)
 	 end
 	 imeta:set_string("eat_value", minetest.serialize(portion))
-	 imeta:set_string("description", firstingr.."soup")
+	 imeta:set_string("description", S("@1 soup",firstingr))
 	 meta:get_inventory(pos):set_list("main", inv)
 	 meta:set_string("infotext", kind.." pot (finished)")
 	 meta:set_string("type", "finished")
@@ -182,7 +186,7 @@ local function pot_cook(pos, elapsed)
 end
 
 minetest.register_node("tech:cooking_pot", {
-	description = "Cooking Pot",
+	description = S("Cooking Pot"),
 	tiles = {"tech_pottery.png",
 	"tech_pottery.png",
 	"tech_pottery.png",
@@ -255,7 +259,7 @@ minetest.register_node("tech:cooking_pot", {
 })
 
 minetest.register_node("tech:cooking_pot_unfired", {
-	description = "Cooking Pot (unfired)",
+	description = S("Cooking Pot (unfired)"),
 	tiles = {"nodes_nature_clay.png",
 		 "nodes_nature_clay.png",
 		 "nodes_nature_clay.png",

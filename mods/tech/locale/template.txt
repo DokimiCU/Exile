@@ -3,6 +3,7 @@
 # backpacks.lua
 Woven Bag=
 Fabric Bag=
+Wicker Bag=
 
 # beds.lua
 Sleeping Spot=
@@ -12,6 +13,12 @@ Mattress=
 Bed=
 
 # bricks_and_mortar.lua
+Limestone=
+Ironstone=
+Granite=
+Basalt=
+Gneiss=
+Jade=
 Crushed Lime=
 Quicklime=
 Slaked Lime=
@@ -42,6 +49,12 @@ Light Fabric Trousers=
 Thick Fabric Trousers=
 Light Fabric Tunic=
 Thick Fabric Tunic=
+
+# cooking-pot.lua
+Soup=
+Cooking Pot=
+Cooking Pot (unfired)=
+@1 soup=
 
 # doors.lua
 Wattle Door=
@@ -91,10 +104,9 @@ Green Glass Sand Mix=
 Green Glass Ingot=
 Potash Block=
 Potash=
+Clay Water Pot with Potash Solution=
 Potash Solution Source=
 Flowing Potash Solution=
-Clay Water Pot With Potash Solution=
-Clay Water Pot With Potash=
 Clear Glass Sand Mix=
 Clear Glass Ingot=
 Pane Casting Tray=
@@ -106,6 +118,11 @@ Green Glass Window=
 Clear Glass Window=
 Green Glass Bottle=
 Clear Glass Bottle=
+Green Glass Bottle With Fresh Water=
+Clear Glass Bottle With Fresh Water=
+Green Glass Bottle With Salt Water=
+Clear Glass Bottle With Salt Water=
+
 
 # graffiti.lua
 Painting Kit (lime white)=
@@ -164,10 +181,14 @@ Oil lamp (1/2 full)=
 Oil lamp (3/4 full)=
 Oil lamp=
 Clay Water Pot with Freshwater=
+Clay Water Pot with Salt Water=
 
 # storage.lua
 Clay Storage Pot=
+Primitive Wooden Chest=
 Wooden Chest=
+Wicker Storage Basket=
+Woven Storage Basket=
 Iron Chest=
 Owned by @1=
 
@@ -194,6 +215,9 @@ lever=
 Crafting Spot=
 Mixing Spot=
 Threshing Spot=
+Weaving Spot=
+Grinding Spot=
+Hammering Spot=
 Weaving Frame=
 Grinding stone=
 Basalt Mortar and Pestle=
@@ -213,3 +237,6 @@ Glass furnace=
 Wooden Ladder=
 Wooden Floor Boards=
 Wooden Stairs=
+Wooden Water Pot=
+Wooden Water Pot with Freshwater=
+Wooden Water Pot with Salt Water=

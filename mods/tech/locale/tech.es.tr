@@ -1,0 +1,242 @@
+# textdomain: tech
+
+# backpacks.lua
+Woven Bag=Mochila de Mimbre
+Fabric Bag=Mochila de Tela
+Wicker Bag=Mochila de Zarzo
+
+# beds.lua
+Sleeping Spot=Lugar para Dormir
+Sleeping Mat=Estera
+Primitive Bed=Cama Rudimentaria
+Mattress=Colchon
+Bed=Cama
+
+# bricks_and_mortar.lua
+Limestone=Caliza
+Ironstone=Mineral de Hierro
+Granite=Granito
+Basalt=Basalto
+Gneiss=Gneis
+Jade=Jade
+Crushed Lime=Cal
+Quicklime=Cal Viva
+Slaked Lime=Cal Hidratada
+Slaked Lime (ruined)=Cal Hidratada Arruinada
+Lime Mortar=Mortero de Cal
+Loose Bricks (unfired)=Ladrillos Sueltos sin Curar
+Loose Bricks=Ladrillos Sueltos
+Brick and Mortar=Ladrillos con Mortero
+Loose Roof Tile (unfired)=Tejas Sueltas sin Curar
+Loose Roof Tile=Tejas Sueltas
+Roof Tile=Tejado
+Roof Tile (outer corner)=Esquina Externa de Tejado
+Roof Tile (inner corner)=Esquina Interna de Tejado
+@1 Brick with Mortar=Ladrillo de @1 con Mortero
+@1 Block with Mortar=Bloque de @1 con Mortero
+
+# clothing.lua
+Woven Hat=Sombrero de Mimbre
+Woven Cape=Capa de Mimbre
+Woven Poncho=Poncho de Mimbre
+Woven Leggings=Pantalon de Mimbre
+Woven Blanket=Manta de Mimbre
+Light Fabric Hat=Sombrero de Tela Ligera
+Thick Fabric Hat=Sombrero de Tela Gruesa
+Light Fabric Cape=Capa de Tela Ligera
+Thick Fabric Cape=Capa de Tela Gruesa
+Light Fabric Trousers=Pantalon de Tela Ligera
+Thick Fabric Trousers=Pantalon de Tela Gruesa
+Light Fabric Tunic=Tunica de Tela Ligera
+Thick Fabric Tunic=Tunica de Tela Gruesa
+
+# cooking-pot.lua
+Soup=Sopa
+Cooking Pot=Olla Ceramica
+Cooking Pot (unfired)=Olla Ceramica sin Curar
+@1 soup=Sopa de @1
+
+# doors.lua
+Wattle Door=Puerta de Zarzo
+Wattle Trapdoor=Trampilla de Zarzo
+Wooden Door=Puerta de Madera
+Wooden Trapdoor=Trampilla de Madera
+Iron Door=Puerta de Hierro
+Iron Trapdoor=Trampilla de Hierro
+
+# drugs.lua
+Herbal Medicine=Medicina Herbal
+Tang=Sidra de Tangkal
+Tang (unfermented)=Sidra de Tangkal sin Fermentar
+Tiku (stimulant)=Estimulante Tiku
+Tiku High=Dopado con Tiku
+
+# fibreworking.lua
+Unretted Cana Bundle=Fardo de Caña sin Tratar
+Retted Cana Bundle=Fardo de Caña Enriado
+Coarse Fibre=Fibras Vegetales Gruesas
+Fine Fibre=Fibras Vegetales Finas
+Coarse Fabric=Tejido Grueso
+Fine Fabric=Tejido Fino
+
+# fires.lua
+Wood Ash Block=Bloque de Cenizas
+Wood Ash=Ceniza
+Charcoal Block=Bloque de Carbon
+Charcoal=Carbon
+Small Wood Fire (unlit)=Fogata Pequeña Apagada
+Large Wood Fire (unlit)=Fogata Grande Apagada
+Small Wood Fire=Fogata Pequeña
+Large Wood Fire=Fogata Grande
+Small Wood Fire (smoldering)=Fogata Pequeña Latente
+Large Wood Fire (smoldering)=Fogata Grande Latente
+Small Charcoal Fire=Carbones Encendidos
+Large Charcoal Fire=Bloque de Carbones Encendidos
+Small Charcoal Fire (smoldering)=Carbones Latentes
+Large Charcoal Fire (smoldering)=Bloque de Carbones Latentes
+Small Wood Fire (extinguished)=Fogata Pequeña Apagada
+Large Wood Fire (extinguished)=Fogata Grande Apagada
+Small Charcoal Fire (extinguished)=Carbones Apagados
+Large Charcoal Fire (extinguished)=Bloque de Carbones Apagados
+
+# glassworking.lua
+Green Glass Sand Mix=Mezcla para Vidrio Verde
+Green Glass Ingot=Lingote de Vidrio Verde
+Potash Block=Bloque de Potasa
+Potash=Potasa
+Clay Water Pot with Potash Solution=Vasija con Potasa Diluida
+Potash Solution Source=Fuente de Potasa Diluida
+Flowing Potash Solution=Corriente de Potasa Diluida
+Clear Glass Sand Mix=Mezcla para Vidrio Transparente
+Clear Glass Ingot=Lingote de Vidrio Transparente
+Pane Casting Tray=Bandeja de Fundición 
+Pane Casting Tray With Green Glass Pane=Bandeja de Fundición con Vidrio Verde
+Pane Casting Tray With Clear Glass Pane=Bandeja de Fundición con Vidrio Transparent
+Green Glass Pane=Panel de Vidrio Verde
+Clear Glass Pane=Panel de Vidrio Transparente
+Green Glass Window=Ventana de Vidrio Verde
+Clear Glass Window=Ventana de Vidrio Transparente
+Green Glass Bottle=Botella de Vidrio Verde
+Clear Glass Bottle=Botella de Vidrio Transparente
+Green Glass Bottle With Fresh Water=Botella de Vidrio Verde con Agua Fresca
+Clear Glass Bottle With Fresh Water=Botella de Vidrio Transparente con Agua Fresca
+Green Glass Bottle With Salt Water=Botella de Vidrio Verde cos Agua Salada
+Clear Glass Bottle With Salt Water=Botella de Vidrio Transparente cos Agua Salada
+
+
+# graffiti.lua
+Painting Kit (lime white)=Kit de Pintura Blanco Caliza
+Painting Kit (glow paint)=Kit de Pintura Bioluminicente
+
+# hearthen_building.lua
+Drystack=Grava Apilada
+Mudbrick=Bareque 
+Rammed Earth=Tapial
+Wattle=Zarzo
+Loose Wattle=Zarzo Suelto
+Wattle Door Frame=Marco de Puerta de Zarzo
+Thatch=Fardo de Paja
+
+# ironworking.lua
+Crushed Iron Ore=Mineral de Hierro Triturado
+Roasted Iron Ore=Mineral de Hierro Tostado
+Roasted Iron Ore Powder=Mineral de Hierro Pulverizado
+Iron Smelting Mix=Mezcla para Fundición de Hierro
+Iron and Slag=Hierro y Escoria
+Iron Bloom=Tocho de Hierro
+Iron Ingot=Lingote de Hierro
+Slag=Escoria
+Molten Slag=Escoria Fundida
+Flowing Molten Slag=Corriente de Escoria Fundida
+Iron Fittings=Piezas de Hierro
+
+# plant_crafts.lua
+Stick=Vara
+Bitter Maraka Flour=Harina Amarga de Maraka
+Maraka Flour=Harina de Maraka
+Unbaked Maraka Cake=Masa Cruda de Maraka
+Maraka Cake=Pastel de Maraka
+Maraka Cake Burned=Pastel de Maraka Quemado
+Peeled Anperla Tuber=Tuberculo de Anperla Pelado
+Burned Anperla Tuber=Tuberculo de Anperla Quemado
+Cooked Anperla Tuber=Tuberculo de Anperla Cocido
+Mashed Anperla (uncooked)=Puré de Anperla Crudo
+Mashed Anperla=Puré de Anperla
+Burned Anperla=Puré de Anperla Quemado
+Vegetable Oil=Aceite Vegetal
+
+# pottery.lua
+Broken Pottery=Ceramica Rota
+Clay Water Pot=Vasija Ceramica
+Clay Water Pot (unfired)=Vasija Ceramica sin Curar
+Clay Storage Pot (unfired)=Vasija Ceramica de Almacenamiento sin Curar
+Clay Oil Lamp (unfired)=Lampara Ceramica sin Curar
+Clay Oil Lamp=Lampara Ceramica
+Clay Oil Lamp (lit)=Lampara Ceramica Encendida
+Oil lamp (empty)=Lampara de Aceite Vacia
+Oil lamp (full)=Lampara de Aceite Llena
+Oil lamp (almost empty)=Lampara de Aceite casi Vacia
+Oil lamp (1/4 full)=Lampara de Aceite Llena a un cuarto
+Oil lamp (1/2 full)=Lampara de Aceite Llena a la mitad
+Oil lamp (3/4 full)=Lampara de Aceite casi Llena
+Oil lamp=Lampara de Aceite
+Clay Water Pot with Freshwater=Vasija Ceramica con Agua Fresca
+Clay Water Pot with Salt Water=Vasija Ceramica con Agua Salada
+
+# storage.lua
+Clay Storage Pot=Vasija Ceramica de Almacenamiento
+Primitive Wooden Chest=Cofre de Madera Rudimentario
+Wooden Chest=Cofre de Madera
+Wicker Storage Basket=Cesto de Zarzo
+Woven Storage Basket=Cesto de Mimbre
+Iron Chest=Cofre de Hierro
+Owned by @1=Propiedad de @1
+
+# tools.lua
+Stone Knife=Piedra Afilada
+Digging Stick=Apero de Labranza
+Granite Adze=Hachuela de Granito 
+Basalt Adze=Hachuela de Basalto
+Jade Adze=Hachuela de Jade
+Stone Club=Mazo de Piedra
+Iron Axe=Hacha de Hierro
+Iron Shovel=Pala de Hierro
+Iron Mace=Mazo de Hierro
+Iron Pickaxe=Pico de Hierro
+
+# torch.lua
+Torch=Antorcha
+
+# lever.lua
+lever=Palanca
+(left-click rotates face, right-click rotates axis)=(clic izq. rota la cara, click der. rota el eje)
+
+# craft-stations.lua
+Crafting Spot=Lugar para Fabricar
+Mixing Spot=Lugar para Mezclar
+Threshing Spot=Lugar para Trillar
+Weaving Spot=Lugar para Tejer
+Grinding Spot=Lugar para Amolar
+Hammering Spot=Lugar para Martillar
+Weaving Frame=Marco para Tejer
+Grinding stone=Piedra de Amolar
+Basalt Mortar and Pestle=Mortero de Basalto
+Granite Mortar and Pestle=Mortero de Granito
+Limestone Mortar and Pestle=Mortero de Caliza
+Chopping Block=Tronco para Cortar
+Hammering Block=Tronco de Martillado
+Anvil=Yunque
+Carpentry Bench=Banco de Carpintería
+Masonry Bench=Banco de Albañilería
+Brick Maker's Bench=Banco Ladrillero
+Spinning Wheel=Rueca Hiladora
+Loom=Telar
+Glass furnace=Horno para Vidrio
+
+# woodworking.lua
+Wooden Ladder=Escalera de Madera
+Wooden Floor Boards=Piso de Madera Laminado
+Wooden Stairs=Escalinata de Madera
+Wooden Water Pot=Vasija de Madera
+Wooden Water Pot with Freshwater=Vasija de Madera con Agua Fresca
+Wooden Water Pot with Salt Water=Vasija de Madera con Agua Salada

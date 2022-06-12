@@ -551,7 +551,7 @@ liquid_store.register_stored_liquid(
 			{-0.3125, 0.3125, -0.3125, 0.3125, 0.375, 0.3125}, -- NodeBox5
 		}
 	},
-	"Clay Water Pot with Salt Water",
+	S("Clay Water Pot with Salt Water"),
 	{dig_immediate = 2})
 
 

@@ -75,8 +75,8 @@ tree_base_fruit_growth = 19000
 
 
 tree_list = {
-	{"maraka", "Maraka Tree", "maraka_nut", S("Maraka Nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1, 1, "black"},
-	{"tangkal", "Tangkal Tree", "tangkal_fruit", S("Tangkal Fruit"), 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2, 1, "crimson"},
-	{"sasaran", "Sasaran Tree", "sasaran_cone", S("Sasaran Cone"), 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2, 1, "yellow"},
-	{"kagum", "Kagum Tree", "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, 1},
+	{"maraka", S("Maraka Tree"), "maraka_nut", S("Maraka Nut"), 1, {-0.2, 0.2, -0.2, 0.2, 0.5, 0.2},1, 1, "black"},
+	{"tangkal", S("Tangkal Tree"), "tangkal_fruit", S("Tangkal Fruit"), 1, {-0.1, 0.1, -0.1, 0.1, 0.5, 0.1},2, 1, "crimson"},
+	{"sasaran", S("Sasaran Tree"), "sasaran_cone", S("Sasaran Cone"), 1, {-0.1, -0.5, -0.1, 0.1, -0.1, 0.1},2, 1, "yellow"},
+	{"kagum", S("Kagum Tree"), "kagum_pod", S("Kagum Pod"), 1, {-0.1, -0.1, -0.1, 0.1, 0.5, 0.1},2, 1},
 }

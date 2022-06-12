@@ -33,3 +33,10 @@ Live Sarkamos=
 # sneachan.lua
 Sneachan Eggs=
 Live Sneachan=
+
+# crafts.lua
+Small Invertebrate=
+Large Invertebrate=
+Small Bird=
+Small Fish=
+Large Fish=

@@ -14,6 +14,10 @@ Maraka Nut=
 Tangkal Fruit=
 Sasaran Cone=
 Kagum Pod=
+Maraka Tree=
+Tangkal Tree=
+Sasaran Tree=
+Kagum Tree=
 
 # data_rock.lua
 Sandstone=
@@ -77,3 +81,4 @@ Wet Depleted @1=
 # trees.lua
 Tree Marker=
 @1 Log=
+@1 Leaves
