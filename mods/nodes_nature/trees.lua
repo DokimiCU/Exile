@@ -15,7 +15,6 @@ Currently the following meshes are choosable:
 local S = nodes_nature.S
 
 local random = math.random
-local floor = math.floor
 ---------------------------------------------------------
 --
 -- Leafdecay
@@ -126,7 +125,10 @@ minetest.register_node("nodes_nature:tree_mark", {
 
 ---------------------------------------------------------
 
-
+tree_list = tree_list -- declare globals from data_plant.lua
+tree_base_tree_growth = tree_base_tree_growth
+tree_base_leaf_growth = tree_base_leaf_growth
+tree_base_fruit_growth = tree_base_fruit_growth
 
 for i in ipairs(tree_list) do
 	local treename = tree_list[i][1]
@@ -138,6 +140,7 @@ for i in ipairs(tree_list) do
 	local hardness = tree_list[i][7]
 	local dyecandidate = tree_list[i][8]
 	local dominantcolor = tree_list[i][9] or "none"
+	local flamesusceptibility = hardness * 2
 
 	if not selbox_fruit then
 		selbox_fruit = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
@@ -158,7 +161,8 @@ for i in ipairs(tree_list) do
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = false,
-		groups = {tree = 1, choppy = hardness, flammable = 1},
+		groups = {tree = 1, choppy = hardness,
+			  flammable = 10 - flamesusceptibility },
 		sounds = nodes_nature.node_sound_wood_defaults(),
 		on_place = minetest.rotate_node,
 		after_place_node = function(pos, placer, itemstack)
@@ -200,7 +204,8 @@ for i in ipairs(tree_list) do
 		},
 		paramtype2 = "facedir",
 		is_ground_content = false,
-		groups = {log = 1, choppy = hardness, flammable = 1},
+		groups = {log = 1, choppy = hardness,
+			  flammable = 10 - flamesusceptibility},
 		sounds = nodes_nature.node_sound_wood_defaults(),
 		on_place = minetest.rotate_node,
 	})
@@ -211,7 +216,8 @@ for i in ipairs(tree_list) do
 		"nodes_nature:"..treename.."_log",
 		"chopping_block",
 		"false",
-		{choppy = hardness, flammable = 1, woodslab = 1},
+		{choppy = hardness, flammable = 8 - flamesusceptibility,
+		 woodslab = 1},
 		{
 			"nodes_nature_"..treename.."_log_top.png",
 			"nodes_nature_"..treename.."_log_top.png",
@@ -238,7 +244,7 @@ for i in ipairs(tree_list) do
 		place_param2 = 4,
 		walkable = false,
 		climbable = true,
-		groups = {choppy = 3, flammable = 1, woody_plant = 1, leafdecay = 1, leafdecay_drop = 1},
+		groups = {choppy = 3, flammable = 2, woody_plant = 1, leafdecay = 1, leafdecay_drop = 1},
 		sounds = nodes_nature.node_sound_leaves_defaults(),
 		after_place_node = function(pos, placer, itemstack)
 			minetest.set_node(pos, {name = "nodes_nature:"..treename.."_leaves", param2 = 4, param3 = 1})
@@ -248,7 +254,7 @@ for i in ipairs(tree_list) do
 				minetest.set_node(pos, {name = "nodes_nature:tree_mark"})
 				local meta = minetest.get_meta(pos)
 				meta:set_string("saved_name", "nodes_nature:"..treename.."_leaves")
-				meta:set_string("saved_param2", place_param2)
+				meta:set_string("saved_param2", oldnode.param2)
 				meta:set_string("leaf_name", "nodes_nature:"..treename.."_leaves")
 				meta:set_string("tree_name", "nodes_nature:"..treename.."_tree")
 				minetest.get_node_timer(pos):start(math.random(tree_base_leaf_growth/2, tree_base_leaf_growth))
@@ -275,7 +281,7 @@ for i in ipairs(tree_list) do
 				type = "fixed",
 				fixed = selbox_fruit
 			},
-			groups = {dig_immediate=3, flammable=1, leafdecay = 3, leafdecay_drop = 1, ncrafting_dye_candidate = dyecandidate },
+			groups = {dig_immediate=3, flammable=2, leafdecay = 3, leafdecay_drop = 1, ncrafting_dye_candidate = dyecandidate },
 			sounds = nodes_nature.node_sound_defaults(),
 			_ncrafting_dye_dcolor = dominantcolor,
 			after_place_node = function(pos, placer, itemstack)

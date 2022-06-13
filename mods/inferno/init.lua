@@ -232,16 +232,19 @@ minetest.register_abm({
       label = "Ignite flammable nodes",
       nodenames = {"group:flammable"},
       neighbors = {"group:flames", "group:igniter"},
-      interval = 21,
-      chance = 6,
+      interval = 27,
+      chance = 9,
       catch_up = false,
-      action = function(pos)
-	 local flammable_node = minetest.get_node(pos)
+      action = function(pos, node)
+	 local flammable_node = node
 	 local def = minetest.registered_nodes[flammable_node.name]
+	 if math.random(1, def.groups.flammable) > 1 then
+	    return -- resisted burning
+	 end
 	 if not minetest.is_singleplayer and
-	    minetest.find_node_near(pos, 1, "group:igniter") == nil and
-	    math.random(1,5) > 1 then
-	    return
+	    math.random(1,5) > 1 and
+	    minetest.find_node_near(pos, 1, "group:igniter") == nil then
+	    return -- multiplayer reduction, including no flame ignition
 	 end
 	 if def.on_burn then
 	    def.on_burn(pos)
@@ -341,11 +344,15 @@ minetest.register_tool("inferno:fire_sticks", {
 				minetest.chat_send_player(player_name, "This area is protected")
 				return
 			end
-			if nodedef.on_ignite then
-				nodedef.on_ignite(pointed_thing.under, user)
-			elseif minetest.get_item_group(node_under, "flammable") >= 1
-					and minetest.get_node(pointed_thing.above).name == "air" then
-				minetest.set_node(pointed_thing.above, {name = "inferno:basic_flame"})
+			local chance = nodedef.groups.flammable
+			if chance < 6 and nodedef.on_ignite then
+			   nodedef.on_ignite(pointed_thing.under, user)
+			else
+			   local catch = math.random(1, chance)
+			   if chance < 6 and catch == 1 and
+			      minetest.get_node(pointed_thing.above).name == "air" then
+			      minetest.set_node(pointed_thing.above, {name = "inferno:basic_flame"})
+			   end
 			end
 		end
 

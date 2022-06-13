@@ -282,32 +282,32 @@ for i in ipairs(plantlist) do
 
 	local g
 	local gs = {snappy = 3, herbaceous_plant = 1, attached_node = 1,
-		    flammable = 1, seedling = 1, temp_pass = 1} --seedlings
-	local g_seed = {snappy = 3, dig_immediate = 2, flammable = 1,
+		    flammable = 2, seedling = 1, temp_pass = 1} --seedlings
+	local g_seed = {snappy = 3, dig_immediate = 2, flammable = 2,
 			attached_node = 1, seed = 1, temp_pass = 1}
 
 	if type == "crumbly" then		--moss, dirt mat-like things
 	   g = {crumbly = 3, herbaceous_plant = 1, falling_node = 1,
-		attached_node = 1, flammable = 1, flora = 1, temp_pass = 1}
+		attached_node = 1, flammable = 5, flora = 1, temp_pass = 1}
 	elseif type == "woody_plant" then
 	   g = {choppy = 3, woody_plant = 1, attached_node = 1,
-		flammable = 1, flora = 1, temp_pass = 1}
+		flammable = 2, flora = 1, temp_pass = 1}
 		s = nodes_nature.node_sound_wood_defaults()
 	elseif type == "herbaceous_plant" then
 	   g = {snappy = 3, herbaceous_plant = 1, attached_node = 1,
-		flammable = 1, flora = 1, temp_pass = 1}
+		flammable = 3, flora = 1, temp_pass = 1}
 	elseif type == "fibrous_plant" then
 	   g = {snappy = 3, fibrous_plant = 1, attached_node = 1,
 		flammable = 1, flora = 1, temp_pass = 1}
 	elseif type == "mushroom" then
-	   g = {crumbly = 3, attached_node = 1, flammable = 1,
+	   g = {crumbly = 3, attached_node = 1, flammable = 3,
 		mushroom = 1, temp_pass = 1}
-	   gs = {crumbly = 3, attached_node = 1, flammable = 1,
+	   gs = {crumbly = 3, attached_node = 1, flammable = 3,
 		 mushroom = 1, seedling = 1, temp_pass = 1}
-	   g_seed = {crumbly = 3, attached_node = 1, flammable = 1,
+	   g_seed = {crumbly = 3, attached_node = 1, flammable = 3,
 		     mushroom = 1, seed = 1, temp_pass = 1}
 	else
-	   g = {snappy = 3, attached_node = 1, flammable = 1,
+	   g = {snappy = 3, attached_node = 1, flammable = 2,
 		flora = 1, temp_pass = 1}
 	end
 
@@ -892,7 +892,7 @@ minetest.register_node("nodes_nature:glow_worm", {
 			  sunlight_propagates = true,
 			  walkable = false,
 			  buildable_to = true,
-			  groups = {snappy = 3, flammable = 1, temp_pass = 1, bioluminescent = 1},
+			  groups = {snappy = 3, flammable = 5, temp_pass = 1, bioluminescent = 1},
 			  sounds = nodes_nature.node_sound_leaves_defaults(),
 			  selection_box = {
 			     type = "fixed",
@@ -901,7 +901,7 @@ minetest.register_node("nodes_nature:glow_worm", {
 			     sunlight_propagates = true,
 			     walkable = false,
 			     buildable_to = true,
-			     groups = {snappy = 3, flammable = 1, temp_pass = 1, bioluminescent = 1},
+			     groups = {snappy = 3, flammable = 5, temp_pass = 1, bioluminescent = 1},
 			     sounds = nodes_nature.node_sound_leaves_defaults(),
 			     selection_box = {
 				type = "fixed",
@@ -917,7 +917,7 @@ minetest.register_node("nodes_nature:glow_worm", {
 --glowing mushroom
 minetest.override_item("nodes_nature:merki",{
 	light_source = 2,
-	groups = {crumbly = 3, attached_node = 1, flammable = 1, mushroom = 1, temp_pass = 1, bioluminescent= 1}
+	groups = {crumbly = 3, attached_node = 1, flammable = 3, mushroom = 1, temp_pass = 1, bioluminescent= 1}
 })
 
 
@@ -1030,7 +1030,7 @@ minetest.override_item("nodes_nature:lambakap",{
 		}
 	},
 	groups = {crumbly = 3, mushroom = 1, falling_node = 1,
-		  attached_node = 1, flammable = 1, flora = 1,
+		  attached_node = 1, flammable = 6, flora = 1,
 		  temp_pass = 1, bioluminescent = 1}
 })
 
@@ -1055,7 +1055,7 @@ minetest.override_item("nodes_nature:reshedaar",{
 	},
 	groups = {snappy = 3, mushroom = 1, fibrous_plant = 1,
 		  falling_node = 1, attached_node = 1,
-		  flammable = 1, flora = 1, temp_pass = 1}
+		  flammable = 2, flora = 1, temp_pass = 1}
 })
 
 --Mahal. is also a mushroom.
@@ -1072,7 +1072,7 @@ minetest.override_item("nodes_nature:mahal",{
 		}
 	},
 	groups = {choppy = 3, mushroom = 1, woody_plant = 1,
-		  falling_node = 1, attached_node = 1, flammable = 1,
+		  falling_node = 1, attached_node = 1, flammable = 2,
 		  flora = 1, temp_pass = 1, bioluminescent = 1}
 })
 

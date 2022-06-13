@@ -20,7 +20,8 @@ Values from 1 - 3, with 1 being hardest
 
 Fire:
 -----
-`flammable`: can catch fire. Value = 1.  Use, on_burn = function(pos) for custom post fire results.
+`flammable`: can catch fire. Has a 1 in [value] chance of catching fire.
+             Use, on_burn = function(pos) for custom post fire results.
 `igniter`: can ignite flammable.
 `cools_lava`: will cool neighboring lava to basalt
 `puts_out_fire`: will extinguish neighboring flames and fires

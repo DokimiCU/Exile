@@ -735,7 +735,8 @@ minetest.register_node('tech:small_wood_fire_ext', {
 	},
 	tiles = {"tech_fire_ext.png"},
 	paramtype = "light",
-	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1,
+		  temp_pass = 1, flammable = 3},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
 	on_dig = on_dig_fire,
@@ -749,7 +750,8 @@ minetest.register_node('tech:small_wood_fire_ext', {
 minetest.register_node('tech:large_wood_fire_ext', {
 	description = S('Large Wood Fire (extinguished)'),
 	tiles = {"tech_fire_ext.png"},
-	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1,
+		  temp_pass = 1, flammable = 3},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
 	on_dig = on_dig_fire,
@@ -772,7 +774,8 @@ minetest.register_node('tech:small_charcoal_fire_ext', {
 	},
 	tiles = {"tech_fire_ext.png"},
 	paramtype = "light",
-	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1,
+		  temp_pass = 1, flammable = 3},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
 	on_dig = on_dig_fire,
@@ -787,7 +790,8 @@ minetest.register_node('tech:small_charcoal_fire_ext', {
 minetest.register_node('tech:large_charcoal_fire_ext', {
 	description = S('Large Charcoal Fire (extinguished)'),
 	tiles = {"tech_fire_ext.png"},
-	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1, temp_pass = 1},
+	groups = {crumbly = 3, oddly_breakable_by_hand = 1, falling_node = 1,
+		  temp_pass = 1, flammable = 3},
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 
 	on_dig = on_dig_fire,

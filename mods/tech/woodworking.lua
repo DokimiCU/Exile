@@ -186,7 +186,7 @@ minetest.register_node("tech:wooden_ladder", {
  paramtype2 = "facedir",
  climbable = true,
  sunlight_propagates = true,
- groups = {choppy=2, dig_immediate=2, flammable=1, attached_node=1, temp_pass = 1, ladder = 1},
+ groups = {choppy=2, dig_immediate=2, flammable=2, attached_node=1, temp_pass = 1, ladder = 1},
  drop = "tech:wooden_ladder",
  sounds = nodes_nature.node_sound_wood_defaults(),
 
@@ -252,7 +252,7 @@ minetest.register_node("tech:wooden_floor_boards", {
  stack_max = minimal.stack_max_medium,
  paramtype = "light",
  paramtype2 = "facedir",
- groups = {choppy=2, flammable=1},
+ groups = {choppy=2, flammable=3},
  sounds = nodes_nature.node_sound_wood_defaults(),
 
 })
@@ -291,7 +291,7 @@ minetest.register_node("tech:wooden_stairs", {
  paramtype = "light",
  paramtype2 = "facedir",
  sunlight_propagates = true,
- groups = {choppy=2, flammable=1},
+ groups = {choppy=2, flammable=3},
  sounds = nodes_nature.node_sound_wood_defaults(),
 
 })
