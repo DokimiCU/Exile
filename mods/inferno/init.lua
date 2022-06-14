@@ -345,10 +345,10 @@ minetest.register_tool("inferno:fire_sticks", {
 				return
 			end
 			local chance = nodedef.groups.flammable
-			if chance and chance < 6 then
+			if (chance and chance < 6) or chance == nil then
 			   if nodedef.on_ignite then
 			      nodedef.on_ignite(pointed_thing.under, user)
-			   elseif ( math.random(1, chance) == 1 and
+			   elseif chance and ( math.random(1, chance) == 1 and
 				    minetest.get_node(pointed_thing.above).name == "air" ) then
 			      minetest.set_node(pointed_thing.above, {name = "inferno:basic_flame"})
 			   end
