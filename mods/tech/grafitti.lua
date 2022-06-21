@@ -18,6 +18,8 @@
 -- Internationalization
 local S = tech.S
 
+grafitti = grafitti
+
 --lime White
 
 

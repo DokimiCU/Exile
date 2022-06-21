@@ -18,7 +18,7 @@ local heat = 450
 -------------------------------------------
 --save usage into inventory, to prevent infinite torch supply
 local on_dig = function(pos, node, digger)
-	
+
 	if not digger then return false end
 
 	if minetest.is_protected(pos, digger:get_player_name()) then
@@ -98,7 +98,6 @@ local function on_throw(itemstack, dropper, pos)
    if fuel then
       obj:get_luaentity(obj):set_fuel(fuel)
    end
-   local props = obj:get_luaentity(obj):get_fuel()
    local vectors = dropper:get_look_dir()
    local velocity = 10
    obj:set_velocity({x = vectors.x * velocity,
@@ -291,7 +290,8 @@ minetest.register_node("tech:torch_wall", {
 	light_source = light_power,
 	temp_effect = temp,
 	temp_effect_max = heat,
-	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1, attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
+	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1,
+		  attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
 	drop = "tech:torch",
 	selection_box = {
 		type = "wallmounted",
@@ -344,7 +344,8 @@ minetest.register_node("tech:torch_ceiling", {
 	light_source = light_power,
 	temp_effect = temp,
 	temp_effect_max = heat,
-	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1, attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
+	groups = {choppy=2, dig_immediate=3, not_in_creative_inventory=1,
+		  attached_node=1, torch=1, temp_effect = 1, temp_pass = 1},
 	drop = "tech:torch",
 	selection_box = {
 		type = "wallmounted",
