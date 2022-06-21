@@ -790,13 +790,16 @@ crafting.register_recipe({
 --drop unmortared stone.
 
 local list = {
+	{"claystone", S("Claystone"), 3},
+	{"siltstone", S("Siltstone"), 3},
+	{"sandstone", S("Sandstone"), 3},
+	{"conglomerate", S("Conglomerate"), 3},
 	{"limestone", S("Limestone"), 3},
 	{"ironstone", S("Ironstone"), 3},
-  {"granite", S("Granite"), 1},
+	{"granite", S("Granite"), 1},
 	{"basalt", S("Basalt"), 2},
 	{"gneiss", S("Gneiss"), 1},
 	{"jade", S("Jade"), 1},
-
 }
 
 
@@ -872,7 +875,10 @@ for i in ipairs(list) do
 	)
 
 	--block
-	stairs.register_stair_and_slab(
+	if i > 4 then
+	   -- masonry table's cluttered bad, so let's say you can't easily make
+	   --  block stairs and slabs from the four crumbly sedimentary rocks
+	   stairs.register_stair_and_slab(
 		name.."_block_mortar",
 		"tech:"..name.."_block_mortar",
 		"masonry_bench",
@@ -883,7 +889,7 @@ for i in ipairs(list) do
 		desc.." Block with Mortar Slab",
 		minimal.stack_max_bulky * 4,
 		nodes_nature.node_sound_stone_defaults()
-	)
-
+	   )
+	end
 
 end

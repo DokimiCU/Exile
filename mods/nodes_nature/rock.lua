@@ -4,6 +4,9 @@
 -- Internationalization
 local S = nodes_nature.S
 
+-- Load tables from data_rock.lua
+stone_list = stone_list
+rock_list  = rock_list
 
 for i in ipairs(stone_list) do
 	local name = stone_list[i][1]
@@ -16,7 +19,13 @@ for i in ipairs(stone_list) do
 
 
 	g = {cracky = hardness, crumbly = 1, soft_stone = 1}
-	dropped = sediment
+	dropped = { max_items = 1,
+		    items = {
+		       { tools = { "artifacts:antiquorium_chisel" },
+			 items = { "nodes_nature:"..name.."_block" } },
+		       { items = { sediment } }
+		    }
+	}
 	s = nodes_nature.node_sound_gravel_defaults({footstep = {name = "nodes_nature_hard_footstep", gain = 0.25},})
 
 	--register raw
@@ -29,17 +38,55 @@ for i in ipairs(stone_list) do
 		sounds = s,
 	})
 
+	--blocks and bricks
+	--drystone construction. (see tech for the mortared version)
+	--Bricks are more portable.
+	minetest.register_node("nodes_nature:"..name.."_brick", {
+				  description = S("@1 Brick", desc),
+				  tiles = {"nodes_nature_"..name.."_brick.png"},
+				  paramtype2 = "facedir",
+				  stack_max = minimal.stack_max_bulky *3,
+				  groups = {cracky = hardness, falling_node = 1,  oddly_breakable_by_hand = 1, masonry = 1},
+				  sounds = nodes_nature.node_sound_stone_defaults(),
+	})
 
+	--block is cut from stone with a chisel, can be masonry'd to brick
+	minetest.register_node("nodes_nature:"..name.."_block", {
+				  description = S("@1 Block", desc),
+				  tiles = {"nodes_nature_"..name.."_block.png"},
+				  stack_max = minimal.stack_max_bulky *2,
+				  groups = {cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1, masonry = 1},
+				  sounds = nodes_nature.node_sound_stone_defaults(),
+	})
+
+		--brick
+		stairs.register_stair_and_slab(
+			name.."_brick",
+			"nodes_nature:"..name.."_brick",
+			"masonry_bench",
+			"true",
+			{cracky = hardness, falling_node = 1, oddly_breakable_by_hand = 1},
+			{"nodes_nature_"..name.."_brick.png" },
+			desc.." Brick Stair",
+			desc.." Brick Slab",
+			minimal.stack_max_bulky * 6,
+			nodes_nature.node_sound_stone_defaults()
+		)
+
+	crafting.register_recipe({
+	      type = "masonry_bench",
+	      output = "nodes_nature:"..name.."_brick",
+	      items = {"nodes_nature:"..name.."_block"},
+	      level = 1,
+	      always_known = true,
+	})
 end
-
 
 
 for i in ipairs(rock_list) do
 	local name = rock_list[i][1]
 	local desc = rock_list[i][2]
 	local hardness = rock_list[i][3]
-	local type = rock_list[i][4]
-	local sediment = rock_list[i][5]
 
 
 
