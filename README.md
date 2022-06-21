@@ -101,7 +101,7 @@ Set `exile_hud_update` to `1.0` second for multiplayer servers on the Internet; 
 
 ## Mods for Multiplayer
 - [Wield3d](https://github.com/stujones11/wield3d) is recommended.
-- `Alternode` was used to add the “infotext” popups in the spawn shelter on the [Land of Catastrophe](https://github.com/AntumMT/mod-alternode) server.
+- [`Alternode`](https://github.com/AntumMT/mod-alternode) was used to add the “infotext” popups in the spawn shelter on the [Land of Catastrophe](https://exile.planetofnix.com/wiki/pmwiki.php?n=Loc.LandOfCatastrophe) server.
 
 ## Development
 _Exile_ is open-source software — that means the game is as good as you choose to make it. It also means development can be erratic and haphazard at times, so be patient!
