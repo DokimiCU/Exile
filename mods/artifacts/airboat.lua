@@ -321,8 +321,12 @@ function airboat.on_activate(self, staticdata, dtime_s)
 end
 
 function airboat.on_detach_child(self, child)
-   print("on_detach")
-   if self.driver then -- player was disconnected while inside
+   if self.driver then -- player was disconnected while inside?
+      if child and child:get_hp() == 0 then -- player died, don't save
+	 self.driver = nil
+	 self.auto = false
+	 return
+      end
       saved_airboats[self.driver] = { self.object:get_pos(),
 				      self.object:get_yaw() }
       self.object:remove()
