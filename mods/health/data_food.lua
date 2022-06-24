@@ -35,6 +35,8 @@ food_table = {
 	["nodes_nature:lambakap"]           = { 0, 10,  10,  0,  0 },
 	["nodes_nature:tangkal_fruit"]      = { 0,  5,  10, 10,  0 },
 	["nodes_nature:momo"]               = { 0,  1,  12,  0,  0 },
+	["nodes_nature:snow"]               = { 0, 50,  0,-100, -1 },
+	["nodes_nature:snow_block"]         = { 0,100,  0,-200, -2 },
 	--meat
      ["animals:carcass_invert_small"]       = { 0,  0,   2, -2,  0 },
      ["animals:carcass_invert_small_cooked"]= { 0,  0,   4,  1,  0 },

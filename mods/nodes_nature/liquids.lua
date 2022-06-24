@@ -209,6 +209,7 @@ minetest.register_node("nodes_nature:snow", {
 	temp_effect_max = 0,
 	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, temp_pass = 1, puts_out_fire = 1, fall_damage_add_percent = -25},
 	sounds = nodes_nature.node_sound_snow_defaults(),
+	on_use = exile_eatdrink
 })
 
 minetest.register_node("nodes_nature:snow_block", {
@@ -219,7 +220,7 @@ minetest.register_node("nodes_nature:snow_block", {
 	temp_effect_max = 0,
 	groups = {crumbly = 3, falling_node = 1, temp_effect = 1, puts_out_fire = 1, cools_lava = 1, fall_damage_add_percent = -50},
 	sounds = nodes_nature.node_sound_snow_defaults(),
-
+	on_use = exile_eatdrink
 })
 
 
