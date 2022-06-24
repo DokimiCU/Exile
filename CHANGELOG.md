@@ -1,7 +1,21 @@
 # Changelog:
 
+
+## [2022-06-24][2022-06-24__0.3.8] — 0.3.8 and 0.2.11
+  - New tech rebalance, multiple ways up the tech tree
+  - Massive rings left scattered on the surface by the Ancients
+  - Throwable spears for hunting and fighting
+  - Improved canoe and airboat performance; the airboat strafes with AUX1
+  - Fire resistance for tree trunks and other nodes
+  - Ability to cut sedimentary rock blocks intact with a chisel
+  - Clump falling for drystack/thatch, build ceilings with supports
+  - Better, more survivable gundu fish, enables fish farming
+  - Can eat unmelted snow for thirst, with drawbacks
+  - Spanish translation
+
+
 ## [2022-05-28][2022-05-28__0.3.7] — 0.3.7 and 0.2.10
-- balance: limited fire spread for multiplayer
+  - balance: limited fire spread for multiplayer
   - many airboat improvements, including strafe movement with AUX1
   - Haze overlay warns of extreme heat
   - animal probes to watch the health and age of livestock
