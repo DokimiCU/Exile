@@ -306,8 +306,8 @@ stairs.register_stair_and_slab(
 ----craft drystack from gravel
 crafting.register_recipe({
 	type = "crafting_spot",
-	output = "tech:drystack",
-	items = {"nodes_nature:gravel 2"},
+	output = "tech:drystack 2",
+	items = {"nodes_nature:gravel 3"},
 	level = 1,
 	always_known = true,
 })
