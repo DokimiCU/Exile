@@ -14,7 +14,8 @@ minetest.register_node("tech:drystack", {
 	description = S("Drystack"),
 	tiles = {"tech_drystack.png"},
 	stack_max = minimal.stack_max_bulky *1.5,
-	groups = {cracky = 3, crumbly = 1, falling_node = 1, oddly_breakable_by_hand = 1},
+	groups = {cracky = 3, crumbly = 1, falling_node = 2,
+		  oddly_breakable_by_hand = 1},
 	sounds = nodes_nature.node_sound_stone_defaults(),
 })
 
@@ -26,7 +27,8 @@ stairs.register_stair_and_slab(
 	"tech:drystack",
 	"mixing_spot",
 	"true",
-	{cracky = 3, crumbly = 1, oddly_breakable_by_hand = 1, falling_node = 1},
+	{cracky = 3, crumbly = 1, oddly_breakable_by_hand = 1,
+	 falling_node = 2 },
 	{"tech_drystack.png"},
 	"Drystack Stair",
 	"Drystack Slab",
@@ -43,7 +45,8 @@ minetest.register_node('tech:mudbrick', {
 	tiles = {"tech_mudbrick.png"},
 	drop = "nodes_nature:clay",
 	stack_max = minimal.stack_max_bulky *2,
-	groups = {crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1},
+	groups = {crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1,
+		  falling_node = 2 },
 	sounds = nodes_nature.node_sound_dirt_defaults(),
 })
 
@@ -52,7 +55,8 @@ stairs.register_stair_and_slab(
 	"tech:mudbrick",
 	"brick_makers_bench",
 	"true",
-	{crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1},
+	{crumbly = 2, cracky = 3, oddly_breakable_by_hand = 1,
+	 falling_node = 2},
 	{"tech_mudbrick.png"},
 	"Mudbrick Stair",
 	"Mudbrick Slab",
@@ -263,7 +267,8 @@ minetest.register_node('tech:thatch', {
 	description = S('Thatch'),
 	tiles = {"tech_thatch.png"},
 	stack_max = minimal.stack_max_bulky * 4,
-	groups = {snappy=3, flammable=1, fall_damage_add_percent = -30},
+	groups = {snappy=3, flammable=1, fall_damage_add_percent = -30,
+		  falling_node = 2},
 	sounds = nodes_nature.node_sound_leaves_defaults(),
 	on_burn = function(pos)
 		if math.random()<0.5 then
@@ -280,7 +285,8 @@ stairs.register_stair_and_slab(
 	"tech:thatch",
 	"weaving_frame",
 	"true",
-	{snappy=3, flammable=1, fall_damage_add_percent = -15},
+	{snappy=3, flammable=1, fall_damage_add_percent = -15,
+	 falling_node = 2 },
 	{"tech_thatch.png"},
 	"Thatch Stair",
 	"Thatch Slab",
