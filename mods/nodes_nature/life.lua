@@ -23,6 +23,7 @@ plant_base_timer = plant_base_timer
 crop_rewind = crop_rewind
 exile_add_food_hooks = exile_add_food_hooks
 creative = creative
+wielded_light = wielded_light
 
 ---------------------------
 -- Dig upwards
@@ -30,10 +31,11 @@ creative = creative
 
 local function dig_up(pos, node, digger)
 	if digger == nil then return end
+	local lnode = wielded_light.get_unlit_node(node)
 	local np = {x = pos.x, y = pos.y + 1, z = pos.z}
-	local nn = minetest.get_node(np)
-	if nn.name == node.name then
-		minetest.node_dig(np, nn, digger)
+	local unode = wielded_light.get_unlit_node(minetest.get_node(np))
+	if lnode.node == unode.name then
+		minetest.node_dig(np, unode, digger)
 	end
 end
 
