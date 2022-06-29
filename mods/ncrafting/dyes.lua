@@ -198,7 +198,7 @@ local function bundlename(meta, plant, treatment)
       fmt_plant = "of "..minetest.registered_nodes[plant].description
    end
    if treatment and treatment ~= "" then
-      fmt_treatment = methodstring[treatment]
+      fmt_treatment = ", "..methodstring[treatment]
    else
       fmt_treatment = ", untreated"
    end

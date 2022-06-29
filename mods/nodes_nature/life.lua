@@ -29,11 +29,20 @@ wielded_light = wielded_light
 -- Dig upwards
 --
 
+-- If this node is lit, return the unlit version
+function get_unlit_node(node)
+   local unlit = wielded_light.get_lighting_node(node.name)
+   if unlit then
+      node.name = unlit.node
+   end
+   return node
+end
+
 local function dig_up(pos, node, digger)
 	if digger == nil then return end
-	local lnode = wielded_light.get_unlit_node(node)
+	local lnode = get_unlit_node(node)
 	local np = {x = pos.x, y = pos.y + 1, z = pos.z}
-	local unode = wielded_light.get_unlit_node(minetest.get_node(np))
+	local unode = get_unlit_node(minetest.get_node(np))
 	if lnode.name == unode.name then
 		minetest.node_dig(np, unode, digger)
 	end
