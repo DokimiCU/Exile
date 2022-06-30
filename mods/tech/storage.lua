@@ -7,17 +7,19 @@ local S = tech.S
 
 ---------------------------------------------------
 local function get_storage_formspec(pos, w, h)
-	local main_offset = 0.85 + h
+	local main_offset = 0.25 + h
+	local trash_offset = 0.45 + h + 2
 
 	local formspec = {
 		--"size[8,7]",
 		"size[8,11]",
-		"list[current_name;main;0,0.2;"..w..","..h.."]",
+		"list[current_name;main;0,0;"..w..","..h.."]",
 		"list[current_player;main;0,"..main_offset..";8,2]",
 		"listring[current_name;main]",
 		"listring[current_player;main]",
-		"list[detached:creative_trash;main;0,7.4;1,1;]",
-		"image[0.05,7.5;0.8,0.8;creative_trash_icon.png]"
+		"list[detached:creative_trash;main;0,"..trash_offset..";1,1;]",
+		"image[0.05,"..(trash_offset+.05)..
+		   ";0.8,0.8;creative_trash_icon.png]"
 	}
 	return table.concat(formspec, "")
 end
