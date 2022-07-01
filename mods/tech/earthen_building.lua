@@ -328,8 +328,8 @@ crafting.register_recipe({
 ----Rammed earth by compacting clay
 crafting.register_recipe({
 	type = "brick_makers_bench",
-	output = "tech:rammed_earth",
-	items = {"nodes_nature:clay 2"},
+	output = "tech:rammed_earth 2",
+	items = {"nodes_nature:clay 3"},
 	level = 1,
 	always_known = true,
 })
