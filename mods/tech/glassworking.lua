@@ -450,6 +450,7 @@ minetest.register_node("tech:pane_tray",
 	paramtype2 = "facedir",
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sunlight_propagates = true,
+	after_place_node = minimal.protection_after_place_node,
 })
 
 -- Trays with glass panes
