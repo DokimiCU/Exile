@@ -61,19 +61,24 @@ local function brain(self)
 			--territorial behaviour
 			local rival = animals.territorial_water(self, energy, false)
 
-
-			--You are prey
-			local plyr = mobkit.get_nearby_player(self)
-			if plyr then
-				animals.fight_or_flight_plyr_water(self, plyr, 25, 0.4)
-			end
-
 			--feeding
 			if energy < energy_max then
-				if not animals.prey_hunt_water(self, 25) then
-					--random search for darkness
-					mobkit.hq_aqua_roam(self,15,self.max_speed/3)
-				end
+			   --You are prey
+			   local plyr = mobkit.get_nearby_player(self)
+			   if plyr then
+			      animals.fight_or_flight_plyr_water(self, plyr, 25, 0.4)
+			   end
+
+			   if not animals.prey_hunt_water(self, 25) then
+			      --random search for darkness
+			      mobkit.hq_aqua_roam(self,15,self.max_speed/3)
+			   end
+			end
+
+			if energy >= energy_max then
+			   -- heavy with eggs, sink to look for a laying spot
+			   self.object:add_velocity({ x = 0, y = -0.2,
+						      z = 0})
 			end
 
 
@@ -83,12 +88,12 @@ local function brain(self)
 			--in dark
 			local light = minetest.get_node_light(pos, 0.5) or 0
 
-			if random() < 0.01
+			if random() < 0.02
 			and not rival
 			and light < 10
 			and self.hp >= self.max_hp
 			and energy >= energy_max then
-				energy = animals.place_egg(pos, "animals:sarkamos_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
+			   energy = animals.place_egg(pos, "animals:sarkamos_eggs", energy, energy_egg, 'nodes_nature:salt_water_source')
 			end
 
 		end

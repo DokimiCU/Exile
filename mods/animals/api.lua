@@ -867,7 +867,7 @@ function animals.hq_aqua_attack_eat(self,prty,tgtobj,speed)
     mobkit.make_sound(self,'bite')
 			tgtobj:punch(self.object,1,self.attack)
 			mobkit.hq_aqua_turn(self,prty,yaw-pi,speed)
-    if random()>0.2 then
+    if random()>0.15 then
       local ent = tgtobj:get_luaentity()
       local ent_e = (mobkit.recall(ent,'energy') or 1)
       local self_e = (mobkit.recall(self,'energy') or 1)
