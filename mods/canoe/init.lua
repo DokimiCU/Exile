@@ -156,7 +156,7 @@ function canoe.on_step(self, dtime)
 	   and steplimit < 0.2 then
 	   return
 	end
-	dtime = dtime + steplimit
+	dtime = steplimit
 	steplimit = 0
 	local lyaw = self.object:get_yaw()
 	local lvelocity = vector.rotate_around_axis(
