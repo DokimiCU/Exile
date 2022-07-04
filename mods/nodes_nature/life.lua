@@ -593,6 +593,7 @@ for i in ipairs(plantlist) do
 		always_known = true,
 	})
 
+	exile_add_food_hooks("nodes_nature:"..plantname.."_seed")
 	exile_add_food_hooks("nodes_nature:"..plantname)
 
 
