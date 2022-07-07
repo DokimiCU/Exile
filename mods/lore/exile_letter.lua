@@ -14,6 +14,7 @@ Unique, randomly generated, for each "life".
 
 
 local random = math.random
+lore = lore
 
 ----------------------------------------------------------
 local judger = {
@@ -351,22 +352,55 @@ local mythic_terror = {
   "Lost"
 }
 
-local generate_text = function(player)
+local function get_string(meta, stringname)
+   --minetest's get_string returns non-nil for an empty string
+   local get = meta:get_string(stringname)
+   if get then
+      print("got string: ",stringname)
+   end
+   if get == "" then
+      print("returning nil")
+      return nil
+   else
+      return get
+   end
+end
+
+local generate_text = function(player, freshspawn)
   local letter_text
 
   local meta = player:get_meta()
-
-  local judge       = judger[random(#judger)]
   local your_name   = meta:get_string("char_name")
+  local gend        = player_api.get_gender(player)
+  woe               = populate_woe(player)
+  local judge       = judger[random(#judger)]
   local origin_name = lore.generate_name(4)
   local polity_name = lore.generate_name(5)
   local cr1         = crime1[random(#crime1)]
   local cr2         = crime2[random(#crime2)]
-  woe               = populate_woe(player)
   local your_woe    = woe[random(#woe)]
   local exile_land  = exile[random(#exile)]
   local terror      = mythic_terror[random(#mythic_terror)]
-  local gend        = player_api.get_gender(player)
+  if freshspawn then
+     meta:set_string("ex_judger", judge)
+     meta:set_string("ex_origin", origin_name)
+     meta:set_string("ex_polity", polity_name)
+     meta:set_string("ex_crime1", cr1)
+     meta:set_string("ex_crime2", cr2)
+     meta:set_string("ex_woe", your_woe)
+     meta:set_string("ex_land", exile_land)
+     meta:set_string("ex_terror", terror)
+  else
+     judge       = get_string(meta, "ex_judger") or judge
+     origin_name = get_string(meta, "ex_origin") or origin_name
+     polity_name = get_string(meta, "ex_polity") or polity_name
+     cr1         = get_string(meta, "ex_crime1") or cr1
+     cr2         = get_string(meta, "ex_crime2") or cr2
+     your_woe    = get_string(meta, "ex_woe") or your_woe
+     exile_land  = get_string(meta, "ex_land") or exile_land
+     terror      = get_string(meta, "ex_terror") or terror
+  end
+
   --
   letter_text =
     "By decree of the "..judge..
@@ -467,7 +501,7 @@ minetest.register_on_newplayer(function(player)
   local inv = player:get_inventory()
   local letter = ItemStack("lore:exile_letter")
   local stack_meta = letter:get_meta()
-  stack_meta:set_string("lore:letter_text", generate_text(player))
+  stack_meta:set_string("lore:letter_text", generate_text(player, "new"))
   inv:add_item("main", letter)
 end)
 
@@ -475,6 +509,6 @@ minetest.register_on_respawnplayer(function(player)
   local inv = player:get_inventory()
   local letter = ItemStack("lore:exile_letter")
   local stack_meta = letter:get_meta()
-  stack_meta:set_string("lore:letter_text", generate_text(player))
+  stack_meta:set_string("lore:letter_text", generate_text(player, "new"))
   inv:add_item("main", letter)
 end)
