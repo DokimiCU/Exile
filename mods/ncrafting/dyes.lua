@@ -94,13 +94,27 @@ local function is_neighbor(col1, col2)
    return false
 end
 
+local function is_excluded(candidate_name)
+   if not (candidate_name == candidate_name:gsub("wielded_light","")) then
+      return true
+   else
+      return false
+   end
+end
+
 local function CandidateList()
    -- Gathers a list of all plants that have not been chosen
    -- as a dye source yet
    dye_candidates = ncrafting.loadstore("dye_candidates") or {}
 
    for nm, def in pairs(minetest.registered_nodes) do
-      if def.groups.ncrafting_dye_candidate ~= nil then
+      if is_excluded(nm) then
+	 def.groups.ncrafting_dye_candidate = nil
+	 dye_candidates[nm] = nil
+	 if dye_source[nm] then
+	    dye_source[nm] = nil
+	 end
+      elseif def.groups.ncrafting_dye_candidate ~= nil then
 	 if dye_source[nm] == nil then
 	    dye_candidates[nm] = {}
 	    dye_candidates[nm].dcolor = def._ncrafting_dye_dcolor or "none"
@@ -131,7 +145,7 @@ end
 local function GenerateDyes(seed) -- Generate dye_sources based on mapgen seed
    local rando = PcgRandom(seed)
    for dye, _ in pairs(undefined_dyes) do
-      minetest.log("action","Generating "..dye.." dye")
+      minetest.log("action","Dye: Generating "..dye.." dye")
       -- create tables to roll on for any new dyes
       local rolltable = NewRollTable(dye)
       local max = #rolltable
@@ -150,7 +164,7 @@ local function GenerateDyes(seed) -- Generate dye_sources based on mapgen seed
       stringy = stringy .. k .. " = ".. v.color .. " by ".. v.method .."\n"
    end
    minetest.log("info", "Dye sources:")
-   minetest.log("info", stringy)
+   minetest.log("info", "Dye: "..stringy)
 end
 
 local function SelectSeed()
