@@ -355,11 +355,7 @@ local mythic_terror = {
 local function get_string(meta, stringname)
    --minetest's get_string returns non-nil for an empty string
    local get = meta:get_string(stringname)
-   if get then
-      print("got string: ",stringname)
-   end
    if get == "" then
-      print("returning nil")
       return nil
    else
       return get
