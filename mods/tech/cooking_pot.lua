@@ -22,6 +22,9 @@ Save to inv meta
 
 ]]
 
+-- Import Globals
+food_table = food_table
+bake_table = bake_table
 
 -- Internationalization
 local S = tech.S
@@ -29,6 +32,7 @@ local S = tech.S
 local cook_time = 1
 local cook_temp = { [""] = 101, ["Soup"] = 100 }
 local portions = 10 -- TODO: is this sane? Can we adjust it based on contents?
+
 
 ---------------------
 local pot_box = {
@@ -155,6 +159,8 @@ local function pot_cook(pos, elapsed)
 	 local firstingr = inv[1]:get_description()
 	 if firstingr then
 	    firstingr = firstingr:gsub(" %(uncooked%)","")
+	    firstingr = firstingr:gsub("Unbaked ","")
+	    firstingr = firstingr:gsub(" Carcass","")
 	    firstingr = firstingr.." "
 	 end
 	 for i = 1, #inv do
@@ -185,6 +191,20 @@ local function pot_cook(pos, elapsed)
    end
 end
 
+local function calc_baking_time(stack)
+   local fname = stack:get_name()
+   if not food_table[fname] then return 0 end -- removing finished, etc
+   local time -- #TODO: Check if we're adding to a stack, don't alter
+   if bake_table[fname] then
+      time = bake_table[fname][2] -- using baking time
+   elseif fname:gsub("_cooked","") ~= fname then
+      time = 1 -- this is already cooked
+   else -- use half of nutrition unit value
+      time = 1 + math.floor(food_table[fname][3] / 2)
+   end
+   return time
+end
+
 minetest.register_node("tech:cooking_pot", {
 	description = S("Cooking Pot"),
 	tiles = {"tech_pottery.png",
@@ -211,7 +231,9 @@ minetest.register_node("tech:cooking_pot", {
 	on_dig = function(pos, node, digger)
 	   local meta = minetest.get_meta(pos)
 	   local inv = meta:get_inventory()
-	   if not inv:is_empty("main") then
+	   local info = meta:get_string("type")
+	   if ( not inv:is_empty("main") )
+	      or info == "Soup" then -- or fry pot, salting pot
 	      return false
 	   end
 	   minetest.node_dig(pos, node, digger)
@@ -236,15 +258,15 @@ minetest.register_node("tech:cooking_pot", {
 	   end
 	   local inv = meta:get_inventory():get_list(listname)
 	   local count = stack:get_count()
+	   --if we put new items in during cook, extend "baking" time further
+	   meta:set_int("baking", meta:get_int("baking")
+			+ calc_baking_time(stack))
 	   for i = 1, #inv do
 	      -- Only allow one stack of a given item
 	      if not (i == index) and inv[i]:get_name() == stack:get_name() then
-		    return 0
+		 return 0
 	      end
 	   end
-	   --if we put new items in during cook, extend "baking" time further
-	   --TODO: Increase baking time based on food cook times?
-	   meta:set_int("baking", meta:get_int("baking") + count)
 	   return count
 	end,
 	allow_metadata_inventory_take = function(
@@ -254,6 +276,8 @@ minetest.register_node("tech:cooking_pot", {
 		--prevent removing items once cooking begins
 		return 0
 	   end
+	   meta:set_int("baking", meta:get_int("baking")
+			- calc_baking_time(stack))
 	   return stack:get_count()
 	end,
 })
