@@ -1,5 +1,14 @@
 # Changelog:
 
+## [2022-07-08][2022-07-08__0.3.8b] — 0.3.8b and 0.2.11b
+  - Cheaper rammed earth
+  - Improved Sarkamos life cycle and behavior
+  - Cooking pot improvements
+  - Fixed wooden & iron chests' trashcan icon, dig & replace to reload
+  - Misc bugfixes
+
+## [2022-06-25][2022-06-25__0.3.8a] — 0.3.8a and 0.2.11a
+  - Reverted betterfall mod due to problems on some systems
 
 ## [2022-06-24][2022-06-24__0.3.8] — 0.3.8 and 0.2.11
   - New tech rebalance, multiple ways up the tech tree
