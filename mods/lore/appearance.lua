@@ -5,20 +5,22 @@
 --Random tables
 --TODO: Set up peoples and polities for character origin, use those instead
 local HC = {"black", "gray", "brown", "red", "blonde"}
-local SC = {"tan", "pale", "red", "yellow", "brown", "black",
-	    --natural colors three times, greater odds of getting one
-	    "tan", "pale", "red", "yellow", "brown", "black",
-	    "tan", "pale", "red", "yellow", "brown", "black",
+local SC = {"tan", "pale", "red", "yellow", "brown", "black"}
 	    --unnatural colors
-	    "greenmen","bluemen","graymen","redmen"}
+local USC= {"greenmen","bluemen","graymen","redmen"}
 local EC = {"blue","brown","gray","green","hazel","violet"}
 
 local function NewBody(player)
    player_api.set_gender(player, "random")
    player_api.set_base_textures(player)
    local base_texture = player_api.load_base_texture_table(player)
-   local SColor = SC[math.random(1,#SC)]
-   local HColor = HC[math.random(1,#HC)]
+   local SColor
+   if math.random() > 0.09 then
+      SColor = SC[math.random(1,#SC)]
+   else
+      SColor = USC[math.random(1,#USC)]
+   end
+   local HColor = SC[math.random(1,#HC)]
    local EColor = EC[math.random(1,#EC)]
    base_texture["skin"].color = SColor 
    base_texture["hair"].color = HColor
