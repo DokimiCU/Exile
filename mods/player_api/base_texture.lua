@@ -59,6 +59,18 @@ player_api.skin_colors = {
    },
 }
 
+---register wieldhand skin variants for each skin texture
+for nm, val in pairs(player_api.skin_colors) do
+   local newdef = table.copy(minetest.registered_items[""])
+   newdef.wield_image = "wieldhand.png"..
+					     "^[colorize:"..
+					     val.color..":"..
+      tostring(val.ratio)
+   newdef.groups = { not_in_creative_inventory=1 }
+   newdef.tool_capabilities.full_punch_interval = 5
+   minetest.register_item("player_api:hand_"..nm, newdef)
+end
+
 function player_api.load_base_texture_table(player)
 	local meta = player:get_meta()
 	local base_texture_str = meta:get_string("base_texture")
@@ -115,6 +127,10 @@ end
 function player_api.compose_base_texture(player, def)
 	local base_texture = player_api.load_base_texture_table(player)
 	local texture = player_api.colorize_texture(player, "skin", "[combine:"..def.canvas_size..":0,0="..def.skin_texture)
+	local inv = player:get_inventory()
+	local handstring = "player_api:hand_"..
+		      base_texture["skin"]["color"]
+	inv:set_stack("hand", 1, handstring)
 
 	local ordered_keys = {}
 

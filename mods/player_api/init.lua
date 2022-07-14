@@ -57,6 +57,7 @@ minetest.register_on_joinplayer(function(player)
 	if gender == "" then
 	   player_api.set_gender(player, "random") --set random gender
 	end
+	player:get_inventory():set_size("hand", 1)
 	if not player_api.has_cloths(player) then
 	   player_api.set_cloths(player)
 	end
