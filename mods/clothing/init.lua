@@ -59,7 +59,7 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 	local stack, from_inv, to_index
 	if action == "move" and inventory_info.to_list == "cloths" then
 		if inventory_info.from_list == inventory_info.to_list then --for moving inside the 'cloths' inventory
-			return 1
+		   return 1
 		end
 		--for moving items from player inventory list 'main' to 'cloths'
 		from_inv = "main"
@@ -70,8 +70,8 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 		from_inv = "closet"
 		to_index = inventory_info.index
 		stack = inventory_info.stack
-	else
-		return
+	else -- we're taking something out of inventory, allow it.
+	   return 1
 	end
 	if stack then
 		local stack_name = stack:get_name()
@@ -87,18 +87,15 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 			local cloth_name = cloth_list[i]:get_name()
 			local cloth_type = minetest.get_item_group(cloth_name, "cloth")
 			if cloth_type == item_group then
-				if player_inv:get_stack("cloths", to_index):get_count() == 0 then --if put on an empty slot
-					if from_inv == "main" then
-					   local removed = player_inv:remove_item("cloths", cloth_name)
-					   if player_inv:room_for_item("main", removed) then
-					      player_inv:add_item("main", removed)
-					      return 1
-					   else
-					      minetest.item_drop(removed, player, player:get_pos())
-					   end
-					end
-				end
-				return 1 -- swapping in-place
+			   if from_inv == "main" then
+			      local removed = player_inv:remove_item("cloths", cloth_name)
+			      if player_inv:room_for_item("main", removed) then
+				 player_inv:add_item("main", removed)
+				 return 1
+			      else
+				 minetest.item_drop(removed, player, player:get_pos())
+			      end
+			   end
 			end
 		end
 		return 1
