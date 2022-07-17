@@ -70,8 +70,8 @@ minetest.register_allow_player_inventory_action(function(player, action, invento
 		from_inv = "closet"
 		to_index = inventory_info.index
 		stack = inventory_info.stack
-	else -- we're taking something out of inventory, allow it.
-	   return 1
+	else -- we're taking something out or doing some unrelated inv action
+	   return
 	end
 	if stack then
 		local stack_name = stack:get_name()
