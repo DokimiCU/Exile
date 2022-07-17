@@ -278,15 +278,19 @@ local function enviro_temp(player, hud_data, meta)
 	if overlay then
 	   if not overlaid[pname] then
 	      do_overlay(player, pname, player_pos, overlay)
+	   elseif overlay ~= player:hud_get(overlaid[pname]).name then
+	      -- direct transition from one overlay to another
+	      player:hud_remove(overlaid[pname])
+	      do_overlay(player, pname, player_pos, overlay)
 	   end
-	elseif overlaid[pname] then
+	elseif overlaid[pname] then -- remove overlay
 	   player:hud_remove(overlaid[pname])
 	   overlaid[pname] = nil
 	end
 	local t = climate.get_temp_string(v, meta)
-	local hud =  hud_data.enviro_temp_hud
-	player:hud_change(hud, "text", t)
-	player:hud_change(hud, "number", col)
+	local newhud = hud_data.enviro_temp_hud
+	player:hud_change(newhud, "text", t)
+	player:hud_change(newhud, "number", col)
 end
 
 
