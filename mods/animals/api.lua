@@ -169,7 +169,7 @@ function animals.place_egg(pos, egg_name, energy, energy_egg, medium)
     local posu = {x = p.x, y = p.y - 1, z = p.z}
     local n = mobkit.nodeatpos(posu)
 
-    if n and n.walkable then
+    if n and n.walkable and n.name ~= "nodes_nature:tree_mark" then
       minetest.set_node(p, {name = egg_name})
       e = energy - energy_egg
     end
@@ -1209,7 +1209,6 @@ function animals.hq_mate(self,prty,tgtobj)
       local tpos = mobkit.get_stand_pos(tgtobj)
       local dist = vector.distance(pos,tpos)
       if dist <= self.attack.range then
-	 print("Mating!")
         mobkit.lq_idle(self,1)
         mobkit.make_sound(self,'mating')
         if self.sex == "male" then
