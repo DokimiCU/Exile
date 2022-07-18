@@ -19,7 +19,7 @@ player_api.hair_colors = {
 }
 
 player_api.skin_colors = {
-   tan = nil, -- #e1bc9e
+   tan = { color = "#e1bc9e" },
    pale = {
       color = "#ddeded",
       ratio = 150,
@@ -63,9 +63,9 @@ player_api.skin_colors = {
 for nm, val in pairs(player_api.skin_colors) do
    local newdef = table.copy(minetest.registered_items[""])
    newdef.wield_image = "wieldhand.png"..
-					     "^[colorize:"..
-					     val.color..":"..
-      tostring(val.ratio)
+			"^[colorize:"..
+			val.color..":"..
+			tostring(val.ratio)
    newdef.groups = { not_in_creative_inventory=1 }
    newdef.tool_capabilities.full_punch_interval = 5
    minetest.register_item("player_api:hand_"..nm, newdef)
