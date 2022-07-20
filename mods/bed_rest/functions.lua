@@ -246,6 +246,7 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	else
 	   local velo = player:get_velocity()
 	   if velo.x ~= 0 then return end
+	   if velo.y ~= 0 then return end
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
 		for nm, other_pos in pairs(bed_rest.bed_position) do
