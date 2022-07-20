@@ -278,7 +278,8 @@ local function enviro_temp(player, hud_data, meta)
 	if overlay then
 	   if not overlaid[pname] then
 	      do_overlay(player, pname, player_pos, overlay)
-	   elseif overlay ~= player:hud_get(overlaid[pname]).name then
+	   elseif player:hud_get(overlaid[pname]) and
+	      ( overlay ~= player:hud_get(overlaid[pname]).name ) then
 	      -- direct transition from one overlay to another
 	      player:hud_remove(overlaid[pname])
 	      do_overlay(player, pname, player_pos, overlay)
