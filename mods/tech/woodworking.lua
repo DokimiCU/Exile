@@ -53,7 +53,7 @@ minetest.register_node("tech:wooden_water_pot", {
 		minetest.get_node_timer(pos):start(math.random(30,60))
 	end,
 	on_timer =function(pos, elapsed)
-		return water_pot(pos, "tech:wooden_water_pot")
+		return water_pot(pos, "tech:wooden_water_pot", elapsed)
 	end,
 	groups = {dig_immediate = 3, flammable = 1, temp_pass = 1},
 	sounds = nodes_nature.node_sound_wood_defaults(),
