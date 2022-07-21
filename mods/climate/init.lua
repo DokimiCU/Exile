@@ -98,6 +98,22 @@ local function set_active_interval()
   return intv
 end
 
+local function get_seasonal_waves()
+   --get seasonal wave
+   local dc = minetest.get_day_count() - 10
+   --diff +/- from yearly mean (seasonal variation)
+   local dc_amp = 17
+   --~80 day year, 20 day seasons
+   local dc_period = (2*math.pi)/80
+   --yearly average,
+   local dc_mean = 13
+   local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
+   --seawater temp change has lower amplitude, behind 2 days from mass of water
+   --Fudged loosely from McCombie's 1959 "Some Relations Between Air
+   --  Temperatures and the Surface Temperature of Lakes", Wiley Online Library
+   local sea_wav = (dc_amp-5) * math.sin((dc - 2) * dc_period) + dc_mean
+   return dc_wav, sea_wav
+end
 
 -----------------
 --set the sky, for on join and when new weather set
@@ -106,11 +122,14 @@ local function set_sky_clouds(player)
 
 	player:set_sky(active_weather.sky_data)
 	player:set_clouds(active_weather.cloud_data)
-	player:set_moon(active_weather.moon_data)
-	player:set_sun(active_weather.sun_data)
+	local wth = table.copy(active_weather)
+	local actmp, _ = get_seasonal_waves()
+	actmp = actmp - 15 -- move centerpoint
+	wth.moon_data.scale = wth.moon_data.scale + (-actmp / 50 + 0.3)
+	wth.sun_data.scale = wth.sun_data.scale + (actmp / 50 + 0.3)
+	player:set_moon(wth.moon_data)
+	player:set_sun(wth.sun_data)
 	player:set_stars(active_weather.star_data)
-
-
 end
 
 -----------------
@@ -242,23 +261,6 @@ local function select_new_active_weather()
        --set sky and clouds for new state using the new active_weather
        set_sky_clouds(player)
     end
-end
-
-local function get_seasonal_waves()
-   --get seasonal wave
-   local dc = minetest.get_day_count() - 10
-   --diff +/- from yearly mean (seasonal variation)
-   local dc_amp = 17
-   --~80 day year, 20 day seasons
-   local dc_period = (2*math.pi)/80
-   --yearly average,
-   local dc_mean = 13
-   local dc_wav = dc_amp * math.sin(dc * dc_period) + dc_mean
-   --seawater temp change has lower amplitude, behind 2 days from mass of water
-   --Fudged loosely from McCombie's 1959 "Some Relations Between Air
-   --  Temperatures and the Surface Temperature of Lakes", Wiley Online Library
-   local sea_wav = (dc_amp-5) * math.sin((dc - 2) * dc_period) + dc_mean
-   return dc_wav, sea_wav
 end
 
 local function set_world_temperature()
