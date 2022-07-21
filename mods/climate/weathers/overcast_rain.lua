@@ -38,9 +38,9 @@ overcast_rain.cloud_data = {
 
 overcast_rain.moon_data = {
 	visible = false,
-	--texture = "moon.png",
-	--tonemap = "moon_tonemap.png",
-	--scale = 0.5
+	texture = "moon.png",
+	tonemap = "moon_tonemap.png",
+	scale = 0.5
 }
 
 
