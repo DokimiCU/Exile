@@ -99,9 +99,9 @@ function mobkit.get_next_waypoint(self,tpos)
 	if height and not liquidflag 
 	and not (nogopos and mobkit.isnear2d(pos2,nogopos,0.1)) then
 
-		local heightl = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,-1))
+		local heightl, _, _ = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,-1))
 		if heightl and abs(heightl-height)<0.001 then
-			local heightr = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,1))
+			local heightr, _, _ = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,1))
 			if heightr and abs(heightr-height)<0.001 then
 				dir.y = 0
 				local dirn = vector.normalize(dir)
@@ -151,9 +151,9 @@ function mobkit.get_next_waypoint_fast(self,tpos,nogopos)
 	
 	if height and not liquidflag then
 		local fast = false
-		heightl = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,-1))
+		heightl, _, _ = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,-1))
 		if heightl and abs(heightl-height)<0.001 then
-			heightr = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,1))
+			heightr, _, _ = mobkit.is_neighbor_node_reachable(self,mobkit.neighbor_shift(neighbor,1))
 			if heightr and abs(heightr-height)<0.001 then
 				fast = true
 				dir.y = 0
@@ -423,11 +423,11 @@ if not neighbor then return true end		--temp debug
 				if height then mobkit.dumbstep(self,height,tpos)
 				else	
 					for i=1,4 do --scan left
-						height, tpos = mobkit.is_neighbor_node_reachable(self,(8+neighbor-i-1)%8+1)
+						height, tpos, _ = mobkit.is_neighbor_node_reachable(self,(8+neighbor-i-1)%8+1)
 						if height then mobkit.dumbstep(self,height,tpos)
 							break
 						end		--scan right
-						height, tpos = mobkit.is_neighbor_node_reachable(self,(neighbor+i-1)%8+1)
+						height, tpos, _ = mobkit.is_neighbor_node_reachable(self,(neighbor+i-1)%8+1)
 						if height then mobkit.dumbstep(self,height,tpos)
 							break
 						end
