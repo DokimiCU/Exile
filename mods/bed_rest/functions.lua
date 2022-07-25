@@ -250,7 +250,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
 		for nm, other_pos in pairs(bed_rest.bed_position) do
-			if vector.distance(bed_pos, other_pos) < 0.1 then
+		   if vector.distance(bed_pos, other_pos) < 0.1 and
+		      nm ~= name then
 			   minetest.chat_send_player(name, ("This bed is already occupied!"))
 			   local meta = minetest.get_meta(bed_pos)
 			   if meta:get_string("infotext") == "" then
@@ -314,7 +315,6 @@ end
 function bed_rest.on_rightclick(pos, player, level)
 	local name = player:get_player_name()
 	local ppos = player:get_pos()
-	local tod = minetest.get_timeofday()
 
 	if bed_rest.player[name] then
 	   lay_down(player, nil, nil, nil, false)
@@ -394,12 +394,13 @@ end)
 --get start time of session
 minetest.register_on_joinplayer(function(player)
       local name = player:get_player_name()
-        if bed_rest.player[name] then
-	 lay_down(player, nil, nil, nil, false)
+      bed_rest.session_start[name] = os.time()
+      -- 30 minutes is 1800 ticks, so multiply by 60
+      bed_rest.session_limit[name] = minetest.settings:get('exile_breaktime') * 60
+      if bed_rest.player[name] then
+	 lay_down(player, bed_rest.level[name], bed_rest.pos[name],
+		  bed_rest.bed_position[name], true)
       end
-  bed_rest.session_start[name] = os.time()
-  -- 30 minutes is 1800 ticks, so multiply by 60
-  bed_rest.session_limit[name] = minetest.settings:get('exile_breaktime') * 60
 end
 )
 
