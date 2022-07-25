@@ -216,17 +216,20 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	      minetest.get_meta(bedp):set_string("infotext", "")
 	   end
 	   bed_rest.player[name] = nil
-	   bed_rest.bed_position[name] = nil
 	   bed_rest.level[name] = nil
 
 		-- skip here to prevent sending player specific changes (used for leaving players)
 		if skip then
+		   bed_rest.bed_position[name] = nil
 			return
 		end
 
-		if p then
+		if p and minimal.safe_landing_spot(p) then
 			player:set_pos(p)
+		elseif bed_rest.bed_position[name] then
+			   player:set_pos(bed_rest.bed_position[name])
 		end
+		bed_rest.bed_position[name] = nil
 
 		--remove blanket
 		wear_blanket(player, false)
