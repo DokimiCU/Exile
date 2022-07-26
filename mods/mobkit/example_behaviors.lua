@@ -8,7 +8,6 @@ local max = math.max
 local min = math.min
 local tan = math.tan
 local pow = math.pow
-local dbg = minetest.chat_send_all
 
 local abr = tonumber(minetest.get_mapgen_setting('active_block_range')) or 3
 
@@ -180,7 +179,7 @@ end
 function mobkit.goto_next_waypoint(self,tpos)
 	local height, pos2 = mobkit.get_next_waypoint(self,tpos)
 	
-	if not height then return false end
+	if not height or type(height) == "boolean" then return false end
 	
 	if height <= 0.01 then
 		local yaw = self.object:get_yaw()
