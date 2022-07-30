@@ -253,8 +253,8 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
 		for nm, other_pos in pairs(bed_rest.bed_position) do
-		   if vector.distance(bed_pos, other_pos) < 0.1 and
-		      nm ~= name then
+		   if other_pos and vector.distance(bed_pos, other_pos) < 0.1
+		      and nm ~= name then
 			   minetest.chat_send_player(name, ("This bed is already occupied!"))
 			   local meta = minetest.get_meta(bed_pos)
 			   if meta:get_string("infotext") == "" then
