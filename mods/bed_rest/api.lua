@@ -12,11 +12,11 @@ local function destruct_bed(pos, n)
 		other = vector.add(pos, dir)
 	end
 
-	local odef = minetest.registered_nodes[minetest.get_node(other).name]
-	if odef.groups.bed and odef.groups.bed > 0  then
-		--swap node leaves meta, but doesn't call destruct_bed again
+	local oname = minetest.get_node(other).name
+	if minetest.get_item_group(oname, "bed") ~= 0  then
+		-- Swap node leaves meta, but doesn't call destruct_bed again
 		minetest.swap_node(other, {name = "air"})
-		minetest.set_node(other, {name = "air"}) -- now clear meta
+		minetest.remove_node(other) -- Now clear meta
 		minetest.check_for_falling(other)
 	end
 end
