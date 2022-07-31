@@ -348,7 +348,7 @@ end
 minetest.register_node('tech:loose_brick_unfired', {
 	description = S('Loose Bricks (unfired)'),
 	tiles = {"nodes_nature_clay.png"},
-	stack_max = minimal.stack_max_bulky *2,
+	stack_max = minimal.stack_max_bulky *3,
   drawtype = "nodebox",
 	paramtype = "light",
   paramtype2 = "facedir",
