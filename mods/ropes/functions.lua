@@ -27,15 +27,30 @@ end
 local data = {}
 local c_air = minetest.get_content_id("air")
 
+function wielded_light.get_unlit_vmid(idx)
+   print("Input: :",dump(idx), " ",type(idx))
+   local name = minetest.get_name_from_content_id(idx)
+   local unlit = wielded_light.get_lighting_node(name)
+   if unlit then
+      return minetest.get_content_id(unlit)
+   end
+   return idx
+end
+
 ropes.destroy_rope = function(pos, nodes)
 	local top = pos.y
 	local bottom = pos.y-15
 	local voxel_manip = minetest.get_voxel_manip()
-
 	local finished = false
 	local ids_to_destroy = {}
 	for _, node in pairs(nodes) do
-		ids_to_destroy[minetest.get_content_id(node)] = true
+	   ids_to_destroy[minetest.get_content_id(node)] = true
+	   local litlist = wielded_light.get_lit_node_list(node)
+	   if litlist then
+	      for i = 1, #litlist do
+		 ids_to_destroy[minetest.get_content_id(litlist[i])] = true
+	      end
+	   end
 	end
 
 	while not finished do
@@ -44,13 +59,13 @@ ropes.destroy_rope = function(pos, nodes)
 		local voxel_area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 		bottom = emin.y
 		for y = top, bottom, -1 do
-			local index = voxel_area:index(pos.x, y, pos.z)
-			if ids_to_destroy[data[index]] then
-				data[index] = c_air
-			else
-				finished = true
-				break
-			end
+		   local index = voxel_area:index(pos.x, y, pos.z)
+		   if ids_to_destroy[data[index]] then
+		      data[index] = c_air
+		   else
+		      finished = true
+		      break
+		   end
 		end
 		voxel_manip:set_data(data)
 		voxel_manip:write_to_map()
