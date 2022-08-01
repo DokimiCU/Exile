@@ -1,4 +1,8 @@
 local mod_name = minetest.get_current_modname()
+local modpath = minetest.get_modpath(mod_name)
+
+-- Declare namespace
+wielded_light = {}
 
 -- Node replacements that emit light
 -- Sets of lighting_node={ node=original_node, level=light_level }
@@ -25,7 +29,7 @@ local removal_delay = update_interval * 0.5
 local cleanup_interval = update_interval * 3
 
 -- How far in the future will the position be projected based on the velocity
-local velocity_projection = update_interval * 0.5
+local velocity_projection = update_interval * 1
 
 -- How many light levels should an item held in the hand be reduced by, compared to the placed node
 -- does not apply to manually registered light levels
@@ -100,11 +104,9 @@ local function is_entity_valid(entity)
 end
 
 -- Check whether a node was registered by the wield_light mod
-local function  is_wieldlight_node(pos_vec)
-   local name = string.sub(minetest.get_node(pos_vec).name, 0, #mod_name)
-   if name == mod_name then
-      return true
-   end
+local function is_wieldlight_node(pos_vec)
+	local name = string.sub(minetest.get_node(pos_vec).name, 1, #mod_name)
+	return name == mod_name
 end
 
 -- Get the projected position of an entity based on its velocity, rounded to the nearest block
@@ -184,18 +186,16 @@ local function update_entity(entity)
 		end
 	end
 	if active_lights[pos_str] then
-	   if is_wieldlight_node(pos) then
-	      minetest.get_node_timer(pos):start(cleanup_interval)
-	   end
+		if is_wieldlight_node(pos) then
+			minetest.get_node_timer(pos):start(cleanup_interval)
+		end
 	end
 	entity.update = false
 end
 
 
 -- Save the original nodes timer if it has one
-local function save_timer(pos)
-	-- Convert the position back to a vector
-	local pos_vec = minetest.string_to_pos(pos)
+local function save_timer(pos_vec)
 	local timer = minetest.get_node_timer(pos_vec)
 	if timer:is_started() then
 		local meta = minetest.get_meta(pos_vec)
@@ -206,8 +206,6 @@ end
 
 -- Restore the original nodes timer if it had one
 local function restore_timer(pos_vec)
-	-- Convert the position back to a vector
---	local pos_vec = minetest.string_to_pos(pos)
 	local meta = minetest.get_meta(pos_vec)
 	local timeout = meta:get_float("saved_timer_timeout")
 	if timeout > 0 then
@@ -218,7 +216,6 @@ local function restore_timer(pos_vec)
 		meta:set_string("saved_timer_elapsed","")
 	end
 end
-
 
 -- Replace a lighting node with its original counterpart
 local function reset_lighting_node(pos)
@@ -300,9 +297,10 @@ local function recalc_light(pos)
 			node_name = lighting_nodes[name].node
 		end
 		if node_name then
-		   if not is_wieldlight_node(pos_vec) then
-		      save_timer(pos)
-		   end
+			if not is_wieldlight_node(pos_vec) then
+				save_timer(pos_vec)
+			end
+
 			minetest.swap_node(pos_vec, {
 				name = lightable_nodes[node_name][max_light],
 				param2 = existing_node.param2
@@ -382,7 +380,22 @@ end
 
 -- Check if a node name is one of the wielded light nodes
 function wielded_light.get_lighting_node(node_name)
-   return lighting_nodes[node_name]
+	return lighting_nodes[node_name]
+end
+
+-- Returns a table of the lit versions of a node, if it exists
+function wielded_light.get_lit_node_list(node_name)
+   if lightable_nodes[node_name] then
+      return lightable_nodes[node_name]
+   end
+end
+
+-- If this node is lit, return the unlit version
+function wielded_light.get_unlit_node(node)
+   if lighting_nodes[node.name] then
+      node.name = lighting_nodes[node.name].node
+   end
+   return node
 end
 
 -- Register any node as lightable, register all light level variations for it
@@ -422,6 +435,7 @@ function wielded_light.register_lightable_node(node_name, property_overrides, cu
 	if not new_definition.drop then
 		new_definition.drop = node_name
 	end
+
 	-- Allow any properties to be overridden on registration
 	for prop, val in pairs(property_overrides) do
 		new_definition[prop] = val
@@ -636,62 +650,24 @@ wielded_light.register_player_lightstep(function (player)
 end)
 
 -- Register helper nodes
-minetest.register_on_mods_loaded(function()
-      if minetest.get_modpath("exile_env_sounds") then
-	 wielded_light.register_lightable_node("air", nil, "")
-	 --specifics for Exile game
+local water_name = "default:water_source"
+if minetest.get_modpath("hades_core") then
+	water_name = "hades_core:water_source"
+end
 
-	 --water
-	 wielded_light.register_lightable_node("nodes_nature:freshwater_source", {groups={liquid=1,not_in_creative_inventory=1}}, "freshwater_")
-	 wielded_light.register_lightable_node("nodes_nature:freshwater_flowing", {groups={liquid=1,floodable=0,not_in_creative_inventory=1}}, "freshwater_flowing_")
-	 wielded_light.register_lightable_node("nodes_nature:salt_water_source", {groups={liquid=1,not_in_creative_inventory=1}}, "salt_water_")
-	 wielded_light.register_lightable_node("nodes_nature:salt_water_flowing", {groups={liquid=1,floodable=0,not_in_creative_inventory=1}}, "salt_water_flowing_")
-
-	 -- Trees
-	 wielded_light.register_lightable_node("nodes_nature:tree_mark", nil, "trees_")
-
-	 -- Ladders / Rope
-	 wielded_light.register_lightable_node("ropes:ropeladder", nil, "ladder_")
-	 wielded_light.register_lightable_node("ropes:rope", nil, "rope_")
-	 wielded_light.register_lightable_node("tech:wooden_ladder", nil, "tech_")
-	 wielded_light.register_lightable_node("artifacts:antiquorium_ladder", nil, "artifacts_")
-
-	 -- Tall plants
-	 wielded_light.register_lightable_node("nodes_nature:cana", nil, "cana_")
-	 wielded_light.register_lightable_node("nodes_nature:chalin", nil, "chalin_")
-	 wielded_light.register_lightable_node("nodes_nature:gemedi", nil, "gemedi_")
-	 wielded_light.register_lightable_node("nodes_nature:tiken", nil, "tiken_")
-	 wielded_light.register_lightable_node("nodes_nature:kelp", nil, "kelp_")
-
-
-	 -- Set light levels for wielded items
-	 -- Original illumination mod set 4 light level ranges
-
-	 -- faint, 4, 3-7
-	 wielded_light.register_item_light('artifacts:sculpture_mg_bloom', 4)	--5
-	 wielded_light.register_item_light('artifacts:sculpture_mg_dancers', 4)	--5
-	 wielded_light.register_item_light('artifacts:sculpture_mg_bonsai', 4)	--5
-	 wielded_light.register_item_light('artifacts:moonglass', 4)		--5
-	 wielded_light.register_item_light('artifacts:moon_stone', 4)		--7
-	 wielded_light.register_item_light('artifacts:star_stone', 4)		--3
-	 -- dim, 8, 8-10
-	 wielded_light.register_item_light('tech:torch', 8)			--8
-	 -- mid, 12, 11-12
-
-	 -- full, 14, 13-15
-	 wielded_light.register_item_light('artifacts:sun_stone', 14)		--13
-      else
-	 -- original code block for other games
-	 local water_name = "default:water_source"
-	 if minetest.get_modpath("hades_core") then
-	    water_name = "hades_core:water_source"
-	 end
-
-	 wielded_light.register_lightable_node("air", nil, "")
-	 wielded_light.register_lightable_node(water_name, nil, "water_")
-	 wielded_light.register_lightable_node("default:river_water_source", nil, "river_water_")
-      end
-end)
+wielded_light.register_lightable_node("air", nil, "")
+wielded_light.register_lightable_node(water_name, nil, "water_")
+wielded_light.register_lightable_node("default:river_water_source", nil, "river_water_")
 
 ---TEST
 --wielded_light.register_item_light('default:dirt', 14)
+
+--Game specific defines
+minetest.register_on_mods_loaded(function()
+      if minetest.get_modpath("exile_env_sounds") then
+	 dofile(modpath.."/exile.lua")
+      end
+      if minetest.get_modpath("mesecraft_bones") then
+	 dofile(modpath.."/mesecraft.lua")
+      end
+end)
