@@ -76,7 +76,7 @@ snowstorm.chain = {
 
 snowstorm.particle_interval = 0.0006
 
-snowstorm.particle_function = function()
+snowstorm.particle_function = function(player)
 	local velxz = math.random(-3,1.5)
 	local vely = math.random(-3, 1.5)
 	local accxz = math.random(-4, 1.5)
@@ -85,7 +85,8 @@ snowstorm.particle_function = function()
 	local size = 40
 	local tex = "snowstorm.png"
 
-	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size, tex)
+	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size,
+					tex, player)
 
 	if math.random() < 0.0001 then
 		lightning.strike()

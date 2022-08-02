@@ -79,7 +79,7 @@ overcast_heavy_rain.chain = {
 
 overcast_heavy_rain.particle_interval = 0.001
 
-overcast_heavy_rain.particle_function = function()
+overcast_heavy_rain.particle_function = function(player)
 	local vel = -10
 	local acc = -10
 	local ext = 6
@@ -87,7 +87,7 @@ overcast_heavy_rain.particle_function = function()
 	local tex = "heavy_rain_drops.png"
 	local sound = ""
 
-	climate.add_particle(vel, acc, ext, size, tex)
+	climate.add_particle(vel, acc, ext, size, tex, player)
 end
 
 

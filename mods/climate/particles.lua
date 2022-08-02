@@ -74,138 +74,131 @@ end
 
 
 
-climate.add_particle = function(vel, acc, ext, size, tex)
-	for _,player in ipairs(minetest.get_connected_players()) do
-		if not player then
-			return
-		end
-		if is_underwater(player) then
-			return
-		end
+climate.add_particle = function(vel, acc, ext, size, tex, player)
+   if not player then
+      return
+   end
+   if is_underwater(player) then
+      return
+   end
 
-		--Far particle
-		local offset = {
-			front = 8,
-			back = 5,
-			top = 12
-		}
+   --Far particle
+   local offset = {
+      front = 8,
+      back = 5,
+      top = 12
+   }
 
-		local random_pos = get_random_pos(player, offset)
-		local name = player:get_player_name()
+   local random_pos = get_random_pos(player, offset)
+   local name = player:get_player_name()
 
-		--check if under cover
-		if is_outdoor(random_pos) then
+   --check if under cover
+   if is_outdoor(random_pos) then
 
-			minetest.add_particle({
-				pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
-				velocity = {x=0, y= vel, z=0},
-				acceleration = {x=0, y=acc, z=0},
-				expirationtime = ext,
-				size = math.random(size/2, size),
-				collisiondetection = true,
-				collision_removal = true,
-				vertical = true,
-				texture = tex,
-				playername = name
-			})
+      minetest.add_particle({
+	    pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
+	    velocity = {x=0, y= vel, z=0},
+	    acceleration = {x=0, y=acc, z=0},
+	    expirationtime = ext,
+	    size = math.random(size/2, size),
+	    collisiondetection = true,
+	    collision_removal = true,
+	    vertical = true,
+	    texture = tex,
+	    playername = name
+      })
 
-		end
+   end
 
-		--close particle
-		offset = {
-			front = 2,
-			back = 0,
-			top = 6
-		}
+   --close particle
+   offset = {
+      front = 2,
+      back = 0,
+      top = 6
+   }
 
-		local random_pos = get_random_pos(player, offset)
+   local random_pos = get_random_pos(player, offset)
 
-		--check if under cover
-		if is_outdoor(random_pos) then
+   --check if under cover
+   if is_outdoor(random_pos) then
 
-			minetest.add_particle({
-				pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
-				velocity = {x=0, y= vel, z=0},
-				acceleration = {x=0, y=acc, z=0},
-				expirationtime = ext/2,
-				size = math.random(size/2, size),
-				collisiondetection = true,
-				collision_removal = true,
-				vertical = true,
-				texture = tex,
-				playername = name
-			})
-		end
-	end
-
+      minetest.add_particle({
+	    pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
+	    velocity = {x=0, y= vel, z=0},
+	    acceleration = {x=0, y=acc, z=0},
+	    expirationtime = ext/2,
+	    size = math.random(size/2, size),
+	    collisiondetection = true,
+	    collision_removal = true,
+	    vertical = true,
+	    texture = tex,
+	    playername = name
+      })
+   end
 end
 
-
-
 --e.g. duststorm, or more floaty
-climate.add_blizzard_particle = function(velxz, vely, accxz, accy, ext, size, tex)
-	for _,player in ipairs(minetest.get_connected_players()) do
-		if not player then
-			return
-		end
-		if is_underwater(player) then
-			return
-		end
+climate.add_blizzard_particle = function(velxz, vely, accxz, accy, ext,
+					 size, tex, player)
+   if not player then
+      return
+   end
+   if is_underwater(player) then
+      return
+   end
 
-		--Far particle
-		local offset = {
-			front = 7,
-			back = 3,
-			top = 6
-		}
+   --Far particle
+   local offset = {
+      front = 7,
+      back = 3,
+      top = 6
+   }
 
-		local random_pos = get_random_pos(player, offset)
+   local random_pos = get_random_pos(player, offset)
 
-		local name = player:get_player_name()
+   local name = player:get_player_name()
 
-		--check if under cover
-		if is_outdoor(random_pos) then
+   --check if under cover
+   if is_outdoor(random_pos) then
 
-			minetest.add_particle({
-				pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
-				velocity = {x=velxz, y= vely, z=velxz},
-				acceleration = {x=accxz, y=accy, z=accxz},
-				expirationtime = ext,
-				size = math.random(size/2, size),
-				collisiondetection = true,
-				collision_removal = true,
-				vertical = true,
-				texture = tex,
-				playername = name
-			})
+      minetest.add_particle({
+	    pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
+	    velocity = {x=velxz, y= vely, z=velxz},
+	    acceleration = {x=accxz, y=accy, z=accxz},
+	    expirationtime = ext,
+	    size = math.random(size/2, size),
+	    collisiondetection = true,
+	    collision_removal = true,
+	    vertical = true,
+	    texture = tex,
+	    playername = name
+      })
 
-		end
+   end
 
-		--close particle
-		offset = {
-			front = 3,
-			back = 1,
-			top = 3
-		}
+   --close particle
+   offset = {
+      front = 3,
+      back = 1,
+      top = 3
+   }
 
-		local random_pos = get_random_pos(player, offset)
+   local random_pos = get_random_pos(player, offset)
 
-		--check if under cover
-		if is_outdoor(random_pos) then
+   --check if under cover
+   if is_outdoor(random_pos) then
 
-			minetest.add_particle({
-				pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
-				velocity = {x=velxz, y= vely, z=velxz},
-				acceleration = {x=accxz, y=accy, z=accxz},
-				expirationtime = ext/2,
-				size = math.random(size/2, size),
-				collisiondetection = true,
-				collision_removal = true,
-				vertical = true,
-				texture = tex,
-				playername = name
-			})
-		end
-	end
-
+      minetest.add_particle({
+	    pos = {x=random_pos.x, y=random_pos.y, z=random_pos.z},
+	    velocity = {x=velxz, y= vely, z=velxz},
+	    acceleration = {x=accxz, y=accy, z=accxz},
+	    expirationtime = ext/2,
+	    size = math.random(size/2, size),
+	    collisiondetection = true,
+	    collision_removal = true,
+	    vertical = true,
+	    texture = tex,
+	    playername = name
+      })
+   end
 end

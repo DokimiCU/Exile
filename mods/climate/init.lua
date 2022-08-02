@@ -336,16 +336,20 @@ minetest.register_globalstep(function(dtime)
      store:set_string("climate_history", get_climate_history())
      timer_r = 0
   end
-  --check if anyone is above ground to bother doing effects for
-  local ag_c = 0
+  timer_p = timer_p + dtime
   for _,player in ipairs(minetest.get_connected_players()) do
      local pos = player:get_pos()
      local p_name = player:get_player_name()
      local sound = sound_handlers[p_name]
      if pos.y > -12 then
-	ag_c = ag_c + 1
 	if updatesound or sound == nil then
 	   update_player_sounds(p_name)
+	end
+	--fast weather effects for aboveground players
+	if (climate.active_weather.particle_interval and
+	    timer_p > climate.active_weather.particle_interval) then
+	   -- do particle effects for current weather
+	   climate.active_weather.particle_function(player)
 	end
      elseif pos.y < -11 and sound then
 	local x = 1-(-1*pos.y-12)/5
@@ -362,21 +366,11 @@ minetest.register_globalstep(function(dtime)
      end
   end
 
-
-  if ag_c == 0 then
-     --no one will experience any weather!
-     return
-  end
-
-
-  --fast weather effects
-  timer_p = timer_p + dtime
   if (climate.active_weather.particle_interval and
       timer_p > climate.active_weather.particle_interval) then
-     -- do particle effects for current weather
-     climate.active_weather.particle_function()
      timer_p = 0
   end
+
 end)
 
 --------------------------------------------------------------------

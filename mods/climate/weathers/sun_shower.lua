@@ -87,7 +87,7 @@ end
 
 sun_shower.particle_interval = 0.5
 
-sun_shower.particle_function = function()
+sun_shower.particle_function = function(player)
 	local vel = -10
 	local acc = -10
 	local ext = 5
@@ -95,7 +95,7 @@ sun_shower.particle_function = function()
 	local tex = random_texture()
 	local sound = ""
 
-	climate.add_particle(vel, acc, ext, size, tex)
+	climate.add_particle(vel, acc, ext, size, tex, player)
 end
 
 --add this weather to register

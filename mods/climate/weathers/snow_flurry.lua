@@ -84,7 +84,7 @@ snow_flurry.chain = {
 
 snow_flurry.particle_interval = 0.5
 
-snow_flurry.particle_function = function()
+snow_flurry.particle_function = function(player)
 
 	local velxz = math.random(-1,-0.1)
 	local vely = math.random(-1, 0)
@@ -95,7 +95,8 @@ snow_flurry.particle_function = function()
 	local tex = random_texture()
 	local sound = ""
 
-	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size, tex)
+	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size,
+					tex, player)
 end
 
 

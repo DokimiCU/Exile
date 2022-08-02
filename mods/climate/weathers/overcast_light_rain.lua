@@ -86,7 +86,7 @@ end
 
 overcast_light_rain.particle_interval = 0.1
 
-overcast_light_rain.particle_function = function()
+overcast_light_rain.particle_function = function(player)
 	local vel = -10
 	local acc = -10
 	local ext = 5
@@ -94,7 +94,7 @@ overcast_light_rain.particle_function = function()
 	local tex = random_texture()
 	local sound = ""
 
-	climate.add_particle(vel, acc, ext, size, tex)
+	climate.add_particle(vel, acc, ext, size, tex, player)
 end
 
 

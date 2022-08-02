@@ -81,7 +81,7 @@ overcast_snow.chain = {
 
 overcast_snow.particle_interval = 0.004
 
-overcast_snow.particle_function = function()
+overcast_snow.particle_function = function(player)
 
 	local velxz = math.random(-1,-0.1)
 	local vely = math.random(-2,-0.5)
@@ -92,7 +92,8 @@ overcast_snow.particle_function = function()
 	local tex = random_texture()
 	local sound = ""
 
-	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size, tex)
+	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size,
+					tex, player)
 end
 
 --add this weather to register

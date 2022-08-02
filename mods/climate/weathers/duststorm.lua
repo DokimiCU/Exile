@@ -77,7 +77,7 @@ duststorm.chain = {
 
 duststorm.particle_interval = 0.0007
 
-duststorm.particle_function = function()
+duststorm.particle_function = function(player)
 	local velxz = math.random(-5, 2)
 	local vely = math.random(-3, 2)
 	local accxz = math.random(-3,2)
@@ -86,7 +86,8 @@ duststorm.particle_function = function()
 	local size = 20
 	local tex = "duststorm.png"
 
-	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size, tex)
+	climate.add_blizzard_particle(velxz, vely, accxz, accy, ext, size,
+					tex, player)
 
 	if math.random() < 0.00016 then
 		lightning.strike()
