@@ -22,9 +22,6 @@ function spears_register_spear(spear_type, desc, base_damage, toughness, materia
 		tool_capabilities = {
 			full_punch_interval = 1.5,
 			max_drop_level=1,
-			groupcaps={
-				cracky = {times={[3]=2}, uses=toughness, maxlevel=1},
-			},
 			damage_groups = {fleshy=base_damage},
 		},
 		sound = {breaks = "default_tool_breaks"},
