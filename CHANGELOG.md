@@ -1,5 +1,10 @@
 # Changelog:
 
+## [2022-08-05][2022-08-05__0.3.8c] — 0.3.8c and 0.2.11c
+  - enabled shadows when running on MT 5.6.0+
+  - Pots fill with rainwater even if the player is away
+  - Many, many bug fixes
+
 ## [2022-07-08][2022-07-08__0.3.8b] — 0.3.8b and 0.2.11b
   - Cheaper rammed earth
   - Improved Sarkamos life cycle and behavior
