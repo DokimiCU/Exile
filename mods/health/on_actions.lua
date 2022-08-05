@@ -177,7 +177,9 @@ function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_chang
 		energy = 1000
 	end
 
-	temperature = temperature + temp_change
+	if temp_change then -- #TODO: figure out how soup is sending nil here
+	   temperature = temperature + temp_change
+	end
 
 	--set new values
 	-- and update malus (need for setting correct physics) --conflicts with Health Effects!
