@@ -80,8 +80,29 @@ minetest.register_item(":", {
 })
 
 
---Custom small inventory
 minetest.register_on_joinplayer(function(player)
-	minetest.get_inventory({type="player", name=player:get_player_name()}):set_size("main", 16)
-end
-)
+      local p_name = player:get_player_name()
+      --Custom small inventory
+      minetest.get_inventory({type="player", name=p_name}):set_size("main", 16)
+      --enable shadows if using minetest 5.6.0+
+      local mt560 = false
+      local version = minetest.get_version()
+      local tabstr = string.split(version.string,".")
+      local major = tabstr[1]
+      local minor = tabstr[2]
+      local patch = tabstr[3]
+      minetest.log("action", "Running on version: "..version.project.." "..
+		   major.."."..minor.."."..patch)
+      if ( version.project == "Minetest" and
+	   tonumber(major) == 5 and tonumber(minor) >= 6 )then
+	 mt560 = true
+      end
+      if mt560 then
+	 minetest.log("action", "MT5.6.0+, enabling shadows")
+	 player:set_lighting({
+	    shadows = { intensity = 0.33 }
+      })
+
+      end
+end)
+
