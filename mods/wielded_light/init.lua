@@ -649,15 +649,7 @@ wielded_light.register_player_lightstep(function (player)
 	wielded_light.track_user_entity(player, "wield", player:get_wielded_item():get_name())
 end)
 
--- Register helper nodes
-local water_name = "default:water_source"
-if minetest.get_modpath("hades_core") then
-	water_name = "hades_core:water_source"
-end
-
 wielded_light.register_lightable_node("air", nil, "")
-wielded_light.register_lightable_node(water_name, nil, "water_")
-wielded_light.register_lightable_node("default:river_water_source", nil, "river_water_")
 
 ---TEST
 --wielded_light.register_item_light('default:dirt', 14)
@@ -666,8 +658,15 @@ wielded_light.register_lightable_node("default:river_water_source", nil, "river_
 minetest.register_on_mods_loaded(function()
       if minetest.get_modpath("exile_env_sounds") then
 	 dofile(modpath.."/exile.lua")
-      end
-      if minetest.get_modpath("mesecraft_bones") then
+      elseif minetest.get_modpath("mesecraft_bones") then
 	 dofile(modpath.."/mesecraft.lua")
+      elseif minetest.get_modpath("hades_core") then
+	 wielded_light.register_lightable_node("hades_core:water_source",
+					       nil, "water_")
+      else -- no specific game? assume MTG or similar
+	 wielded_light.register_lightable_node("default:water_source",
+					       nil, "water_")
+	 wielded_light.register_lightable_node("default:river_water_source",
+					       nil, "river_water_")
       end
 end)
