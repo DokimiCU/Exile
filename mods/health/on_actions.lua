@@ -177,7 +177,7 @@ function HEALTH.use_item(itemstack, user, hp_change, thirst_change, hunger_chang
 		energy = 1000
 	end
 
-	if temp_change then -- #TODO: figure out how soup is sending nil here
+	if temp_change then
 	   temperature = temperature + temp_change
 	end
 
