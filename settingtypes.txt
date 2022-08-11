@@ -74,6 +74,14 @@ exile_enableslopes (Create natural slopes on mapgen) bool true
 exile_slopechance (Non-Slope percentage) int 20 0 100
 
 
+## Settings for Climate
+
+[Climate Settings]
+# Average room tempurature indoors and underground.
+exile_av_temp (Average Tempurature indoors and underground) int 15 0 20
+# Depth average room tempurature is reached.
+exile_av_temp_depth (Depth av_temp is reached underground) int -12 -100 0
+
 ## Update shape ABM
 
 # Enable or disable the automatic update of the shape of nodes at the surface (requires twmlib mod).

@@ -224,7 +224,11 @@ end
 local adjust_active_temp = function(pos, temp)
 
    --average temp (make sure it matches climate)
-   local av_temp = 15
+   local av_temp = minetest.setting_get("exile_av_temp") 
+   av_temp = av_temp and tonumber(av_temp) or 15
+   --Depth calculated to reach av_temp
+   local av_temp_depth = minetest.setting_get("exile_av_temp_depth") 
+   av_temp_depth = av_temp_depth and tonumber(av_temp) or -12 
    local name = minetest.get_node(pos).name
    local water = minetest.get_item_group(name,"water")
 
@@ -237,7 +241,7 @@ local adjust_active_temp = function(pos, temp)
 
    -------------------------------
    --Underground
-   if pos.y < -12 then
+   if pos.y < av_temp_depth then
       --average temp, heating under the earth. ~ 25C/km
       temp = -0.025*pos.y + av_temp
       temp = adjust_for_heatable(pos, name, temp)
@@ -248,7 +252,7 @@ local adjust_active_temp = function(pos, temp)
    if pos.y <= 0 and water ==0 then
       --below ground is closer to average
       --should probably match to heightmap rather than y = 0 (maybe unnecessarily complicated)
-      local x = (-1*pos.y-12)*(-1/12)
+      local x = (-1*pos.y+av_temp_depth)*(1/av_temp_depth)
       temp = (temp*x)+(av_temp*(1-x))
       temp = adjust_for_shelter(pos, temp, av_temp)
       temp = adjust_for_heatable(pos, name, temp)
