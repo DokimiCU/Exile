@@ -247,10 +247,10 @@ for i in ipairs(tree_list) do
 		groups = {choppy = 3, flammable = 2, woody_plant = 1, leafdecay = 1, leafdecay_drop = 1},
 		sounds = nodes_nature.node_sound_leaves_defaults(),
 		after_place_node = function(pos, placer, itemstack)
-			minetest.set_node(pos, {name = "nodes_nature:"..treename.."_leaves", param2 = 4, param3 = 1})
+			minetest.set_node(pos, {name = "nodes_nature:"..treename.."_leaves", param2 = 0})
 		end,
 		after_dig_node = function(pos, oldnode, oldmetadata, digger)
-			if oldnode.param3 ~= 1 then
+			if oldnode.param2 ~= 0 then 
 				minetest.set_node(pos, {name = "nodes_nature:tree_mark"})
 				local meta = minetest.get_meta(pos)
 				meta:set_string("saved_name", "nodes_nature:"..treename.."_leaves")
@@ -285,10 +285,10 @@ for i in ipairs(tree_list) do
 			sounds = nodes_nature.node_sound_defaults(),
 			_ncrafting_dye_dcolor = dominantcolor,
 			after_place_node = function(pos, placer, itemstack)
-				minetest.set_node(pos, {name = "nodes_nature:"..fruitname, param2 = p2_fruit, param3 = 1})
+				minetest.set_node(pos, {name = "nodes_nature:"..fruitname, param2 = 0})
 			end,
 			after_dig_node = function(pos, oldnode, oldmetadata, digger)
-				if oldnode.param3 ~= 1 then
+				if oldnode.param2 ~= 0 then
 					minetest.set_node(pos, {name = "nodes_nature:tree_mark"})
 					local meta = minetest.get_meta(pos)
 					meta:set_string("saved_name", "nodes_nature:"..fruitname)
