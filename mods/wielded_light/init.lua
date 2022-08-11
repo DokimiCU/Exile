@@ -435,12 +435,16 @@ function wielded_light.register_lightable_node(node_name, property_overrides, cu
 	if not new_definition.drop then
 		new_definition.drop = node_name
 	end
-
 	-- Allow any properties to be overridden on registration
 	for prop, val in pairs(property_overrides) do
-		new_definition[prop] = val
+		if new_definition[prop] and type(new_definition[prop]) == 'table' and type(val) == 'table' then
+			for prop2,val2 in pairs(val) do
+				new_definition[prop][prop2] = val2
+			end
+		else
+			new_definition[prop] = val
+		end
 	end
-
 	-- If it's a liquid, we need to stop it flowing
 	if new_definition.groups.liquid then
 		new_definition.liquid_range = 0
@@ -649,7 +653,7 @@ wielded_light.register_player_lightstep(function (player)
 	wielded_light.track_user_entity(player, "wield", player:get_wielded_item():get_name())
 end)
 
-wielded_light.register_lightable_node("air", nil, "")
+wielded_light.register_lightable_node("air", {groups={temp_pass = 1}}, "")
 
 ---TEST
 --wielded_light.register_item_light('default:dirt', 14)
