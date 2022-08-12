@@ -224,11 +224,11 @@ end
 local adjust_active_temp = function(pos, temp)
 
    --average temp (make sure it matches climate)
-   local av_temp = minetest.setting_get("exile_av_temp") 
+   local av_temp = minetest.settings:get("exile_av_temp") 
    av_temp = av_temp and tonumber(av_temp) or 15
    --Depth calculated to reach av_temp
-   local av_temp_depth = minetest.setting_get("exile_av_temp_depth") 
-   av_temp_depth = av_temp_depth and tonumber(av_temp) or -12 
+   local av_temp_depth = minetest.settings:get("exile_av_temp_depth") 
+   av_temp_depth = av_temp_depth and tonumber(av_temp_depth) or -12 
    local name = minetest.get_node(pos).name
    local water = minetest.get_item_group(name,"water")
 
