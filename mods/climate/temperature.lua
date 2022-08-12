@@ -243,7 +243,9 @@ local adjust_active_temp = function(pos, temp)
    --Underground
    if pos.y < av_temp_depth then
       --average temp, heating under the earth. ~ 25C/km
-      temp = -0.025*pos.y + av_temp
+      --calculate depth factor based on temp of 40 at -1000
+      local av_depth_factor = (40 - av_temp) / (-1000-av_temp_depth)
+      temp = av_depth_factor*(pos.y-av_temp_depth) + av_temp
       temp = adjust_for_heatable(pos, name, temp)
       return temp
    end
