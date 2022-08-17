@@ -245,15 +245,15 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		hud_flags.wielditem = true
 		player_api.set_animation(player, "stand")
 
-	-- lay down
-	else
+	-- lay down, provided we have a valid bed position
+	elseif bed_pos then
 	   local velo = player:get_velocity()
 	   if velo.x ~= 0 then return end
 	   if velo.y ~= 0 then return end
 	   if velo.z ~= 0 then return end
 		-- Check if bed is occupied
 		for nm, other_pos in pairs(bed_rest.bed_position) do
-		   if other_pos and vector.distance(bed_pos, other_pos) < 0.1
+		   if vector.distance(bed_pos, other_pos) < 0.1
 		      and nm ~= name then
 			   minetest.chat_send_player(name, ("This bed is already occupied!"))
 			   local meta = minetest.get_meta(bed_pos)
@@ -301,6 +301,13 @@ local function lay_down(player, level, pos, bed_pos, state, skip)
 		player_api.player_attached[name] = true
 		hud_flags.wielditem = false
 		player_api.set_animation(player, "lay")
+	else -- no valid bed pos? put them back. Cut down version of "stand up"
+	   local p = bed_rest.pos[name] or nil
+	   if p then -- better hope it's safe, we don't know where your bed is
+	      player:set_pos(p)
+	   end
+	   bed_rest.player[name] = nil
+	   bed_rest.level[name] = nil
 	end
 
 	local brtemp = {}
