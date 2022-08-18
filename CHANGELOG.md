@@ -1,5 +1,8 @@
 # Changelog:
 
+## [2022-08-05][2022-08-05__0.3.8d] — 0.3.8d and 0.2.11d
+  - Minor bugfixes
+
 ## [2022-08-05][2022-08-05__0.3.8c] — 0.3.8c and 0.2.11c
   - enabled shadows when running on MT 5.6.0+
   - Pots fill with rainwater even if the player is away
