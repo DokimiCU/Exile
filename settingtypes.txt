@@ -73,7 +73,6 @@ exile_enableslopes (Create natural slopes on mapgen) bool true
 # 10% = 90% chance of a slope in a given spot, 90 = 10% chance
 exile_slopechance (Non-Slope percentage) int 20 0 100
 
-
 ## Settings for Climate
 
 [Climate Settings]
@@ -81,6 +80,7 @@ exile_slopechance (Non-Slope percentage) int 20 0 100
 exile_av_temp (Average Tempurature indoors and underground) int 15 0 20
 # Depth average room tempurature is reached.
 exile_av_temp_depth (Depth av_temp is reached underground) int -12 -100 0
+
 
 ## Update shape ABM
 
@@ -131,3 +131,12 @@ naturalslopeslib_enable_shape_on_dig_place (Shape update on dig and place) bool 
 # It will show some disconnections at some points 
 # that won't be fixed and may be visually misleading with heights.
 naturalslopeslib_smooth_rendering (Smooth but glitched rendering) bool false
+
+[HUD Settings]
+# Enable or disable raw stat numbers next to the status icons
+#
+exile_hud_raw_stats (Show stat numbers by their icons) bool false
+
+# Set HUD icon transparency
+#
+exile_hud_icon_transparency (HUD icon transparency [0-255]) int 127 0 255
