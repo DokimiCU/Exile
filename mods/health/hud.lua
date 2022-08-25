@@ -12,6 +12,7 @@ local hudupdateseconds = tonumber(minetest.settings:get("exile_hud_update"))
 local show_stats = minetest.settings:get_bool("exile_hud_raw_stats") or false
 
 local hud_opacity = minetest.settings:get("exile_hud_icon_transparency") or 127
+local hud_scale = minetest.settings:get("gui_scaling") or 1
 
 -- These are color values for the various status levels. They have to be modified
 -- per-function below because textures expect one color format and text another.
@@ -34,19 +35,19 @@ local setup_hud = function(player)
 	player:hud_set_flags({healthbar = false})
 	local playername = player:get_player_name()
 	
-	local hud_vert_pos 		= -128		-- all HUD icon vertical position
-	local hud_extra_y		= -16		-- pixel offset for hot/cold icons
-	local hud_text_y		= 32		-- optional text stat offset
+	local hud_vert_pos 		= -128 * hud_scale	-- all HUD icon vertical position
+	local hud_extra_y		= -16 * hud_scale	-- pixel offset for hot/cold icons
+	local hud_text_y		= 32 * hud_scale	-- optional text stat offset
 	
-	local hud_health_x 		= -192
-	local hud_hunger_x 		= -128
-	local hud_thirst_x 		= -64
-	local hud_energy_x 		=  0
-	local hud_body_temp_x 	= 64
-	local hud_air_temp_x	= 128
-	local hud_sick_x		= 192
+	local hud_health_x 		= -192 * hud_scale
+	local hud_hunger_x 		= -128 * hud_scale
+	local hud_thirst_x 		= -64 * hud_scale
+	local hud_energy_x 		=  0 
+	local hud_body_temp_x 	= 64 * hud_scale
+	local hud_air_temp_x	= 128 * hud_scale
+	local hud_sick_x		= 192 * hud_scale
 	
-	local icon_scale = {x = 1, y = 1}	-- all HUD icon image scale
+	local icon_scale = {x = hud_scale, y = hud_scale}	-- all HUD icon image scale
 	
 	local hud_data = {}
 	
