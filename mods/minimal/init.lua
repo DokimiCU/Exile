@@ -30,6 +30,41 @@ dofile(minetest.get_modpath('minimal')..'/utility.lua')
 
 -- GUI related stuff
 
+function minimal.set_hotbar(player,pref) 
+	if pref == "true" then
+		-- use wide hotbar
+		player:hud_set_hotbar_image("gui_hotbar16.png")
+		player:hud_set_hotbar_itemcount(16)
+	else
+		player:hud_set_hotbar_image("gui_hotbar.png")
+		player:hud_set_hotbar_itemcount(8)
+	end
+end
+
+
+minetest.register_chatcommand("hud16", {
+	params = "true or false",
+	description = "Toggle wide hud hotbar on or off for player",
+	func = function(name, param)
+	local player = minetest.get_player_by_name(name)
+	local meta = player:get_meta()
+	local hud16=meta:get_string("hud16") or minetest.settings:get('exile_hud_wide_hotbar') or 'false'
+	if param and param ~="" then
+		local wlist = "/hud16:\n"..
+		"Toggle wide HUD hotbar off or on for you."
+		return false, wlist
+	end
+	if hud16 == "true" then
+		hud16 = "false"
+	else
+		hud16 = "true"
+	end
+	meta:set_string("hud16", hud16)
+	minimal.set_hotbar(player,hud16)
+	end,
+})
+
+
 minetest.register_on_joinplayer(function(player)
 	-- Set formspec prepend
 	local formspec = [[
@@ -43,9 +78,10 @@ minetest.register_on_joinplayer(function(player)
 		formspec = formspec .. "background[5,5;1,1;gui_formbg.png;true]"
 	end
 	player:set_formspec_prepend(formspec)
-
 	-- Set hotbar textures
-	player:hud_set_hotbar_image("gui_hotbar.png")
+	local meta = player:get_meta()
+	local hud = meta:get_string("hud16") or minetest.settings:get('exile_hud_wide_hotbar') or 'false'
+	minimal.set_hotbar(player,hud)
 	player:hud_set_hotbar_selected_image("gui_hotbar_selected.png")
 end)
 

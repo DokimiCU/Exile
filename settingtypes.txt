@@ -16,6 +16,7 @@ ncrafting_worldseed (Use world seed for dye generation) bool true
 
 ## Settings for displays
 
+
 # Select the temperature scale to display in the HUD.
 exile_temp_scale (Temperature scale) enum Celsius Celsius,Fahrenheit,Kelvin
 
@@ -39,6 +40,21 @@ exile_breaktime (Set delay before the first break notice) int 30 30 90
 # Whether to display the notification screen at all.
 exile_nobreaktaker (Disable the notice to take a break) bool false
 
+## Settings for HUD
+[HUD Settings]
+# Enable 16 slot hotbar
+#
+exile_hud_wide_hotbar (Enable 16 slot hotbar) bool false
+
+# Enable or disable raw stat numbers next to the status icons
+#
+exile_hud_raw_stats (Show stat numbers by their icons) bool false
+
+# Set HUD icon transparency
+#
+exile_hud_icon_transparency (HUD icon transparency [0-255]) int 127 0 255
+
+
 ## Settings for respawning
 
 # Use this to set a safe location for new players to spawn.
@@ -61,17 +77,6 @@ exile_safe_spawn_lives (Number of lives spawned at safe point) int 0 0 100
 # Note: Enabling this will only take effect on new worlds.
 exile_v4_biomes (Enable the experimental v4 biomes) bool false
 
-# 
-# 
-# 
-exile_enableslopes (Create natural slopes on mapgen) bool true
-
-[Natural Slopes settings]
-
-# Set the percentage of non-slopes that appear on map generation
-# 
-# 10% = 90% chance of a slope in a given spot, 90 = 10% chance
-exile_slopechance (Non-Slope percentage) int 20 0 100
 
 ## Settings for Climate
 
@@ -82,10 +87,25 @@ exile_av_temp (Average Tempurature indoors and underground) int 15 0 20
 exile_av_temp_depth (Depth av_temp is reached underground) int -12 -100 0
 
 
+
+[Natural Slopes settings]
+# 
+# 
+# 
+exile_enableslopes (Create natural slopes on mapgen) bool true
+
+# Set the percentage of non-slopes that appear on map generation
+# 
+# 10% = 90% chance of a slope in a given spot, 90 = 10% chance
+exile_slopechance (Non-Slope percentage) int 20 0 100
+
 ## Update shape ABM
 
 # Enable or disable the automatic update of the shape of nodes at the surface (requires twmlib mod).
 naturalslopeslib_enable_surface_update (Timed surface update) bool true
+
+
+
 
 
 ## Update shape on walk
@@ -132,11 +152,3 @@ naturalslopeslib_enable_shape_on_dig_place (Shape update on dig and place) bool 
 # that won't be fixed and may be visually misleading with heights.
 naturalslopeslib_smooth_rendering (Smooth but glitched rendering) bool false
 
-[HUD Settings]
-# Enable or disable raw stat numbers next to the status icons
-#
-exile_hud_raw_stats (Show stat numbers by their icons) bool false
-
-# Set HUD icon transparency
-#
-exile_hud_icon_transparency (HUD icon transparency [0-255]) int 127 0 255
