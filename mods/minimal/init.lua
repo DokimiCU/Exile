@@ -48,7 +48,7 @@ minetest.register_chatcommand("hud16", {
 	func = function(name, param)
 	local player = minetest.get_player_by_name(name)
 	local meta = player:get_meta()
-	local hud16=meta:get_string("hud16") or minetest.settings:get('exile_hud_wide_hotbar') or 'false'
+	local hud16=meta:get_string("hud16") or minetest.settings:get("exile_hud_wide_hotbar") or "false"
 	if param and param ~="" then
 		local wlist = "/hud16:\n"..
 		"Toggle wide HUD hotbar off or on for you."

@@ -40,21 +40,6 @@ exile_breaktime (Set delay before the first break notice) int 30 30 90
 # Whether to display the notification screen at all.
 exile_nobreaktaker (Disable the notice to take a break) bool false
 
-## Settings for HUD
-[HUD Settings]
-# Enable 16 slot hotbar
-#
-exile_hud_wide_hotbar (Enable 16 slot hotbar) bool false
-
-# Enable or disable raw stat numbers next to the status icons
-#
-exile_hud_raw_stats (Show stat numbers by their icons) bool false
-
-# Set HUD icon transparency
-#
-exile_hud_icon_transparency (HUD icon transparency [0-255]) int 127 0 255
-
-
 ## Settings for respawning
 
 # Use this to set a safe location for new players to spawn.
@@ -86,6 +71,19 @@ exile_av_temp (Average Tempurature indoors and underground) int 15 0 20
 # Depth average room tempurature is reached.
 exile_av_temp_depth (Depth av_temp is reached underground) int -12 -100 0
 
+## Settings for HUD
+[HUD Settings]
+# Enable 16 slot hotbar
+#
+exile_hud_wide_hotbar (Enable 16 slot hotbar) bool false
+
+# Enable or disable raw stat numbers next to the status icons
+#
+exile_hud_raw_stats (Show stat numbers by their icons) bool true
+
+# Set HUD icon transparency
+#
+exile_hud_icon_transparency (HUD icon transparency [0-255]) int 127 0 255
 
 
 [Natural Slopes settings]
@@ -103,9 +101,6 @@ exile_slopechance (Non-Slope percentage) int 20 0 100
 
 # Enable or disable the automatic update of the shape of nodes at the surface (requires twmlib mod).
 naturalslopeslib_enable_surface_update (Timed surface update) bool true
-
-
-
 
 
 ## Update shape on walk
