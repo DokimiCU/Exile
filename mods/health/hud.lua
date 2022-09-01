@@ -6,8 +6,6 @@
 local S = HEALTH.S
 
 local hud = {}
-local overlaid = {}
-local barstate = {}
 local hudupdateseconds = tonumber(minetest.settings:get("exile_hud_update"))
 -- global setting for whether to show stats
 local mtshowstats = minetest.settings:get_bool("exile_hud_show_stats") or true
@@ -60,31 +58,33 @@ local setup_hud = function(player)
 	player:hud_set_flags({healthbar = false})
 	local playername = player:get_player_name()
 
+	local hud_data = {}
+
+	hud[playername] = hud_data
+
 	local meta = player:get_meta()
-	barstate[playername] = {}
 	local show_stats = meta:get("exile_hud_show_stats")
 	if show_stats then
 	   if tobool(show_stats) == true then
-	      barstate[playername].showstats = true
+	      hud_data.showstats = true
 	   elseif tobool(show_stats) == false then
-	      barstate[playername].showstats = false
+	      hud_data.showstats = false
 	   end
 	end
 
 	local hud_opacity = meta:get("exile_hud_icon_transparency")
 	if hud_opacity then
-	   barstate[playername].hudopacity = tonumber(hud_opacity)
+	   hud_data.opacity = tonumber(hud_opacity)
 	else
 	   hud_opacity = mthudopacity
 	end
 	local hud_longbar = meta:get_string("hud16")
-	if hud_longbar then
-	   barstate[playername].longbar = true
+	if hud_longbar == "true" then
+	   hud_data.longbar = true
+	elseif hud_longbar == "false" then
+	   hud_data.longbar = false
 	end
 
-	local hud_data = {}
-
-	hud[playername] = hud_data
 	hud_data.p_health = player:hud_add({
 		hud_elem_type = "image",
 		scale = icon_scale,
@@ -285,65 +285,73 @@ local function color_envirotemp(v, meta)
 	return stat_col, ttype, overlay
 end
 
-local function health(player, hud_data, stats, opac)
+local function health(player, hud_data)
 	local v = player:get_hp()
 	v = (v/20)*100
 	local stat_col = color(v)
 	local t = v .." %"
 	local hud1 = hud_data.p_health
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_health.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 
 	local hud2 = hud_data.p_health_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
 	end
 end
 
-local function energy(player, hud_data, meta, stats, opac)
+local function energy(player, hud_data, meta)
 	local v = meta:get_int("energy")
 	v = (v/1000)*100
 	local stat_col = color(v)
 	local t = v .." %"
 	local hud1 = hud_data.p_energy
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_energy.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	local hud2 = hud_data.p_energy_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
 	end
 end
 
-local function thirst(player, hud_data, meta, stats, opac)
+local function thirst(player, hud_data, meta)
 	local v = meta:get_int("thirst")
 	v = (v/100)*100
 	local t = v .." %"
 	local stat_col = color(v)
 	local hud1 =  hud_data.p_thirst
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_thirst.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	local hud2 = hud_data.p_thirst_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
 	end
 end
 
-local function hunger(player, hud_data, meta, stats, opac)
+local function hunger(player, hud_data, meta)
 	local v = meta:get_int("hunger")
 	v = (v/1000)*100
 	local t = v .." %"
 	local stat_col = color(v)
 	local hud1 =  hud_data.p_hunger
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_hunger.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	local hud2 = hud_data.p_hunger_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
@@ -351,16 +359,18 @@ local function hunger(player, hud_data, meta, stats, opac)
 end
 
 
-local function temp(player, hud_data, meta, stats, opac)
+local function temp(player, hud_data, meta)
 	local v = meta:get_int("temperature")
 	local stat_col, ttype = color_bodytemp(v)
 	local t = climate.get_temp_string(v, meta)
 	local hud1 = hud_data.p_body_temp
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_body_temp.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	local hud2 = hud_data.p_body_temp_text
 	player:hud_change(hud2, "text", ttype..".png^[opacity:"..opac) -- don't colorize)
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
@@ -378,45 +388,45 @@ local function do_overlay(player, pname, pos, overlay)
 	 text = overlay,
 	 offset = {x = 0, y = 0}
    })
-   overlaid[pname] = handle
+   hud[pname].overlay = handle
 end
 
-
-local function enviro_temp(player, hud_data, meta, stats,
-			   opac)
+local function enviro_temp(player, hud_data, meta)
 	local pname = player:get_player_name()
 	local player_pos = player:get_pos()
 	player_pos.y = player_pos.y + 0.6 --adjust to body height
 	local v = math.floor(climate.get_point_temp(player_pos))
 	local stat_col, ttype, overlay = color_envirotemp(v, meta)
 	if overlay then
-	   if not overlaid[pname] then
+	   if not hud_data.overlay then
 	      do_overlay(player, pname, player_pos, overlay)
-	   elseif player:hud_get(overlaid[pname]) and
-	      ( overlay ~= player:hud_get(overlaid[pname]).name ) then
+	   elseif player:hud_get(hud_data.overlay) and
+	      ( overlay ~= player:hud_get(hud_data.overlay).name ) then
 	      -- direct transition from one overlay to another
-	      player:hud_remove(overlaid[pname])
+	      player:hud_remove(hud_data.overlay)
 	      do_overlay(player, pname, player_pos, overlay)
 	   end
-	elseif overlaid[pname] then -- remove overlay
-	   player:hud_remove(overlaid[pname])
-	   overlaid[pname] = nil
+	elseif hud_data.overlay then -- remove overlay
+	   player:hud_remove(hud_data.overlay)
+	   hud_data.overlay = nil
 	end
 	local t = climate.get_temp_string(v, meta)
 	local newhud = hud_data.p_air_temp
 	local newhud2 = hud_data.p_air_temp_type
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(newhud, "text", "hud_air_temp.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	player:hud_change(newhud2, "text", ttype..".png^[opacity:"..opac) -- don't colorize)
 	local hud2 = hud_data.p_air_temp_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstats == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
 	end
 end
 
-local function effects(player, hud_data, meta, stats, opac)
+local function effects(player, hud_data, meta)
 	local stat_col = stat_fine
 	local v = meta:get_int("effects_num")
 	local t = "x"..v
@@ -430,10 +440,12 @@ local function effects(player, hud_data, meta, stats, opac)
 		stat_col = stat_extreme
 	end
 	local hud1 = hud_data.p_sick
+	local opac = hud_data.opacity or mthudopacity
 	player:hud_change(hud1, "text", "hud_sick.png^[colorize:#"..stat_col.."^[opacity:"..opac)
 	local hud2 = hud_data.p_sick_text
 	player:hud_change(hud2, "number", tonumber("0x"..stat_col))
-	if stats then
+	if ( hud_data.showstats and hud_data.showstats == true ) or
+	   ( hud_data.showstatsd == nil and mtshowstats == true ) then
 		player:hud_change(hud2, "text", t)
 	else
 		player:hud_change(hud2, "text", "")
@@ -454,24 +466,15 @@ minetest.register_globalstep(function(dtime)
 		if not hud_data then
 			return
 		end
-		local stats = mtshowstats
-		if barstate[name].showstats ~= nil then
-		   stats = barstate[name].showstats
-		end
-		local opac = mthudopacity
-		if barstate[name].hudopacity ~= nil then
-		   opac = barstate[name].hudopacity
-		end
-		health(player, hud_data, stats, opac)
-		energy(player, hud_data, meta, stats, opac)
-		thirst(player, hud_data, meta, stats, opac)
-		hunger(player, hud_data, meta, stats, opac)
-		temp(player, hud_data, meta, stats, opac)
-		enviro_temp(player, hud_data, meta, stats,
-			    opac)
-		effects(player, hud_data, meta, stats, opac)
+		health(player, hud_data)
+		energy(player, hud_data, meta)
+		thirst(player, hud_data, meta)
+		hunger(player, hud_data, meta)
+		temp(player, hud_data, meta)
+		enviro_temp(player, hud_data, meta)
+		effects(player, hud_data, meta)
 
-		if barstate[name].longbar then
+		if hud_data.longbar then
 			hud_lb_x = 64 * hud_scale
 			hud_tier_offset = 0
 		else
@@ -502,6 +505,7 @@ minetest.register_chatcommand("show_stats", {
     func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		local meta = player:get_meta()
+		local hud_data = hud[name]
 		if param == "help" then
 		   local wlist = S("/show_stats:\n"..
 		      "Toggle stats showing below icons. Use '/show_stats "..
@@ -509,7 +513,7 @@ minetest.register_chatcommand("show_stats", {
 		   return false, wlist
 		elseif param == "clear" then
 		   meta:set_string("exile_hud_show_stats", "")
-		   barstate[name].showstats = nil
+		   hud_data.showstats = nil
 		   return true, S("Cleared setting")
 		else
 		   local show_stats = meta:get("exile_hud_show_stats")
@@ -518,7 +522,7 @@ minetest.register_chatcommand("show_stats", {
 		   end
 		   local newval = not tobool(show_stats)
 		   meta:set_string("exile_hud_show_stats", tostring(newval))
-		   barstate[name].showstats = newval
+		   hud_data.showstats = newval
 		   if newval == true then
 		      return true, S("Enabled stats.")
 		   else
@@ -535,6 +539,7 @@ minetest.register_chatcommand("icon_transparency", {
     func = function(name, param)
        local player = minetest.get_player_by_name(name)
        local meta = player:get_meta()
+       local hud_data = hud[name]
        if param == "" or param == "help" then
 	  local wlist = S("/show_stats:\n"..
 			  "Set stat icon transparency between 0 and 255.\n"..
@@ -543,22 +548,22 @@ minetest.register_chatcommand("icon_transparency", {
        end
        if param == "default" then
 	  meta:set_string("exile_hud_icon_transparency", "")
-	  barstate[name].hudopacity = nil
+	  hud_data.opacity = nil
 	  return true, S("Returned setting to default")
        else
 	  local num = tonumber(param)
 	  if type(num) == "number" then
 	     if num < 0 then
 		meta:set_string("exile_hud_icon_transparency", "0")
-		barstate[name].hudopacity = 0
+		hud_data.opacity = 0
 		return false, S("Icon transparency set to 0")
 	     elseif num > 255 then
 		meta:set_string("exile_hud_icon_transparency", "255")
-		barstate[name].hudopacity = 255
+		hud_data.opacity = 255
 		return false, S("Icon transparency set to 255")
 	     else
 		meta:set_string("exile_hud_icon_transparency", tostring(math.floor(num)))
-		barstate[name].hudopacity = num
+		hud_data.opacity = num
 		return false, S("Icon transparency set to ")..math.floor(num)
 	     end
 	  else
