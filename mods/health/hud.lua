@@ -33,8 +33,10 @@ local hud_vert_pos	= -128 * hud_scale -- all HUD icon vertical position
 local hud_extra_y	= -16 * hud_scale  -- pixel offset for hot/cold icons
 local hud_text_y	= 32 * hud_scale   -- optional text stat offset
 
-local hud_tier_offset	= 80 * hud_scale  -- add to y offset of stacked icons
-local hud_lb_x		= 0 * hud_scale
+local longbarpos = {
+   [true] = { ["y"] = 0, ["x"] = 64 * hud_scale },
+   [false] = { ["y"] = 80 * hud_scale, ["x"] = 0}
+}
 
 local hud_health_x	= -300 * hud_scale
 local hud_hunger_x	= -300 * hud_scale
@@ -78,17 +80,12 @@ local setup_hud = function(player)
 	else
 	   hud_opacity = mthudopacity
 	end
-	local hud_longbar = meta:get_string("hud16")
-	if hud_longbar == "true" then
-	   hud_data.longbar = true
-	elseif hud_longbar == "false" then
-	   hud_data.longbar = false
-	end
+	local lb = tobool(meta:get_string("hud16"))
 
 	hud_data.p_health = player:hud_add({
 		hud_elem_type = "image",
 		scale = icon_scale,
-		offset = {x = hud_health_x - hud_lb_x, y = hud_vert_pos + hud_tier_offset},
+		offset = {x = hud_health_x - longbarpos[lb].x, y = hud_vert_pos + longbarpos[lb].y},
 		position = {x = .5, y = 1},
 	    text = "hud_health.png^[colorize:#"..stat_fine.."^[opacity:"..hud_opacity
 	})
@@ -154,7 +151,7 @@ local setup_hud = function(player)
 	hud_data.p_sick = player:hud_add({
 		hud_elem_type = "image",
 		scale = icon_scale,
-		offset = {x = hud_sick_x + hud_lb_x, y = hud_vert_pos + hud_tier_offset},
+		offset = {x = hud_sick_x + longbarpos[lb].x, y = hud_vert_pos + longbarpos[lb].y},
 		position = {x = .5, y = 1},
 	    text = "hud_sick.png^[colorize:#"..stat_fine.."^[opacity:"..hud_opacity
 	})
@@ -162,14 +159,14 @@ local setup_hud = function(player)
 
 	hud_data.p_health_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_health_x + hud_lb_x, y = hud_vert_pos + hud_text_y + hud_tier_offset},
+		offset = {x = hud_health_x + longbarpos[lb].x, y = hud_vert_pos + hud_text_y + longbarpos[lb].y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
 
 	hud_data.p_hunger_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_hunger_x - hud_lb_x, y = hud_vert_pos + hud_text_y},
+		offset = {x = hud_hunger_x - longbarpos[lb].x, y = hud_vert_pos + hud_text_y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
@@ -190,7 +187,7 @@ local setup_hud = function(player)
 
 	hud_data.p_body_temp_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_body_temp_x + hud_lb_x, y = hud_vert_pos + hud_text_y},
+		offset = {x = hud_body_temp_x + longbarpos[lb].x, y = hud_vert_pos + hud_text_y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
@@ -205,7 +202,7 @@ local setup_hud = function(player)
 
 	hud_data.p_sick_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_sick_x, y = hud_vert_pos + hud_text_y + hud_tier_offset},
+		offset = {x = hud_sick_x, y = hud_vert_pos + hud_text_y + longbarpos[lb].y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
@@ -474,24 +471,20 @@ minetest.register_globalstep(function(dtime)
 		enviro_temp(player, hud_data, meta)
 		effects(player, hud_data, meta)
 
-		if hud_data.longbar then
-			hud_lb_x = 64 * hud_scale
-			hud_tier_offset = 0
-		else
-			hud_lb_x = 0
-			hud_tier_offset	= 80 * hud_scale
-		end
+		local lb = tobool(meta:get_string("hud16"))
 
-		player:hud_change(hud_data.p_health, "offset", {x = hud_health_x - hud_lb_x, y = hud_vert_pos + hud_tier_offset})
+		player:hud_change(hud_data.p_health, "offset",
+			{x = hud_health_x - longbarpos[lb].x,
+			 y = hud_vert_pos + longbarpos[lb].y})
 		player:hud_change(hud_data.p_health_text, "offset",
-			{x = hud_health_x - hud_lb_x,
-			 y = hud_vert_pos + hud_text_y + hud_tier_offset})
+			{x = hud_health_x - longbarpos[lb].x,
+			 y = hud_vert_pos + hud_text_y + longbarpos[lb].y})
 		player:hud_change(hud_data.p_sick, "offset",
-			{x = hud_body_temp_x + hud_lb_x,
-			 y = hud_vert_pos + hud_tier_offset})
+			{x = hud_body_temp_x + longbarpos[lb].x,
+			 y = hud_vert_pos + longbarpos[lb].y})
 		player:hud_change(hud_data.p_sick_text, "offset",
-			{x = hud_body_temp_x + hud_lb_x,
-			 y = hud_vert_pos + hud_text_y + hud_tier_offset})
+			{x = hud_body_temp_x + longbarpos[lb].x,
+			 y = hud_vert_pos + hud_text_y + longbarpos[lb].y})
    end
    timer = 0
    return nil
