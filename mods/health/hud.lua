@@ -166,7 +166,7 @@ local setup_hud = function(player)
 
 	hud_data.p_hunger_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_hunger_x - longbarpos[lb].x, y = hud_vert_pos + hud_text_y},
+		offset = {x = hud_hunger_x, y = hud_vert_pos + hud_text_y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
@@ -187,7 +187,7 @@ local setup_hud = function(player)
 
 	hud_data.p_body_temp_text = player:hud_add({
 		hud_elem_type = "text",
-		offset = {x = hud_body_temp_x + longbarpos[lb].x, y = hud_vert_pos + hud_text_y},
+		offset = {x = hud_body_temp_x, y = hud_vert_pos + hud_text_y},
 		position = {x = .5, y = 1},
 		text = ""
 	})
