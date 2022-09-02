@@ -48,6 +48,7 @@ minetest.register_node("rings:moon_glass", {
 	drop = "artifacts:moon_glass",
 })
 
+dofile(minetest.get_modpath("rings") .. "/meru.lua")
 
 local c_ring = minetest.get_content_id("rings:antiquorium")
 local c_ring_i = minetest.get_content_id("rings:moon_glass") -- TODO: replace this with a glowing material
