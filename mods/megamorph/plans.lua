@@ -258,6 +258,33 @@ end
 
 
 
+
+-----------------------------------------------------
+--Tower Base
+--antiquorium foundations of the Meru tower
+
+local tower_base_a = {
+	--shaft
+	{act = 'cylinder', node = 'air', axis = 'y', loc = vn(36, 1, 36), size = vn(8, 78, 8)},
+}
+
+for _, item in pairs(shaft_filter) do
+	table.insert(tower_base_a, 2, table.copy(item))
+end
+
+for _, item in pairs(upper_cross) do
+	table.insert(tower_base_a, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_cross) do
+	table.insert(tower_base_a, 2, table.copy(item))
+end
+
+for _, item in pairs(lower_cross_hash) do
+	table.insert(tower_base_a, 2, table.copy(item))
+end
+
+
 -----------------------------------------------------
 --Air Shaft
 --vertical shaft to the surface to link with central highways
@@ -2972,6 +2999,16 @@ end
 -----------------------------------------------------
 --CITY SECTORS
 -----------------------------------------------------
+-----------------------------------------------------
+--Tower base
+--displaces natural stuff from bottom of the tower
+-----------------------------------------------------
+register_geomorph({
+	name = 'tower_base_a',
+	areas = 'tower_base',
+	data = tower_base_a,
+})
+
 -----------------------------------------------------
 --shafts
 --surface access, if you have a rope

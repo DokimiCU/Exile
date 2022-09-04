@@ -57,7 +57,7 @@ By depth
 local ymax = -150
 local xzmax = 25000
 local hwy_w = 60
-
+local tow_w = 288
 
 --city sections
 mod.registered_realms = {
@@ -108,6 +108,9 @@ mod.registered_realms = {
   {name = 'ne_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = hwy_w}, realm_maxp = {x = xzmax, y = -1150, z = xzmax}},
   {name = 'sw_moria_mine', realm_minp = {x = -xzmax, y = -1400, z = -xzmax}, realm_maxp = {x = -hwy_w, y = -1150, z = -hwy_w}},
   {name = 'se_moria_mine', realm_minp = {x = hwy_w, y = -1400, z = -xzmax}, realm_maxp = {x = xzmax, y = -1150, z = -hwy_w}},
+
+  --tower
+  {name = 'tower_base', realm_minp = {x = -tow_w, y = -32, z = -tow_w}, realm_maxp = {x = tow_w, y = tow_w, z = tow_w}},
 
 }
 
