@@ -6,24 +6,24 @@ Reducing noise to zero at the center creates a perfect spike as a summit. Consta
 
 local COORD = false -- Print tower co-ordinates to terminal (cheat)
 
-local area = 128
-local XMIN = -area -- Area for random spawn
+local area = 256
+local XMIN = -area
 local XMAX = area
 local ZMIN = -area
 local ZMAX = area
-local YBASE = -32 --[[originally -32 hardcoded, not as a variable. Changing this doesn't successfully alter base height.]]
+local YBASE = -1280 -- base height.
 
-local BASRAD = 96 -- Average radius at y = YBASE?
-local HEIGHT = 768 -- Approximate height measured from y = YBASE?
-local CONVEX = 1.4 -- Convexity. <1 = concave, 1 = conical, >1 = convex
-local VOID = 0.85 -- Void threshold. Controls size of central void
-local NOISYRAD = 0 -- Noisyness of structure at base radius.
+local BASRAD = 128 -- Average radius at y = YBASE
+local HEIGHT = 1792 -- Approximate height measured from y = YBASE
+local CONVEX = 3 -- Convexity. <1 = concave, 1 = conical, >1 = convex
+local VOID = 1 -- Void threshold. Controls size of central void (1 = no void)
+local NOISYRAD = 0.01 -- Noisyness of structure at base radius.
 						-- 0 = smooth geometric form, 0.3 = noisy.
 local NOISYCEN = 0 -- Noisyness of structure at centre
-local FISOFFBAS = 0.03 -- Fissure noise offset at base,
+local FISOFFBAS = 0.01 -- Fissure noise offset at base,
 						-- controls size of fissure entrances on outer surface.
 local FISOFFTOP = 0.06 -- Fissure noise offset at top
-local FISEXPBAS = 0.2 -- Fissure expansion rate under surface at base
+local FISEXPBAS = 0.05 -- Fissure expansion rate under surface at base
 local FISEXPTOP = 0.3 -- Fissure expansion rate under surface at top
 
 -- 3D noise for primary structure
@@ -33,7 +33,7 @@ local np_structure = {
 	scale = 1,
 	spread = {x = 64, y = 64, z = 64},
 	seed = 46893,
-	octaves = 4,
+	octaves = 2,
 	persist = 0.5
 }
 
@@ -42,10 +42,10 @@ local np_structure = {
 local np_fissure = {
 	offset = 0,
 	scale = 1,
-	spread = {x = 24, y = 24, z = 24},
+	spread = {x = 12, y = 12, z = 12},
 	seed = 92940980987,
 	octaves = 3,
-	persist = 0.6
+	persist = 0.5
 }
 
 -- 3D noise for block type
@@ -53,10 +53,10 @@ local np_fissure = {
 local np_biome = {
 	offset = 0,
 	scale = 1,
-	spread = {x = 8, y = 8, z = 8},
+	spread = {x = 8, y = 64, z = 8},
 	seed = 9130,
-	octaves = 3,
-	persist = 0.6
+	octaves = 2,
+	persist = 0.8
 }
 
 -- Stuff
@@ -86,19 +86,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		return
 	end
 
-	local locnoise = minetest.get_perlin(5839090, 2, 0.5, 3)
-	local noisex = locnoise:get2d({x = 31, y = 23})
-	local noisez = locnoise:get2d({x = 17, y = 11})
-	local cx = cxav + math.floor(noisex * xnom) -- chunk co ordinates
-	local cz = czav + math.floor(noisez * znom)
-	local merux = 80 * cx + 8
-	local meruz = 80 * cz + 8
+	--noise does random location, we want it at map center
+	--local locnoise = minetest.get_perlin(5839090, 2, 0.5, 3)
+	--local noisex = locnoise:get2d({x = 31, y = 23})
+	--local noisez = locnoise:get2d({x = 17, y = 11})
+	--local cx = cxav-+ math.floor(noisex * xnom) -- chunk co ordinates
+	--local cz = czav + math.floor(noisez * znom)
+	local merux = 80 * cxav + 8
+	local meruz = 80 * czav + 8
 	if COORD then
 		print ("[meru] at x " .. merux .. " z " .. meruz)
 	end
 	if minp.x < merux - 120 or minp.x > merux + 40
 	or minp.z < meruz - 120 or minp.z > meruz + 40
-	or minp.y < YBASE or minp.y > HEIGHT * 1.2 then --in theory, and according to Paramat this should set the base altitude. But does not?
+	or minp.y < YBASE*2 or minp.y > HEIGHT * 1.2 then
 		return
 	end
 
@@ -120,7 +121,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	local sidelen = x1 - x0 + 1
 	local chulens3d = {x = sidelen, y = sidelen, z = sidelen}
-	local chulens2d = {x = sidelen, y = sidelen, z = 1}
+	--local chulens2d = {x = sidelen, y = sidelen, z = 1}
 	local minpos3d = {x = x0, y = y0, z = z0}
 
 	nobj_structure = nobj_structure or minetest.get_perlin_map(np_structure, chulens3d)
@@ -132,7 +133,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local nvals_biome = nobj_biome:get3dMap_flat(minpos3d)
 
 	local nixyz = 1 -- 3D noise index
-	local nixz = 1 -- 2D noise index
+	--local nixz = 1 -- 2D noise index
 	for z = z0, z1 do
 		for y = y0, y1 do
 			local vi = area:index(x0, y, z)
@@ -141,7 +142,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local radius = ((x - merux) ^ 2 + (z - meruz) ^ 2) ^ 0.5
 				local deprop = (BASRAD - radius) / BASRAD -- radial depth proportion
 				local noisy = NOISYRAD + deprop * (NOISYCEN - NOISYRAD)
-				local heprop = ((y + 32) / HEIGHT) -- height proportion
+				local heprop = (y + math.abs(YBASE)) / (HEIGHT) -- height proportion
 				local offset = deprop - heprop ^ CONVEX
 				local n_offstructure = n_structure * noisy + offset
 				if n_offstructure > 0 and n_offstructure < VOID then
@@ -165,12 +166,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 
 				nixyz = nixyz + 1
-				nixz = nixz + 1
+				--nixz = nixz + 1
 				vi = vi + 1
 			end
-			nixz = nixz - sidelen
+			--nixz = nixz - sidelen
 		end
-		nixz = nixz + sidelen
+		--nixz = nixz + sidelen
 	end
 
 	vm:set_data(data)
