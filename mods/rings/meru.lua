@@ -1,12 +1,15 @@
 -- Parameters
 --[[
-Reducing noise to zero at the center creates a perfect spike as a summit. Constant noise throughout often creates floating islands at the summit. Choosing zero noise throughout creates a smooth geometric conical shape. There is a parameter CONVEX to control whether the basic conical structure bulges outwards or is pinched inwards in the middle.
+Reducing noise to zero at the center creates a perfect spike as a summit.
+Constant noise throughout often creates floating islands at the summit.
+Choosing zero noise throughout creates a smooth geometric conical shape.
+There is a parameter CONVEX to control whether the basic conical structure bulges outwards or is pinched inwards in the middle.
 
 ]]
 
 local COORD = false -- Print tower co-ordinates to terminal (cheat)
 
-local area = 256
+local area = 512
 local XMIN = -area
 local XMAX = area
 local ZMIN = -area
@@ -16,15 +19,15 @@ local YBASE = -1280 -- base height.
 local BASRAD = 128 -- Average radius at y = YBASE
 local HEIGHT = 1792 -- Approximate height measured from y = YBASE
 local CONVEX = 3 -- Convexity. <1 = concave, 1 = conical, >1 = convex
-local VOID = 1 -- Void threshold. Controls size of central void (1 = no void)
+local VOID = 0.4 -- Void threshold. Controls size of central void (1 = no void)
 local NOISYRAD = 0.01 -- Noisyness of structure at base radius.
 						-- 0 = smooth geometric form, 0.3 = noisy.
 local NOISYCEN = 0 -- Noisyness of structure at centre
 local FISOFFBAS = 0.01 -- Fissure noise offset at base,
 						-- controls size of fissure entrances on outer surface.
-local FISOFFTOP = 0.06 -- Fissure noise offset at top
+local FISOFFTOP = 0.02 -- Fissure noise offset at top
 local FISEXPBAS = 0.05 -- Fissure expansion rate under surface at base
-local FISEXPTOP = 0.3 -- Fissure expansion rate under surface at top
+local FISEXPTOP = 0.4 -- Fissure expansion rate under surface at top
 
 -- 3D noise for primary structure
 
@@ -42,10 +45,10 @@ local np_structure = {
 local np_fissure = {
 	offset = 0,
 	scale = 1,
-	spread = {x = 12, y = 12, z = 12},
+	spread = {x = 32, y = 24, z = 32},
 	seed = 92940980987,
 	octaves = 3,
-	persist = 0.5
+	persist = 0.7
 }
 
 -- 3D noise for block type
@@ -145,7 +148,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local heprop = (y + math.abs(YBASE)) / (HEIGHT) -- height proportion
 				local offset = deprop - heprop ^ CONVEX
 				local n_offstructure = n_structure * noisy + offset
-				if n_offstructure > 0 and n_offstructure < VOID then
+				if n_offstructure > 0
+				and (n_offstructure < VOID or y < 0 or y > 48) then --keep ceiling within view so dont get weather inside
 					local n_absfissure = math.abs(nvals_fissure[nixyz])
 					local fisoff = FISOFFBAS + heprop * (FISOFFTOP - FISOFFBAS)
 					local fisexp = FISEXPBAS + heprop * (FISEXPTOP - FISEXPBAS)
