@@ -19,15 +19,15 @@ local YBASE = -1280 -- base height.
 local BASRAD = 128 -- Average radius at y = YBASE
 local HEIGHT = 1792 -- Approximate height measured from y = YBASE
 local CONVEX = 3 -- Convexity. <1 = concave, 1 = conical, >1 = convex
-local VOID = 0.4 -- Void threshold. Controls size of central void (1 = no void)
+local VOID = 0.1 -- Void threshold. Controls size of central void (1 = no void)
 local NOISYRAD = 0.01 -- Noisyness of structure at base radius.
 						-- 0 = smooth geometric form, 0.3 = noisy.
 local NOISYCEN = 0 -- Noisyness of structure at centre
 local FISOFFBAS = 0.01 -- Fissure noise offset at base,
 						-- controls size of fissure entrances on outer surface.
-local FISOFFTOP = 0.02 -- Fissure noise offset at top
-local FISEXPBAS = 0.05 -- Fissure expansion rate under surface at base
-local FISEXPTOP = 0.4 -- Fissure expansion rate under surface at top
+local FISOFFTOP = 0.1 -- Fissure noise offset at top
+local FISEXPBAS = 0.01 -- Fissure expansion rate under surface at base
+local FISEXPTOP = 0.01 -- Fissure expansion rate under surface at top
 
 -- 3D noise for primary structure
 
@@ -45,10 +45,10 @@ local np_structure = {
 local np_fissure = {
 	offset = 0,
 	scale = 1,
-	spread = {x = 32, y = 24, z = 32},
+	spread = {x = 16, y = 24, z = 16},
 	seed = 92940980987,
 	octaves = 3,
-	persist = 0.7
+	persist = 0.8
 }
 
 -- 3D noise for block type
@@ -149,7 +149,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local offset = deprop - heprop ^ CONVEX
 				local n_offstructure = n_structure * noisy + offset
 				if n_offstructure > 0
-				and (n_offstructure < VOID or y < 0 or y > 48) then --keep ceiling within view so dont get weather inside
+				and (n_offstructure < VOID or y < 222 or y > 276) then --keep ceiling within view so dont get weather inside
 					local n_absfissure = math.abs(nvals_fissure[nixyz])
 					local fisoff = FISOFFBAS + heprop * (FISOFFTOP - FISOFFBAS)
 					local fisexp = FISEXPBAS + heprop * (FISEXPTOP - FISEXPBAS)
